@@ -1,5 +1,7 @@
 # Functions required for the bio.cor or bio.cor2 computation.
 
+#' i-th combination of n elements taken from r
+#' @rdname combinadic
 ".combinadic" <- function(n, r, i) {
 
   # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
@@ -28,9 +30,11 @@
   return(res)
 }
 
-# Function to estimate how much two graphs overlap by looking if the nodes
-# are the same
-# Function used in bio.cor2
+#' Compare graph structure
+#'
+#' Function to estimate how much two graphs overlap by looking how much of the
+#' nodes are shared. It also works with list of genes.
+#' @param g1,g2 Graph in GraphNEL format, or a character list
 compare_graphs <- function(g1, g2){
 
   # Check which case are we using
@@ -513,21 +517,27 @@ indices.dup <- function(vec) {
 }
 
 
-# Comparing information in databases
-#
-# Calculates the overlap or correlation of the information available in several
-# systems.
-#
-# For Gene Ontologies, the DAG path structure is used to compute how similar two
-# genes are. For metabolic pathways the max number of proteins involved in a
-# pathway for each gene is calculated.
-#
-#
-# genes_id is vector of ids to compare
-# ids indicate if the id is eihter Entre Gene or Symbol
-# go logical; indicates if the overlap in terms of GO is calculated
-# react logical; indicates if the overlap in Reactome pathway is calculated
-# kegg logical; indicates if the overlap in Kegg database is calculated
+#' Comparing information in databases
+#'
+#' Calculates a functional similarity of genes  using information available in
+#' several databases.
+#'
+#' For Gene Ontologies, the DAG path structure is used to compute how similar two
+#' genes are. For metabolic pathways the max number of proteins involved in a
+#' pathway for each gene is calculated.
+#'
+#' @param genes_id is vector of ids to compare
+#' @param ids indicate if the id is eihter Entre Gene or Symbol
+#' @param go logical; indicates if the overlap in terms of GO is calculated
+#' @param react logical; indicates if the overlap in Reactome pathway is
+#' calculated
+#' @param kegg logical; indicates if the overlap in Kegg database is calculated
+#' @return A list where each element is a matrix with the similarity for such
+#' database
+#' @export
+#' @import AnnotationDbi
+#' @import reactome.db
+#' @import org.Hs.eg.db
 bio.cor2 <- function(genes_id, ids = "Entrez Gene",
                      go = FALSE, react = TRUE, kegg = FALSE, all = FALSE) {
   # Using data correlates biologically two genes or probes
@@ -574,7 +584,8 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
     if (!kegg) {
       genes <- gene.symbol
     }
-    gene.reactome <- select(reactome.db, keys = gene.symbol$`Entrez Gene`,
+    gene.reactome <- select(reactome.db::reactome.db,
+                            keys = gene.symbol$`Entrez Gene`,
                             keytype = "ENTREZID", columns = "REACTOMEID")
     colnames(gene.reactome) <- c("Entrez Gene", "Reactome")
     genes <- unique(merge(genes, gene.reactome, all = TRUE, sort = FALSE))
@@ -731,10 +742,3 @@ react_genes <- function(comb, genes, react, id) {
   }
   out
 }
-
-#
-# Rprof(tmp <- tempfile())
-# a <- bio.cor2(as.character(1:50), kegg = TRUE)
-# a
-# Rprof()
-# summaryRprof(tmp)
