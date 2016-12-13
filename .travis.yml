@@ -1,0 +1,26 @@
+language: R
+cache: packages
+r_packages:
+  - devtools
+  - covr
+  - roxygen2
+  - parallel
+  - foreach
+  - doParallel
+bioc_packages:
+  - GO.db
+  - AnnotationDbi
+  - org.Hs.eg.db
+  - reactome.db
+  - GOSemSim
+sudo: false
+after_success:
+  - Rscript -e 'library(covr); codecov()'
+os:
+- linux
+r:
+- bioc-release
+notifications:
+  email:
+    on_success: change
+    on_failure: change
