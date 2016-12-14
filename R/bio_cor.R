@@ -273,17 +273,18 @@ comb2mat <- function(input, func, ...){
   seq2mat(input, N)
 }
 
-# Transform a vector to a symetric matrix
-#
-# The matrix should be of ncol = x and nrow = x, so dat is at least
-# choose(length(x), 2) of length.
-# dat is the values or object to fill the matrix with
-# x are the colnames and the rownames we want of the resulting matrix.
-#
-# testthat
-# a <- seq2mat(LETTERS[1:5], 1:10)
-# isSymmetric(a)
-# func(LETTERS[3], LETTERS[2], a) == a[LETTERS[3], LETTERS[2]]
+#' Transform a vector to a symetric matrix
+#'
+#' The matrix should be of \code{ncol = length(x)} and \code{nrow = length(x)},
+#' so \code{dat} is at least \code{choose(length(x), 2)} of length.
+#'
+#' It assumes that the data provided comes from using the row and column id to
+#' obtain it.
+#' @param x names of columns and rows, used to define the sieze of the matrix
+#' @param dat Data to fill with the matrix
+#' @examples
+#' seq2mat(LETTERS[1:5], 1:10)
+#' @export
 seq2mat <- function(x, dat) {
   if (length(dat) != choose(length(x), 2)) {
     stop("Data is not enough big to populate the matrix")
@@ -445,14 +446,36 @@ weighted <- function(x, w){
   }
   sum(x*w, na.rm = TRUE)
 }
+#' Remove duplicates based on the higher similarity
+#'
+#' When mapping Symbols to Entrez Identifiers there isn't a 1 to 1
+#' correspondence. In this case to convert back to the user provided
+#' identifiers this function can be used. Select the genes with the highest
+#' similarities between the identifiers mapped to the same original identifier
+#' @param adj Adjacency matrix
+#' @param bio_mat List of matrices with similarities. Usually from functional
+#' similarities
+#' @param adj.key Original identifier used in the adjacency matrix.
+#' @param bio_mat.key Identifier used in the similarities.
+#' @return
+#' A list of similarities as \code{bio_mat} but each from the same dimension as
+#' \code{adj}.
+#' @export
+rm.dup <- function(adj, bio_mat, adj.key = "SYMBOL", bio_mat.key = NULL) {
+  if (!adj.key %in% c("ENTREZID", "SYMBOL")) {
+    stop("Incorrect keytype: Available options 'ENTREZID' or 'SYMBOL'")
+  }
 
-# adj Adjacency matrix
-# bio_mat bio_mat object
-rm.dup <- function(adj, bio_mat) {
   if (ncol(adj) != ncol(bio_mat[[1]])) {
-    ids <- select(org.Hs.eg.db, keys = colnames(adj), keytype = "SYMBOL",
-                  column = "ENTREZID")
-    dup_ids <- ids[duplicated(ids$SYMBOL), "ENTREZID"]
+    # In case other identifiers are used for similarity
+    if (!is.null(bio_mat.key)) {
+      column <- bio_mat.key
+    } else {
+      column <- ifelse(adj.key == "SYMBOL", "ENTREZID", "SYMBOL")
+    }
+    ids <- select(org.Hs.eg.db, keys = colnames(adj), keytype = adj.key,
+                  column = column)
+    dup_ids <- ids[duplicated(ids$SYMBOL), column]
     sapply(bio_mat, function(x){
       dupli <- colnames(x) %in% dup_ids
       colums_d <- x[,  dupli]
@@ -460,12 +483,23 @@ rm.dup <- function(adj, bio_mat) {
         merge(t(ids), colnames(x))
       }
     })
+  } else {
+    bio_mat
   }
 }
 
-# Function that used the previously calculated biological correlation to
-# calculate the total correlation
-# x is the datExpresssion
+#' Additive integration of similarities
+#'
+#' Function that used the previously calculated similarities into a single
+#' similarity matrix.
+#'
+#' The total weight sum can't be higher than 1 to prevent values above 1 but can be
+#' below 1.
+#' @param x similarity of expression
+#' @param bio_mat A list of matrices of the same dimension
+#' @param weights A numeric vector of weight to multiply each similarity
+#' @return A similarity matrix
+#' @export
 cor.all <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22), ...){
   # exp, reactome, kegg, go
   # cor_mat <- cor(x, use = "p")
@@ -508,8 +542,15 @@ kegg_build <- function(entrez_id){
 
 }
 
-# Finds the indices of the duplicated events of a vector
-# The output is determined by the sapply function
+#' Finds the indices of the duplicated events of a vector
+#'
+#' Finds the indices of duplicated elements in the vector given.
+#'
+#' For each duplication it can return a list or if all the duplication events
+#' are of the same length it returns a matrix, where each column is duplicated.
+#' @param vec Vector of identififiers presumably duplicated
+#' @return The format is determined by the simplify2array
+#' @export
 indices.dup <- function(vec) {
   sapply(unique(vec[duplicated(vec)]), function(x){
      b <- 1:length(vec)
@@ -535,7 +576,6 @@ indices.dup <- function(vec) {
 #' @return A list where each element is a matrix with the similarity for such
 #' database
 #' @export
-#' @import AnnotationDbi
 #' @import reactome.db
 #' @import org.Hs.eg.db
 bio.cor2 <- function(genes_id, ids = "Entrez Gene",

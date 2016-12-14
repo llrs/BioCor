@@ -9,10 +9,11 @@ r_packages:
   - doParallel
 bioc_packages:
   - GO.db
-  - AnnotationDbi
   - org.Hs.eg.db
   - reactome.db
   - GOSemSim
+before_install:
+  Rscript -e 'update.packages(ask = FALSE)'
 sudo: false
 after_success:
   - Rscript -e 'library(covr); codecov()'
