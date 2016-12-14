@@ -6,7 +6,17 @@
 \usage{
 .combinadic(n, r, i)
 }
+\arguments{
+\item{n}{Elements to extract the combination from}
+
+\item{r}{Number of elements per combination}
+
+\item{i}{ith combination}
+}
 \description{
-i-th combination of n elements taken from r
+Function similar to combn but for larger vectors
+}
+\seealso{
+\code{\link{combn}}
 }
 

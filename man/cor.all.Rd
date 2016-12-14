@@ -4,7 +4,7 @@
 \alias{cor.all}
 \title{Additive integration of similarities}
 \usage{
-cor.all(x, bio_mat, weights = c(0.5, 0.18, 0.1, 0.22), ...)
+cor.all(x, bio_mat, weights = c(0.5, 0.18, 0.1, 0.22))
 }
 \arguments{
 \item{x}{similarity of expression}

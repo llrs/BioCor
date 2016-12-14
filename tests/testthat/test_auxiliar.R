@@ -12,9 +12,20 @@ test_that("seq2mat puts a combination to the right place", {
   com <- combn(as.character(1:5), 2)
   dat <- apply(com, 2, function(x){sum(as.numeric(x))})
 
-  expect_equal()
+  expect_equal(seq2mat(as.character(1:5), dat)["3", "5"], 8L)
+  expect_equal(seq2mat(as.character(1:5), dat)["5", "3"], 8L)
 })
+
 test_that("comb_biopath", {})
 test_that("react_genes", {})
 test_that("indices.dup", {})
-test_that(".combinadic", {})
+test_that(".combinadic", {
+  bcombin <- combn(LETTERS[1:5], 2)
+  .combin <- .combinadic(LETTERS[1:5], 2, 1)
+  expect_true(all.equal(bcombin[, 1], rev(.combin)))
+  .combin <- .combinadic(LETTERS[1:5], 2, 2)
+  expect_true(all.equal(bcombin[, 2], rev(.combin)))
+
+})
+test_that("rem.dup", {})
+test_that("indices.dup", {})

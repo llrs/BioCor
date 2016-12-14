@@ -1,7 +1,13 @@
 # Functions required for the bio.cor or bio.cor2 computation.
 
 #' i-th combination of n elements taken from r
+#'
+#' Function similar to combn but for larger vectors
+#' @param n Elements to extract the combination from
+#' @param r Number of elements per combination
+#' @param i ith combination
 #' @rdname combinadic
+#' @seealso \code{\link{combn}}
 ".combinadic" <- function(n, r, i) {
 
   # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
@@ -473,7 +479,7 @@ rm.dup <- function(adj, bio_mat, adj.key = "SYMBOL", bio_mat.key = NULL) {
     } else {
       column <- ifelse(adj.key == "SYMBOL", "ENTREZID", "SYMBOL")
     }
-    ids <- select(org.Hs.eg.db, keys = colnames(adj), keytype = adj.key,
+    ids <- AnntoationDbi::select(org.Hs.eg.db, keys = colnames(adj), keytype = adj.key,
                   column = column)
     dup_ids <- ids[duplicated(ids$SYMBOL), column]
     sapply(bio_mat, function(x){
@@ -500,7 +506,7 @@ rm.dup <- function(adj, bio_mat, adj.key = "SYMBOL", bio_mat.key = NULL) {
 #' @param weights A numeric vector of weight to multiply each similarity
 #' @return A similarity matrix
 #' @export
-cor.all <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22), ...){
+cor.all <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
   # exp, reactome, kegg, go
   # cor_mat <- cor(x, use = "p")
   if (sum(weights) > 1) {
@@ -573,6 +579,8 @@ indices.dup <- function(vec) {
 #' @param react logical; indicates if the overlap in Reactome pathway is
 #' calculated
 #' @param kegg logical; indicates if the overlap in Kegg database is calculated
+#' @param all logical; indicates if all the previous (go, react, and kegg),
+#' should be set to TRUE
 #' @return A list where each element is a matrix with the similarity for such
 #' database
 #' @export
@@ -593,11 +601,11 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
 
   # Obtain data from the annotation packages
   if (ids == "Symbol") {
-    gene.symbol <- select(org.Hs.eg.db, keys = genes_id,
+    gene.symbol <- AnntoationDbi::select(org.Hs.eg.db, keys = genes_id,
                           keytype = "SYMBOL", column = "ENTREZID")
     colnames(gene.symbol) <- c("Symbol", "Entrez Gene")
   } else {
-    gene.symbol <- select(org.Hs.eg.db, keys = genes_id,
+    gene.symbol <- AnntoationDbi::select(org.Hs.eg.db, keys = genes_id,
                           keytype = "ENTREZID", column = "SYMBOL")
     colnames(gene.symbol) <- c("Entrez Gene", "Symbol")
   }
@@ -613,7 +621,7 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
 
   if (kegg) {
     # Obtain data
-    gene.kegg <- select(org.Hs.eg.db, keys = gene.symbol$`Entrez Gene`,
+    gene.kegg <- AnntoationDbi::select(org.Hs.eg.db, keys = gene.symbol$`Entrez Gene`,
                         keytype = "ENTREZID", columns = "PATH")
     colnames(gene.kegg) <- c("Entrez Gene", "KEGG") # Always check it!
     # Merge data
@@ -624,7 +632,7 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
     if (!kegg) {
       genes <- gene.symbol
     }
-    gene.reactome <- select(reactome.db::reactome.db,
+    gene.reactome <- AnntoationDbi::select(reactome.db::reactome.db,
                             keys = gene.symbol$`Entrez Gene`,
                             keytype = "ENTREZID", columns = "REACTOMEID")
     colnames(gene.reactome) <- c("Entrez Gene", "Reactome")

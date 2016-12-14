@@ -18,6 +18,9 @@ bio.cor2(genes_id, ids = "Entrez Gene", go = FALSE, react = TRUE,
 calculated}
 
 \item{kegg}{logical; indicates if the overlap in Kegg database is calculated}
+
+\item{all}{logical; indicates if all the previous (go, react, and kegg),
+should be set to TRUE}
 }
 \value{
 A list where each element is a matrix with the similarity for such

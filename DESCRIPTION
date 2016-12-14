@@ -1,5 +1,5 @@
 Package: BioCor
-Title: Calculates functional similarities between genes.
+Title: Calculates functional similarities between genes
 Version: 0.0.0.9000
 Authors@R: person("Lluís", "Revilla Sancho", email = "luis.revilla@gmail.com", role = c("aut", "cre"))
 Description: 
