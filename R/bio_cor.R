@@ -88,7 +88,6 @@ s.path <- function(ig) {
 # 1164 1163
 # 4150 2130
 # 159 52
-#' @import GOstats
 go_cor <- function(e_a, e_b, chip = "hgu133plus2.db", mapfun = NULL,
                    Ontology = "BP", ...) {
   # https://support.bioconductor.org/p/85702/#85732
@@ -411,11 +410,11 @@ cor.all <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
 
 # Builds a graph of the kegg pahtways known
 # Not used in bio.cor and neigher in bio.cor2
-#' @import KEGG.db
-#' @import graph
-#' @import Rgraphviz
-#' @import KEGGgraph
-kegg_build <- function(entrez_id){
+# @import KEGG.db
+# @import graph
+# @import Rgraphviz
+# @import KEGGgraph
+kegg_build <- function(entrez_id) {
   # We can build it without downloading from internet following this link
   # https://www.biostars.org/p/2449/#5887
   ## map -- KEGG id links the KEGG and org.Hs.eg packages
