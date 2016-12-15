@@ -477,8 +477,9 @@ indices.dup <- function(vec) {
 #' @return A list where each element is a matrix with the similarity for such
 #' database
 #' @export
-#' @import reactome.db
+#' @importFrom reactome.db reactome.db
 #' @import org.Hs.eg.db
+#' @importFrom AnnotationDbi select
 bio.cor2 <- function(genes_id, ids = "Entrez Gene",
                      go = FALSE, react = TRUE, kegg = FALSE, all = FALSE) {
   if (!ids %in% c("Entrez Gene", "Symbol")) {
@@ -490,16 +491,14 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
 
   # Obtain data from the annotation packages
   if (ids == "Symbol") {
-    gene.symbol <- suppressMessages(AnnotationDbi::select(org.Hs.eg.db,
-                                                          keys = genes_id,
-                                                          keytype = "SYMBOL",
-                                                          column = "ENTREZID"))
+    gene.symbol <- suppressMessages(select(org.Hs.eg.db, keys = genes_id,
+                                           keytype = "SYMBOL",
+                                           column = "ENTREZID"))
     colnames(gene.symbol) <- c("Symbol", "Entrez Gene")
   } else {
-    gene.symbol <- suppressMessages(AnnotationDbi::select(org.Hs.eg.db,
-                                                          keys = genes_id,
-                                                          keytype = "ENTREZID",
-                                                          column = "SYMBOL"))
+    gene.symbol <- suppressMessages(select(org.Hs.eg.db, keys = genes_id,
+                                           keytype = "ENTREZID",
+                                           column = "SYMBOL"))
     colnames(gene.symbol) <- c("Entrez Gene", "Symbol")
   }
   n.combin <- choose(length(gene.symbol$`Entrez Gene`), 2)
@@ -517,8 +516,8 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
   if (kegg) {
     # Obtain data
     gene.kegg <- suppressMessages(
-      AnnotationDbi::select(org.Hs.eg.db, keys = gene.symbol$`Entrez Gene`,
-                            keytype = "ENTREZID", columns = "PATH"))
+      select(org.Hs.eg.db, keys = gene.symbol$`Entrez Gene`,
+             keytype = "ENTREZID", columns = "PATH"))
     colnames(gene.kegg) <- c("Entrez Gene", "KEGG") # Always check it!
     # Merge data
     genes <- unique(merge(gene.symbol, gene.kegg, all = TRUE, sort = FALSE))
@@ -528,10 +527,10 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
     if (!kegg) {
       genes <- gene.symbol
     }
-    gene.reactome <- suppressMessages(
-      AnnotationDbi::select(reactome.db::reactome.db,
-                            keys = gene.symbol$`Entrez Gene`,
-                            keytype = "ENTREZID", columns = "REACTOMEID"))
+    gene.reactome <- suppressMessages(select(reactome.db,
+                                             keys = gene.symbol$`Entrez Gene`,
+                                             keytype = "ENTREZID",
+                                             columns = "REACTOMEID"))
     colnames(gene.reactome) <- c("Entrez Gene", "Reactome")
     genes <- unique(merge(genes, gene.reactome, all = TRUE, sort = FALSE))
   }

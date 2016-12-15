@@ -15,12 +15,17 @@ Imports:
     foreach,
     doParallel,
     org.Hs.eg.db,
-    reactome.db
+    reactome.db,
 Suggests:
     WGCNA,
     testthat,
     knitr,
     rmarkdown,
-    BiocStyle
+    BiocStyle,
+    GOstats,
+    KEGG.db,
+    graph,
+    Rgraphviz,
+    KEGGgraph
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
