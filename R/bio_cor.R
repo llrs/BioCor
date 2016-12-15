@@ -88,7 +88,7 @@ s.path <- function(ig) {
 # 1164 1163
 # 4150 2130
 # 159 52
-
+#' @import GOstats
 go_cor <- function(e_a, e_b, chip = "hgu133plus2.db", mapfun = NULL,
                    Ontology = "BP", ...) {
   # https://support.bioconductor.org/p/85702/#85732
@@ -332,118 +332,6 @@ comb_biopath <- function(comb, info, by, biopath) {
   # })
 }
 
-# Check if something is a matrix (internal use only)
-# Not used in bio.cor2
-check_na <- function(x){
-  if (class(x) != "matrix") {
-    if (length(x) == 0) {
-      return(TRUE)
-    } else if (length(x) == 1) {
-      if (is.na(x)) {
-        return(TRUE)
-      }
-    }
-  }
-  return(FALSE)
-}
-
-# Using data correlates biologically two genes
-# not used in bio.cor2
-bio.cor <- function(names_probes, ... ){
-  # Using data correlates biologically two genes or probes
-  # From the graphite package
-  # x should be entrez id
-  # or change the internals from "Entrez Gene" to "Symbols"
-  humanReactome <- pathways("hsapiens", "reactome")
-  # humanKegg <- pathways("hsapiens", "kegg")
-
-  # mart <- useMart(biomart = "ensembl", dataset = "hsapiens_gene_ensembl")
-  # attri <- c("affy_hg_u133_plus_2","entrezgene",
-  #            "gene_biotype", "start_position", "end_position", "chromosome_name",
-  #            "strand", "reactome",
-  #            "hgnc_symbol")
-  # info <- getBM(attributes = attri,
-  #               filters = "affy_hg_u133_plus_2", values = names_probes,
-  #               mart = mart)
-
-  # affy.id <- select(hgu133plus2.db, keys = names_probes,
-                    # columns = c("PROBEID", "ENTREZID", "SYMBOL", "PATH"))
-  gene.symbol <- unique(toTable(org.Hs.egSYMBOL2EG))
-  gene.kegg <- unique(toTable(org.Hs.egPATH2EG))
-  gene.reactome <- unique(toTable(reactomePATHID2EXTID))
-  genes <- merge(gene.symbol, gene.kegg, by.x = "gene_id", by.y = "gene_id",
-                 all = TRUE)
-  genes <- unique(merge(genes, gene.reactome, all = TRUE))
-  colnames(genes) <- c("Entrez Gene", "Symbol", "KEGG", "Reactome")
-  go_mat <- comb2mat(names_probes, go_cor, mapfun = TRUE)
-  # dist_mat <- comb2mat(x, dist_cor, info) # Not useful
-
-  # TODO: extract a lab notebook
-  # comb <- combn(names_probes, 2)
-  react.bio <- rep(NA, choose(length(names_probes), 2))
-  kegg.bio <- react.bio
-  for (i in 1:choose(length(names_probes), 2)) {
-    comb <- .combinadic(names_probes, 2, i)
-    react_path <- comb_biopath(comb, genes, "Entrez Gene","Reactome")
-
-
-    if (check_na(react_path)) {
-      a <- NA
-    } else {
-      a <- apply(react_path, 1, function(y){
-        react_cor(y[1], y[2], hR = humanReactome)
-      })
-    }
-
-    # Calculate the max of the correlation of both ids
-    if (length(a) != 0 | sum(!is.na(a)) >= 1) {
-      react.bio[i] <- max(a, na.rm = TRUE)
-    } else {
-      react.bio[i] <- NA
-    }
-    # # })
-    # print(head(comb))
-    # print(head(affy.id))
-    kegg_path <- comb_biopath(comb, genes, "Entrez Gene","KEGG")
-    # Calculate the max of the correlation of both ids
-    # N <- lapply(kegg_path, function(x){
-    #   if (check_na(x)) {
-    #     return(NA)
-    #   }
-    if (check_na(kegg_path)) {
-      a <- NA
-    } else {
-      # print(head(kegg_path))
-      a <- apply(kegg_path, 1, function(y) {
-        result <- tryCatch({
-          kegg_cor(y[1], y[2])
-        }, warning = function(w) {
-          message(paste("Warning downloading the data for ",
-                        y[1], "or", y[2]))
-          message(w)
-        }, error = function(e) {
-          message(paste("Couldn't download the data for ", y[1], "or", y[2]))
-          # Choose a return value in case of error
-          return(NA)
-        })
-      }
-      )
-    }
-
-    if (length(a) != 0) {
-      kegg.bio[i] <- max(a, na.rm = TRUE)
-    } else {
-      kegg.bio[i] <- NA
-    }
-    # }})
-
-  }
-  react_mat <- seq2mat(names_probes, react.bio)
-  kegg_mat <- seq2mat(names_probes, kegg.bio)
-  cor_mat <- list(reactome = react_mat, kegg = kegg_mat, go = go_mat)
-
-}
-
 #' Calculates the sum of the values multiplied by its weights
 #'
 #' Each values should have its weight, otherwise it will throw an error.
@@ -465,47 +353,7 @@ weighted <- function(x, weights){
   }
   sum(x*weights, na.rm = TRUE)
 }
-#' Remove duplicates based on the higher similarity
-#'
-#' When mapping Symbols to Entrez Identifiers there isn't a 1 to 1
-#' correspondence. In this case to convert back to the user provided
-#' identifiers this function can be used. Select the genes with the highest
-#' similarities between the identifiers mapped to the same original identifier
-#' @param adj Adjacency matrix
-#' @param bio_mat List of matrices with similarities. Usually from functional
-#' similarities
-#' @param adj.key Original identifier used in the adjacency matrix.
-#' @param bio_mat.key Identifier used in the similarities.
-#' @return
-#' A list of similarities as \code{bio_mat} but each from the same dimension as
-#' \code{adj}.
-#' @export
-rm.dup <- function(adj, bio_mat, adj.key = "SYMBOL", bio_mat.key = NULL) {
-  if (!adj.key %in% c("ENTREZID", "SYMBOL")) {
-    stop("Incorrect keytype: Available options 'ENTREZID' or 'SYMBOL'")
-  }
 
-  if (ncol(adj) != ncol(bio_mat[[1]])) {
-    # In case other identifiers are used for similarity
-    if (!is.null(bio_mat.key)) {
-      column <- bio_mat.key
-    } else {
-      column <- ifelse(adj.key == "SYMBOL", "ENTREZID", "SYMBOL")
-    }
-    ids <- AnntotationDbi::select(org.Hs.eg.db, keys = colnames(adj), keytype = adj.key,
-                  column = column)
-    dup_ids <- ids[duplicated(ids$SYMBOL), column]
-    sapply(bio_mat, function(x){
-      dupli <- colnames(x) %in% dup_ids
-      colums_d <- x[,  dupli]
-      if ((sum(is.na(colums_d)) | sum(colums_d == 0)) == (ncol(adj) - 1)) {
-        merge(t(ids), colnames(x))
-      }
-    })
-  } else {
-    bio_mat
-  }
-}
 
 #' Remove duplicated rows and columns
 #'
@@ -513,7 +361,7 @@ rm.dup <- function(adj, bio_mat, adj.key = "SYMBOL", bio_mat.key = NULL) {
 #'  just one is left, it keeps the duplicated with the highest absolute mean
 #' value.
 #'
-#' @param mat List of matrices
+#' @param cor_mat List of matrices
 #' @param dupli List of indicies with duplicated entries
 #' @return A matrix with only one of the columns and rows duplicated
 #' @export
@@ -563,6 +411,10 @@ cor.all <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
 
 # Builds a graph of the kegg pahtways known
 # Not used in bio.cor and neigher in bio.cor2
+#' @import KEGG.db
+#' @import graph
+#' @import Rgraphviz
+#' @import KEGGgraph
 kegg_build <- function(entrez_id){
   # We can build it without downloading from internet following this link
   # https://www.biostars.org/p/2449/#5887

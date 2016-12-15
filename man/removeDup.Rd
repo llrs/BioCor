@@ -7,9 +7,9 @@
 removeDup(cor_mat, dupli)
 }
 \arguments{
-\item{dupli}{List of indicies with duplicated entries}
+\item{cor_mat}{List of matrices}
 
-\item{mat}{List of matrices}
+\item{dupli}{List of indicies with duplicated entries}
 }
 \value{
 A matrix with only one of the columns and rows duplicated
