@@ -478,7 +478,6 @@ indices.dup <- function(vec) {
 #' @export
 #' @importFrom reactome.db reactome.db
 #' @import org.Hs.eg.db
-#' @importFrom AnnotationDbi select
 bio.cor2 <- function(genes_id, ids = "Entrez Gene",
                      go = FALSE, react = TRUE, kegg = FALSE, all = FALSE) {
   if (!ids %in% c("Entrez Gene", "Symbol")) {
