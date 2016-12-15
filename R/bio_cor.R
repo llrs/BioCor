@@ -8,6 +8,9 @@
 #' @param i ith combination
 #' @rdname combinadic
 #' @seealso \code{\link{combn}}
+#' @export
+#' @import doParallel
+#' @import foreach
 ".combinadic" <- function(n, r, i) {
 
   # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
@@ -41,6 +44,7 @@
 #' Function to estimate how much two graphs overlap by looking how much of the
 #' nodes are shared. It also works with list of genes.
 #' @param g1,g2 Graph in GraphNEL format, or a character list
+#' @importFrom method is
 compare_graphs <- function(g1, g2){
 
   # Check which case are we using
@@ -88,6 +92,7 @@ s.path <- function(ig) {
 # 1164 1163
 # 4150 2130
 # 159 52
+#' @importFrom AnnotationDbi revmap
 go_cor <- function(e_a, e_b, chip = "hgu133plus2.db", mapfun = NULL,
                    Ontology = "BP", ...) {
   # https://support.bioconductor.org/p/85702/#85732
@@ -365,7 +370,7 @@ weighted <- function(x, weights){
 #' @return A matrix with only one of the columns and rows duplicated
 #' @export
 removeDup <- function(cor_mat, dupli) {
-  if (!all(sapply(mat, isSymmetric))) {
+  if (!all(sapply(cor_mat, isSymmetric))) {
     stop("All the matrices of mat should be symmetric and with the same column",
          "names and rownames")
   }
@@ -410,10 +415,12 @@ cor.all <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
 
 # Builds a graph of the kegg pahtways known
 # Not used in bio.cor and neigher in bio.cor2
-# @import KEGG.db
-# @import graph
-# @import Rgraphviz
-# @import KEGGgraph
+#' @import KEGG.db
+#' @import graph
+#' @import Rgraphviz
+#' @import KEGGgraph
+#' @importFrom AnnotationDbi toTable
+#' @importFrom methods as
 kegg_build <- function(entrez_id) {
   # We can build it without downloading from internet following this link
   # https://www.biostars.org/p/2449/#5887
@@ -478,6 +485,7 @@ indices.dup <- function(vec) {
 #' @export
 #' @importFrom reactome.db reactome.db
 #' @import org.Hs.eg.db
+#' @importFrom AnnotationDbi select
 bio.cor2 <- function(genes_id, ids = "Entrez Gene",
                      go = FALSE, react = TRUE, kegg = FALSE, all = FALSE) {
   if (!ids %in% c("Entrez Gene", "Symbol")) {

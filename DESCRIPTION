@@ -8,14 +8,19 @@ Description:
   combined with co-expression similarity to improve the network building.
 Depends:
     R (>= 3.0.0)
-License: GPL3 | file License
+License: GPL3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
     foreach,
     doParallel,
     org.Hs.eg.db,
-    reactome.db
+    reactome.db,
+    KEGG.db,
+    graph, 
+    Rgraphviz,
+    KEGGgraph,
+    methods
 Suggests:
     WGCNA,
     testthat,

@@ -29,9 +29,10 @@ test_that(".combinadic", {
 })
 test_that("rem.dup", {})
 test_that("indices.dup", {
+  vec <- c("52", "52", "52", "53", "55")
   test <- indices.dup(as.character(c(vec, 3)))
   expect_true(is.list(test))
-  expect_length(test$`3`, 3L)
+  expect_length(test$`52`, 3L)
 })
 
 test_that("removeDup", {
