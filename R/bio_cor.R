@@ -444,13 +444,26 @@ bio.cor <- function(names_probes, ... ){
 
 }
 
-# Not used in bio.cor2 but in cor.all
-weighted <- function(x, w){
-  if (length(x) != length(w)) {
+#' Calculates the sum of the values multiplied by its weights
+#'
+#' Each values should have its weight, otherwise it will throw an error.
+#' @param x Vector of numbers
+#' @param weights Vector of weights
+#' @return A number product of x*weights removing all \code{NA} values
+#' @export
+weighted <- function(x, weights){
+  if (length(x) != length(weights)) {
     stop(paste("Weights and data don't match the length.\n",
-               length(x), length(w)))
+               length(x), length(weights)))
   }
-  sum(x*w, na.rm = TRUE)
+
+  if (!is.numeric(x) | !is.numeric(weights)) {
+    stop("weights and x should be numeric")
+  }
+  if (sum(weights) > 1) {
+    warning("The sum of the weights is above 1")
+  }
+  sum(x*weights, na.rm = TRUE)
 }
 #' Remove duplicates based on the higher similarity
 #'
@@ -479,7 +492,7 @@ rm.dup <- function(adj, bio_mat, adj.key = "SYMBOL", bio_mat.key = NULL) {
     } else {
       column <- ifelse(adj.key == "SYMBOL", "ENTREZID", "SYMBOL")
     }
-    ids <- AnntoationDbi::select(org.Hs.eg.db, keys = colnames(adj), keytype = adj.key,
+    ids <- AnntotationDbi::select(org.Hs.eg.db, keys = colnames(adj), keytype = adj.key,
                   column = column)
     dup_ids <- ids[duplicated(ids$SYMBOL), column]
     sapply(bio_mat, function(x){
@@ -492,6 +505,34 @@ rm.dup <- function(adj, bio_mat, adj.key = "SYMBOL", bio_mat.key = NULL) {
   } else {
     bio_mat
   }
+}
+
+#' Remove duplicated rows and columns
+#'
+#' Given the indices of the duplicated entries remove the columns and rows until
+#'  just one is left, it keeps the duplicated with the highest absolute mean
+#' value.
+#'
+#' @param mat List of matrices
+#' @param dupli List of indicies with duplicated entries
+#' @return A matrix with only one of the columns and rows duplicated
+#' @export
+removeDup <- function(cor_mat, dupli) {
+  if (!all(sapply(mat, isSymmetric))) {
+    stop("All the matrices of mat should be symmetric and with the same column",
+         "names and rownames")
+  }
+  cor_mat <- Map(function(mat, x = dupli) {
+    rem.colum <- sapply(x, function(y, m) {
+      mean.column <- apply(m[, y], 2, mean, na.rm = TRUE)
+      i <- which.max(abs(mean.column))
+      # Select those who don't bring more information
+      rem.colum <- setdiff(y, y[i])
+    }, m = mat)
+
+    mat[-rem.colum, -rem.colum]
+  }, cor_mat)
+  return(cor_mat)
 }
 
 #' Additive integration of similarities
@@ -560,7 +601,7 @@ kegg_build <- function(entrez_id){
 indices.dup <- function(vec) {
   sapply(unique(vec[duplicated(vec)]), function(x){
      b <- 1:length(vec)
-     b[vec == x]})
+     b[vec == x]}, simplify = FALSE)
 }
 
 
@@ -588,10 +629,6 @@ indices.dup <- function(vec) {
 #' @import org.Hs.eg.db
 bio.cor2 <- function(genes_id, ids = "Entrez Gene",
                      go = FALSE, react = TRUE, kegg = FALSE, all = FALSE) {
-  # Using data correlates biologically two genes or probes
-  # From the graphite package
-  # x should be entrez id
-  # or change the internals from "Entrez Gene" to "Symbol"
   if (!ids %in% c("Entrez Gene", "Symbol")) {
     stop("Please check the input of genes in Symbol or Entrez Gene format")
   }
@@ -601,12 +638,16 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
 
   # Obtain data from the annotation packages
   if (ids == "Symbol") {
-    gene.symbol <- AnntoationDbi::select(org.Hs.eg.db, keys = genes_id,
-                          keytype = "SYMBOL", column = "ENTREZID")
+    gene.symbol <- suppressMessages(AnnotationDbi::select(org.Hs.eg.db,
+                                                          keys = genes_id,
+                                                          keytype = "SYMBOL",
+                                                          column = "ENTREZID"))
     colnames(gene.symbol) <- c("Symbol", "Entrez Gene")
   } else {
-    gene.symbol <- AnntoationDbi::select(org.Hs.eg.db, keys = genes_id,
-                          keytype = "ENTREZID", column = "SYMBOL")
+    gene.symbol <- suppressMessages(AnnotationDbi::select(org.Hs.eg.db,
+                                                          keys = genes_id,
+                                                          keytype = "ENTREZID",
+                                                          column = "SYMBOL"))
     colnames(gene.symbol) <- c("Entrez Gene", "Symbol")
   }
   n.combin <- choose(length(gene.symbol$`Entrez Gene`), 2)
@@ -615,14 +656,17 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
     message("Some symbols are not mapped to Entrez Genes IDs")
   }
   dup_symb <- duplicated(gene.symbol$Symbol[!is.na(gene.symbol$`Entrez Gene`)])
-  if (sum(dup_symb) >= 1) {
+  if (sum(dup_symb) >= 1 & ids == "Symbol") {
     message("Some symbols are mapped to several Entrez Genes IDs.")
+  } else if (sum(dup_symb) >= 1 & ids == "Entrez Gene") {
+    message("Some Entrez Genes IDs are mapped to several symbols.")
   }
-
+  # Obtain the data of kegg and Reactome pathways
   if (kegg) {
     # Obtain data
-    gene.kegg <- AnntoationDbi::select(org.Hs.eg.db, keys = gene.symbol$`Entrez Gene`,
-                        keytype = "ENTREZID", columns = "PATH")
+    gene.kegg <- suppressMessages(
+      AnnotationDbi::select(org.Hs.eg.db, keys = gene.symbol$`Entrez Gene`,
+                            keytype = "ENTREZID", columns = "PATH"))
     colnames(gene.kegg) <- c("Entrez Gene", "KEGG") # Always check it!
     # Merge data
     genes <- unique(merge(gene.symbol, gene.kegg, all = TRUE, sort = FALSE))
@@ -632,14 +676,13 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
     if (!kegg) {
       genes <- gene.symbol
     }
-    gene.reactome <- AnntoationDbi::select(reactome.db::reactome.db,
+    gene.reactome <- suppressMessages(
+      AnnotationDbi::select(reactome.db::reactome.db,
                             keys = gene.symbol$`Entrez Gene`,
-                            keytype = "ENTREZID", columns = "REACTOMEID")
+                            keytype = "ENTREZID", columns = "REACTOMEID"))
     colnames(gene.reactome) <- c("Entrez Gene", "Reactome")
     genes <- unique(merge(genes, gene.reactome, all = TRUE, sort = FALSE))
   }
-  # detach(package:GOstats, unload = TRUE, character.only = TRUE)
-  # detach(package:org.Hs.eg.db, unload = TRUE, character.only = TRUE)
 
   # Calculate the GO, or pathways overlap
   if (go) {  # parallel # to run non parallel transform the %dopar% into %do%
@@ -689,7 +732,7 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
     }
 
     if (sum(!is.na(react.bio)) == length(genes_id)) {
-      warning("REACTOME didn't found relevant informationª\n")
+      warning("REACTOME didn't found relevant information!\n")
     }
     react_mat <- seq2mat(gene.symbol$`Entrez Gene`, react.bio)
     message("REACTOME information has been calculated")
@@ -712,28 +755,12 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
     cor_mat <- list(kegg = kegg_mat)
   }
 
-  # Select duplicate ids
+  # To match the ncol and nrow of the input with the initial input
   dupli <- indices.dup(gene.symbol[, ids])
-  if (is.matrix(dupli)) {
-    dupli2 <- lapply(seq_len(ncol(dupli)), function(i) {
-      dupli[,i]})
-    names(dupli2) <- colnames(dupli)
-    dupli <- dupli2
-  }
-  if (length(dupli) >= 1) {
-    # Keep the interesting columns
-    message("Removing duplicated columns")
-    cor_mat <- Map(function(mat, x = dupli) {
-      # Select the colums to delete
-      rem.colum <- sapply(x, function(y, m) {
-        mean.column <- apply(m[, y], 2, mean, na.rm = TRUE)
-        i <- which.max(mean.column)
-        # Select those who don't bring more information
-        rem.colum <- setdiff(y, y[i])
-      }, m = mat)
 
-      mat[-rem.colum, -rem.colum]
-    }, cor_mat)
+  # Keep the interesting columns
+  if (length(dupli) >= 1) {
+    cor_mat <- removeDup(cor_mat, dupli)
   }
 
   return(cor_mat)

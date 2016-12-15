@@ -28,4 +28,19 @@ test_that(".combinadic", {
 
 })
 test_that("rem.dup", {})
-test_that("indices.dup", {})
+test_that("indices.dup", {
+  test <- indices.dup(as.character(c(vec, 3)))
+  expect_true(is.list(test))
+  expect_length(test$`3`, 3L)
+})
+
+test_that("removeDup", {
+  a <- seq2mat(c("52", "52", "53", "55"), rnorm(choose(4, 2)))
+  mat <- list("kegg" = a, "react" = a)
+  dupli <- indices.dup(rownames(a))
+  remat <- removeDup(mat, dupli)
+
+  expect_equal(ncol(remat[[1]]), ncol(mat[[1]]) - 1)
+  expect_equal(nrow(remat[[1]]), nrow(mat[[1]]) - 1)
+  expect_equal(nrow(remat[[1]]), ncol(remat[[1]]))
+})
