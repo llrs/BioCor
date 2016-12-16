@@ -44,7 +44,7 @@
 #' Function to estimate how much two graphs overlap by looking how much of the
 #' nodes are shared. It also works with list of genes.
 #' @param g1,g2 Graph in GraphNEL format, or a character list
-#' @importFrom method is
+#' @importFrom methods is
 compare_graphs <- function(g1, g2){
 
   # Check which case are we using
