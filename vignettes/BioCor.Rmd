@@ -1,0 +1,56 @@
+---
+title: "BioCor"
+author: "[Lluís Revilla](mailto:lrevilla@clinic.cat)"
+date: "`r doc_date()`"
+package: "`r pkg_ver('BioCor')`"
+output: 
+  BiocStyle::html_document:
+    toc: yes
+    keep_md: true
+    fig_caption: yes
+  BiocStyle::pdf_document:
+    toc: yes
+    fig_caption: yes
+    keep_md: true
+vignette: >
+  %\VignetteIndexEntry{BioCor}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}  
+---
+
+# BioCor Vignette
+
+This Vignette describes what is the purpose of this package and how to use it.
+
+## Citation
+
+## Quick start
+
+To speed calculation we need a parallel structure, (or very few genes):
+
+```{r simple_start, collapse = TRUE}
+library("BioCor")
+library("foreach")
+library("doParallel")
+registerDoParallel(2)
+# GO still gives problems sometimes
+genes.id <- as.character(c(52, 11342, 80895, 57654, 58493, 1164, 1163, 4150, 
+                           2130, 159))
+similarities <- bio.cor2(genes.id, kegg = TRUE, react = TRUE, go = FALSE)
+stopImplicitCluster()
+similarities
+```
+Now in similarity we have a list of matrices of `r ncol(similarities[[1]])` rows and columns. 
+
+## Deeper understanding
+### Dealing with unconclusive Ids
+How does it deal when one ID is mapped to several ones?
+
+## WGCNA and BioCor 
+
+BioCor, is designed to be used with other clustering packages using similarity measures like WGCNA, does. Here we provide an example on how to use BioCor to improve the modules using WGCNA:
+
+## Session Info
+```{r session}
+sessionInfo()
+```

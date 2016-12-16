@@ -11,6 +11,10 @@ seq2mat(x, dat)
 
 \item{dat}{Data to fill with the matrix}
 }
+\value{
+A matrix of length equal to \code{x} with the diagonal set to 1, and
+\code{dat} on the upper and lower triangle.
+}
 \description{
 The matrix should be of \code{ncol = length(x)} and \code{nrow = length(x)},
 so \code{dat} is at least \code{choose(length(x), 2)} of length.

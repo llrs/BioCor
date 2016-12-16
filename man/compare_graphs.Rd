@@ -7,7 +7,12 @@
 compare_graphs(g1, g2)
 }
 \arguments{
-\item{g1, g2}{Graph in GraphNEL format, or a character list}
+\item{g1, g2}{Graph in GraphNEL format, or a character list with the names of
+the proteins in each pathway.}
+}
+\value{
+A score between 0 and 1 calculated as the doble of the proteins
+shared by g1 and g2 divided by the number of genes in both groups.
 }
 \description{
 Function to estimate how much two graphs overlap by looking how much of the

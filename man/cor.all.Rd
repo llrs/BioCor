@@ -7,7 +7,7 @@
 cor.all(x, bio_mat, weights = c(0.5, 0.18, 0.1, 0.22))
 }
 \arguments{
-\item{x}{similarity of expression}
+\item{x}{A matrix with the similarity of expression}
 
 \item{bio_mat}{A list of matrices of the same dimension}
 
