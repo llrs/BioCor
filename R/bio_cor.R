@@ -1,5 +1,6 @@
 # Functions required for the bio.cor or bio.cor2 computation.
 
+# combinadic ####
 #' i-th combination of n elements taken from r
 #'
 #' Function similar to combn but for larger vectors
@@ -11,7 +12,7 @@
 #' @export
 #' @import doParallel
 #' @import foreach
-".combinadic" <- function(n, r, i) {
+combinadic <- function(n, r, i) {
 
   # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
   # http://en.wikipedia.org/wiki/Combinadic
@@ -39,7 +40,8 @@
   return(res)
 }
 
-#' Compare graph structure
+# comparePathways ####
+#' Compare pathways
 #'
 #' Function to estimate how much two graphs overlap by looking how much of the
 #' nodes are shared. It also works with list of genes.
@@ -50,15 +52,12 @@
 #' @importFrom methods is
 #' @importFrom graph nodes
 #' @export
-compare_graphs <- function(g1, g2) {
+comparePathways <- function(g1, g2) {
 
   # Check which case are we using
   if (is(g1, "graph") & is(g2, "graph")) {
     prot1 <- nodes(g1)
     prot2 <- nodes(g2)
-    if (length(prot1) == 0 | length(prot2) == 0) {
-      return(0)
-    }
   } else if (is(g1, "graph") & is.character(g2)) {
     prot1 <- nodes(g1)
     prot2 <- g2
@@ -69,7 +68,11 @@ compare_graphs <- function(g1, g2) {
     prot1 <- g1
     prot2 <- g2
   }
-
+  # If there isn't any information of a pathway for a gene then then
+  # functional similarity is 0
+  if (length(prot1) == 0 | length(prot2) == 0) {
+    return(0)
+  }
   score <- (length(intersect(prot1, prot2)))*2/(
     length(prot2) + length(prot1))
   score
@@ -138,6 +141,7 @@ dist_cor <- function(a, b, info) {
   return(score)
 }
 
+# seq2mat ####
 #' Transform a vector to a symetric matrix
 #'
 #' The matrix should be of \code{ncol = length(x)} and \code{nrow = length(x)},
@@ -164,15 +168,22 @@ seq2mat <- function(x, dat) {
   return(out)
 }
 
-#' Extract all the ids of biopath for each element on the combination
-#' @param comb ids of the column "by" to compare
-#' @param info is the data.fram with information of the by and biopath columns
+# combBiopath ####
+#' Finds all the pathways of genes
+#'
+#' Given a data.frame with the information and the genes we want to extract,
+#' finds all the pathway for each gene and return a data.frame with the
+#' combinations of all pathways of gene 1 with all pathways of gene 2
+#' @param comb Pair of ids of genes to find the pathways of. They should be on
+#' the column indicated by \code{by} to compare
+#' @param info The data.fram with a column for the genes id, and another for
+#' pathway
 #' @param by Type of columns to subset
 #' @param biopath Column of info we want to compare
 #' @return A matrix of combinations of all the ids selected from biopath
 #' and compare them all
 #' @export
-comb_biopath <- function(comb, info, by, biopath) {
+combBiopath <- function(comb, info, by, biopath) {
   a <- unique(info[info[[by]] == comb[1], biopath])
   a <- a[a != ""]
   a <- a[!is.na(a)]
@@ -182,15 +193,15 @@ comb_biopath <- function(comb, info, by, biopath) {
   b <- b[!is.na(b)]
 
   if (all(sapply(a, is.na)) | all(sapply(b, is.na))) {
-    return(NA)
+    return(0)
   } else if (length(a) == 0 | length(b) == 0) {
-    return(NA)
+    return(0)
   }
   expand.grid(a, b)
-  # })
 }
 
-#' Calculates the sum of the values multiplied by its weights
+# weighted ####
+#' Calculates the weighted sum of the values
 #'
 #' Each values should have its weight, otherwise it will throw an error.
 #' @param x Vector of numbers
@@ -212,7 +223,7 @@ weighted <- function(x, weights) {
   sum(x*weights, na.rm = TRUE)
 }
 
-
+# removeDup ####
 #' Remove duplicated rows and columns
 #'
 #' Given the indices of the duplicated entries remove the columns and rows until
@@ -241,6 +252,7 @@ removeDup <- function(cor_mat, dupli) {
   return(cor_mat)
 }
 
+# addSimilarities ####
 #' Additive integration of similarities
 #'
 #' Function that used the previously calculated similarities into a single
@@ -253,7 +265,7 @@ removeDup <- function(cor_mat, dupli) {
 #' @param weights A numeric vector of weight to multiply each similarity
 #' @return A similarity matrix
 #' @export
-cor.all <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
+addSimilarities <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
   # exp, reactome, kegg, go
   # cor_mat <- cor(x, use = "p")
   if (sum(weights) > 1) {
@@ -269,11 +281,11 @@ cor.all <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
     stop("Dimensions of x and bio_mat matrices is different")
   }
   cors <- c(list(exp = x), bio_mat)
-  # Could use parallel
-  # parApply(cl, simplify2array(cors), c(1, 2), weights, w = weights)
+
+  # Apply weighted to each cell position of each similarity measure
   apply(simplify2array(cors), c(1,2), weighted, w = weights)
 }
-
+# duplicateIndices ####
 #' Finds the indices of the duplicated events of a vector
 #'
 #' Finds the indices of duplicated elements in the vector given.
@@ -283,7 +295,7 @@ cor.all <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
 #' @param vec Vector of identififiers presumably duplicated
 #' @return The format is determined by the simplify2array
 #' @export
-indices.dup <- function(vec) {
+duplicateIndices <- function(vec) {
   if (!is.character(vec)) {
     stop("Expected a list of characters to find duplicates on it")
   }
@@ -292,7 +304,7 @@ indices.dup <- function(vec) {
      b[vec == x]}, simplify = FALSE)
 }
 
-
+# BioCor ####
 #' Comparing information in databases
 #'
 #' Calculates a functional similarity of genes  using information available in
@@ -316,7 +328,7 @@ indices.dup <- function(vec) {
 #' @importFrom reactome.db reactome.db
 #' @import org.Hs.eg.db
 #' @importFrom AnnotationDbi select
-bio.cor2 <- function(genes_id, ids = "Entrez Gene",
+bioCor <- function(genes_id, ids = "Entrez Gene",
                      go = FALSE, react = TRUE, kegg = FALSE, all = FALSE) {
   if (!ids %in% c("Entrez Gene", "Symbol")) {
     stop("Please check the input of genes in Symbol or Entrez Gene format")
@@ -400,7 +412,7 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
     kegg.bio <- foreach(i = seq_len(n.combin), .combine = c,
                         .verbose = F) %dopar% {
       comb <- .combinadic(gene.symbol$`Entrez Gene`, 2, i)
-      react_genes(comb, genes, "KEGG", "Entrez Gene")
+      corPathways(comb, genes, "Entrez Gene", "KEGG")
     }
 
     if (sum(!is.na(kegg.bio)) == length(genes_id)) {
@@ -415,7 +427,7 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
     react.bio <- foreach(i = seq_len(n.combin), .combine = c,
                          .verbose = F) %dopar% {
       comb <- .combinadic(gene.symbol$`Entrez Gene`, 2, i)
-      react_genes(comb, genes, "Reactome", "Entrez Gene")
+      corPathways(comb, genes, "Entrez Gene", "Reactome")
     }
 
     if (sum(!is.na(react.bio)) == length(genes_id)) {
@@ -441,7 +453,7 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
   }
 
   # To match the ncol and nrow of the input with the initial input
-  dupli <- indices.dup(gene.symbol[, ids])
+  dupli <- duplicateIndices(gene.symbol[, ids])
 
   # Keep the interesting columns
   if (length(dupli) >= 1) {
@@ -450,40 +462,50 @@ bio.cor2 <- function(genes_id, ids = "Entrez Gene",
 
   return(cor_mat)
 }
-
+# genesInfo  ####
 #' Extract which genes are from which reactome
 #' @param genes is the data.frame with information
-#' @param colm is the colum where "id" is found
-#' @param id is the ids we are looking for in column Symbol of such data.frame
+#' @param colm is the colum where \code{id} is found
+#' @param id is the ids we are looking for in column \code{type} of \code{genes}
+#'  data.frame
 #' @param type is the column we are looking to keep.
 #' @return A vector with the unique identifiers of genes of the \code{type}
 #' column
 #' @export
-genes.info <- function(genes, colm, id, type) {
-  # Genes is the df, colm is the column you want, id is the id of the pathway
+genesInfo <- function(genes, colm, id, type) {
   out <- unique(genes[genes[[colm]] == id, type])
   out[!is.na(out)]
 }
-
+# corPathways ####
 #' Calculates the similarity score of patwhays
 #'
 #' Given the information about the relationship between the genes and the
 #' pathways, uses the ids of the genes in comb to find the similarity score in
 #' them.
-#' @param comb are the ids to compare
+#' @param comb are the ids to compare, it is expected two ids of genes.
 #' @param genes is the matrix with the information about "id" and "react"
-#' @param id is the column of "genes" where comb are to be found
-#' @param react is the column of \code{genes} where pathways should be found.
-#' @return the max score of comparing the ids of such reaction
+#' @param id is the column of "genes" where \code{comb} are to be found
+#' @param pathwayDB is the column of \code{genes} where pathways should be
+#' found. It is usually the name of the database where they come from.
+#' @return The highest score of all the combinations of pathways between the
+#' two ids compared.
 #' @export
-react_genes <- function(comb, genes, react, id) {
-  if (!react %in% colnames(genes)) {
+corPathways <- function(comb, genes, id, pathwayDB) {
+  if (!pathwayDB %in% colnames(genes)) {
     stop("Please check which type of pathway do you want")
   }
   if (any(is.na(comb))) {
     return(NA)
   }
-  react_path <- comb_biopath(comb, genes, id, react)
+  if (comb[1] == comb[2]) {
+    return(1)
+  }
+  if (length(comb) > 2) {
+    stop("comb can only be of length 2, to compare pairs of genes")
+  }
+
+  # Find all the combinations of pathways of the two genes
+  react_path <- combBiopath(comb, genes, id, pathwayDB)
 
   # Check that we have pathways info for this combination
   if (is.null(react_path)) {
@@ -496,14 +518,15 @@ react_genes <- function(comb, genes, react, id) {
     return(0)
   }
 
+  # calculate the similarity between each pathway combination
   react <- apply(react_path, 1, function(x){
-    a <- genes.info(genes, react, x[1], id)
-    b <- genes.info(genes, react, x[2], id)
-    out <- compare_graphs(a, b)
+    genes_1 <- genesInfo(genes, pathwayDB, x[1], id)
+    genes_2 <- genesInfo(genes, pathwayDB, x[2], id)
+    out <- comparePathways(genes_1, genes_2)
     out
   })
 
-  # If NA returns 0
+  # Calculate the max similarity between the two genes
   if (length(react) != sum(is.na(react))) {
     out <- max(react, na.rm = TRUE)
   } else {

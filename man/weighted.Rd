@@ -2,7 +2,7 @@
 % Please edit documentation in R/bio_cor.R
 \name{weighted}
 \alias{weighted}
-\title{Calculates the sum of the values multiplied by its weights}
+\title{Calculates the weighted sum of the values}
 \usage{
 weighted(x, weights)
 }

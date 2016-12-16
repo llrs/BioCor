@@ -36,7 +36,7 @@ registerDoParallel(2)
 # GO still gives problems sometimes
 genes.id <- as.character(c(52, 11342, 80895, 57654, 58493, 1164, 1163, 4150, 
                            2130, 159))
-similarities <- bio.cor2(genes.id, kegg = TRUE, react = TRUE, go = FALSE)
+similarities <- bioCor(genes.id, kegg = TRUE, react = TRUE, go = FALSE)
 stopImplicitCluster()
 similarities
 ```

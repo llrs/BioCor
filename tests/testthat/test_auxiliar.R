@@ -1,6 +1,7 @@
 library("BioCor")
 context("Testing auxiliar functions")
 
+# seq2mat ####
 test_that("seq2mat puts a combination to the right place", {
   test <- seq2mat(LETTERS[1:5], 1:10)
 
@@ -17,20 +18,18 @@ test_that("seq2mat puts a combination to the right place", {
   expect_equal(seq2mat(as.character(1:5), dat)["5", "3"], 8L)
 })
 
-test_that("comb_biopath", {})
-test_that("react_genes", {})
-test_that("indices.dup", {})
-test_that(".combinadic", {
+# combinadic ####
+test_that("combinadic", {
   bcombin <- combn(LETTERS[1:5], 2)
-  .combin <- .combinadic(LETTERS[1:5], 2, 1)
+  .combin <- combinadic(LETTERS[1:5], 2, 1)
   expect_true(all.equal(bcombin[, 1], rev(.combin)))
-  .combin <- .combinadic(LETTERS[1:5], 2, 2)
+  .combin <- combinadic(LETTERS[1:5], 2, 2)
   expect_true(all.equal(bcombin[, 2], rev(.combin)))
-  expect_error(.combinadic(LETTERS[1:5], 0, 2), "must be")
+  expect_error(combinadic(LETTERS[1:5], 0, 2), "must be")
 
 })
-test_that("rem.dup", {})
 
+# weighted ####
 test_that("weighted", {
   set.seed(5)
   x <- rnorm(5)
@@ -40,23 +39,27 @@ test_that("weighted", {
   expect_error(weighted(x, c(0.1, 0.2)), "match the length")
   expect_error(weighted("a", c(0.1)), "should be numeric")
   expect_error(weighted(0.1, "a"), "should be numeric")
+  weights <-  c(0.1, 0.2, 0.3, 0.4, 0.2)
+  expect_warning(weighted(x, weights), "the weights is above 1")
 })
 
-test_that("indices.dup", {
+# duplicateIndices ####
+test_that("duplicateIndices", {
   vec <- c("52", "52", "52", "53", "55")
-  test <- indices.dup(as.character(c(vec, 3)))
+  test <- duplicateIndices(as.character(c(vec, 3)))
   expect_true(is.list(test))
   expect_length(test$`52`, 3L)
 
   b <- matrix(ncol = 2, nrow = 3)
-  expect_error(indices.dup(b), "Expected")
+  expect_error(duplicateIndices(b), "Expected")
 })
 
+# removeDup ####
 test_that("removeDup", {
   a <- seq2mat(c("52", "52", "53", "55"), rnorm(choose(4, 2)))
 
   mat <- list("kegg" = a, "react" = a)
-  dupli <- indices.dup(rownames(a))
+  dupli <- duplicateIndices(rownames(a))
   remat <- removeDup(mat, dupli)
 
   expect_equal(ncol(remat[[1]]), ncol(mat[[1]]) - 1)
@@ -68,7 +71,8 @@ test_that("removeDup", {
   expect_error(removeDup(mat, dupli), "should be symmetric")
 })
 
-test_that("genes.info", {
+# genesInfo ####
+test_that("genesInfo", {
   info <- structure(
     list(ENTREZID = c("1", "2", "2", "2", "2", "2", "2", "2",
                       "2", "2", "2", "2", "3", "4", "5", "6",
@@ -83,6 +87,8 @@ test_that("genes.info", {
     ),
     .Names = c("ENTREZID", "REACTOMEID"),
     class = "data.frame", row.names = c(NA, -26L))
-  genes.info(info, "REACTOMEID", c("9", "10"), "REACTOMEID")
+
+  test <- genesInfo(info, "REACTOMEID", c("9", "10"), "REACTOMEID")
+  expect_equal(test, as.character())
 
 })

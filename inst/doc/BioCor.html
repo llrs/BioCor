@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="header">
 <h1 class="title">BioCor</h1>
 <h4 class="author"><em><a href="mailto:lrevilla@clinic.cat">Lluís Revilla</a></em></h4>
-<h4 class="date"><em>13 diciembre 2016</em></h4>
+<h4 class="date"><em>16 diciembre 2016</em></h4>
 </div>
 <h4 class="package">Package version: <span style="font-weight: normal">BioCor 0.0.0.9000</span></h4>
 
@@ -80,21 +80,48 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>To speed calculation we need a parallel structure, (or very few genes):</p>
 <pre class="r"><code>library(&quot;BioCor&quot;)
 library(&quot;foreach&quot;)
+## foreach: simple, scalable parallel programming from Revolution Analytics
+## Use Revolution R for scalability, fault tolerance and more.
+## http://www.revolutionanalytics.com
 library(&quot;doParallel&quot;)
+## Loading required package: iterators
 registerDoParallel(2)
 # GO still gives problems sometimes
-genes.id &lt;- as.character(1:50)
+genes.id &lt;- as.character(c(52, 11342, 80895, 57654, 58493, 1164, 1163, 4150, 
+                           2130, 159))
 similarities &lt;- bio.cor2(genes.id, kegg = TRUE, react = TRUE, go = FALSE)
-## 'select()' returned 1:1 mapping between keys and columns
-## Some symbols are mapped to several Entrez Genes IDs.
-## 'select()' returned 1:many mapping between keys and columns
-## 'select()' returned 1:many mapping between keys and columns
 ## Calculating KEGG information
 ## KEGG information has been calculated
 ## Calculating REACTOME information
 ## REACTOME information has been calculated
-stopImplicitCluster()</code></pre>
-<p>Now in similarity we have a list of matrices of 50 rows and columns.</p>
+stopImplicitCluster()
+similarities
+## $reactome
+##       52 11342 80895 57654 58493 1164 1163 4150 2130 159
+## 52     1     0     0     0     0    0    0    0    0   0
+## 11342  0     1     0     0     0    0    0    0    0   0
+## 80895  0     0     1     0     0    0    0    0    0   0
+## 57654  0     0     0     1     0    0    0    0    0   0
+## 58493  0     0     0     0     1    0    0    0    0   0
+## 1164   0     0     0     0     0    1    0    0    0   0
+## 1163   0     0     0     0     0    0    1    0    0   0
+## 4150   0     0     0     0     0    0    0    1    0   0
+## 2130   0     0     0     0     0    0    0    0    1   0
+## 159    0     0     0     0     0    0    0    0    0   1
+## 
+## $kegg
+##       52 11342 80895 57654 58493 1164 1163 4150 2130 159
+## 52     1     0     0     0     0    0    0    0    0   0
+## 11342  0     1     0     0     0    0    0    0    0   0
+## 80895  0     0     1     0     0    0    0    0    0   0
+## 57654  0     0     0     1     0    0    0    0    0   0
+## 58493  0     0     0     0     1    0    0    0    0   0
+## 1164   0     0     0     0     0    1    0    0    0   0
+## 1163   0     0     0     0     0    0    1    0    0   0
+## 4150   0     0     0     0     0    0    0    1    0   0
+## 2130   0     0     0     0     0    0    0    0    1   0
+## 159    0     0     0     0     0    0    0    0    0   1</code></pre>
+<p>Now in similarity we have a list of matrices of 10 rows and columns.</p>
 </div>
 <div id="deeper-understanding" class="section level2">
 <h2><span class="header-section-number">1.3</span> Deeper understanding</h2>
@@ -123,31 +150,24 @@ stopImplicitCluster()</code></pre>
 ## [11] LC_MEASUREMENT=es_ES.UTF-8 LC_IDENTIFICATION=C       
 ## 
 ## attached base packages:
-## [1] stats4    parallel  stats     graphics  grDevices datasets  utils    
+## [1] parallel  stats4    stats     graphics  grDevices datasets  utils    
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] limma_3.30.6         BioCor_0.0.0.9000    org.Hs.eg.db_3.4.0  
-##  [4] AnnotationDbi_1.36.0 IRanges_2.8.1        S4Vectors_0.12.0    
-##  [7] Biobase_2.34.0       BiocGenerics_0.20.0  doParallel_1.0.10   
-## [10] iterators_1.0.8      foreach_1.4.3        BiocStyle_2.2.1     
-## [13] roxygen2_5.0.1       devtools_1.12.0     
+##  [1] doParallel_1.0.10    iterators_1.0.8      foreach_1.4.3       
+##  [4] BiocStyle_2.2.1      BioCor_0.0.0.9000    reactome.db_1.58.0  
+##  [7] org.Hs.eg.db_3.4.0   AnnotationDbi_1.36.0 IRanges_2.8.1       
+## [10] S4Vectors_0.12.0     Biobase_2.34.0       BiocGenerics_0.20.0 
+## [13] testthat_1.0.2       devtools_1.12.0     
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] genefilter_1.56.0      splines_3.3.2          lattice_0.20-34       
-##  [4] testthat_1.0.2         htmltools_0.3.5        yaml_2.1.14           
-##  [7] Category_2.40.0        survival_2.40-1        RBGL_1.50.0           
-## [10] XML_3.98-1.5           withr_1.0.2            DBI_0.5-1             
-## [13] GOstats_2.40.0         stringr_1.1.0          codetools_0.2-15      
-## [16] memoise_1.0.0          evaluate_0.10          knitr_1.15.1          
-## [19] highr_0.6              GSEABase_1.36.0        Rcpp_0.12.8           
-## [22] xtable_1.8-2           reactome.db_1.58.0     backports_1.0.4       
-## [25] graph_1.52.0           annotate_1.52.0        digest_0.6.10         
-## [28] stringi_1.1.2          grid_3.3.2             rprojroot_1.1         
-## [31] tools_3.3.2            bitops_1.0-6           magrittr_1.5          
-## [34] RCurl_1.95-4.8         RSQLite_1.1            crayon_1.3.2          
-## [37] GO.db_3.4.0            Matrix_1.2-7.1         rmarkdown_1.2         
-## [40] AnnotationForge_1.16.0 R6_2.2.0               compiler_3.3.2</code></pre>
+##  [1] Rcpp_0.12.8      compiler_3.3.2   KEGG.db_3.2.3    tools_3.3.2     
+##  [5] digest_0.6.10    RSQLite_1.1-1    memoise_1.0.0    evaluate_0.10   
+##  [9] graph_1.52.0     KEGGgraph_1.32.0 DBI_0.5-1        Rgraphviz_2.18.0
+## [13] yaml_2.1.14      withr_1.0.2      stringr_1.1.0    roxygen2_5.0.1  
+## [17] knitr_1.15.1     rprojroot_1.1    grid_3.3.2       R6_2.2.0        
+## [21] XML_3.98-1.5     rmarkdown_1.2    magrittr_1.5     backports_1.0.4 
+## [25] codetools_0.2-15 htmltools_0.3.5  stringi_1.1.2    crayon_1.3.2</code></pre>
 </div>
 </div>
 
