@@ -32,10 +32,10 @@ test_that("combinadic", {
 # weighted ####
 test_that("weighted", {
   set.seed(5)
-  x <- rnorm(5)
+  x <- runif(5)
   weights <-  c(0.1, 0.2, 0.3, 0.4, 0.0)
   test <- weighted(x, weights)
-  expect_equal(test, -0.15580413)
+  expect_equal(test, 0.54588768)
   expect_error(weighted(x, c(0.1, 0.2)), "match the length")
   expect_error(weighted("a", c(0.1)), "should be numeric")
   expect_error(weighted(0.1, "a"), "should be numeric")
@@ -56,7 +56,7 @@ test_that("duplicateIndices", {
 
 # removeDup ####
 test_that("removeDup", {
-  a <- seq2mat(c("52", "52", "53", "55"), rnorm(choose(4, 2)))
+  a <- seq2mat(c("52", "52", "53", "55"), runif(choose(4, 2)))
 
   mat <- list("kegg" = a, "react" = a)
   dupli <- duplicateIndices(rownames(a))

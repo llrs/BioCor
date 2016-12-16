@@ -49,10 +49,10 @@ test_that("comparePathways", {
 
 # addSimilarities ####
 test_that("addSimilarities", {
-  set.seed(10)
-  a <- seq2mat(LETTERS[1:5], rnorm(10))
-  b <- seq2mat(LETTERS[1:5], rnorm(10))
-  x <- seq2mat(LETTERS[1:5], rnorm(10))
+  set.seed(1)
+  a <- seq2mat(LETTERS[1:5], runif(10))
+  b <- seq2mat(LETTERS[1:5], runif(10))
+  x <- seq2mat(LETTERS[1:5], runif(10))
   mat <- list("kegg" = a , "react" = b)
   weights <- c(0.1, 0.2, 0.8)
   expect_error(addSimilarities(x, mat, weights), "Weights are too big")
@@ -66,8 +66,8 @@ test_that("addSimilarities", {
   expect_true(all(diag(test) == 1))
   expect_true(all(test <= 1))
   expect_true(all(test >= -1))
-  expect_true(test["B", "D"] <= 0.0054)
+  expect_true(test["B", "D"] <= 0.6129278)
 
-  x <- matrix(rnorm(10), ncol = 5)
+  x <- matrix(runif(10), ncol = 5)
   expect_error(addSimilarities(x, mat, weights), "is different")
 })

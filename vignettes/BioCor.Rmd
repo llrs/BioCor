@@ -28,7 +28,7 @@ This Vignette describes what is the purpose of this package and how to use it.
 
 To speed calculation we need a parallel structure, (or very few genes):
 
-```{r simple_start, collapse = TRUE}
+```{r simple_start, collapse = TRUE, eval = FALSE}
 library("BioCor")
 library("foreach")
 library("doParallel")
@@ -40,7 +40,7 @@ similarities <- bioCor(genes.id, kegg = TRUE, react = TRUE, go = FALSE)
 stopImplicitCluster()
 similarities
 ```
-Now in similarity we have a list of matrices of `r ncol(similarities[[1]])` rows and columns. 
+Now in similarity we have a list of matrices of 10 rows and columns. 
 
 ## Deeper understanding
 ### Dealing with unconclusive Ids

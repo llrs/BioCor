@@ -217,9 +217,13 @@ weighted <- function(x, weights) {
   if (!is.numeric(x) | !is.numeric(weights)) {
     stop("weights and x should be numeric")
   }
+  if (!all(weights >= 0)) {
+    warning("There are negative weights, should they be positive?")
+  }
   if (sum(weights) > 1) {
     warning("The sum of the weights is above 1")
   }
+
   sum(x*weights, na.rm = TRUE)
 }
 
@@ -250,6 +254,30 @@ removeDup <- function(cor_mat, dupli) {
     mat[-rem.colum, -rem.colum]
   }, cor_mat)
   return(cor_mat)
+}
+
+# similarities ####
+#' Similarities
+#'
+#' Function to join list of similarities by a function provided by the user.
+#' @param sim list of similarities to be joined
+#' @param func function to perform on those similarities
+#' @param dots Other arguments passed to the function \code{func}.
+#' @return A matrix of the size of the similarities
+similarities <- function(sim, func, ...) {
+  # Check that all the matrices are of the same dimensions and squared
+  if (length(unique(as.vector(sapply(sim, dim)))) >= 2) {
+    stop("Dimensions of the similarities differ")
+  }
+  if (!all(sapply(sim, isSymmetric))) {
+    stop("Similarities are not symmetric")
+  }
+  if (any(is.na(sim))) {
+    warning("There are some NA values in the similarities provided")
+  }
+  FUN <- match.fun(func)
+  # Apply weighted to each cell position of each similarity measure
+  apply(simplify2array(sim), c(1,2), FUN, ...)
 }
 
 # addSimilarities ####
@@ -283,8 +311,9 @@ addSimilarities <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
   cors <- c(list(exp = x), bio_mat)
 
   # Apply weighted to each cell position of each similarity measure
-  apply(simplify2array(cors), c(1,2), weighted, w = weights)
+  similarities(cors, weighted, w = weights)
 }
+
 # duplicateIndices ####
 #' Finds the indices of the duplicated events of a vector
 #'
@@ -304,7 +333,7 @@ duplicateIndices <- function(vec) {
      b[vec == x]}, simplify = FALSE)
 }
 
-# BioCor ####
+# bioCor ####
 #' Comparing information in databases
 #'
 #' Calculates a functional similarity of genes  using information available in
@@ -316,18 +345,19 @@ duplicateIndices <- function(vec) {
 #'
 #' @param genes_id is vector of ids to compare
 #' @param ids indicate if the id is eihter Entre Gene or Symbol
-#' @param go logical; indicates if the overlap in terms of GO is calculated
-#' @param react logical; indicates if the overlap in Reactome pathway is
+#' @param go logical; indicates if the similarities in terms of GO is calculated
+#' @param react logical; indicates if the similarities in Reactome pathway is
 #' calculated
-#' @param kegg logical; indicates if the overlap in Kegg database is calculated
-#' @param all logical; indicates if all the previous (go, react, and kegg),
-#' should be set to TRUE
+#' @param kegg logical; indicates if the similarities in Kegg database
+#' is calculated
+#' @param all logical; indicates if all the previous (go, react, and kegg)
+#' similarity measures, should be set to TRUE.
 #' @return A list where each element is a matrix with the similarity for such
 #' database
-#' @export
 #' @importFrom reactome.db reactome.db
 #' @import org.Hs.eg.db
 #' @importFrom AnnotationDbi select
+#' @export
 bioCor <- function(genes_id, ids = "Entrez Gene",
                      go = FALSE, react = TRUE, kegg = FALSE, all = FALSE) {
   if (!ids %in% c("Entrez Gene", "Symbol")) {
@@ -339,14 +369,14 @@ bioCor <- function(genes_id, ids = "Entrez Gene",
 
   # Obtain data from the annotation packages
   if (ids == "Symbol") {
-    gene.symbol <- suppressMessages(select(org.Hs.eg.db, keys = genes_id,
+    gene.symbol <- select(org.Hs.eg.db, keys = genes_id,
                                            keytype = "SYMBOL",
-                                           columns = "ENTREZID"))
+                                           columns = "ENTREZID")
     colnames(gene.symbol) <- c("Symbol", "Entrez Gene")
   } else {
-    gene.symbol <- suppressMessages(select(org.Hs.eg.db, keys = genes_id,
+    gene.symbol <- select(org.Hs.eg.db, keys = genes_id,
                                            keytype = "ENTREZID",
-                                           columns = "SYMBOL"))
+                                           columns = "SYMBOL")
     colnames(gene.symbol) <- c("Entrez Gene", "Symbol")
   }
   n.combin <- choose(length(gene.symbol$`Entrez Gene`), 2)
@@ -363,9 +393,8 @@ bioCor <- function(genes_id, ids = "Entrez Gene",
   # Obtain the data of kegg and Reactome pathways
   if (kegg) {
     # Obtain data
-    gene.kegg <- suppressMessages(
-      select(org.Hs.eg.db, keys = gene.symbol$`Entrez Gene`,
-             keytype = "ENTREZID", columns = "PATH"))
+    gene.kegg <- select(org.Hs.eg.db, keys = gene.symbol$`Entrez Gene`,
+                        keytype = "ENTREZID", columns = "PATH")
     colnames(gene.kegg) <- c("Entrez Gene", "KEGG") # Always check it!
     # Merge data
     genes <- unique(merge(gene.symbol, gene.kegg, all = TRUE, sort = FALSE))
@@ -375,10 +404,8 @@ bioCor <- function(genes_id, ids = "Entrez Gene",
     if (!kegg) {
       genes <- gene.symbol
     }
-    gene.reactome <- suppressMessages(select(reactome.db,
-                                             keys = gene.symbol$`Entrez Gene`,
-                                             keytype = "ENTREZID",
-                                             columns = "REACTOMEID"))
+    gene.reactome <- select(reactome.db, keys = gene.symbol$`Entrez Gene`,
+                            keytype = "ENTREZID", columns = "REACTOMEID")
     colnames(gene.reactome) <- c("Entrez Gene", "Reactome")
     genes <- unique(merge(genes, gene.reactome, all = TRUE, sort = FALSE))
   }
@@ -387,7 +414,7 @@ bioCor <- function(genes_id, ids = "Entrez Gene",
   if (go) {  # parallel # to run non parallel transform the %dopar% into %do%
     message("Calculating GO information")
     # go.mat <- foreach(i = seq_len(n.combin), .verbose = TRUE) %dopar% {
-    #                     comb <- .combinadic(gene.symbol$`Entrez Gene`, 2, i)
+    #                     comb <- combinadic(gene.symbol$`Entrez Gene`, 2, i)
     #                     # message("new comb ", paste(comb))
     #                     score <- go_cor(comb[1], comb[2], mapfun = TRUE,
     #                                     Ontology = "BP")
@@ -411,7 +438,7 @@ bioCor <- function(genes_id, ids = "Entrez Gene",
     message("Calculating KEGG information")
     kegg.bio <- foreach(i = seq_len(n.combin), .combine = c,
                         .verbose = F) %dopar% {
-      comb <- .combinadic(gene.symbol$`Entrez Gene`, 2, i)
+      comb <- combinadic(gene.symbol$`Entrez Gene`, 2, i)
       corPathways(comb, genes, "Entrez Gene", "KEGG")
     }
 
@@ -426,7 +453,7 @@ bioCor <- function(genes_id, ids = "Entrez Gene",
     message("Calculating REACTOME information")
     react.bio <- foreach(i = seq_len(n.combin), .combine = c,
                          .verbose = F) %dopar% {
-      comb <- .combinadic(gene.symbol$`Entrez Gene`, 2, i)
+      comb <- combinadic(gene.symbol$`Entrez Gene`, 2, i)
       corPathways(comb, genes, "Entrez Gene", "Reactome")
     }
 
