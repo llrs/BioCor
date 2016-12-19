@@ -262,7 +262,7 @@ removeDup <- function(cor_mat, dupli) {
 #' Function to join list of similarities by a function provided by the user.
 #' @param sim list of similarities to be joined
 #' @param func function to perform on those similarities
-#' @param dots Other arguments passed to the function \code{func}.
+#' @param ... Other arguments passed to the function \code{func}.
 #' @return A matrix of the size of the similarities
 similarities <- function(sim, func, ...) {
   # Check that all the matrices are of the same dimensions and squared

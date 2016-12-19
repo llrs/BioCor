@@ -12,15 +12,16 @@ bioCor(genes_id, ids = "Entrez Gene", go = FALSE, react = TRUE,
 
 \item{ids}{indicate if the id is eihter Entre Gene or Symbol}
 
-\item{go}{logical; indicates if the overlap in terms of GO is calculated}
+\item{go}{logical; indicates if the similarities in terms of GO is calculated}
 
-\item{react}{logical; indicates if the overlap in Reactome pathway is
+\item{react}{logical; indicates if the similarities in Reactome pathway is
 calculated}
 
-\item{kegg}{logical; indicates if the overlap in Kegg database is calculated}
+\item{kegg}{logical; indicates if the similarities in Kegg database
+is calculated}
 
-\item{all}{logical; indicates if all the previous (go, react, and kegg),
-should be set to TRUE}
+\item{all}{logical; indicates if all the previous (go, react, and kegg)
+similarity measures, should be set to TRUE.}
 }
 \value{
 A list where each element is a matrix with the similarity for such

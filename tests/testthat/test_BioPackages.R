@@ -36,8 +36,8 @@ test_that("comparePathways", {
   genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")
   test <- comparePathways(genes.id, genes.id2)
   expect_equal(test, 0.47058823)
-  graph1 <- graphNEL(nodes = genes.id)
-  graph2 <- graphNEL(nodes = genes.id2)
+  graph1 <- graph::graphNEL(nodes = genes.id)
+  graph2 <- graph::graphNEL(nodes = genes.id2)
 
   test2 <- comparePathways(graph1, genes.id2)
   expect_equal(test, test2)

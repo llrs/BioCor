@@ -11,7 +11,7 @@ similarities(sim, func, ...)
 
 \item{func}{function to perform on those similarities}
 
-\item{dots}{Other arguments passed to the function \code{func}.}
+\item{...}{Other arguments passed to the function \code{func}.}
 }
 \value{
 A matrix of the size of the similarities
