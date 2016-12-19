@@ -25,4 +25,10 @@ Given the information about the relationship between the genes and the
 pathways, uses the ids of the genes in comb to find the similarity score in
 them.
 }
+\details{
+If an \code{NA} is returned this means that there isn't information
+available for any pathways for one of those two genes. Otherwise a number
+between 0 and 1 (both included) is returned. Note that there isn't a negative
+value of similarity for pathways correlation.
+}
 

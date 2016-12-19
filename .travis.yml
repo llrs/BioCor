@@ -12,8 +12,8 @@ bioc_packages:
   - org.Hs.eg.db
   - reactome.db
   - GOSemSim
-before_install:
-  Rscript -e 'update.packages(ask = FALSE)'
+#before_install:
+#  Rscript -e 'update.packages(ask = FALSE)'
 sudo: false
 after_success:
   - Rscript -e 'library(covr); codecov()'

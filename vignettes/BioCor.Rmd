@@ -28,7 +28,7 @@ This Vignette describes what is the purpose of this package and how to use it.
 
 To speed calculation we need a parallel structure, (or very few genes):
 
-```{r simple_start, collapse = TRUE, eval = FALSE}
+```{r simple_start, collapse = TRUE, eval = TRUE}
 library("BioCor")
 library("foreach")
 library("doParallel")

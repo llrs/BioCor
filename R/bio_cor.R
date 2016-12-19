@@ -353,7 +353,8 @@ duplicateIndices <- function(vec) {
 #' @param all logical; indicates if all the previous (go, react, and kegg)
 #' similarity measures, should be set to TRUE.
 #' @return A list where each element is a matrix with the similarity for such
-#' database
+#' database \code{NA} indicates that there isn't any information of one of those
+#'  genes.
 #' @importFrom reactome.db reactome.db
 #' @import org.Hs.eg.db
 #' @importFrom AnnotationDbi select
@@ -369,18 +370,18 @@ bioCor <- function(genes_id, ids = "Entrez Gene",
 
   # Obtain data from the annotation packages
   if (ids == "Symbol") {
-    gene.symbol <- select(org.Hs.eg.db, keys = genes_id,
-                                           keytype = "SYMBOL",
-                                           columns = "ENTREZID")
+    gene.symbol <- suppressMessages(
+      select(org.Hs.eg.db, keys = genes_id, keytype = "SYMBOL",
+             columns = "ENTREZID"))
     colnames(gene.symbol) <- c("Symbol", "Entrez Gene")
   } else {
-    gene.symbol <- select(org.Hs.eg.db, keys = genes_id,
-                                           keytype = "ENTREZID",
-                                           columns = "SYMBOL")
+    gene.symbol <- suppressMessages(
+      select(org.Hs.eg.db, keys = genes_id, keytype = "ENTREZID",
+             columns = "SYMBOL"))
     colnames(gene.symbol) <- c("Entrez Gene", "Symbol")
   }
   n.combin <- choose(length(gene.symbol$`Entrez Gene`), 2)
-  # FIXME the length of input and for the calculus may differ!!!!
+  orig.ids <- gene.symbol$`Entrez Gene`
   if (sum(is.na(gene.symbol$`Entrez Gene`)) >= 1) {
     message("Some symbols are not mapped to Entrez Genes IDs")
   }
@@ -393,8 +394,9 @@ bioCor <- function(genes_id, ids = "Entrez Gene",
   # Obtain the data of kegg and Reactome pathways
   if (kegg) {
     # Obtain data
-    gene.kegg <- select(org.Hs.eg.db, keys = gene.symbol$`Entrez Gene`,
-                        keytype = "ENTREZID", columns = "PATH")
+    gene.kegg <- suppressMessages(
+      select(org.Hs.eg.db, keys = gene.symbol$`Entrez Gene`,
+             keytype = "ENTREZID", columns = "PATH"))
     colnames(gene.kegg) <- c("Entrez Gene", "KEGG") # Always check it!
     # Merge data
     genes <- unique(merge(gene.symbol, gene.kegg, all = TRUE, sort = FALSE))
@@ -404,8 +406,9 @@ bioCor <- function(genes_id, ids = "Entrez Gene",
     if (!kegg) {
       genes <- gene.symbol
     }
-    gene.reactome <- select(reactome.db, keys = gene.symbol$`Entrez Gene`,
-                            keytype = "ENTREZID", columns = "REACTOMEID")
+    gene.reactome <- suppressMessages(
+      select(reactome.db, keys = gene.symbol$`Entrez Gene`,
+             keytype = "ENTREZID", columns = "REACTOMEID"))
     colnames(gene.reactome) <- c("Entrez Gene", "Reactome")
     genes <- unique(merge(genes, gene.reactome, all = TRUE, sort = FALSE))
   }
@@ -438,14 +441,14 @@ bioCor <- function(genes_id, ids = "Entrez Gene",
     message("Calculating KEGG information")
     kegg.bio <- foreach(i = seq_len(n.combin), .combine = c,
                         .verbose = F) %dopar% {
-      comb <- combinadic(gene.symbol$`Entrez Gene`, 2, i)
+      comb <- combinadic(orig.ids, 2, i)
       corPathways(comb, genes, "Entrez Gene", "KEGG")
     }
 
     if (sum(!is.na(kegg.bio)) == length(genes_id)) {
       warning("React didn't found relevant information!\n")
     }
-    kegg_mat <- seq2mat(gene.symbol$`Entrez Gene`, kegg.bio)
+    kegg_mat <- seq2mat(orig.ids, kegg.bio)
     message("KEGG information has been calculated")
   }
 
@@ -453,14 +456,14 @@ bioCor <- function(genes_id, ids = "Entrez Gene",
     message("Calculating REACTOME information")
     react.bio <- foreach(i = seq_len(n.combin), .combine = c,
                          .verbose = F) %dopar% {
-      comb <- combinadic(gene.symbol$`Entrez Gene`, 2, i)
+      comb <- combinadic(orig.ids, 2, i)
       corPathways(comb, genes, "Entrez Gene", "Reactome")
     }
 
     if (sum(!is.na(react.bio)) == length(genes_id)) {
       warning("REACTOME didn't found relevant information!\n")
     }
-    react_mat <- seq2mat(gene.symbol$`Entrez Gene`, react.bio)
+    react_mat <- seq2mat(orig.ids, react.bio)
     message("REACTOME information has been calculated")
   }
 
@@ -509,6 +512,11 @@ genesInfo <- function(genes, colm, id, type) {
 #' Given the information about the relationship between the genes and the
 #' pathways, uses the ids of the genes in comb to find the similarity score in
 #' them.
+#'
+#' If an \code{NA} is returned this means that there isn't information
+#' available for any pathways for one of those two genes. Otherwise a number
+#' between 0 and 1 (both included) is returned. Note that there isn't a negative
+#' value of similarity for pathways correlation.
 #' @param comb are the ids to compare, it is expected two ids of genes.
 #' @param genes is the matrix with the information about "id" and "react"
 #' @param id is the column of "genes" where \code{comb} are to be found
@@ -536,13 +544,15 @@ corPathways <- function(comb, genes, id, pathwayDB) {
 
   # Check that we have pathways info for this combination
   if (is.null(react_path)) {
-    return(0)
+    return(NA)
   } else if (length(react_path) == 2) {
     if (nrow(react_path) == 0) {
-      return(0)
+      return(NA)
     }
   } else if (is.na(react_path)) {
-    return(0)
+    return(NA)
+  } else if (react_path == 0) {
+    return(NA)
   }
 
   # calculate the similarity between each pathway combination

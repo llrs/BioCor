@@ -25,7 +25,8 @@ similarity measures, should be set to TRUE.}
 }
 \value{
 A list where each element is a matrix with the similarity for such
-database
+database \code{NA} indicates that there isn't any information of one of those
+ genes.
 }
 \description{
 Calculates a functional similarity of genes  using information available in

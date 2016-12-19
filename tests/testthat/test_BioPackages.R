@@ -71,3 +71,24 @@ test_that("addSimilarities", {
   x <- matrix(runif(10), ncol = 5)
   expect_error(addSimilarities(x, mat, weights), "is different")
 })
+
+# bioCor ####
+test_that("bioCor react", {
+  similarities <- bioCor(genes.id, kegg = FALSE, react = TRUE, go = FALSE)
+  expect_is(similarities, "list")
+  expect_length(similarities, 1L)
+  expect_equal(ncol(similarities$react), nrow(similarities$react))
+  expect_equal(ncol(similarities$react), 10L)
+})
+
+test_that("bioCor kegg", {
+  similarities <- bioCor(genes.id, kegg = TRUE, react = FALSE, go = FALSE)
+  expect_is(similarities, "list")
+  expect_length(similarities, 1L)
+  expect_equal(ncol(similarities$kegg), nrow(similarities$kegg))
+  expect_equal(ncol(similarities$kegg), 10L)
+})
+
+# test_that("bioCor go", {
+#   similarities <- bioCor(genes, kegg = FALSE, react = FALSE, go = TRUE)
+# })
