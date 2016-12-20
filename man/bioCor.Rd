@@ -4,15 +4,13 @@
 \alias{bioCor}
 \title{Comparing information in databases}
 \usage{
-bioCor(genes_id, ids = "Entrez Gene", go = FALSE, react = TRUE,
-  kegg = FALSE, all = FALSE)
+bioCor(genes_id, ids = "Entrez Gene", react = TRUE, kegg = FALSE,
+  all = FALSE)
 }
 \arguments{
 \item{genes_id}{is vector of ids to compare}
 
 \item{ids}{indicate if the id is eihter Entre Gene or Symbol}
-
-\item{go}{logical; indicates if the similarities in terms of GO is calculated}
 
 \item{react}{logical; indicates if the similarities in Reactome pathway is
 calculated}
