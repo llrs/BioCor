@@ -30,12 +30,10 @@ To speed calculation we need a parallel structure, (or very few genes):
 
 ```{r simple_start, collapse = TRUE, eval = TRUE, cache = FALSE}
 library("BioCor")
-library("doParallel")
 registerDoParallel(2)
 genes.id <- as.character(c(52, 11342, 80895, 57654, 58493, 1164, 1163, 4150, 
                            2130, 159))
 similarities <- bioCor(genes.id, all = TRUE)
-stopImplicitCluster()
 similarities
 ```
 Now in similarity we have a list of matrices of 10 rows and columns. 
