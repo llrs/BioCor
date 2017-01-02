@@ -270,7 +270,7 @@ bioCor <- function(genes_id, ids = "Entrez Gene", react = TRUE, kegg = FALSE,
         react_mat <- seq2mat(orig.ids, react.bio)
         message("REACTOME information has been calculated")
     }
-
+    stopImplicitCluster()
 
     if (kegg & react) {
         cor_mat <- list(reactome = react_mat, kegg = kegg_mat)

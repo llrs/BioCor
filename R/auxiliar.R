@@ -210,3 +210,15 @@ mgene2Sim <- function(gene, func, sim, ...) {
     }
     return(m)
 }
+
+#' Parallel power
+#'
+#' A wrapper to registerDoParallel code
+#' @param n Number of cores used
+#' @return The result of registerDoParallel
+#' @seealso \code{\link[doParallel]{registerDoParallel}}
+#' @export
+#' @import doParallel
+setCores <- function(n = 2) {
+    registerDoParallel(n)
+}
