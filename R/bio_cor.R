@@ -39,20 +39,6 @@ comparePathways <- function(g1, g2) {
     score
 }
 
-# goCor ####
-#' goCor
-#'
-#' Functions that mimicks mgeneSim of GOSemSim package, but without filtering
-#' NAs
-#' @import GOSemSim
-goCor <- function(genes, semData, measure = "Wang", drop = NULL,
-                  combine = "max", verbose = TRUE) {
-    m <- matrix(ncol = length(genes), nrow = length(genes))
-    colnames(m) <- rownames(m) <- genes
-    out <- mgeneSim(genes, semData, measure = measure, drop = drop,
-             combine = combine, verbose = verbose)
-    genes[!genes %in% colnames(out)]
-}
 # distCor ####
 # Not useful because it doesn't have any real causation 02/08/2016
 # Keeped in case it might be deemed useful
