@@ -2,10 +2,10 @@ Package: BioCor
 Title: Calculates functional similarities between genes
 Version: 0.99.1
 Authors@R: person("Lluís", "Revilla Sancho", email = "lluis.revilla@gmail.com", role = c("aut", "cre"))
-Description: 
-  Using existing packages with data of KEGG, REACTOME and GO, calculates a 
-  similarity measure for each gene identifier provided. This similarities can be
-  combined with co-expression similarity to improve the network building.
+Description:
+    Using existing packages with data of KEGG, REACTOME and GO, calculates a 
+    similarity measure for each gene identifier provided. This similarities can 
+    be combined with co-expression similarity to improve the network building.
 Depends:
     R (>= 3.3.0)
 License: GPL-3 | file LICENSE
@@ -21,13 +21,13 @@ Imports:
     Rgraphviz,
     KEGGgraph,
     methods,
+    doParallel,
     AnnotationDbi
 Suggests:
     WGCNA,
     testthat,
     knitr,
     rmarkdown,
-    doParallel,
     BiocStyle
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
