@@ -93,8 +93,8 @@ similarities <- function(sim, func, ...) {
 #' Function that used the previously calculated similarities into a single
 #' similarity matrix.
 #'
-#' The total weight sum can't be higher than 1 to prevent values above 1 but can be
-#' below 1.
+#' The total weight sum can't be higher than 1 to prevent values above
+#' 1 but can be below 1.
 #' @param x A matrix with the similarity of expression
 #' @param bio_mat A list of matrices of the same dimension
 #' @param weights A numeric vector of weight to multiply each similarity
@@ -110,7 +110,8 @@ addSimilarities <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
     }
 
     if (!is.matrix(x)) {
-        stop("Expected a matrix, generally a similarity measure from expression")
+        stop("Expected a matrix, generally a similarity measure from ",
+             "expression")
     }
     if (!all(dim(x) == dim(bio_mat[[1]]))) {
         stop("Dimensions of x and bio_mat matrices is different")

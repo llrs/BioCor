@@ -21,8 +21,7 @@ Imports:
     Rgraphviz,
     KEGGgraph,
     methods,
-    AnnotationDbi,
-    GOSemSim
+    AnnotationDbi
 Suggests:
     WGCNA,
     testthat,

@@ -43,8 +43,8 @@ comparePathways <- function(g1, g2) {
 # Not useful because it doesn't have any real causation 02/08/2016
 # Keeped in case it might be deemed useful
 distCor <- function(a, b, info) {
-    use_info <- c("chromosome_name", "strand", "start_position", "end_position",
-                  "gene_biotype")
+    use_info <- c("chromosome_name", "strand", "start_position",
+                  "end_position", "gene_biotype")
     info_a <- unique(info[info$affy_hg_u133_plus_2 == a, use_info])
     info_b <- unique(info[info$affy_hg_u133_plus_2 == b, use_info])
     if (nrow(info_a) != 1 | nrow(info_b) != 1) {
@@ -58,7 +58,8 @@ distCor <- function(a, b, info) {
 
     # Maybe the default for the same chromosome could be substituted by the
     # CM distance
-    # 5*10^5 is the region of upstream/downstream where regulation usually occurs
+    # 5*10^5 is the region of upstream/downstream where regulation usually
+    # occurs
     if (info_b["strand"] == info_a["strand"]) {
         start_dist <- info_a["start_position"] - info_b["start_position"]
         end_dist <- info_a["end_position"] - info_b["end_position"]
@@ -125,9 +126,9 @@ combBiopath <- function(comb, info, by, biopath) {
 # removeDup ####
 #' Remove duplicated rows and columns
 #'
-#' Given the indices of the duplicated entries remove the columns and rows until
-#'  just one is left, it keeps the duplicated with the highest absolute mean
-#' value.
+#' Given the indices of the duplicated entries remove the columns and rows
+#' until just one is left, it keeps the duplicated with the highest absolute
+#' mean value.
 #'
 #' @param cor_mat List of matrices
 #' @param dupli List of indicies with duplicated entries
@@ -135,8 +136,8 @@ combBiopath <- function(comb, info, by, biopath) {
 #' @export
 removeDup <- function(cor_mat, dupli) {
     if (!all(sapply(cor_mat, isSymmetric))) {
-        stop("All the matrices of mat should be symmetric and with the same column",
-             "names and rownames")
+        stop("All the matrices of mat should be symmetric and with the same ",
+             "column names and rownames")
     }
     cor_mat <- Map(function(mat, x = dupli) {
         rem.colum <- sapply(x, function(y, m) {
@@ -158,9 +159,9 @@ removeDup <- function(cor_mat, dupli) {
 #' Calculates a functional similarity of genes  using information available in
 #' several databases.
 #'
-#' For Gene Ontologies, the DAG path structure is used to compute how similar two
-#' genes are. For metabolic pathways the max number of proteins involved in a
-#' pathway for each gene is calculated.
+#' For Gene Ontologies, the DAG path structure is used to compute how similar
+#' two genes are. For metabolic pathways the max number of proteins involved in
+#' a pathway for each gene is calculated.
 #'
 #' @param genes_id is vector of ids to compare
 #' @param ids indicate if the id is eihter Entre Gene or Symbol
@@ -171,8 +172,8 @@ removeDup <- function(cor_mat, dupli) {
 #' @param all logical; indicates if all the previous (go, react, and kegg)
 #' similarity measures, should be set to TRUE.
 #' @return A list where each element is a matrix with the similarity for such
-#' database \code{NA} indicates that there isn't any information of one of those
-#'  genes.
+#' database \code{NA} indicates that there isn't any information of one of
+#' those genes.
 #' @importFrom reactome.db reactome.db
 #' @import org.Hs.eg.db
 #' @importFrom AnnotationDbi select
@@ -207,7 +208,8 @@ bioCor <- function(genes_id, ids = "Entrez Gene", react = TRUE, kegg = FALSE,
     if (sum(is.na(gene.symbol$`Entrez Gene`)) >= 1) {
         message("Some symbols are not mapped to Entrez Genes IDs")
     }
-    dup_symb <- duplicated(gene.symbol$Symbol[!is.na(gene.symbol$`Entrez Gene`)])
+    dup_symb <- duplicated(gene.symbol$Symbol[
+        !is.na(gene.symbol$`Entrez Gene`)])
     if (sum(dup_symb) >= 1 & ids == "Symbol") {
         message("Some symbols are mapped to several Entrez Genes IDs.")
     } else if (sum(dup_symb) >= 1 & ids == "Entrez Gene") {
@@ -221,7 +223,8 @@ bioCor <- function(genes_id, ids = "Entrez Gene", react = TRUE, kegg = FALSE,
                    keytype = "ENTREZID", columns = "PATH"))
         colnames(gene.kegg) <- c("Entrez Gene", "KEGG") # Always check it!
         # Merge data
-        genes <- unique(merge(gene.symbol, gene.kegg, all = TRUE, sort = FALSE))
+        genes <- unique(merge(gene.symbol, gene.kegg, all = TRUE,
+                              sort = FALSE))
     }
 
     if (react) {
@@ -235,7 +238,8 @@ bioCor <- function(genes_id, ids = "Entrez Gene", react = TRUE, kegg = FALSE,
         genes <- unique(merge(genes, gene.reactome, all = TRUE, sort = FALSE))
     }
 
-    if (kegg) {  # parallel # to run non parallel transform the %dopar% into %do%
+    if (kegg) {  # parallel # to run non parallel transform the %dopar% into
+        # %do%
         message("Calculating KEGG information")
         kegg.bio <- foreach(i = seq_len(n.combin), .combine = c,
                             .verbose = FALSE) %dopar% {
@@ -250,13 +254,15 @@ bioCor <- function(genes_id, ids = "Entrez Gene", react = TRUE, kegg = FALSE,
         message("KEGG information has been calculated")
     }
 
-    if (react) {  # parallel # to run non parallel transform the %dopar% into %do%
+    if (react) {  # parallel # to run non parallel transform the %dopar% into
+        # %do%
         message("Calculating REACTOME information")
-        react.bio <- foreach(i = seq_len(n.combin), .combine = c,
-                             .verbose = FALSE) %dopar% {
-                                 comb <- combinadic(orig.ids, 2, i)
-                                 corPathways(comb, genes, "Entrez Gene", "Reactome")
-                             }
+        react.bio <- foreach(
+            i = seq_len(n.combin), .combine = c, .verbose = FALSE) %dopar% {
+
+                comb <- combinadic(orig.ids, 2, i)
+                corPathways(comb, genes, "Entrez Gene", "Reactome")
+            }
 
         if (sum(!is.na(react.bio)) == length(genes_id)) {
             warning("REACTOME didn't found relevant information!\n")
@@ -289,8 +295,8 @@ bioCor <- function(genes_id, ids = "Entrez Gene", react = TRUE, kegg = FALSE,
 #' Extract which genes are from which reactome
 #' @param genes is the data.frame with information
 #' @param colm is the colum where \code{id} is found
-#' @param id is the ids we are looking for in column \code{type} of \code{genes}
-#'  data.frame
+#' @param id is the ids we are looking for in column \code{type} of
+#' \code{genes}  data.frame
 #' @param type is the column we are looking to keep.
 #' @return A vector with the unique identifiers of genes of the \code{type}
 #' column
@@ -308,8 +314,8 @@ genesInfo <- function(genes, colm, id, type) {
 #'
 #' If an \code{NA} is returned this means that there isn't information
 #' available for any pathways for one of those two genes. Otherwise a number
-#' between 0 and 1 (both included) is returned. Note that there isn't a negative
-#' value of similarity for pathways correlation.
+#' between 0 and 1 (both included) is returned. Note that there isn't a
+#' negative value of similarity for pathways correlation.
 #' @param comb are the ids to compare, it is expected two ids of genes.
 #' @param genes is the matrix with the information about "id" and "react"
 #' @param id is the column of "genes" where \code{comb} are to be found
