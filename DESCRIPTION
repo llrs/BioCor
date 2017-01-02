@@ -14,7 +14,6 @@ LazyData: true
 biocViews: Software, StatisticalMethod, Clustering, GeneExpression, Reactome, Network, GO, KEGG
 Imports:
     foreach,
-    doParallel,
     org.Hs.eg.db,
     reactome.db,
     KEGG.db,
@@ -22,12 +21,14 @@ Imports:
     Rgraphviz,
     KEGGgraph,
     methods,
-    AnnotationDbi
+    AnnotationDbi,
+    GOSemSim
 Suggests:
     WGCNA,
     testthat,
     knitr,
     rmarkdown,
+    doParallel,
     BiocStyle
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1

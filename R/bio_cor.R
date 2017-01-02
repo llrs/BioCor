@@ -193,6 +193,7 @@ removeDup <- function(cor_mat, dupli) {
 #' @import KEGG.db
 #' @import Rgraphviz
 #' @import KEGGgraph
+#' @import foreach
 #' @export
 bioCor <- function(genes_id, ids = "Entrez Gene", react = TRUE, kegg = FALSE,
                    all = FALSE) {

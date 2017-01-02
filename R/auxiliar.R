@@ -9,8 +9,6 @@
 #' @rdname combinadic
 #' @seealso \code{\link{combn}}
 #' @export
-#' @import doParallel
-#' @import foreach
 combinadic <- function(n, r, i) {
 
     # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
