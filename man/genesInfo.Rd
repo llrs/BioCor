@@ -11,8 +11,8 @@ genesInfo(genes, colm, id, type)
 
 \item{colm}{is the colum where \code{id} is found}
 
-\item{id}{is the ids we are looking for in column \code{type} of \code{genes}
-data.frame}
+\item{id}{is the ids we are looking for in column \code{type} of
+\code{genes}  data.frame}
 
 \item{type}{is the column we are looking to keep.}
 }

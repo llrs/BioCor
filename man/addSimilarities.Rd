@@ -21,7 +21,7 @@ Function that used the previously calculated similarities into a single
 similarity matrix.
 }
 \details{
-The total weight sum can't be higher than 1 to prevent values above 1 but can be
-below 1.
+The total weight sum can't be higher than 1 to prevent values above
+1 but can be below 1.
 }
 

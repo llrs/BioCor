@@ -23,16 +23,16 @@ similarity measures, should be set to TRUE.}
 }
 \value{
 A list where each element is a matrix with the similarity for such
-database \code{NA} indicates that there isn't any information of one of those
- genes.
+database \code{NA} indicates that there isn't any information of one of
+those genes.
 }
 \description{
 Calculates a functional similarity of genes  using information available in
 several databases.
 }
 \details{
-For Gene Ontologies, the DAG path structure is used to compute how similar two
-genes are. For metabolic pathways the max number of proteins involved in a
-pathway for each gene is calculated.
+For Gene Ontologies, the DAG path structure is used to compute how similar
+two genes are. For metabolic pathways the max number of proteins involved in
+a pathway for each gene is calculated.
 }
 

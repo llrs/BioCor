@@ -28,7 +28,7 @@ them.
 \details{
 If an \code{NA} is returned this means that there isn't information
 available for any pathways for one of those two genes. Otherwise a number
-between 0 and 1 (both included) is returned. Note that there isn't a negative
-value of similarity for pathways correlation.
+between 0 and 1 (both included) is returned. Note that there isn't a
+negative value of similarity for pathways correlation.
 }
 
