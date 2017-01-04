@@ -4,8 +4,8 @@
 # comparePathways ####
 #' Compare pathways
 #'
-#' Function to estimate how much two graphs overlap by looking how much of the
-#' nodes are shared. It also works with list of genes.
+#' Function to estimate how much two graphs or list of genes overlap by looking
+#' how much of the nodes are shared.
 #' @param g1,g2 Graph in GraphNEL format, or a character list with the names of
 #' the proteins in each pathway.
 #' @return A score between 0 and 1 calculated as the doble of the proteins
@@ -257,12 +257,13 @@ bioCor <- function(genes_id, ids = "Entrez Gene", react = TRUE, kegg = FALSE,
     if (react) {  # parallel # to run non parallel transform the %dopar% into
         # %do%
         message("Calculating REACTOME information")
-        react.bio <- foreach(
-            i = seq_len(n.combin), .combine = c, .verbose = FALSE) %dopar% {
+        react.bio <- foreach(i = seq_len(n.combin),
+                             .combine = c, .verbose = FALSE) %dopar% {
 
-                comb <- combinadic(orig.ids, 2, i)
-                corPathways(comb, genes, "Entrez Gene", "Reactome")
-            }
+                                 comb <- combinadic(orig.ids, 2, i)
+                                 corPathways(comb, genes, "Entrez Gene",
+                                             "Reactome")
+                             }
 
         if (sum(!is.na(react.bio)) == length(genes_id)) {
             warning("REACTOME didn't found relevant information!\n")
