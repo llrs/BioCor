@@ -43,7 +43,7 @@ sim <- bioCor(genes.id, all = TRUE)
 stopImplicitCluster()
 sim
 ```
-Now in similarity we have a list of matrices of 20 rows and columns. 
+Now in similarity we have a list of matrices of `r nrow(sim[[1]])` rows and columns. 
 
 ## FAQ
 ### How do you count how similar two genes are ?
