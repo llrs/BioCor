@@ -67,10 +67,15 @@ seq2mat <- function(x, dat) {
 #' Similarities
 #'
 #' Function to join list of similarities by a function provided by the user.
-#' @param sim list of similarities to be joined
-#' @param func function to perform on those similarities
-#' @param ... Other arguments passed to the function \code{func}.
+#' @param sim list of similarities to be joined. All similarities must have the
+#'  same dimensions, and in the same order.
+#' @param func function to perform on those similarities: \code{prod},
+#' \code{sum}... It should accept as many arguments as similarities matrices
+#' are provided, and should use with numbers.
+#' @param ... Other arguments passed to the function \code{func}. Usually na.rm
+#' or similar.
 #' @return A matrix of the size of the similarities
+#' @export
 similarities <- function(sim, func, ...) {
     # Check that all the matrices are of the same dimensions and squared
     if (length(unique(as.vector(sapply(sim, dim)))) >= 2) {
