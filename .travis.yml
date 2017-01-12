@@ -1,19 +1,19 @@
 language: R
 cache: packages
-r_packages:
-  - devtools
-  - covr
-  - roxygen2
-  - parallel
-  - foreach
-  - doParallel
-bioc_packages:
-  - GO.db
-  - org.Hs.eg.db
-  - reactome.db
-  - GOSemSim
-#before_install:
-#  Rscript -e 'update.packages(ask = FALSE)'
+#r_packages:
+#  - devtools
+#  - covr
+#  - roxygen2
+#  - parallel
+#  - foreach
+#  - doParallel
+#bioc_packages:
+#  - GO.db
+#  - org.Hs.eg.db
+#  - reactome.db
+#  - GOSemSim
+before_install:
+  Rscript -e 'update.packages(ask = FALSE)'
 sudo: false
 after_success:
   - Rscript -e 'library(covr); codecov()'
