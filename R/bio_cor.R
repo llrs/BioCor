@@ -175,17 +175,15 @@ removeDup <- function(cor_mat, dupli) {
 #' database \code{NA} indicates that there isn't any information of one of
 #' those genes.
 #' @importFrom reactome.db reactome.db
-#' @import org.Hs.eg.db
 #' @importFrom AnnotationDbi select
-#' @import KEGG.db
-#' @import Rgraphviz
-#' @import KEGGgraph
+#' @importFrom AnnotationDbi keys
+#' @import org.Hs.eg.db
 #' @import foreach
 #' @export
-bioCor <- function(genes_id, ids = "Entrez Gene", react = TRUE, kegg = FALSE,
+bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
                    all = FALSE) {
-    if (!ids %in% c("Entrez Gene", "Symbol")) {
-        stop("Please check the input of genes in Symbol or Entrez Gene format")
+    if (!ids %in% c("ENTREZID", "SYMBOL")) {
+        stop("Please check the input of genes in ENTREZID or SYMBOL format")
     }
     if (all) {
         kegg <- react <- all
@@ -193,35 +191,34 @@ bioCor <- function(genes_id, ids = "Entrez Gene", react = TRUE, kegg = FALSE,
 
     # Obtain data from the annotation packages
     if (ids == "Symbol") {
-        gene.symbol <- suppressMessages(
-            select(org.Hs.eg.db, keys = genes_id, keytype = "SYMBOL",
-                   columns = "ENTREZID"))
-        colnames(gene.symbol) <- c("Symbol", "Entrez Gene")
+        gene.symbol <- suppressMessages(select(org.Hs.eg.db, keys = genes_id,
+                              keytype = "SYMBOL", columns = "ENTREZID"))
     } else {
-        gene.symbol <- suppressMessages(
-            select(org.Hs.eg.db, keys = genes_id, keytype = "ENTREZID",
-                   columns = "SYMBOL"))
-        colnames(gene.symbol) <- c("Entrez Gene", "Symbol")
+        gene.symbol <- suppressMessages(select(org.Hs.eg.db, keys = genes_id,
+                              keytype = "ENTREZID", columns = "SYMBOL"))
     }
-    n.combin <- choose(length(gene.symbol$`Entrez Gene`), 2)
-    orig.ids <- gene.symbol$`Entrez Gene`
-    if (sum(is.na(gene.symbol$`Entrez Gene`)) >= 1) {
+
+    n.combin <- choose(length(gene.symbol$ENTREZID), 2)
+    orig.ids <- gene.symbol$ENTREZID
+
+    if (sum(is.na(gene.symbol$ENTREZID)) >= 1) {
         message("Some symbols are not mapped to Entrez Genes IDs")
     }
-    dup_symb <- duplicated(gene.symbol$Symbol[
-        !is.na(gene.symbol$`Entrez Gene`)])
+    dup_symb <- duplicated(gene.symbol$SYMBOL[
+        !is.na(gene.symbol$ENTREZID)])
+
     if (sum(dup_symb) >= 1 & ids == "Symbol") {
         message("Some symbols are mapped to several Entrez Genes IDs.")
     } else if (sum(dup_symb) >= 1 & ids == "Entrez Gene") {
         message("Some Entrez Genes IDs are mapped to several symbols.")
     }
+
     # Obtain the data of kegg and Reactome pathways
     if (kegg) {
         # Obtain data
-        gene.kegg <- suppressMessages(
-            select(org.Hs.eg.db, keys = gene.symbol$`Entrez Gene`,
-                   keytype = "ENTREZID", columns = "PATH"))
-        colnames(gene.kegg) <- c("Entrez Gene", "KEGG") # Always check it!
+        gene.kegg <- suppressMessages(select(org.Hs.eg.db,
+                                             keys = gene.symbol$ENTREZID,
+                            keytype = "ENTREZID", columns = "PATH"))
         # Merge data
         genes <- unique(merge(gene.symbol, gene.kegg, all = TRUE,
                               sort = FALSE))
@@ -231,47 +228,52 @@ bioCor <- function(genes_id, ids = "Entrez Gene", react = TRUE, kegg = FALSE,
         if (!kegg) {
             genes <- gene.symbol
         }
-        gene.reactome <- suppressMessages(
-            select(reactome.db, keys = gene.symbol$`Entrez Gene`,
-                   keytype = "ENTREZID", columns = "REACTOMEID"))
-        colnames(gene.reactome) <- c("Entrez Gene", "Reactome")
+        if (all(!gene.symbol$ENTREZID %in% keys(reactome.db))) {
+            gene.reactome <- cbind(ENTREZID = gene.symbol$ENTREZID,
+                                   REACTOMEID = NA)
+        } else {
+            gene.reactome <- suppressMessages(select(reactome.db,
+                                    keys = gene.symbol$ENTREZID,
+                                    keytype = "ENTREZID",
+                                    columns = "REACTOMEID"))
+        }
+
         genes <- unique(merge(genes, gene.reactome, all = TRUE, sort = FALSE))
     }
 
     if (kegg) {  # parallel # to run non parallel transform the %dopar% into
         # %do%
-        message("Calculating KEGG information")
+        message("Calculating KEGG similarities")
         kegg.bio <- foreach(i = seq_len(n.combin), .combine = c,
                             .verbose = FALSE) %dopar% {
                                 comb <- combinadic(orig.ids, 2, i)
-                                corPathways(comb, genes, "Entrez Gene", "KEGG")
+                                corPathways(comb, genes, "ENTREZID", "PATH")
                             }
 
-        if (sum(!is.na(kegg.bio)) == length(genes_id)) {
-            warning("React didn't found relevant information!\n")
+        if (all(is.na(kegg.bio))) {
+            warning("KEGG didn't found relevant similarities!")
         }
         kegg_mat <- seq2mat(orig.ids, kegg.bio)
-        message("KEGG information has been calculated")
+        message("KEGG similarities has been calculated")
     }
 
     if (react) {  # parallel # to run non parallel transform the %dopar% into
         # %do%
-        message("Calculating REACTOME information")
+        message("Calculating REACTOME similarities")
         react.bio <- foreach(i = seq_len(n.combin),
                              .combine = c, .verbose = FALSE) %dopar% {
 
                                  comb <- combinadic(orig.ids, 2, i)
-                                 corPathways(comb, genes, "Entrez Gene",
-                                             "Reactome")
+                                 corPathways(comb, genes, "ENTREZID",
+                                             "REACTOMEID")
                              }
 
-        if (sum(!is.na(react.bio)) == length(genes_id)) {
-            warning("REACTOME didn't found relevant information!\n")
+        if (all(is.na(react.bio))) {
+            warning("REACTOME didn't found relevant similarities!")
         }
         react_mat <- seq2mat(orig.ids, react.bio)
-        message("REACTOME information has been calculated")
+        message("REACTOME similarities has been calculated")
     }
-    stopImplicitCluster()
 
     if (kegg & react) {
         cor_mat <- list(reactome = react_mat, kegg = kegg_mat)
