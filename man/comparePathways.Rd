@@ -15,7 +15,7 @@ A score between 0 and 1 calculated as the doble of the proteins
 shared by g1 and g2 divided by the number of genes in both groups.
 }
 \description{
-Function to estimate how much two graphs overlap by looking how much of the
-nodes are shared. It also works with list of genes.
+Function to estimate how much two graphs or list of genes overlap by looking
+how much of the nodes are shared.
 }
 

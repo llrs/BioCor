@@ -4,7 +4,7 @@
 \alias{bioCor}
 \title{Comparing information in databases}
 \usage{
-bioCor(genes_id, ids = "Entrez Gene", react = TRUE, kegg = FALSE,
+bioCor(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
   all = FALSE)
 }
 \arguments{

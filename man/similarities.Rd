@@ -7,11 +7,16 @@
 similarities(sim, func, ...)
 }
 \arguments{
-\item{sim}{list of similarities to be joined}
+\item{sim}{list of similarities to be joined. All similarities must have the
+same dimensions. The genes are assumed to be in the same order for all the
+matrices.}
 
-\item{func}{function to perform on those similarities}
+\item{func}{function to perform on those similarities: \code{prod},
+\code{sum}... It should accept as many arguments as similarities matrices
+are provided, and should use numbers.}
 
-\item{...}{Other arguments passed to the function \code{func}.}
+\item{...}{Other arguments passed to the function \code{func}. Usually na.rm
+or similar.}
 }
 \value{
 A matrix of the size of the similarities
