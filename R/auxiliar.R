@@ -68,10 +68,11 @@ seq2mat <- function(x, dat) {
 #'
 #' Function to join list of similarities by a function provided by the user.
 #' @param sim list of similarities to be joined. All similarities must have the
-#'  same dimensions, and in the same order.
+#'  same dimensions. The genes are assumed to be in the same order for all the
+#'  matrices.
 #' @param func function to perform on those similarities: \code{prod},
 #' \code{sum}... It should accept as many arguments as similarities matrices
-#' are provided, and should use with numbers.
+#' are provided, and should use numbers.
 #' @param ... Other arguments passed to the function \code{func}. Usually na.rm
 #' or similar.
 #' @return A matrix of the size of the similarities
@@ -214,16 +215,4 @@ mgene2Sim <- function(gene, func, sim, ...) {
         m <- gene2Sim(g, FUNC, m, ... = dots)
     }
     return(m)
-}
-
-#' Parallel power
-#'
-#' A wrapper to registerDoParallel code
-#' @param n Number of cores used
-#' @return The result of registerDoParallel
-#' @seealso \code{\link[doParallel]{registerDoParallel}}
-#' @export
-#' @import doParallel
-setCores <- function(n = 2) {
-    registerDoParallel(n)
 }
