@@ -1,7 +1,7 @@
 ---
 title: "BioCor"
 author: "[Lluís Revilla](mailto:lrevilla@clinic.cat)"
-date: "`r doc_date()`"
+date: "`r date()`"
 package: "`r pkg_ver('BioCor')`"
 output: 
   BiocStyle::html_document:
@@ -17,6 +17,10 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}  
 ---
+```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
+knitr::opts_knit$set(root.dir = ".")
+knitr::opts_chunk$set(fig.width = 20, fig.height = 20)
+```
 
 # BioCor Vignette
 
@@ -32,7 +36,7 @@ The main functionality of this package is to calculate a "functional" similarity
 
 To speed calculation we need a parallel structure, (or very few genes):
 
-```{r simple_start, collapse = TRUE, eval = FALSE, cache = FALSE}
+```{r simple_start, collapse=TRUE, eval=TRUE, cache=FALSE}
 library("BioCor")
 library("doParallel")
 registerDoParallel(2)
@@ -63,7 +67,7 @@ Which could be calculated in other ways as you can see in the following question
 It keeps the one with the higher similarity, either if the identifier is the gene or a pathway. Although I might borrow the `combineScores` function from GOSemSim to combine similarities. 
 
 ### Why isn't available a method for calculating GO ?
-This is covered by the GOSemSim package, you can use it to produce a similarity matrix (i.e. use 'r mgeneSim'). You can parallelize it with 'r foreach' package or BiocParallel if your list of genes is big. 
+This is covered by the GOSemSim package, you can use it to produce a similarity matrix (i.e. use  `mgeneSim`). You can parallelize it with `foreach` package or BiocParallel if your list of genes is big. 
 
 ## WGCNA and BioCor 
 
@@ -72,15 +76,16 @@ BioCor, is designed to be used with other clustering packages using similarity m
 ```{r wgcna, eval=FALSE}
 # Load the expression data
 load("expression.RData", verbose = TRUE)
-expr.adj <- adjacency(expr)
-# To calculate the similarity we can us several functions
+expr.sim <- cor(expr)
+# To calculate the similarity we can use several functions
 
-similarity <- addSimilarities(expr.adj, sim, w = c(0.8, 0.1, 0.1))
+similarity <- addSimilarities(expr.sim, sim, w = c(0.8, 0.1, 0.1))
 # Equivalent to the previous one
-similarity <- Similarities(c(list(exp = expr.adj), sim), 
+similarity <- Similarities(c(list(exp = expr.sim), sim), 
                            weighted, w = c(0.8, 0.1, 0.1)) 
-# Multiply each similarity to keep the sign if we use TOMType = "signed""
-similarity <- Similarities(c(list(exp = expr.adj), sim), prod) 
+# Multiply each similarity to keep the sign if we use 
+# TOMType = "signed"  and adjacency type = "unsigned"
+similarity <- Similarities(c(list(exp = expr.sim), sim), prod) 
 
 # Once we have the similarities we can calculate the TOM with TOM
 TOM <- TOMsimilarity(similarity)
