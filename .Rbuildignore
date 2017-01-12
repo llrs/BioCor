@@ -1,4 +1,9 @@
-.travis.yml
-^.*\.Rproj$
+^.*\.Rproj$         # Automatically added by RStudio,
+^cran-comments\.md$ # Comments for CRAN submission
+^NEWS\.md$          # A news file written in Markdown
+^\.travis\.yml$     # Used for continuous integration testing with travis
 ^\.Rproj\.user$
-
+.travis.yml
+BioCor.Rproj
+Info_kegg.RData
+Rprof.out
