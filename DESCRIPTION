@@ -1,6 +1,6 @@
 Package: BioCor
 Title: Calculates functional similarities between genes
-Version: 0.99.1
+Version: 0.93.1
 Authors@R: person("Lluís", "Revilla Sancho", email = "lluis.revilla@gmail.com", role = c("aut", "cre"))
 Description:
     Using existing packages with data of KEGG, REACTOME and GO, calculates a 
@@ -15,14 +15,11 @@ biocViews: Software, StatisticalMethod, Clustering, GeneExpression, Reactome, Ne
 Imports:
     foreach,
     org.Hs.eg.db,
+    AnnotationDbi,
     reactome.db,
-    KEGG.db,
     graph, 
-    Rgraphviz,
-    KEGGgraph,
     methods,
-    doParallel,
-    AnnotationDbi
+    doParallel
 Suggests:
     WGCNA,
     testthat,
