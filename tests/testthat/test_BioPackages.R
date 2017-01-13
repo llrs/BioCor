@@ -81,6 +81,8 @@ test_that("bioCor react", {
     expect_length(similarities, 1L)
     expect_equal(ncol(similarities$react), nrow(similarities$react))
     expect_equal(ncol(similarities$react), 10L)
+    expect_true(all(diag(as.matrix(similarities$react)) == 1L))
+
 })
 
 test_that("bioCor kegg", {
