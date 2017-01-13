@@ -76,7 +76,7 @@ BioCor, is designed to be used with other clustering packages using similarity m
 ```{r wgcna, eval=FALSE}
 # Load the expression data
 load("expression.RData", verbose = TRUE)
-expr.sim <- cor(expr)
+expr.sim <- adjacency(expr) # set the power necessary for a scale free topology
 # To calculate the similarity we can use several functions
 
 similarity <- addSimilarities(expr.sim, sim, w = c(0.8, 0.1, 0.1))
@@ -84,7 +84,7 @@ similarity <- addSimilarities(expr.sim, sim, w = c(0.8, 0.1, 0.1))
 similarity <- Similarities(c(list(exp = expr.sim), sim), 
                            weighted, w = c(0.8, 0.1, 0.1)) 
 # Multiply each similarity to keep the sign if we use 
-# TOMType = "signed"  and adjacency type = "unsigned"
+# adjacency type = "unsigned" for TOMType  = "signed"
 similarity <- Similarities(c(list(exp = expr.sim), sim), prod) 
 
 # Once we have the similarities we can calculate the TOM with TOM
