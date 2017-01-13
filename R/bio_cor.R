@@ -31,10 +31,10 @@ comparePathways <- function(g1, g2) {
     }
     # If there isn't any information of a pathway for a gene then then
     # functional similarity is 0
-    if (length(prot1) == 0 | length(prot2) == 0) {
-        return(0)
+    if (length(prot1) == 0L | length(prot2) == 0L) {
+        return(0L)
     }
-    score <- (length(intersect(prot1, prot2)))*2/(
+    score <- (length(intersect(prot1, prot2)))*2L/(
         length(prot2) + length(prot1))
     score
 }
@@ -47,7 +47,7 @@ distCor <- function(a, b, info) {
                   "end_position", "gene_biotype")
     info_a <- unique(info[info$affy_hg_u133_plus_2 == a, use_info])
     info_b <- unique(info[info$affy_hg_u133_plus_2 == b, use_info])
-    if (nrow(info_a) != 1 | nrow(info_b) != 1) {
+    if (nrow(info_a) != 1L | nrow(info_b) != 1L) {
         return(NA)
     }
     # Using the position and the type of genes output a cor
@@ -106,18 +106,18 @@ distCor <- function(a, b, info) {
 #' and compare them all
 #' @export
 combBiopath <- function(comb, info, by, biopath) {
-    a <- unique(info[info[[by]] == comb[1], biopath])
+    a <- unique(info[info[[by]] == comb[1L], biopath])
     a <- a[a != ""]
     a <- a[!is.na(a)]
 
-    b <- unique(info[info[[by]] == comb[2], biopath])
+    b <- unique(info[info[[by]] == comb[2L], biopath])
     b <- b[b != ""]
     b <- b[!is.na(b)]
 
     if (all(sapply(a, is.na)) | all(sapply(b, is.na))) {
-        return(0)
-    } else if (length(a) == 0 | length(b) == 0) {
-        return(0)
+        return(0L)
+    } else if (length(a) == 0L | length(b) == 0L) {
+        return(0L)
     }
     expand.grid(a, b)
 }
@@ -141,7 +141,7 @@ removeDup <- function(cor_mat, dupli) {
     }
     cor_mat <- Map(function(mat, x = dupli) {
         rem.colum <- sapply(x, function(y, m) {
-            mean.column <- apply(m[, y], 2, mean, na.rm = TRUE)
+            mean.column <- apply(m[, y], 2L, mean, na.rm = TRUE)
             i <- which.max(abs(mean.column))
             # Select those who don't bring more information
             rem.colum <- setdiff(y, y[i])
@@ -200,18 +200,18 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
                               keytype = "ENTREZID", columns = "SYMBOL"))
     }
 
-    n.combin <- choose(length(gene.symbol$ENTREZID), 2)
+    n.combin <- choose(length(gene.symbol$ENTREZID), 2L)
     orig.ids <- gene.symbol$ENTREZID
 
-    if (sum(is.na(gene.symbol$ENTREZID)) >= 1) {
+    if (sum(is.na(gene.symbol$ENTREZID)) >= 1L) {
         message("Some symbols are not mapped to Entrez Genes IDs")
     }
     dup_symb <- duplicated(gene.symbol$SYMBOL[
         !is.na(gene.symbol$ENTREZID)])
 
-    if (sum(dup_symb) >= 1 & ids == "Symbol") {
+    if (sum(dup_symb) >= 1L & ids == "Symbol") {
         message("Some symbols are mapped to several Entrez Genes IDs.")
-    } else if (sum(dup_symb) >= 1 & ids == "Entrez Gene") {
+    } else if (sum(dup_symb) >= 1L & ids == "Entrez Gene") {
         message("Some Entrez Genes IDs are mapped to several symbols.")
     }
 
@@ -261,8 +261,8 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
                                 }
                             }
         message("KEGG similarities has been calculated")
-        if (all(apply(kegg_mat, 1, function(x){
-            sum(is.na(x)) == length(x) - 1 }))) {
+        if (all(apply(kegg_mat, 1L, function(x){
+            sum(is.na(x)) == length(x) - 1L }))) {
             warning("KEGG didn't found relevant similarities!")
         }
         # kegg_mat <- seq2mat(orig.ids, kegg.bio)
@@ -293,8 +293,8 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
                                 }
                             }
         message("REACTOME similarities has been calculated")
-        if (all(apply(react_mat, 1, function(x){
-            sum(is.na(x)) == length(x) - 1}))) {
+        if (all(apply(react_mat, 1L, function(x){
+            sum(is.na(x)) == length(x) - 1L}))) {
             warning("REACTOME didn't found relevant similarities!")
         }
         # react_mat <- seq2mat(orig.ids, react.bio)
@@ -313,7 +313,7 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
     dupli <- duplicateIndices(gene.symbol[, ids])
 
     # Keep the interesting columns
-    if (length(dupli) >= 1) {
+    if (length(dupli) >= 1L) {
         cor_mat <- removeDup(cor_mat, dupli)
     }
 
@@ -360,10 +360,10 @@ corPathways <- function(comb, genes, id, pathwayDB) {
     if (any(is.na(comb))) {
         return(NA)
     }
-    if (comb[1] == comb[2]) {
+    if (comb[1L] == comb[2L]) {
         return(1)
     }
-    if (length(comb) > 2) {
+    if (length(comb) > 2L) {
         stop("comb can only be of length 2, to compare pairs of genes")
     }
 
@@ -373,20 +373,20 @@ corPathways <- function(comb, genes, id, pathwayDB) {
     # Check that we have pathways info for this combination
     if (is.null(react_path)) {
         return(NA)
-    } else if (length(react_path) == 2) {
-        if (nrow(react_path) == 0) {
+    } else if (length(react_path) == 2L) {
+        if (nrow(react_path) == 0L) {
             return(NA)
         }
     } else if (is.na(react_path)) {
         return(NA)
-    } else if (react_path == 0) {
+    } else if (react_path == 0L) {
         return(NA)
     }
 
     # calculate the similarity between each pathway combination
-    react <- apply(react_path, 1, function(x){
-        genes_1 <- genesInfo(genes, pathwayDB, x[1], id)
-        genes_2 <- genesInfo(genes, pathwayDB, x[2], id)
+    react <- apply(react_path, 1L, function(x){
+        genes_1 <- genesInfo(genes, pathwayDB, x[1L], id)
+        genes_2 <- genesInfo(genes, pathwayDB, x[2L], id)
         out <- comparePathways(genes_1, genes_2)
         out
     })
@@ -395,7 +395,7 @@ corPathways <- function(comb, genes, id, pathwayDB) {
     if (length(react) != sum(is.na(react))) {
         out <- max(react, na.rm = TRUE)
     } else {
-        out <- 0
+        out <- 0L
     }
     out
 }

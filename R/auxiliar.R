@@ -14,25 +14,25 @@ combinadic <- function(n, r, i) {
     # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
     # http://en.wikipedia.org/wiki/Combinadic
     n0 <- length(n)
-    if (i < 1 | i > choose(n0,r)) {
+    if (i < 1L | i > choose(n0,r)) {
         stop("'i' must be 0 < i <= n0!/(n0-r)!")
     }
     largestV <- function(n, r, i) {
         v <- n # Adjusted for one-based indexing
         while (choose(v,r) >= i) { # Adjusted for one-based indexing
-            v <- v - 1
+            v <- v - 1L
         }
         return(v)
     }
 
     res <- rep(NA,r)
-    for (j in 1:r) {
+    for (j in 1L:r) {
         res[j] <- largestV(n0,r,i)
         i <- i - choose(res[j],r)
         n0 <- res[j]
-        r <- r - 1
+        r <- r - 1L
     }
-    res <- res + 1
+    res <- res + 1L
     res <- n[res]
     return(res)
 }
@@ -53,13 +53,13 @@ combinadic <- function(n, r, i) {
 #' seq2mat(LETTERS[1:5], 1:10)
 #' @export
 seq2mat <- function(x, dat) {
-    if (length(dat) != choose(length(x), 2)) {
+    if (length(dat) != choose(length(x), 2L)) {
         stop("Data is not enough big to populate the matrix")
     }
     out <- matrix(ncol = length(x), nrow = length(x))
     out[upper.tri(out)] <- unlist(dat)
     out[lower.tri(out)] <- t(out)[lower.tri(t(out))]
-    diag(out) <- 1
+    diag(out) <- 1L
     rownames(out) <- colnames(out) <- x
     return(out)
 }
@@ -90,7 +90,7 @@ similarities <- function(sim, func, ...) {
     }
     FUN <- match.fun(func)
     # Apply weighted to each cell position of each similarity measure
-    apply(simplify2array(sim), c(1,2), FUN, ...)
+    apply(simplify2array(sim), c(1L, 2L), FUN, ...)
 }
 
 # addSimilarities ####
@@ -109,9 +109,9 @@ similarities <- function(sim, func, ...) {
 addSimilarities <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
     # exp, reactome, kegg, go
     # cor_mat <- cor(x, use = "p")
-    if (sum(weights) > 1) {
+    if (sum(weights) > 1L) {
         stop("Weights are too big. The sum must be equal to 1")
-    } else if (sum(weights) < 1) {
+    } else if (sum(weights) < 1L) {
         warning("Weights are smaller than 1.")
     }
 
@@ -119,13 +119,13 @@ addSimilarities <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
         stop("Expected a matrix, generally a similarity measure from ",
              "expression")
     }
-    if (!all(dim(x) == dim(bio_mat[[1]]))) {
+    if (!all(dim(x) == dim(bio_mat[[1L]]))) {
         stop("Dimensions of x and bio_mat matrices is different")
     }
     cors <- c(list(exp = x), bio_mat)
 
     # Apply weighted to each cell position of each similarity measure
-    similarities(cors, weighted, w = weights)
+    similarities(cors, weighted.sum, w = weights)
 }
 
 # duplicateIndices ####
@@ -148,32 +148,57 @@ duplicateIndices <- function(vec) {
 }
 
 # weighted ####
-#' Calculates the weighted sum of the values
+#' Calculates the weighted
 #'
-#' Each values should have its weight, otherwise it will throw an error.
-#' @param x Vector of numbers
-#' @param weights Vector of weights
-#' @return A number product of x*weights removing all \code{NA} values
+#' Calculates the weighted sum or product of \code{x}. Each values should have
+#' its weight, otherwise it will throw an error.
+#' @inheritParams stats::weighted.mean
+#' @param x an object containing the values whose weighted operations is to be
+#' computed
+#' @return \code{weighted.sum} returns the sum of the product of x*weights
+#' removing all \code{NA} values
+#' @aliases weighted
+#' @rdname weighted
 #' @export
-weighted <- function(x, weights) {
+weighted.sum <- function(x, w) {
     if (length(x) != length(weights)) {
         stop("Weights and data don't match the length: ", length(x), " != ",
-             length(weights))
+             length(w))
     }
 
-    if (!is.numeric(x) | !is.numeric(weights)) {
+    if (!is.numeric(x) | !is.numeric(w)) {
         stop("weights and x should be numeric")
     }
-    if (!all(weights >= 0)) {
+    if (!all(w >= 0L)) {
         warning("There are negative weights, should they be positive?")
     }
-    if (sum(weights) > 1) {
+    if (sum(w, na.rm = TRUE) > 1L) {
         warning("The sum of the weights is above 1")
     }
 
-    sum(x*weights, na.rm = TRUE)
+    sum(x*w, na.rm = TRUE)
 }
 
+#' @return \code{weighted.prod} returns the product of product of x*weights removing all \code{NA} values
+#' @aliases weighted
+#' @rdname weighted
+#' @export
+weighted.prod <- function(x, w) {
+    if (length(x) != length(w)) {
+        stop("Weights and data don't match the length: ", length(x), " != ",
+             length(w))
+    }
+
+    if (!is.numeric(x) | !is.numeric(w)) {
+        stop("weights and x should be numeric")
+    }
+
+    if (sum(w, na.rm = TRUE) > 1L) {
+        warning("The sum of the weights is above 1")
+    }
+
+    prod(x*w, na.rm = TRUE)
+}
 # Adding more genes to calculated similarities ####
 #' Add a similarity measure for a gene to existing similarities
 #'
