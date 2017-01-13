@@ -75,6 +75,7 @@ test_that("addSimilarities", {
 
 # bioCor ####
 test_that("bioCor react", {
+    registerDoParallel(2)
     similarities <- bioCor(genes.id, kegg = FALSE, react = TRUE)
     expect_is(similarities, "list")
     expect_length(similarities, 1L)
@@ -101,10 +102,10 @@ test_that("bioCor is replicable", {
     expect_equal(sim1[[1]]["1163", "159"], sim2[[1]]["1163", "159"])
 })
 
-test_that("bioCor works whith non existing keys", {
-    sim <- bioCor(c("3855", "3880"), react = TRUE)
+test_that("bioCor works whith non existing keys in a table", {
+    expect_warning(sim <- bioCor(c("3855", "3880"), react = TRUE))
     expect_warning(bioCor(c("3855", "3880"), react = TRUE))
-    expect_message(bioCor(c("3855", "3880"), react = TRUE))
+    expect_warning(expect_message(bioCor(c("3855", "3880"), react = TRUE)))
     expect_true(is.na(sim[[1]][1,2]))
 })
 
