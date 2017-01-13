@@ -161,7 +161,7 @@ duplicateIndices <- function(vec) {
 #' @rdname weighted
 #' @export
 weighted.sum <- function(x, w) {
-    if (length(x) != length(weights)) {
+    if (length(x) != length(w)) {
         stop("Weights and data don't match the length: ", length(x), " != ",
              length(w))
     }
