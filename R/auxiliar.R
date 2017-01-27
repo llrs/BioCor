@@ -64,7 +64,7 @@ seq2mat <- function(x, dat) {
     return(out)
 }
 # similarities ####
-#' Similarities
+#' Apply a function to a list of similarities
 #'
 #' Function to join list of similarities by a function provided by the user.
 #' @param sim list of similarities to be joined. All similarities must have the
