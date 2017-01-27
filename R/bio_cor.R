@@ -173,7 +173,8 @@ removeDup <- function(cor_mat, dupli) {
 #' similarity measures, should be set to TRUE.
 #' @return A list where each element is a matrix with the similarity for such
 #' database \code{NA} indicates that there isn't any information of one of
-#' those genes.
+#' those genes for that pathway database. 0 If there is information of both
+#' genes but no overlap between those genes.
 #' @importFrom reactome.db reactome.db
 #' @importFrom AnnotationDbi select
 #' @importFrom AnnotationDbi keys
@@ -302,11 +303,12 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
     }
 
     if (kegg & react) {
-        cor_mat <- list(reactome = react_mat, kegg = kegg_mat)
+        cor_mat <- list(reactome = as.matrix(react_mat),
+                        kegg = as.matrix(kegg_mat))
     } else if (react) {
-        cor_mat <- list(react = react_mat)
+        cor_mat <- list(react = as.matrix(react_mat))
     } else if (kegg) {
-        cor_mat <- list(kegg = kegg_mat)
+        cor_mat <- list(kegg = as.matrix(kegg_mat))
     }
 
     # To match the ncol and nrow of the input with the initial input
