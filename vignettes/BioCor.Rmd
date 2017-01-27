@@ -5,8 +5,8 @@ date: "`r date()`"
 package: "`r pkg_ver('BioCor')`"
 output: 
   BiocStyle::html_document:
-    toc: yes
-    keep_md: true
+    toc_float: yes
+    keep_md: yes
     fig_caption: yes
   BiocStyle::pdf_document:
     toc: yes
@@ -19,25 +19,47 @@ vignette: >
 ---
 ```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_knit$set(root.dir = ".")
-knitr::opts_chunk$set(fig.width = 20, fig.height = 20)
+knitr::opts_chunk$set(fig.width = 20, fig.height = 20, collapse = TRUE)
 ```
 
-# BioCor Vignette
 
-This Vignette describes what is the purpose of this package and how to use it.
+# Introduction
 
-## Introduction
+The main purpouse of this package is to calculate a "functional" similarity based on the methabolic pathways of genes. A different funcional similarity based on Gene Ontologies can be calculated using [GOSemSim](https://bioconductor.org/packages/release/bioc/html/GOSemSim.html).
 
-The main functionality of this package is to calculate a "functional" similarity based on the methabolic pathways of genes. 
+It also provides some functions to combine several similarities and create a new similarity of several ones. As it development was started aiming to better group genes by functionallity in co-expression networks using [WGCNA](https://cran.r-project.org/package=WGCNA).
 
-## Citation
+# Citation
+The main article describing how it has been applied, is currently under writing.
 
-## Quick start
+# Installation
+The BioCor package will be available at bioconductor.org and will be downloaded and installed via biocLite:
+```{r install, eval=FALSE}
+source("http://bioconductor.org/biocLite.R")
+biocLite("BiocParallel")
+```
 
-To speed calculation we need a parallel structure, (or very few genes):
+You can install the latest version with:
+```{r github, eval = FALSE}
+library("devtools")
+install_github("llrs/BioCor")
+```
 
-```{r simple_start, collapse=TRUE, eval=TRUE, cache=FALSE}
+# Quick start
+We can load the package:
+```{r load}
 library("BioCor")
+```
+
+And use the main function, `bioCor` which returns a list of matrices:
+```{r small}
+bioCor(c("81", "18"), react = TRUE, kegg = FALSE) # The default, only from Reactome
+bioCor(c("81", "18"), react = FALSE, kegg = TRUE) # Only from KEGG
+bioCor(c("81", "18"), all = TRUE) # Both
+```
+
+To speed calculation we can set up a parallel back-end:
+```{r big, collapse=TRUE, eval=TRUE, cache=FALSE}
 library("doParallel")
 registerDoParallel(2)
 genes.id <- c("10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644", 
@@ -47,29 +69,35 @@ sim <- bioCor(genes.id, all = TRUE)
 stopImplicitCluster()
 sim
 ```
-Now in similarity we have a list of matrices of `r nrow(sim[[1]])` rows and columns. 
 
-## FAQ
-### How do you count how similar two genes are ?
-It is the top score of the doble of the proteins shared by pathways of the two genes ($i$ and $j$) divided by the number of genes in each pathway.
+Now in `sim` we have a list of matrices of `r nrow(sim)` rows and columns. 
 
-To calculate the similarity between two pathways ($x$ $w$) it is done with:
+# FAQ
+## How do you calculate how similar two genes are ?
+It is the top score of the doble of the genes shared by pathways of the two genes ($i$ and $j$) divided by the number of genes in each pathway.
 
-$sim_{pathway_{x, w}} = 2 ·\frac{protein_x \cap protein_y}{protein_x + protein_y} | protein_x \in pathway_x, protein_y \in  pathway_w)$
+We can calculate the similarity between two pathways ($x$ $w$) with:
 
-Thus the values are $sim_{pathway_{x, w}}  \in [0, 1]$. To calculate the similarity between two genes thus is nowadays:
+$sim(x, w) = \frac{2 · |x \cap y|}{|x| + |y|}$
 
-$sim_{i,j}=max (sim_{pathway_i, pathway_j})| pathway_i =\forall pathway \in i , pathway_j = \forall pathway \in j$
+This is similar to Jaccard index:
 
-Which could be calculated in other ways as you can see in the following question.
+$J(x, w) = \frac{|x \cap w|}{|x \cup w|}$
 
-### How does bioCor deal when one ID is mapped to several ones?
-It keeps the one with the higher similarity, either if the identifier is the gene or a pathway. Although I might borrow the `combineScores` function from GOSemSim to combine similarities. 
+The resulting values are $sim(x, w)  \in [0, 1]$. To calculate the similarity between two genes thus is:
+$bioCor = max(sim(x, w))$
 
-### Why isn't available a method for calculating GO ?
+## Why does it uses the maximum to calculate the bioCor?
+
+This measure is intended to simulate how close are the function of two genes in the pathways where they are described. The higher the similarity is in a pathway the higher they relate. Certainly some genes might not have a principal function or have several diverse functions, but those relationships if important should be caught by the correlation of the expression of both genes. 
+
+## How does bioCor deal when one gene is mapped to several ones?
+It keeps the one with the higher similarity. Although I might borrow the `combineScores` function from GOSemSim to combine similarities. 
+
+## Why isn't available a method for calculating GO ?
 This is covered by the GOSemSim package, you can use it to produce a similarity matrix (i.e. use  `mgeneSim`). You can parallelize it with `foreach` package or BiocParallel if your list of genes is big. 
 
-## WGCNA and BioCor 
+# WGCNA and BioCor 
 
 BioCor, is designed to be used with other clustering packages using similarity measures like WGCNA, does. Here we provide an example on how to use BioCor to improve the modules using WGCNA:
 
@@ -77,15 +105,14 @@ BioCor, is designed to be used with other clustering packages using similarity m
 # Load the expression data
 load("expression.RData", verbose = TRUE)
 expr.sim <- adjacency(expr) # set the power necessary for a scale free topology
-# To calculate the similarity we can use several functions
-
+# To combine the similarities we can use several functions:
 similarity <- addSimilarities(expr.sim, sim, w = c(0.8, 0.1, 0.1))
 # Equivalent to the previous one
-similarity <- Similarities(c(list(exp = expr.sim), sim), 
-                           weighted, w = c(0.8, 0.1, 0.1)) 
+similarity <- similarities(c(list(exp = expr.sim), sim), 
+                           weighted.sum, w = c(0.8, 0.1, 0.1))
 # Multiply each similarity to keep the sign if we use 
 # adjacency type = "unsigned" for TOMType  = "signed"
-similarity <- Similarities(c(list(exp = expr.sim), sim), prod) 
+similarity <- similarities(c(list(exp = expr.sim), sim), prod) 
 
 # Once we have the similarities we can calculate the TOM with TOM
 TOM <- TOMsimilarity(similarity)
@@ -97,9 +124,10 @@ dynamicMods <- cutreeHybrid(dendro = geneTree, distM = dissTOM,
                             minClusterSize = 30)
 moduleColors <- labels2colors(dynamicMods$labels) 
 ```
-Once identified the modules using the functional similarities of this package, one can continue with its own workflow with WGCNA.
+Once identified the modules using the functional similarities of this package, one can continue with the workflow of WGCNA.
 
-## Session Info
+# Session Info
+
 ```{r session}
 sessionInfo()
 ```
