@@ -96,12 +96,12 @@ test_that("bioCor kegg", {
 
 test_that("bioCor is replicable", {
     registerDoParallel(2)
-    sim1 <- bioCor(genes.id, kegg = FALSE, react = TRUE)
+    expect_warning(sim1 <- bioCor(genes.id[1:3], kegg = FALSE, react = TRUE))
     stopImplicitCluster()
     registerDoParallel(2)
     sim2 <- bioCor(genes.id, kegg = FALSE, react = TRUE)
     stopImplicitCluster()
-    expect_equal(sim1[[1]]["1163", "159"], sim2[[1]]["1163", "159"])
+    expect_equal(sim1[[1]]["52", "11342"], sim2[[1]]["52", "11342"])
 })
 
 test_that("bioCor works whith non existing keys in a table", {

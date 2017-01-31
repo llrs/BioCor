@@ -1,6 +1,6 @@
 Package: BioCor
 Title: Calculates functional similarities between genes
-Version: 0.99.1
+Version: 0.99.2
 Authors@R: person("Lluís", "Revilla Sancho", email = "lluis.revilla@gmail.com", role = c("aut", "cre"))
 Description:
     Using existing packages with data of KEGG and REACTOME calculates a 

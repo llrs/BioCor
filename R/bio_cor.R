@@ -215,12 +215,12 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
     } else if (sum(dup_symb) >= 1L & ids == "Entrez Gene") {
         message("Some Entrez Genes IDs are mapped to several symbols.")
     }
-
+    entrez <- keys(org.Hs.eg.db, keytype = "ENTREZID")
     # Obtain the data of kegg and Reactome pathways
     if (kegg) {
         # Obtain data
         gene.kegg <- suppressMessages(select(org.Hs.eg.db,
-                                             keys = gene.symbol$ENTREZID,
+                                             keys = entrez,
                             keytype = "ENTREZID", columns = "PATH"))
         # Merge data
         genes <- unique(merge(gene.symbol, gene.kegg, all = TRUE,
@@ -236,7 +236,7 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
                                    REACTOMEID = NA)
         } else {
             gene.reactome <- suppressMessages(select(reactome.db,
-                                    keys = gene.symbol$ENTREZID,
+                                    keys = entrez,
                                     keytype = "ENTREZID",
                                     columns = "REACTOMEID"))
         }

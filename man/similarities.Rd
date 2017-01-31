@@ -2,7 +2,7 @@
 % Please edit documentation in R/auxiliar.R
 \name{similarities}
 \alias{similarities}
-\title{Similarities}
+\title{Apply a function to a list of similarities}
 \usage{
 similarities(sim, func, ...)
 }

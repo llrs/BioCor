@@ -36,7 +36,7 @@ The main article describing how it has been applied, is currently under writing.
 The BioCor package will be available at bioconductor.org and will be downloaded and installed via biocLite:
 ```{r install, eval=FALSE}
 source("http://bioconductor.org/biocLite.R")
-biocLite("BiocParallel")
+biocLite("BioCor")
 ```
 
 You can install the latest version with:
