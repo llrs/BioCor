@@ -63,6 +63,7 @@ To speed calculation we can set up a parallel back-end:
 genes.id <- c("10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644", 
               "81327", "9128", "2073", "2893", "5142", "60", "210", "81", 
               "1352", "88")
+library("BiocParallel")
 sim <- bioCor(genes.id, all = TRUE, BPPARAM = MulticoreParam())
 sim
 ```
