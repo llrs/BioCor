@@ -259,13 +259,13 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
         #                     .verbose = FALSE) %dopar% {
         #                         for (j in orig.ids) {
         #                             kegg_mat <- attach.big.matrix(datadesc)
-        #                             kegg_mat[i, j] <- corPathways(
+        #                             kegg_mat[i, j] <- corGenes(
         #                                 c(i, j), genes,"ENTREZID", "PATH")
         #                         }
         #                     }
         kegg.bio <- bpmapply(function(x){
             comb <- combinadic(n = orig.ids, r = 2, i = x)
-            corPathways(comb, genes, "ENTREZID", "PATH")},
+            corGenes(comb, genes, "ENTREZID", "PATH")},
             seq_len(n.combin), BPPARAM = BPPARAM)
         message("KEGG similarities has been calculated")
 
@@ -288,20 +288,20 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
         #                      .combine = c, .verbose = FALSE) %dopar% {
         #
         #                          comb <- combinadic(orig.ids, 2, i)
-        #                          corPathways(comb, genes, "ENTREZID",
+        #                          corGenes(comb, genes, "ENTREZID",
         #                                      "REACTOMEID")
         #                      }
         # react.bio <- foreach(i = orig.ids, .combine = c,
         #                     .verbose = FALSE) %dopar% {
         #                         for (j in orig.ids) {
         #                             react_mat <- attach.big.matrix(datadesc)
-        #                             react_mat[i, j] <- corPathways(
+        #                             react_mat[i, j] <- corGenes(
         #                                 c(i, j), genes,"ENTREZID", "REACTOMEID")
         #                         }
         #                     }
         react.bio <- bpmapply( function(x){
             comb <- combinadic(n = orig.ids, r = 2, i = x)
-            corPathways(comb, genes, "ENTREZID", "REACTOMEID")},
+            corGenes(comb, genes, "ENTREZID", "REACTOMEID")},
             seq_len(n.combin), BPPARAM = BPPARAM)
 
         message("REACTOME similarities has been calculated")
@@ -347,8 +347,8 @@ genesInfo <- function(genes, colm, id, type) {
     out <- unique(genes[genes[[colm]] == id, type])
     out[!is.na(out)]
 }
-# corPathways ####
-#' Calculates the similarity score of patwhays
+# corGenes ####
+#' Calculates the similarity score of two genes
 #'
 #' Given the information about the relationship between the genes and the
 #' pathways, uses the ids of the genes in comb to find the similarity score in
@@ -359,14 +359,28 @@ genesInfo <- function(genes, colm, id, type) {
 #' between 0 and 1 (both included) is returned. Note that there isn't a
 #' negative value of similarity for pathways correlation.
 #' @param comb are the ids to compare, it is expected two ids of genes.
-#' @param genes is the matrix with the information about "id" and "react"
+#' @param genes is the matrix with the information about "id" and "pathwayDB"
 #' @param id is the column of "genes" where \code{comb} are to be found
 #' @param pathwayDB is the column of \code{genes} where pathways should be
 #' found. It is usually the name of the database where they come from.
 #' @return The highest score of all the combinations of pathways between the
 #' two ids compared.
 #' @export
-corPathways <- function(comb, genes, id, pathwayDB) {
+#' @importFrom GOSemSim combineScores
+#' @examples
+#' library("org.Hs.eg.db")
+#' library("reactome.db")
+#' entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
+#' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
+#' # data of June 31st 2011)
+#' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
+#'                      columns = "PATH")
+#' corGenes(c("81", "18"), genes.kegg, "ENTREZID", "PATH")
+#' # Extracts the paths of all genes of org.Hs.eg.db from reactome
+#' genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
+#'                       columns = "REACTOMEID")
+#' corGenes(c("81", "18"), genes.react, "ENTREZID", "REACTOMEID")
+corGenes <- function(comb, genes, id, pathwayDB) {
     if (!pathwayDB %in% colnames(genes)) {
         stop("Please check which type of pathway do you want")
     }

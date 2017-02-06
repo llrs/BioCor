@@ -1,8 +1,8 @@
 library("BioCor")
 context("Testing BioCor fundamental functions")
 
-# corPathways ####
-test_that("corPathways", {
+# corGenes ####
+test_that("corGenes", {
     info <- structure(
         list(ENTREZID = c("1", "2", "2", "2", "2", "2", "2", "2",
                           "2", "2", "2", "2", "3", "4", "5", "6",
@@ -17,9 +17,9 @@ test_that("corPathways", {
         ),
         .Names = c("ENTREZID", "REACTOMEID"),
         class = "data.frame", row.names = c(NA, -26L))
-    test <- corPathways(c("2", "9"), info, "ENTREZID", "REACTOMEID")
+    test <- corGenes(c("2", "9"), info, "ENTREZID", "REACTOMEID")
     expect_equal(test, 0L)
-    expect_error(corPathways(c("2", "9"), info, "ENTREZID", "REACTOME"),
+    expect_error(corGenes(c("2", "9"), info, "ENTREZID", "REACTOME"),
                  "pathway")
 })
 
