@@ -14,14 +14,20 @@ addSimilarities(x, bio_mat, weights = c(0.5, 0.18, 0.1, 0.22))
 \item{weights}{A numeric vector of weight to multiply each similarity}
 }
 \value{
-A similarity matrix
+A square matrix of the same dimensions as the input matrices.
 }
 \description{
 Function that used the previously calculated similarities into a single
 similarity matrix.
 }
 \details{
-The total weight sum can't be higher than 1 to prevent values above
+The total weight can't be higher than 1 to prevent values above
 1 but can be below 1.
 }
-
+\examples{
+set.seed(100)
+a <- seq2mat(LETTERS[1:5], rnorm(10))
+b <- seq2mat(LETTERS[1:5], seq(from = 0.1, to = 1, by = 0.1))
+sim <- list(b)
+addSimilarities(a, sim, c(0.5, 0.5))
+}

@@ -24,4 +24,12 @@ A matrix of the size of the similarities
 \description{
 Function to join list of similarities by a function provided by the user.
 }
-
+\examples{
+set.seed(100)
+a <- seq2mat(LETTERS[1:5], rnorm(10))
+b <- seq2mat(LETTERS[1:5], seq(from = 0.1, to = 1, by = 0.1))
+sim <- list(b, a)
+similarities(sim, weighted.prod, c(0.5, 0.5))
+# Note the differences in the sign of some values
+similarities(sim, weighted.sum, c(0.5, 0.5))
+}

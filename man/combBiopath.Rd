@@ -26,4 +26,3 @@ Given a data.frame with the information and the genes we want to extract,
 finds all the pathway for each gene and return a data.frame with the
 combinations of all pathways of gene 1 with all pathways of gene 2
 }
-

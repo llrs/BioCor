@@ -19,4 +19,3 @@ Finds the indices of duplicated elements in the vector given.
 For each duplication it can return a list or if all the duplication events
 are of the same length it returns a matrix, where each column is duplicated.
 }
-

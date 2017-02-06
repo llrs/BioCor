@@ -5,7 +5,7 @@
 \title{Comparing information in databases}
 \usage{
 bioCor(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
-  all = FALSE)
+  all = FALSE, BPPARAM = bpparam())
 }
 \arguments{
 \item{genes_id}{is vector of ids to compare}
@@ -20,6 +20,13 @@ is calculated}
 
 \item{all}{logical; indicates if all the previous (go, react, and kegg)
 similarity measures, should be set to TRUE.}
+
+\item{BPPARAM}{
+    An optional \code{\link{BiocParallelParam}} instance
+    determining the parallel back-end to be used during evaluation, or a
+    \code{list} of \code{BiocParallelParam} instances, to be applied in
+    sequence for nested calls to \pkg{BiocParallel} functions.
+  }
 }
 \value{
 A list where each element is a matrix with the similarity for such
@@ -36,4 +43,3 @@ For Gene Ontologies, the DAG path structure is used to compute how similar
 two genes are. For metabolic pathways the max number of proteins involved in
 a pathway for each gene is calculated.
 }
-

@@ -19,7 +19,12 @@ The combination ith of the elements
 \description{
 Function similar to combn but for larger vectors
 }
+\examples{
+#Output of all combinations
+combn(LETTERS[1:5], 2)
+# Otuput of the second combination
+combinadic(LETTERS[1:5], 2, 2)
+}
 \seealso{
 \code{\link{combn}}
 }
-

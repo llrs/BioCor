@@ -19,4 +19,3 @@ Given the indices of the duplicated entries remove the columns and rows
 until just one is left, it keeps the duplicated with the highest absolute
 mean value.
 }
-

@@ -24,4 +24,3 @@ A matrix with the similarities with the new similarity
 Given a gene and a function to calculate the similarity with add it to the
 previously calculated similarities in sim.
 }
-
