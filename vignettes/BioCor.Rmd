@@ -60,13 +60,10 @@ bioCor(c("81", "18"), all = TRUE) # Both
 
 To speed calculation we can set up a parallel back-end:
 ```{r big, collapse=TRUE, eval=TRUE, cache=FALSE}
-library("doParallel")
-registerDoParallel(2)
 genes.id <- c("10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644", 
               "81327", "9128", "2073", "2893", "5142", "60", "210", "81", 
               "1352", "88")
-sim <- bioCor(genes.id, all = TRUE)
-stopImplicitCluster()
+sim <- bioCor(genes.id, all = TRUE, BPPARAM = MulticoreParam())
 sim
 ```
 
