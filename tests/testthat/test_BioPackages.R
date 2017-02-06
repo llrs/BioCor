@@ -1,5 +1,4 @@
 library("BioCor")
-library("doParallel")
 context("Testing BioCor fundamental functions")
 
 # corPathways ####
@@ -75,7 +74,6 @@ test_that("addSimilarities", {
 
 # bioCor ####
 test_that("bioCor react", {
-    registerDoParallel(2)
     similarities <- bioCor(genes.id, kegg = FALSE, react = TRUE)
     expect_is(similarities, "list")
     expect_length(similarities, 1L)
@@ -95,12 +93,8 @@ test_that("bioCor kegg", {
 })
 
 test_that("bioCor is replicable", {
-    registerDoParallel(2)
     expect_warning(sim1 <- bioCor(genes.id[1:3], kegg = FALSE, react = TRUE))
-    stopImplicitCluster()
-    registerDoParallel(2)
     sim2 <- bioCor(genes.id, kegg = FALSE, react = TRUE)
-    stopImplicitCluster()
     expect_equal(sim1[[1]]["52", "11342"], sim2[[1]]["52", "11342"])
 })
 
@@ -110,7 +104,3 @@ test_that("bioCor works whith non existing keys in a table", {
     expect_warning(expect_message(bioCor(c("3855", "3880"), react = TRUE)))
     expect_true(is.na(sim[[1]][1,2]))
 })
-
-# test_that("bioCor go", {
-#   similarities <- bioCor(genes, kegg = FALSE, react = FALSE, go = TRUE)
-# })

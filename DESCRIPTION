@@ -1,7 +1,9 @@
 Package: BioCor
 Title: Calculates functional similarities between genes
-Version: 0.99.2
+Version: 0.99.3
 Authors@R: person("Lluís", "Revilla Sancho", email = "lluis.revilla@gmail.com", role = c("aut", "cre"))
+Author: Lluís Revilla Sancho <Joe.Developer@some.domain.net>
+Maintainer: Lluís Revilla Sancho <Joe.Developer@some.domain.net>
 Description:
     Using existing packages with data of KEGG and REACTOME calculates a 
     similarity measure for each gene identifier provided. This similarities can 
@@ -13,14 +15,12 @@ Encoding: UTF-8
 LazyData: true
 biocViews: Software, StatisticalMethod, Clustering, GeneExpression, Reactome, Network, KEGG
 Imports:
-    foreach,
     org.Hs.eg.db,
     AnnotationDbi,
     reactome.db,
     graph, 
     methods,
-    doParallel,
-    bigmemory
+    BiocParallel
 Suggests:
     WGCNA,
     testthat,
@@ -30,4 +30,4 @@ Suggests:
 BugReports: https://github.com/llrs/BioCor/issues
 URL: https://github.com/llrs/BioCor/
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.0

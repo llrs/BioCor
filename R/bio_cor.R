@@ -171,6 +171,7 @@ removeDup <- function(cor_mat, dupli) {
 #' is calculated
 #' @param all logical; indicates if all the previous (go, react, and kegg)
 #' similarity measures, should be set to TRUE.
+#' @inheritParams BiocParallel::bpvec
 #' @return A list where each element is a matrix with the similarity for such
 #' database \code{NA} indicates that there isn't any information of one of
 #' those genes for that pathway database. 0 If there is information of both
@@ -178,13 +179,14 @@ removeDup <- function(cor_mat, dupli) {
 #' @importFrom reactome.db reactome.db
 #' @importFrom AnnotationDbi select
 #' @importFrom AnnotationDbi keys
-#' @importFrom biganalytics apply
+# #' @importFrom biganalytics apply
+#' @import BiocParallel
 #' @import org.Hs.eg.db
-#' @import foreach
-#' @import bigmemory
+# #' @import foreach
+# #' @import bigmemory
 #' @export
 bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
-                   all = FALSE) {
+                   all = FALSE, BPPARAM = bpparam()) {
     if (!ids %in% c("ENTREZID", "SYMBOL")) {
         stop("Please check the input of genes in ENTREZID or SYMBOL format")
     }
@@ -246,37 +248,41 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
 
     if (kegg) {  # parallel # to run non parallel transform the %dopar% into
         # %do%
-        kegg_mat <- big.matrix(length(orig.ids), length(orig.ids), init = NA,
-                               dimnames = list(orig.ids, orig.ids),
-                               backingfile = "kegg.bin",
-                               descriptorfile = "kegg.desc")
-        datadesc <- describe(kegg_mat)
+        # kegg_mat <- big.matrix(length(orig.ids), length(orig.ids), init = NA,
+        #                        dimnames = list(orig.ids, orig.ids),
+        #                        backingfile = "kegg.bin",
+        #                        descriptorfile = "kegg.desc")
+        # datadesc <- describe(kegg_mat)
 
         message("Calculating KEGG similarities")
-        kegg.bio <- foreach(i = orig.ids, .combine = c,
-                            .verbose = FALSE) %dopar% {
-                                for (j in orig.ids) {
-                                    kegg_mat <- attach.big.matrix(datadesc)
-                                    kegg_mat[i, j] <- corPathways(
-                                        c(i, j), genes,"ENTREZID", "PATH")
-                                }
-                            }
+        # kegg.bio <- foreach(i = orig.ids, .combine = c,
+        #                     .verbose = FALSE) %dopar% {
+        #                         for (j in orig.ids) {
+        #                             kegg_mat <- attach.big.matrix(datadesc)
+        #                             kegg_mat[i, j] <- corPathways(
+        #                                 c(i, j), genes,"ENTREZID", "PATH")
+        #                         }
+        #                     }
+        kegg.bio <- bpmapply(function(x){
+            comb <- combinadic(n = orig.ids, r = 2, i = x)
+            corPathways(comb, genes, "ENTREZID", "PATH")},
+            seq_len(n.combin), BPPARAM = BPPARAM)
         message("KEGG similarities has been calculated")
+
+        kegg_mat <- seq2mat(orig.ids, kegg.bio)
         if (all(apply(kegg_mat, 1L, function(x){
             sum(is.na(x)) == length(x) - 1L }))) {
             warning("KEGG didn't found relevant similarities!")
         }
-        # kegg_mat <- seq2mat(orig.ids, kegg.bio)
-
     }
 
     if (react) {  # parallel # to run non parallel transform the %dopar% into
         # %do%
-        react_mat <- big.matrix(length(orig.ids), length(orig.ids), init = NA,
-                               dimnames = list(orig.ids, orig.ids),
-                               backingfile = "react.bin",
-                               descriptorfile = "react.desc")
-        datadesc <- describe(react_mat)
+        # react_mat <- big.matrix(length(orig.ids), length(orig.ids), init = NA,
+        #                        dimnames = list(orig.ids, orig.ids),
+        #                        backingfile = "react.bin",
+        #                        descriptorfile = "react.desc")
+        # datadesc <- describe(react_mat)
         message("Calculating REACTOME similarities")
         # react.bio <- foreach(i = seq_len(n.combin),
         #                      .combine = c, .verbose = FALSE) %dopar% {
@@ -285,21 +291,26 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
         #                          corPathways(comb, genes, "ENTREZID",
         #                                      "REACTOMEID")
         #                      }
-        react.bio <- foreach(i = orig.ids, .combine = c,
-                            .verbose = FALSE) %dopar% {
-                                for (j in orig.ids) {
-                                    react_mat <- attach.big.matrix(datadesc)
-                                    react_mat[i, j] <- corPathways(
-                                        c(i, j), genes,"ENTREZID", "REACTOMEID")
-                                }
-                            }
+        # react.bio <- foreach(i = orig.ids, .combine = c,
+        #                     .verbose = FALSE) %dopar% {
+        #                         for (j in orig.ids) {
+        #                             react_mat <- attach.big.matrix(datadesc)
+        #                             react_mat[i, j] <- corPathways(
+        #                                 c(i, j), genes,"ENTREZID", "REACTOMEID")
+        #                         }
+        #                     }
+        react.bio <- bpmapply( function(x){
+            comb <- combinadic(n = orig.ids, r = 2, i = x)
+            corPathways(comb, genes, "ENTREZID", "REACTOMEID")},
+            seq_len(n.combin), BPPARAM = BPPARAM)
+
         message("REACTOME similarities has been calculated")
+        react_mat <- seq2mat(orig.ids, react.bio)
+
         if (all(apply(react_mat, 1L, function(x){
             sum(is.na(x)) == length(x) - 1L}))) {
             warning("REACTOME didn't found relevant similarities!")
         }
-        # react_mat <- seq2mat(orig.ids, react.bio)
-
     }
 
     if (kegg & react) {
