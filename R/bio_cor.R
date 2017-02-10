@@ -112,14 +112,15 @@ distCor <- function(a, b, info) {
 #' @return A matrix of combinations of all the ids selected from biopath
 #' and compare them all
 #' @author Lluís Revilla
-#' @examples
-#' library("org.Hs.eg.db")
-#' entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
-#' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
-#' # data of June 31st 2011)
-#' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
-#'                      columns = "PATH")
-#' combBiopath(c("81", "18"), genes.kegg, "ENTREZID", "PATH")
+#
+# @examples
+# library("org.Hs.eg.db")
+# entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
+# #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
+# # data of June 31st 2011)
+# genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
+#                      columns = "PATH")
+# combBiopath(c("81", "18"), genes.kegg, "ENTREZID", "PATH")
 combBiopath <- function(comb, info, by, biopath) {
     a <- unique(info[info[[by]] == comb[1L], biopath])
     a <- a[a != ""]
@@ -306,28 +307,7 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
     }
 
     if (react) {  # parallel # to run non parallel transform the %dopar% into
-        # %do%
-        # react_mat <- big.matrix(length(orig.ids), length(orig.ids), init = NA,
-        #                        dimnames = list(orig.ids, orig.ids),
-        #                        backingfile = "react.bin",
-        #                        descriptorfile = "react.desc")
-        # datadesc <- describe(react_mat)
         message("Calculating REACTOME similarities")
-        # react.bio <- foreach(i = seq_len(n.combin),
-        #                      .combine = c, .verbose = FALSE) %dopar% {
-        #
-        #                          comb <- combinadic(orig.ids, 2, i)
-        #                          genesSim(comb, genes, "ENTREZID",
-        #                                      "REACTOMEID")
-        #                      }
-        # react.bio <- foreach(i = orig.ids, .combine = c,
-        #                     .verbose = FALSE) %dopar% {
-        #                         for (j in orig.ids) {
-        #                             react_mat <- attach.big.matrix(datadesc)
-        #                             react_mat[i, j] <- genesSim(
-        #                                 c(i, j), genes,"ENTREZID", "REACTOMEID")
-        #                         }
-        #                     }
         react.bio <- bpmapply( function(x){
             comb <- combinadic(n = orig.ids, r = 2, i = x)
             genesSim(comb[1], comb[2], genes, "ENTREZID", "REACTOMEID")},

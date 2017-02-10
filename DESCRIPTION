@@ -1,25 +1,28 @@
 Package: BioCor
 Title: Calculates functional similarities between genes
-Version: 0.99.6
+Version: 0.99.8
 Authors@R: person("Lluís", "Revilla Sancho", email = "lluis.revilla@gmail.com", role = c("aut", "cre"))
 Author: Lluís Revilla Sancho <lluis.revilla@gmail.com>
 Maintainer: Lluís Revilla Sancho <lluis.revilla@gmail.com>
 Description:
-    Using existing packages with data of KEGG and REACTOME calculates a 
-    similarity measure for each gene identifier provided. This similarities can 
-    be combined with co-expression similarity to improve the network building.
+    The functional similarity, based on the pathways described on KEGG and 
+    REACTOME, of genes provide quantitative ways to measure similarities 
+    between genes. This similarities can be combined with co-expression 
+    similarity or semantic similarities to improve network building, gene 
+    selection, functionality testing...
 Depends:
     R (>= 3.3.0)
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
-biocViews: Software, StatisticalMethod, Clustering, GeneExpression, Reactome, Network, KEGG
+biocViews: Software, StatisticalMethod, Clustering, GeneExpression, Reactome, Network, KEGG, Pathways
 Imports:
     org.Hs.eg.db,
     AnnotationDbi,
     reactome.db,
     graph, 
     methods,
+    utils,
     BiocParallel
 Suggests:
     WGCNA,

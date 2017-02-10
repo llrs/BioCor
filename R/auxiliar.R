@@ -2,7 +2,8 @@
 #' i-th combination of n elements taken from r
 #'
 #' Function similar to combn but for larger vectors. To avoid allocating a big
-#' vector with all the combinations each one can be computed with this function.
+#' vector with all the combinations each one can be computed with this
+#' function.
 #' @param n Elements to extract the combination from
 #' @param r Number of elements per combination
 #' @param i ith combination
@@ -17,7 +18,7 @@
 #' combinadic(LETTERS[1:5], 2, 2)
 #' @author Joshua Ulrich
 #' @references
-#' \link{http://stackoverflow.com/a/4494469/2886003}
+#' \url{http://stackoverflow.com/a/4494469/2886003}
 combinadic <- function(n, r, i) {
 
     # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
@@ -192,6 +193,8 @@ duplicateIndices <- function(vec) {
 #' removing all \code{NA} values
 #' @aliases weighted
 #' @rdname weighted
+#' @name weighted
+#' @aliases weighted
 #' @author Lluís Revilla
 #' @export
 #' @examples
@@ -223,7 +226,6 @@ weighted.sum <- function(x, w) {
 
 #' @return \code{weighted.prod} returns the product of product of x*weights
 #'  removing all \code{NA} values
-#' @aliases weighted
 #' @rdname weighted
 #' @export
 #' @examples
@@ -293,15 +295,19 @@ mgene2Sim <- function(gene, func, sim, ...) {
 
 #' Convert the similarities formats
 #'
-#' Functions to convert the similarity coefficients between Jaccard and Dice
+#' Functions to convert the similarity coefficients between Jaccard and Dice.
+#' D2J is the opposite of J2D.
 #' @param D Dice coefficient, as returned by pathSim, genesSim and bioCor
 #' @param J Jaccard coefficient
 #' @return A numeric value.
+#' @author Lluís Revilla
 #' @export
 #' @rdname conversions
+#' @name conversions
 #' @examples
 #' D2J(0.5)
 #' J2D(0.5)
+#' D2J(J2D(0.5))
 D2J <- function(D) {
     if (D > 1) {
         stop("Dice index can't be above 1")

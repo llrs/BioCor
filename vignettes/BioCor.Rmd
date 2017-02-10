@@ -2,7 +2,7 @@
 title: "BioCor"
 author: "[Lluís Revilla](mailto:lrevilla@clinic.cat)"
 date: "`r date()`"
-package: "`r pkg_ver('BioCor')`"
+package: "`r BiocStyle::pkg_ver('BioCor')`"
 output: 
   BiocStyle::html_document:
     toc_float: yes
