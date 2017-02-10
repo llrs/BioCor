@@ -1,7 +1,8 @@
 # combinadic ####
 #' i-th combination of n elements taken from r
 #'
-#' Function similar to combn but for larger vectors
+#' Function similar to combn but for larger vectors. To avoid allocating a big
+#' vector with all the combinations each one can be computed with this function.
 #' @param n Elements to extract the combination from
 #' @param r Number of elements per combination
 #' @param i ith combination
@@ -14,6 +15,9 @@
 #' combn(LETTERS[1:5], 2)
 #' # Otuput of the second combination
 #' combinadic(LETTERS[1:5], 2, 2)
+#' @author Joshua Ulrich
+#' @references
+#' \link{http://stackoverflow.com/a/4494469/2886003}
 combinadic <- function(n, r, i) {
 
     # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
@@ -59,6 +63,7 @@ combinadic <- function(n, r, i) {
 #' seq2mat(LETTERS[1:5], 1:10)
 #' seq2mat(LETTERS[1:5], seq(from = 0.1, to = 1, by = 0.1))
 #' @export
+#' @author Lluís Revilla
 seq2mat <- function(x, dat) {
     if (length(dat) != choose(length(x), 2L)) {
         stop("Data is not enough big to populate the matrix")
@@ -84,6 +89,7 @@ seq2mat <- function(x, dat) {
 #' or similar.
 #' @return A matrix of the size of the similarities
 #' @export
+#' @author Lluís Revilla
 #' @examples
 #' set.seed(100)
 #' a <- seq2mat(LETTERS[1:5], rnorm(10))
@@ -121,6 +127,7 @@ similarities <- function(sim, func, ...) {
 #' @param weights A numeric vector of weight to multiply each similarity
 #' @return A square matrix of the same dimensions as the input matrices.
 #' @export
+#' @author Lluís Revilla
 #' @examples
 #' set.seed(100)
 #' a <- seq2mat(LETTERS[1:5], rnorm(10))
@@ -159,6 +166,11 @@ addSimilarities <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
 #' @param vec Vector of identififiers presumably duplicated
 #' @return The format is determined by the simplify2array
 #' @export
+#' @author Lluís Revilla
+#' @examples
+#' duplicateIndices(c("52", "52", "53", "55")) # One repeated element
+#' duplicateIndices(c("52", "52", "53", "55", "55")) # Repeated elements
+#' duplicateIndices(c("52", "55", "53", "55", "52")) # Mixed repeated elements
 duplicateIndices <- function(vec) {
     if (!is.character(vec)) {
         stop("Expected a list of characters to find duplicates on it")
@@ -180,6 +192,7 @@ duplicateIndices <- function(vec) {
 #' removing all \code{NA} values
 #' @aliases weighted
 #' @rdname weighted
+#' @author Lluís Revilla
 #' @export
 #' @examples
 #' set.seed(100)
@@ -235,6 +248,7 @@ weighted.prod <- function(x, w) {
 
     prod(x*w, na.rm = TRUE)
 }
+
 # Adding more genes to calculated similarities ####
 #' Add a similarity measure for a gene to existing similarities
 #'
@@ -245,7 +259,6 @@ weighted.prod <- function(x, w) {
 #' @param sim Matrix with similarities already calculated.
 #' @param ... Other arguments passed to the function to calculate similarity
 #' @return A matrix with the similarities with the new similarity
-#' @export
 gene2Sim <- function(gene, func, sim, ...) {
     FUNC <- match.fun(func)
     genes <- colnames(sim)
@@ -276,4 +289,35 @@ mgene2Sim <- function(gene, func, sim, ...) {
         m <- gene2Sim(g, FUNC, m, ... = dots)
     }
     return(m)
+}
+
+#' Convert the similarities formats
+#'
+#' Functions to convert the similarity coefficients between Jaccard and Dice
+#' @param D Dice coefficient, as returned by pathSim, genesSim and bioCor
+#' @param J Jaccard coefficient
+#' @return A numeric value.
+#' @export
+#' @rdname conversions
+#' @examples
+#' D2J(0.5)
+#' J2D(0.5)
+D2J <- function(D) {
+    if (D > 1) {
+        stop("Dice index can't be above 1")
+    } else if (D < 0) {
+        stop("Dice index can't be below 0")
+    }
+    D/(2 - D)
+}
+
+#' @export
+#' @rdname conversions
+J2D <- function(J) {
+    if (J > 1) {
+        stop("Jaccard index can't be above 1")
+    } else if (J < 0) {
+        stop("Jaccard index can't be below 0")
+    }
+    2*J/(1 + J)
 }

@@ -1,7 +1,7 @@
 # Functions required for the bio.cor or bio.cor2 computation.
 
 
-# comparePathways ####
+# pathSim ####
 #' Compare pathways
 #'
 #' Function to estimate how much two graphs or list of genes overlap by looking
@@ -13,7 +13,14 @@
 #' @importFrom methods is
 #' @importFrom graph nodes
 #' @export
-comparePathways <- function(g1, g2) {
+#' @author Lluís Revilla
+#' @examples
+#' genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")
+#' genes.id1 <- c("52", "11342", "80895", "57654", "58493", "1164", "1163",
+#' "4150", "2130", "159")
+#' pathSim(genes.id1, genes.id2)
+#' pathSim(genes.id2, genes.id2)
+pathSim <- function(g1, g2) {
 
     # Check which case are we using
     if (is(g1, "graph") & is(g2, "graph")) {
@@ -91,7 +98,7 @@ distCor <- function(a, b, info) {
 
 
 # combBiopath ####
-#' Finds all the pathways of genes
+#' Wrapper to expand.grid for pathways of genes
 #'
 #' Given a data.frame with the information and the genes we want to extract,
 #' finds all the pathway for each gene and return a data.frame with the
@@ -104,7 +111,15 @@ distCor <- function(a, b, info) {
 #' @param biopath Column of info we want to compare
 #' @return A matrix of combinations of all the ids selected from biopath
 #' and compare them all
-#' @export
+#' @author Lluís Revilla
+#' @examples
+#' library("org.Hs.eg.db")
+#' entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
+#' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
+#' # data of June 31st 2011)
+#' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
+#'                      columns = "PATH")
+#' combBiopath(c("81", "18"), genes.kegg, "ENTREZID", "PATH")
 combBiopath <- function(comb, info, by, biopath) {
     a <- unique(info[info[[by]] == comb[1L], biopath])
     a <- a[a != ""]
@@ -119,7 +134,9 @@ combBiopath <- function(comb, info, by, biopath) {
     } else if (length(a) == 0L | length(b) == 0L) {
         return(0L)
     }
-    expand.grid(a, b)
+    out <- expand.grid(a, b)
+    colnames(out) <- comb
+    out
 }
 
 
@@ -134,6 +151,15 @@ combBiopath <- function(comb, info, by, biopath) {
 #' @param dupli List of indicies with duplicated entries
 #' @return A matrix with only one of the columns and rows duplicated
 #' @export
+#' @author Lluís Revilla
+#' @examples
+#' a <- seq2mat(c("52", "52", "53", "55"), runif(choose(4, 2)))
+#' b <- seq2mat(c("52", "52", "53", "55"), runif(choose(4, 2)))
+#' mat <- list("kegg" = a, "react" = b)
+#' mat
+#' dupli <- duplicateIndices(rownames(a))
+#' remat <- removeDup(mat, dupli)
+#' remat
 removeDup <- function(cor_mat, dupli) {
     if (!all(sapply(cor_mat, isSymmetric))) {
         stop("All the matrices of mat should be symmetric and with the same ",
@@ -185,6 +211,9 @@ removeDup <- function(cor_mat, dupli) {
 # #' @import foreach
 # #' @import bigmemory
 #' @export
+#' @author Lluís Revilla
+#' @examples
+#' bioCor(c("18", "81"))
 bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
                    all = FALSE, BPPARAM = bpparam()) {
     if (!ids %in% c("ENTREZID", "SYMBOL")) {
@@ -259,13 +288,13 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
         #                     .verbose = FALSE) %dopar% {
         #                         for (j in orig.ids) {
         #                             kegg_mat <- attach.big.matrix(datadesc)
-        #                             kegg_mat[i, j] <- corGenes(
+        #                             kegg_mat[i, j] <- genesSim(
         #                                 c(i, j), genes,"ENTREZID", "PATH")
         #                         }
         #                     }
         kegg.bio <- bpmapply(function(x){
             comb <- combinadic(n = orig.ids, r = 2, i = x)
-            corGenes(comb, genes, "ENTREZID", "PATH")},
+            genesSim(comb[1], comb[2], genes, "ENTREZID", "PATH")},
             seq_len(n.combin), BPPARAM = BPPARAM)
         message("KEGG similarities has been calculated")
 
@@ -288,20 +317,20 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
         #                      .combine = c, .verbose = FALSE) %dopar% {
         #
         #                          comb <- combinadic(orig.ids, 2, i)
-        #                          corGenes(comb, genes, "ENTREZID",
+        #                          genesSim(comb, genes, "ENTREZID",
         #                                      "REACTOMEID")
         #                      }
         # react.bio <- foreach(i = orig.ids, .combine = c,
         #                     .verbose = FALSE) %dopar% {
         #                         for (j in orig.ids) {
         #                             react_mat <- attach.big.matrix(datadesc)
-        #                             react_mat[i, j] <- corGenes(
+        #                             react_mat[i, j] <- genesSim(
         #                                 c(i, j), genes,"ENTREZID", "REACTOMEID")
         #                         }
         #                     }
         react.bio <- bpmapply( function(x){
             comb <- combinadic(n = orig.ids, r = 2, i = x)
-            corGenes(comb, genes, "ENTREZID", "REACTOMEID")},
+            genesSim(comb[1], comb[2], genes, "ENTREZID", "REACTOMEID")},
             seq_len(n.combin), BPPARAM = BPPARAM)
 
         message("REACTOME similarities has been calculated")
@@ -342,12 +371,11 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
 #' @param type is the column we are looking to keep.
 #' @return A vector with the unique identifiers of genes of the \code{type}
 #' column
-#' @export
 genesInfo <- function(genes, colm, id, type) {
     out <- unique(genes[genes[[colm]] == id, type])
     out[!is.na(out)]
 }
-# corGenes ####
+# genesSim ####
 #' Calculates the similarity score of two genes
 #'
 #' Given the information about the relationship between the genes and the
@@ -358,15 +386,18 @@ genesInfo <- function(genes, colm, id, type) {
 #' available for any pathways for one of those two genes. Otherwise a number
 #' between 0 and 1 (both included) is returned. Note that there isn't a
 #' negative value of similarity for pathways correlation.
-#' @param comb are the ids to compare, it is expected two ids of genes.
-#' @param genes is the matrix with the information about "id" and "pathwayDB"
-#' @param id is the column of "genes" where \code{comb} are to be found
-#' @param pathwayDB is the column of \code{genes} where pathways should be
-#' found. It is usually the name of the database where they come from.
+#' @param gene1 Entrez gene id.
+#' @param gene2 Entrez gene id.
+#' @param genes is the matrix with the information to calculate the similarity.
+#' It is created using select, should contain the column "id" and "pathwayDB".
+#' @param id is the column of "genes" where \code{gene1} and \code{gene2} are
+#' to be found
+#' @param pathwayDB is the column where pathways should be found. It is usually
+#'  the name of the database where they come from.
 #' @return The highest score of all the combinations of pathways between the
 #' two ids compared.
 #' @export
-#' @importFrom GOSemSim combineScores
+#' @author Lluis Revilla
 #' @examples
 #' library("org.Hs.eg.db")
 #' library("reactome.db")
@@ -375,12 +406,13 @@ genesInfo <- function(genes, colm, id, type) {
 #' # data of June 31st 2011)
 #' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
 #'                      columns = "PATH")
-#' corGenes(c("81", "18"), genes.kegg, "ENTREZID", "PATH")
+#' genesSim("81", "18", genes.kegg, "ENTREZID", "PATH")
 #' # Extracts the paths of all genes of org.Hs.eg.db from reactome
 #' genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
 #'                       columns = "REACTOMEID")
-#' corGenes(c("81", "18"), genes.react, "ENTREZID", "REACTOMEID")
-corGenes <- function(comb, genes, id, pathwayDB) {
+#' genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID")
+genesSim <- function(gene1, gene2, genes, id, pathwayDB) {
+    comb <- c(gene1, gene2)
     if (!pathwayDB %in% colnames(genes)) {
         stop("Please check which type of pathway do you want")
     }
@@ -414,7 +446,7 @@ corGenes <- function(comb, genes, id, pathwayDB) {
     react <- apply(react_path, 1L, function(x){
         genes_1 <- genesInfo(genes, pathwayDB, x[1L], id)
         genes_2 <- genesInfo(genes, pathwayDB, x[2L], id)
-        out <- comparePathways(genes_1, genes_2)
+        out <- pathSim(genes_1, genes_2)
         out
     })
 
