@@ -1,8 +1,8 @@
 library("BioCor")
 context("Testing BioCor fundamental functions")
 
-# corGenes ####
-test_that("corGenes", {
+# genesSim ####
+test_that("genesSim", {
     info <- structure(
         list(ENTREZID = c("1", "2", "2", "2", "2", "2", "2", "2",
                           "2", "2", "2", "2", "3", "4", "5", "6",
@@ -17,34 +17,29 @@ test_that("corGenes", {
         ),
         .Names = c("ENTREZID", "REACTOMEID"),
         class = "data.frame", row.names = c(NA, -26L))
-    test <- corGenes(c("2", "9"), info, "ENTREZID", "REACTOMEID")
+    test <- genesSim("2", "9", info, "ENTREZID", "REACTOMEID")
     expect_equal(test, 0L)
-    expect_error(corGenes(c("2", "9"), info, "ENTREZID", "REACTOME"),
+    expect_error(genesSim("2", "9", info, "ENTREZID", "REACTOME"),
                  "pathway")
 })
 
-# goCor ####
 genes.id <- as.character(c(52, 11342, 80895, 57654, 58493, 1164, 1163, 4150,
                            2130, 159))
 
-test_that("go_cor", {
-
-})
-
-# comparePathways ####
-test_that("comparePathways", {
+# pathSim ####
+test_that("pathSim", {
     genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")
-    test <- comparePathways(genes.id, genes.id2)
+    test <- pathSim(genes.id, genes.id2)
     expect_equal(test, 0.47058823)
     graph1 <- graph::graphNEL(nodes = genes.id)
     graph2 <- graph::graphNEL(nodes = genes.id2)
 
-    test2 <- comparePathways(graph1, genes.id2)
+    test2 <- pathSim(graph1, genes.id2)
     expect_equal(test, test2)
-    test3 <- comparePathways(graph1, graph2)
+    test3 <- pathSim(graph1, graph2)
     expect_equal(test2, test3)
-    expect_equal(comparePathways(graph1, graph1), 1L)
-    expect_equal(comparePathways(c(), c()), 0L)
+    expect_equal(pathSim(graph1, graph1), 1L)
+    expect_equal(pathSim(c(), c()), 0L)
 })
 
 # addSimilarities ####
