@@ -19,3 +19,15 @@ Given the indices of the duplicated entries remove the columns and rows
 until just one is left, it keeps the duplicated with the highest absolute
 mean value.
 }
+\examples{
+a <- seq2mat(c("52", "52", "53", "55"), runif(choose(4, 2)))
+b <- seq2mat(c("52", "52", "53", "55"), runif(choose(4, 2)))
+mat <- list("kegg" = a, "react" = b)
+mat
+dupli <- duplicateIndices(rownames(a))
+remat <- removeDup(mat, dupli)
+remat
+}
+\author{
+Lluís Revilla
+}

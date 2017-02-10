@@ -17,7 +17,8 @@ combinadic(n, r, i)
 The combination ith of the elements
 }
 \description{
-Function similar to combn but for larger vectors
+Function similar to combn but for larger vectors. To avoid allocating a big
+vector with all the combinations each one can be computed with this function.
 }
 \examples{
 #Output of all combinations
@@ -25,6 +26,12 @@ combn(LETTERS[1:5], 2)
 # Otuput of the second combination
 combinadic(LETTERS[1:5], 2, 2)
 }
+\references{
+\link{http://stackoverflow.com/a/4494469/2886003}
+}
 \seealso{
 \code{\link{combn}}
+}
+\author{
+Joshua Ulrich
 }

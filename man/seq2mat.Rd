@@ -28,3 +28,6 @@ obtain it.
 seq2mat(LETTERS[1:5], 1:10)
 seq2mat(LETTERS[1:5], seq(from = 0.1, to = 1, by = 0.1))
 }
+\author{
+Lluís Revilla
+}

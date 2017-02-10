@@ -33,3 +33,6 @@ similarities(sim, weighted.prod, c(0.5, 0.5))
 # Note the differences in the sign of some values
 similarities(sim, weighted.sum, c(0.5, 0.5))
 }
+\author{
+Lluís Revilla
+}

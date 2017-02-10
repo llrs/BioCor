@@ -2,7 +2,7 @@
 % Please edit documentation in R/bio_cor.R
 \name{combBiopath}
 \alias{combBiopath}
-\title{Finds all the pathways of genes}
+\title{Wrapper to expand.grid for pathways of genes}
 \usage{
 combBiopath(comb, info, by, biopath)
 }
@@ -25,4 +25,16 @@ and compare them all
 Given a data.frame with the information and the genes we want to extract,
 finds all the pathway for each gene and return a data.frame with the
 combinations of all pathways of gene 1 with all pathways of gene 2
+}
+\examples{
+library("org.Hs.eg.db")
+entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
+#Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
+# data of June 31st 2011)
+genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
+                     columns = "PATH")
+combBiopath(c("81", "18"), genes.kegg, "ENTREZID", "PATH")
+}
+\author{
+Lluís Revilla
 }

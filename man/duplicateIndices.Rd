@@ -19,3 +19,11 @@ Finds the indices of duplicated elements in the vector given.
 For each duplication it can return a list or if all the duplication events
 are of the same length it returns a matrix, where each column is duplicated.
 }
+\examples{
+duplicateIndices(c("52", "52", "53", "55")) # One repeated element
+duplicateIndices(c("52", "52", "53", "55", "55")) # Repeated elements
+duplicateIndices(c("52", "55", "53", "55", "52")) # Mixed repeated elements
+}
+\author{
+Lluís Revilla
+}

@@ -31,3 +31,6 @@ b <- seq2mat(LETTERS[1:5], seq(from = 0.1, to = 1, by = 0.1))
 sim <- list(b)
 addSimilarities(a, sim, c(0.5, 0.5))
 }
+\author{
+Lluís Revilla
+}
