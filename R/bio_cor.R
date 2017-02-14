@@ -21,7 +21,6 @@
 #' pathSim(genes.id1, genes.id2)
 #' pathSim(genes.id2, genes.id2)
 pathSim <- function(g1, g2) {
-
     # Check which case are we using
     if (is(g1, "graph") & is(g2, "graph")) {
         prot1 <- nodes(g1)
@@ -44,6 +43,10 @@ pathSim <- function(g1, g2) {
     score <- (length(intersect(prot1, prot2)))*2L/(
         length(prot2) + length(prot1))
     score
+
+    # intersect <- crossprod(table(stack(x)))
+    # y <- matrix(lengths(x), ncol = ncol(intersect), nrow = nrow(intersect))
+    # 2*intersect/(y+t(y))
 }
 
 # distCor ####
@@ -191,7 +194,7 @@ removeDup <- function(cor_mat, dupli) {
 #' a pathway for each gene is calculated.
 #'
 #' @param genes_id is vector of ids to compare
-#' @param ids indicate if the id is eihter Entre Gene or Symbol
+#' @param ids indicate if the id is eihter ENTREZID or SYMBOL
 #' @param react logical; indicates if the similarities in Reactome pathway is
 #' calculated
 #' @param kegg logical; indicates if the similarities in Kegg database
@@ -225,7 +228,7 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
     }
 
     # Obtain data from the annotation packages
-    if (ids == "Symbol") {
+    if (ids == "SYMBOL") {
         gene.symbol <- suppressMessages(select(org.Hs.eg.db, keys = genes_id,
                               keytype = "SYMBOL", columns = "ENTREZID"))
     } else {
@@ -242,7 +245,7 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
     dup_symb <- duplicated(gene.symbol$SYMBOL[
         !is.na(gene.symbol$ENTREZID)])
 
-    if (sum(dup_symb) >= 1L & ids == "Symbol") {
+    if (sum(dup_symb) >= 1L & ids == "SYMBOL") {
         message("Some symbols are mapped to several Entrez Genes IDs.")
     } else if (sum(dup_symb) >= 1L & ids == "Entrez Gene") {
         message("Some Entrez Genes IDs are mapped to several symbols.")
@@ -352,9 +355,11 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
 #' @return A vector with the unique identifiers of genes of the \code{type}
 #' column
 genesInfo <- function(genes, colm, id, type) {
-    out <- unique(genes[genes[[colm]] == id, type])
-    out[!is.na(out)]
+    sapply(id, function(x){
+    out <- unique(genes[genes[[colm]] == x, type])
+    out[!is.na(out)]})
 }
+
 # genesSim ####
 #' Calculates the similarity score of two genes
 #'

@@ -10,7 +10,7 @@ bioCor(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
 \arguments{
 \item{genes_id}{is vector of ids to compare}
 
-\item{ids}{indicate if the id is eihter Entre Gene or Symbol}
+\item{ids}{indicate if the id is eihter ENTREZID or SYMBOL}
 
 \item{react}{logical; indicates if the similarities in Reactome pathway is
 calculated}

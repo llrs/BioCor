@@ -25,6 +25,8 @@ test_that("genesSim", {
 
 genes.id <- as.character(c(52, 11342, 80895, 57654, 58493, 1164, 1163, 4150,
                            2130, 159))
+genes.symbol <- c("ACP1", "RNF13", "ILKAP", "UVSSA", "INIP", "CKS2", "CKS1B",
+                  "MAZ", "EWSR1", "ADSS")
 
 # pathSim ####
 test_that("pathSim", {
@@ -68,8 +70,19 @@ test_that("addSimilarities", {
 })
 
 # bioCor ####
-test_that("bioCor react", {
+test_that("bioCor react entrez", {
     similarities <- bioCor(genes.id, kegg = FALSE, react = TRUE)
+    expect_is(similarities, "list")
+    expect_length(similarities, 1L)
+    expect_equal(ncol(similarities$react), nrow(similarities$react))
+    expect_equal(ncol(similarities$react), 10L)
+    expect_true(all(diag(as.matrix(similarities$react)) == 1L))
+
+})
+
+test_that("bioCor react symbols", {
+    similarities <- bioCor(genes.symbol,  ids = "SYMBOL", kegg = FALSE,
+                           react = TRUE)
     expect_is(similarities, "list")
     expect_length(similarities, 1L)
     expect_equal(ncol(similarities$react), nrow(similarities$react))
