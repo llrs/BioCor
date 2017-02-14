@@ -310,9 +310,9 @@ mgene2Sim <- function(gene, func, sim, ...) {
 #' J2D(0.5)
 #' D2J(J2D(0.5))
 D2J <- function(D) {
-    if (D > 1) {
+    if (all(D > 1)) {
         stop("Dice index can't be above 1")
-    } else if (D < 0) {
+    } else if (all(D < 0)) {
         stop("Dice index can't be below 0")
     }
     D/(2 - D)
@@ -321,9 +321,9 @@ D2J <- function(D) {
 #' @export
 #' @rdname conversions
 J2D <- function(J) {
-    if (J > 1) {
+    if (all(J > 1)) {
         stop("Jaccard index can't be above 1")
-    } else if (J < 0) {
+    } else if (all(J < 0)) {
         stop("Jaccard index can't be below 0")
     }
     2*J/(1 + J)

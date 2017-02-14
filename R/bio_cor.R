@@ -341,6 +341,11 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
     if (length(dupli) >= 1L) {
         cor_mat <- removeDup(cor_mat, dupli)
     }
+    # Rename to the original ids
+    cor_mat <- lapply(cor_mat, function(x) {
+        colnames(x) <- genes_id
+        rownames(x) <- genes_id
+        x})
 
     return(cor_mat)
 }
