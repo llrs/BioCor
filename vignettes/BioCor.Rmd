@@ -1,21 +1,17 @@
 ---
 title: "BioCor"
-author: "[Lluís Revilla](mailto:lrevilla@clinic.cat)"
-date: "`r date()`"
-package: "`r BiocStyle::pkg_ver('BioCor')`"
-output: 
-  BiocStyle::html_document:
-    toc_float: yes
-    keep_md: yes
-    fig_caption: yes
+author: '[Lluís Revilla](mailto:lrevilla@clinic.cat)'
+date: '`r date()`'
+output:
   BiocStyle::pdf_document:
-    toc: yes
     fig_caption: yes
-    keep_md: true
-vignette: >
-  %\VignetteIndexEntry{BioCor}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}  
+    toc: yes
+  BiocStyle::html_document:
+    fig_caption: yes
+    toc_float: yes
+package: '`r BiocStyle::pkg_ver("BioCor")`'
+vignette: "%\\VignetteIndexEntry{BioCor} %\\VignetteEngine{knitr::rmarkdown} %\\VignetteEncoding{UTF-8}
+  \ \n"
 ---
 ```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_knit$set(root.dir = ".")
@@ -53,19 +49,22 @@ library("BioCor")
 
 To calculate a single pair of comparisons we can do:
 ```{r small}
+# Load the libraries with the data
 library("org.Hs.eg.db")
 library("reactome.db")
+# Prepare the data
 entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
 genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID", 
                      columns = "PATH")
 genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID", 
                       columns = "REACTOMEID")
-genesSim("81", "18", genes.kegg, "ENTREZID", "PATH")
-genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID")
+# Run the Similarity functions 
+genesSim("81", "18", genes.kegg, "ENTREZID", "PATH") # KEGG
+genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID") # REACTOME
 ```
 
 If we want multiple pair-wise comparisons we can use bioCor, which accepts a parallel back-end and both from the REACTOME database and from KEGG database:
-```{r big, collapse=TRUE, eval=TRUE, cache=FALSE}
+```{r big, collapse=TRUE}
 genes.id <- c("10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644", 
               "81327", "9128", "2073", "2893", "5142", "60", "210", "81", 
               "1352", "88")
@@ -89,7 +88,7 @@ This is implemented in the `pathSim` function, which results is similar to Jacca
 
 $J(x, w) = \frac{|x \cap w|}{|x \cup w|}$
 
-If one want to calculate the Jaccard index, can use the \code{D2J} function.
+If one want to calculate the Jaccard index, can use the `D2J` function.
 
 The resulting values are $sim(x, w)  \in [0, 1]$. To calculate the similarity between two genes thus is:
 $genesSim(i, j) = max(sim(x_i, w_j))$
@@ -107,7 +106,7 @@ Although I considered to borrow the `combineScores` function from `GOSemSim` to 
 It keeps the one with the higher mean similarity for all the genes available in the comparison. That means that for a different comparison depending on which genes you are computing a gene can have different values. 
 
 ## Why isn't available a method for calculating GO ?
-This is covered by the GOSemSim package, you can use it to produce a similarity matrix (i.e. use  `mgeneSim`). You can parallelize it with `foreach` package or `BiocParallel` if your list of genes is big. 
+This is covered by the GOSemSim package, you can use it to produce a similarity matrix (i.e. use `mgeneSim`). You can parallelize it with `foreach` package or `BiocParallel` if your list of genes is big. 
 
 # WGCNA and BioCor 
 
