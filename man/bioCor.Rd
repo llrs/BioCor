@@ -46,6 +46,9 @@ a pathway for each gene is calculated.
 \examples{
 bioCor(c("18", "81"))
 }
+\seealso{
+\code{\link{geneSim}}
+}
 \author{
 Lluís Revilla
 }

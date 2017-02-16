@@ -17,7 +17,7 @@ addSimilarities(x, bio_mat, weights = c(0.5, 0.18, 0.1, 0.22))
 A square matrix of the same dimensions as the input matrices.
 }
 \description{
-Function that used the previously calculated similarities into a single
+Function that use the previously calculated similarities into a single
 similarity matrix.
 }
 \details{
@@ -30,6 +30,9 @@ a <- seq2mat(LETTERS[1:5], rnorm(10))
 b <- seq2mat(LETTERS[1:5], seq(from = 0.1, to = 1, by = 0.1))
 sim <- list(b)
 addSimilarities(a, sim, c(0.5, 0.5))
+}
+\seealso{
+\code{\link{similarities}}, \code{\link{weighted}}.
 }
 \author{
 Lluís Revilla

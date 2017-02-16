@@ -28,6 +28,10 @@ dupli <- duplicateIndices(rownames(a))
 remat <- removeDup(mat, dupli)
 remat
 }
+\seealso{
+\code{\link{duplicateIndices}} to obtain the list of indicies with
+duplicated entries.
+}
 \author{
 Lluís Revilla
 }

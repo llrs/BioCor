@@ -2,7 +2,7 @@
 % Please edit documentation in R/bio_cor.R
 \name{genesSim}
 \alias{genesSim}
-\title{Calculates the similarity score of two genes}
+\title{Calculates the Dice similarity score of two genes}
 \usage{
 genesSim(gene1, gene2, genes, id, pathwayDB)
 }
@@ -21,13 +21,12 @@ to be found}
 the name of the database where they come from.}
 }
 \value{
-The highest score of all the combinations of pathways between the
-two ids compared.
+The highest Dice score of all the combinations of pathways between
+the two ids compared.
 }
 \description{
-Given the information about the relationship between the genes and the
-pathways, uses the ids of the genes in comb to find the similarity score in
-them.
+Given the information about the two genes via their pathways, uses the ids
+of the genes in comb to find the Dice similarity score.
 }
 \details{
 If an \code{NA} is returned this means that there isn't information
@@ -48,6 +47,10 @@ genesSim("81", "18", genes.kegg, "ENTREZID", "PATH")
 genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
                       columns = "REACTOMEID")
 genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID")
+}
+\seealso{
+See also \code{\link{conversions}} help page to transform Dice
+score to Jaccard score.
 }
 \author{
 Lluis Revilla

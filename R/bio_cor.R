@@ -14,6 +14,8 @@
 #' @importFrom graph nodes
 #' @export
 #' @author Lluís Revilla
+#' @seealso Used for \code{\link{geneSim}}, see \code{\link{conversions}} help
+#' page to transform Dice score to Jaccard score.
 #' @examples
 #' genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")
 #' genes.id1 <- c("52", "11342", "80895", "57654", "58493", "1164", "1163",
@@ -115,21 +117,21 @@ distCor <- function(a, b, info) {
 #' @return A matrix of combinations of all the ids selected from biopath
 #' and compare them all
 #' @author Lluís Revilla
-#
-# @examples
-# library("org.Hs.eg.db")
-# entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
-# #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
-# # data of June 31st 2011)
-# genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
-#                      columns = "PATH")
-# combBiopath(c("81", "18"), genes.kegg, "ENTREZID", "PATH")
+#' @note Documented but not exported. Used internally for \code{\link{genesSim}}
+#' @examples
+#' library("org.Hs.eg.db")
+#' entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
+#' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
+#' # data of June 31st 2011)
+#' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
+#'                      columns = "PATH")
+#' combBiopath(c("81", "18"), genes.kegg, "ENTREZID", "PATH")
 combBiopath <- function(comb, info, by, biopath) {
-    a <- unique(info[info[[by]] == comb[1L], biopath])
+    a <- unique(info[info[[by]] == comb[1L], biopath, drop = TRUE])
     a <- a[a != ""]
     a <- a[!is.na(a)]
 
-    b <- unique(info[info[[by]] == comb[2L], biopath])
+    b <- unique(info[info[[by]] == comb[2L], biopath, drop = TRUE])
     b <- b[b != ""]
     b <- b[!is.na(b)]
 
@@ -156,6 +158,8 @@ combBiopath <- function(comb, info, by, biopath) {
 #' @return A matrix with only one of the columns and rows duplicated
 #' @export
 #' @author Lluís Revilla
+#' @seealso \code{\link{duplicateIndices}} to obtain the list of indicies with
+#' duplicated entries.
 #' @examples
 #' a <- seq2mat(c("52", "52", "53", "55"), runif(choose(4, 2)))
 #' b <- seq2mat(c("52", "52", "53", "55"), runif(choose(4, 2)))
@@ -216,6 +220,7 @@ removeDup <- function(cor_mat, dupli) {
 # #' @import bigmemory
 #' @export
 #' @author Lluís Revilla
+#' @seealso \code{\link{geneSim}}
 #' @examples
 #' bioCor(c("18", "81"))
 bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
@@ -361,16 +366,16 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
 #' column
 genesInfo <- function(genes, colm, id, type) {
     sapply(id, function(x){
-    out <- unique(genes[genes[[colm]] == x, type])
-    out[!is.na(out)]})
+        out <- unique(as.vector(genes[genes[, colm, drop = TRUE] == x,
+                                      type, drop = TRUE]))
+        out[!is.na(out)]})
 }
 
 # genesSim ####
-#' Calculates the similarity score of two genes
+#' Calculates the Dice similarity score of two genes
 #'
-#' Given the information about the relationship between the genes and the
-#' pathways, uses the ids of the genes in comb to find the similarity score in
-#' them.
+#' Given the information about the two genes via their pathways, uses the ids
+#' of the genes in comb to find the Dice similarity score.
 #'
 #' If an \code{NA} is returned this means that there isn't information
 #' available for any pathways for one of those two genes. Otherwise a number
@@ -384,10 +389,12 @@ genesInfo <- function(genes, colm, id, type) {
 #' to be found
 #' @param pathwayDB is the column where pathways should be found. It is usually
 #'  the name of the database where they come from.
-#' @return The highest score of all the combinations of pathways between the
-#' two ids compared.
+#' @return The highest Dice score of all the combinations of pathways between
+#' the two ids compared.
 #' @export
 #' @author Lluis Revilla
+#' @seealso See also \code{\link{conversions}} help page to transform Dice
+#' score to Jaccard score.
 #' @examples
 #' library("org.Hs.eg.db")
 #' library("reactome.db")

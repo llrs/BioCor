@@ -4,9 +4,9 @@
 \alias{weighted}
 \alias{weighted.sum}
 \alias{weighted.prod}
-\title{Calculates the weighted}
+\title{Weighted operations}
 \usage{
-weighted.sum(x, w)
+weighted.sum(x, w, abs = TRUE)
 
 weighted.prod(x, w)
 }
@@ -16,24 +16,33 @@ computed}
 
 \item{w}{a numerical vector of weights the same length as \code{x} giving
     the weights to use for elements of \code{x}.}
+
+\item{abs}{If any \code{x} is negative you want the result negative too?}
 }
 \value{
 \code{weighted.sum} returns the sum of the product of x*weights
-removing all \code{NA} values
+removing all \code{NA} values. See parameter \code{abs} if there are any
+negative values.
 
 \code{weighted.prod} returns the product of product of x*weights
- removing all \code{NA} values
+ removing all \code{NA} values.
 }
 \description{
 Calculates the weighted sum or product of \code{x}. Each values should have
 its weight, otherwise it will throw an error.
 }
+\details{
+This functions are thought to be used with \code{similarities}. As some
+similarities might be positive and others negative the argument \code{abs} is
+provided for \code{weighted.sum}, assuming that only one similarity will be
+negative (usually the one comming from exprresion correlation).
+}
 \examples{
-set.seed(100)
-expr <- rnorm(5)
-expr
+expr <- c(-0.2, 0.3, 0.5, 0.8, 0.1)
 weighted.sum(expr, c(0.5, 0.2, 0.1, 0.1, 0.1))
+weighted.sum(expr, c(0.5, 0.2, 0.1, 0.2, 0.1), FALSE)
 weighted.sum(expr, c(0.4, 0.2, 0.1, 0.2, 0.1))
+weighted.sum(expr, c(0.4, 0.2, 0.1, 0.2, 0.1), FALSE)
 weighted.sum(expr, c(0.4, 0.2, 0, 0.2, 0.1))
 weighted.sum(expr, c(0.5, 0.2, 0, 0.2, 0.1))
 # Compared to weighted.prod:
@@ -41,6 +50,9 @@ weighted.prod(expr, c(0.5, 0.2, 0.1, 0.1, 0.1))
 weighted.prod(expr, c(0.4, 0.2, 0.1, 0.2, 0.1))
 weighted.prod(expr, c(0.4, 0.2, 0, 0.2, 0.1))
 weighted.prod(expr, c(0.5, 0.2, 0, 0.2, 0.1))
+}
+\seealso{
+\code{\link{similarities}} and \code{\link{addSimilarities}}
 }
 \author{
 Lluís Revilla

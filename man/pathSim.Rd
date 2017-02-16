@@ -25,6 +25,10 @@ genes.id1 <- c("52", "11342", "80895", "57654", "58493", "1164", "1163",
 pathSim(genes.id1, genes.id2)
 pathSim(genes.id2, genes.id2)
 }
+\seealso{
+Used for \code{\link{geneSim}}, see \code{\link{conversions}} help
+page to transform Dice score to Jaccard score.
+}
 \author{
 Lluís Revilla
 }

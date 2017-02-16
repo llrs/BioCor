@@ -33,6 +33,10 @@ similarities(sim, weighted.prod, c(0.5, 0.5))
 # Note the differences in the sign of some values
 similarities(sim, weighted.sum, c(0.5, 0.5))
 }
+\seealso{
+\code{\link{weighted}} for functions that can be used, and
+\code{\link{addSimilarities}} for a wrapper to one of them
+}
 \author{
 Lluís Revilla
 }

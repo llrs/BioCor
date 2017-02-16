@@ -18,7 +18,8 @@
 #' combinadic(LETTERS[1:5], 2, 2)
 #' @author Joshua Ulrich
 #' @references
-#' \url{http://stackoverflow.com/a/4494469/2886003}
+#' \href{http://stackoverflow.com/a/4494469/2886003}{StackOverflow answer
+#' 4494469/2886003}
 combinadic <- function(n, r, i) {
 
     # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
@@ -64,6 +65,7 @@ combinadic <- function(n, r, i) {
 #' seq2mat(LETTERS[1:5], 1:10)
 #' seq2mat(LETTERS[1:5], seq(from = 0.1, to = 1, by = 0.1))
 #' @export
+#' @seealso \code{\link{upper.tri}} and \code{\link{lower.tri}}
 #' @author Lluís Revilla
 seq2mat <- function(x, dat) {
     if (length(dat) != choose(length(x), 2L)) {
@@ -90,6 +92,8 @@ seq2mat <- function(x, dat) {
 #' or similar.
 #' @return A matrix of the size of the similarities
 #' @export
+#' @seealso \code{\link{weighted}} for functions that can be used, and
+#' \code{\link{addSimilarities}} for a wrapper to one of them
 #' @author Lluís Revilla
 #' @examples
 #' set.seed(100)
@@ -118,7 +122,7 @@ similarities <- function(sim, func, ...) {
 # addSimilarities ####
 #' Additive integration of similarities
 #'
-#' Function that used the previously calculated similarities into a single
+#' Function that use the previously calculated similarities into a single
 #' similarity matrix.
 #'
 #' The total weight can't be higher than 1 to prevent values above
@@ -128,6 +132,7 @@ similarities <- function(sim, func, ...) {
 #' @param weights A numeric vector of weight to multiply each similarity
 #' @return A square matrix of the same dimensions as the input matrices.
 #' @export
+#' @seealso \code{\link{similarities}}, \code{\link{weighted}}.
 #' @author Lluís Revilla
 #' @examples
 #' set.seed(100)
@@ -168,6 +173,7 @@ addSimilarities <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
 #' @return The format is determined by the simplify2array
 #' @export
 #' @author Lluís Revilla
+#' @seealso \code{\link{removeDup}}
 #' @examples
 #' duplicateIndices(c("52", "52", "53", "55")) # One repeated element
 #' duplicateIndices(c("52", "52", "53", "55", "55")) # Repeated elements
@@ -182,30 +188,39 @@ duplicateIndices <- function(vec) {
 }
 
 # weighted ####
-#' Calculates the weighted
+#' Weighted operations
 #'
 #' Calculates the weighted sum or product of \code{x}. Each values should have
 #' its weight, otherwise it will throw an error.
+#'
+#' This functions are thought to be used with \code{similarities}. As some
+#' similarities might be positive and others negative the argument \code{abs} is
+#' provided for \code{weighted.sum}, assuming that only one similarity will be
+#' negative (usually the one comming from exprresion correlation).
 #' @inheritParams stats::weighted.mean
 #' @param x an object containing the values whose weighted operations is to be
 #' computed
+#' @param abs If any \code{x} is negative you want the result negative too?
 #' @return \code{weighted.sum} returns the sum of the product of x*weights
-#' removing all \code{NA} values
+#' removing all \code{NA} values. See parameter \code{abs} if there are any
+#' negative values.
 #' @aliases weighted
 #' @rdname weighted
 #' @name weighted
 #' @aliases weighted
 #' @author Lluís Revilla
+#' @seealso
+#' \code{\link{similarities}} and \code{\link{addSimilarities}}
 #' @export
 #' @examples
-#' set.seed(100)
-#' expr <- rnorm(5)
-#' expr
+#' expr <- c(-0.2, 0.3, 0.5, 0.8, 0.1)
 #' weighted.sum(expr, c(0.5, 0.2, 0.1, 0.1, 0.1))
+#' weighted.sum(expr, c(0.5, 0.2, 0.1, 0.2, 0.1), FALSE)
 #' weighted.sum(expr, c(0.4, 0.2, 0.1, 0.2, 0.1))
+#' weighted.sum(expr, c(0.4, 0.2, 0.1, 0.2, 0.1), FALSE)
 #' weighted.sum(expr, c(0.4, 0.2, 0, 0.2, 0.1))
 #' weighted.sum(expr, c(0.5, 0.2, 0, 0.2, 0.1))
-weighted.sum <- function(x, w) {
+weighted.sum <- function(x, w, abs = TRUE) {
     if (length(x) != length(w)) {
         stop("Weights and data don't match the length: ", length(x), " != ",
              length(w))
@@ -220,12 +235,19 @@ weighted.sum <- function(x, w) {
     if (sum(w, na.rm = TRUE) > 1L) {
         warning("The sum of the weights is above 1")
     }
-
-    sum(x*w, na.rm = TRUE)
+    if (abs) {
+        if (any(sign(x) < 0)) {
+            -sum(abs(x)*w, na.rm = TRUE)
+        } else {
+            sum(x*w, na.rm = TRUE)
+        }
+    } else {
+        sum(x*w, na.rm = TRUE)
+    }
 }
 
 #' @return \code{weighted.prod} returns the product of product of x*weights
-#'  removing all \code{NA} values
+#'  removing all \code{NA} values.
 #' @rdname weighted
 #' @export
 #' @examples
