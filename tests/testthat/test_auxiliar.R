@@ -34,6 +34,10 @@ test_that("weighted.sum", {
     set.seed(5)
     x <- runif(5)
     weights <-  c(0.1, 0.2, 0.3, 0.4, 0.0)
+    test <- weighted.sum(c(-0.5, 0.5), c(0.6, 0.2))
+    expect_equal(test, -0.4)
+    test <- weighted.sum(c(-0.5, 0.5), c(0.6, 0.2), abs = FALSE)
+    expect_equal(test, -0.2)
     test <- weighted.sum(x, weights)
     expect_equal(test, 0.54588768)
     expect_error(weighted.sum(x, c(0.1, 0.2)), "match the length")
@@ -102,9 +106,12 @@ test_that("genesInfo", {
         class = "data.frame", row.names = c(NA, -26L))
 
     test <- genesInfo(info, "REACTOMEID", c("9", "10"), "REACTOMEID")
-    expect_equal(test, as.character())
-
+    expect_is(test, "list")
+    expect_is(test[[1L]], "character")
+    expect_equal(names(test), c("9", "10"))
+    expect_length(test[[1L]], 0L)
 })
+
 # D2J and J2D ####
 test_that("Conversions", {
     expect_error(D2J(1.1))
@@ -112,8 +119,23 @@ test_that("Conversions", {
     expect_error(J2D(1.1))
     expect_error(J2D(-1.1))
 
-    expect_equal(0.5, J2D(D2J(0.5)))
+    expect_equal(J2D(D2J(0.5)), 0.5)
 
-    expect_equal(1/3, D2J(0.5))
-    expect_equal(2/3, J2D(0.5))
+    expect_equal(D2J(0.5), 1/3)
+    expect_equal(J2D(0.5), 2/3)
+})
+# combineScores ####
+test_that("combineScores", {
+    d <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
+                     0.285714285714286), .Dim = c(3L, 3L),
+                   .Dimnames = list(c("a","b", "c"), c("d", "e", "f")))
+    test <- sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA"), combineScores,
+           scores = d)
+    expect_equal(as.numeric(test["rcmax.avg"]), as.numeric(test["BMA"]))
+    expect_true(all(test["max"] > test[-2]))
+    expect_equal(as.numeric(test["avg"]), 0.339770723104056)
+    expect_equal(as.numeric(test["max"]), 0.6)
+    expect_equal(as.numeric(test["rcmax"]), 0.5)
+    expect_equal(as.numeric(test["rcmax.avg"]), 0.464285714285714)
+
 })
