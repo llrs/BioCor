@@ -4,7 +4,7 @@
 \alias{genesSim}
 \title{Calculates the Dice similarity score of two genes}
 \usage{
-genesSim(gene1, gene2, genes, id, pathwayDB)
+genesSim(gene1, gene2, genes, id, pathwayDB, method = "max")
 }
 \arguments{
 \item{gene1}{Entrez gene id.}
@@ -19,6 +19,9 @@ to be found}
 
 \item{pathwayDB}{is the column where pathways should be found. It is usually
 the name of the database where they come from.}
+
+\item{method}{To combine the scores of each pathway, one of \code{c("avg",
+"max", "rcmax", "rcmax.avg", "BMA")}.}
 }
 \value{
 The highest Dice score of all the combinations of pathways between
@@ -50,7 +53,8 @@ genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID")
 }
 \seealso{
 See also \code{\link{conversions}} help page to transform Dice
-score to Jaccard score.
+score to Jaccard score. For the method to combine the scores see
+\code{\link{combineScores}}.
 }
 \author{
 Lluis Revilla

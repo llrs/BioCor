@@ -51,101 +51,6 @@ pathSim <- function(g1, g2) {
     # 2*intersect/(y+t(y))
 }
 
-# distCor ####
-# Not useful because it doesn't have any real causation 02/08/2016
-# Keeped in case it might be deemed useful
-distCor <- function(a, b, info) {
-    use_info <- c("chromosome_name", "strand", "start_position",
-                  "end_position", "gene_biotype")
-    info_a <- unique(info[info$affy_hg_u133_plus_2 == a, use_info])
-    info_b <- unique(info[info$affy_hg_u133_plus_2 == b, use_info])
-    if (nrow(info_a) != 1L | nrow(info_b) != 1L) {
-        return(NA)
-    }
-    # Using the position and the type of genes output a cor
-    if (info_a["chromosome_name"] != info_b["chromosome_name"]) {
-        score <- 0
-    }
-    score <- 0.5 # If in the same chromosome at least 0.5 distance correlation
-
-    # Maybe the default for the same chromosome could be substituted by the
-    # CM distance
-    # 5*10^5 is the region of upstream/downstream where regulation usually
-    # occurs
-    if (info_b["strand"] == info_a["strand"]) {
-        start_dist <- info_a["start_position"] - info_b["start_position"]
-        end_dist <- info_a["end_position"] - info_b["end_position"]
-    } else {
-        start_dist <- info_a["start_position"] - info_a["end_position"]
-        end_dist <-  info_b["start_position"] - info_b["end_position"]
-    }
-
-    if (abs(start_dist) < 5*10 ^ 5) {
-        score <- score + 0.25
-    } else if (abs(end_dist) < 5*10 ^ 5) {
-        score <- score + 0.25
-    }
-
-    # Using the cathegory of biotypes to score them
-    biotypes <- c("miRNA", "snRNA", "snoRNA", "scaRNA", "lincRNA", "lncRNA")
-    if (((info_a["gene_biotype"] %in% biotypes)  &
-         (info_b["gene_biotype"] == "protein_coding")) |
-        ((info_b["gene_biotype"] %in% biotypes) |
-         (info_a["gene_biotype"] == "protein_coding"))) {
-        score <- score + 0.25
-    }
-    if ( (info_a["gene_biotype"] == "processed_pseudogene") |
-         (info_b["gene_biotype"] == "processed_pseudogene")) {
-        score <- score - 0.25
-    }
-    return(score)
-}
-
-
-# combBiopath ####
-#' Wrapper to expand.grid for pathways of genes
-#'
-#' Given a data.frame with the information and the genes we want to extract,
-#' finds all the pathway for each gene and return a data.frame with the
-#' combinations of all pathways of gene 1 with all pathways of gene 2
-#' @param comb Pair of ids of genes to find the pathways of. They should be on
-#' the column indicated by \code{by} to compare
-#' @param info The data.fram with a column for the genes id, and another for
-#' pathway
-#' @param by Type of columns to subset
-#' @param biopath Column of info we want to compare
-#' @return A matrix of combinations of all the ids selected from biopath
-#' and compare them all
-#' @author Lluís Revilla
-#' @note Documented but not exported. Used internally for \code{\link{genesSim}}
-#' @examples
-#' library("org.Hs.eg.db")
-#' entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
-#' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
-#' # data of June 31st 2011)
-#' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
-#'                      columns = "PATH")
-#' combBiopath(c("81", "18"), genes.kegg, "ENTREZID", "PATH")
-combBiopath <- function(comb, info, by, biopath) {
-    a <- unique(info[info[[by]] == comb[1L], biopath, drop = TRUE])
-    a <- a[a != ""]
-    a <- a[!is.na(a)]
-
-    b <- unique(info[info[[by]] == comb[2L], biopath, drop = TRUE])
-    b <- b[b != ""]
-    b <- b[!is.na(b)]
-
-    if (all(sapply(a, is.na)) | all(sapply(b, is.na))) {
-        return(0L)
-    } else if (length(a) == 0L | length(b) == 0L) {
-        return(0L)
-    }
-    out <- expand.grid(a, b)
-    colnames(out) <- comb
-    out
-}
-
-
 # removeDup ####
 #' Remove duplicated rows and columns
 #'
@@ -381,6 +286,7 @@ genesInfo <- function(genes, colm, id, type) {
 #' available for any pathways for one of those two genes. Otherwise a number
 #' between 0 and 1 (both included) is returned. Note that there isn't a
 #' negative value of similarity for pathways correlation.
+#'
 #' @param gene1 Entrez gene id.
 #' @param gene2 Entrez gene id.
 #' @param genes is the matrix with the information to calculate the similarity.
@@ -388,13 +294,16 @@ genesInfo <- function(genes, colm, id, type) {
 #' @param id is the column of "genes" where \code{gene1} and \code{gene2} are
 #' to be found
 #' @param pathwayDB is the column where pathways should be found. It is usually
-#'  the name of the database where they come from.
+#' the name of the database where they come from.
+#' @param method To combine the scores of each pathway, one of \code{c("avg",
+#' "max", "rcmax", "rcmax.avg", "BMA")}.
 #' @return The highest Dice score of all the combinations of pathways between
 #' the two ids compared.
 #' @export
 #' @author Lluis Revilla
 #' @seealso See also \code{\link{conversions}} help page to transform Dice
-#' score to Jaccard score.
+#' score to Jaccard score. For the method to combine the scores see
+#' \code{\link{combineScores}}.
 #' @examples
 #' library("org.Hs.eg.db")
 #' library("reactome.db")
@@ -408,7 +317,7 @@ genesInfo <- function(genes, colm, id, type) {
 #' genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
 #'                       columns = "REACTOMEID")
 #' genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID")
-genesSim <- function(gene1, gene2, genes, id, pathwayDB) {
+genesSim <- function(gene1, gene2, genes, id, pathwayDB, method = "max") {
     comb <- c(gene1, gene2)
     if (!pathwayDB %in% colnames(genes)) {
         stop("Please check which type of pathway do you want")
@@ -423,35 +332,20 @@ genesSim <- function(gene1, gene2, genes, id, pathwayDB) {
         stop("comb can only be of length 2, to compare pairs of genes")
     }
 
-    # Find all the combinations of pathways of the two genes
-    react_path <- combBiopath(comb, genes, id, pathwayDB)
-
+    # Extract all pathways for each gene
+    pathways <- genesInfo(genes, id, comb, pathwayDB)
     # Check that we have pathways info for this combination
-    if (is.null(react_path)) {
-        return(NA)
-    } else if (length(react_path) == 2L) {
-        if (nrow(react_path) == 0L) {
-            return(NA)
-        }
-    } else if (is.na(react_path)) {
-        return(NA)
-    } else if (react_path == 0L) {
+    if (any(lengths(pathways) == 0L)) {
         return(NA)
     }
+    # Extract the gene ids for each pathway
+    g1 <- genesInfo(genes, pathwayDB, pathways[[1]], id)
+    g2 <- genesInfo(genes, pathwayDB, pathways[[2]], id)
 
-    # calculate the similarity between each pathway combination
-    react <- apply(react_path, 1L, function(x){
-        genes_1 <- genesInfo(genes, pathwayDB, x[1L], id)
-        genes_2 <- genesInfo(genes, pathwayDB, x[2L], id)
-        out <- pathSim(genes_1, genes_2)
-        out
-    })
+    vp <- Vectorize(pathSim)
 
-    # Calculate the max similarity between the two genes
-    if (length(react) != sum(is.na(react))) {
-        out <- max(react, na.rm = TRUE)
-    } else {
-        out <- 0L
-    }
-    out
+    react <- outer(g1, g2, vp)
+
+    # Calculate the similarity between the two genes
+    combineScores(react, method)
 }

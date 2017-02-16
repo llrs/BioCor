@@ -351,30 +351,6 @@ J2D <- function(J) {
     2*J/(1 + J)
 }
 
-# outer ####
-#' Wrapper to outer and obtain a named matrix
-#'
-#' Performs the function of \code{fun} for each pair of elements
-#' @param genes1 The genes or pathways of the first dimension
-#' @param genes2 The genes or pathways of the second dimension
-#' @param fun Whatever function you want to perform with those ids
-#' @param ... Other arguments passed to fun
-#' @return A matrix with the rownames of \code{genes1} and colnames of
-#' \code{genes2}
-#' @export
-#' @author Lluís Revilla
-#' @examples
-#' refill(path.18, path.81, function(x, y) {
-#' pathSim(genesInfo(genes.react, "REACTOMEID", x, "ENTREZID"),
-#' genesInfo(genes.react, "REACTOMEID", y, "ENTREZID"))})
-refill <- function(genes1, genes2, fun, ...) {
-    FUN <- match.fun(fun)
-    out <- outer(genes1, genes2, FUN, ...)
-    rownames(out) <- genes1
-    colnames(out) <- genes2
-    out
-}
-
 # combineScores ####
 #' Combining values
 #'
@@ -390,22 +366,28 @@ refill <- function(genes1, genes2, fun, ...) {
 #' @param scores Scores to be combined, some methods accept a matrix and a
 #' vector others only a matrix.
 #' @param method one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA")}
-#' @return A numeric value
+#' @return A numeric value as described in details.
 #' @export
+#' @examples
+#' d <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
+#' 0.285714285714286), .Dim = c(3L, 3L), .Dimnames = list(c("a",
+#' "b", "c"), c("d", "e", "f")))
+#' sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA"), combineScores,
+#'        scores = d)
 combineScores <- function(scores, method, round = FALSE) {
     # Check input
     method <- match.arg(method, c("avg", "max", "rcmax", "rcmax.avg", "BMA"))
 
     if (!is.numeric(scores)) {
         stop("Please introduce numeric values")
-    } else if (is.na(scores)) {
+    } else if (length(scores) == 1L && is.na(scores)) {
         return(NA)
     }
 
     # Remove NA
     if (length(dim(scores)) == 2) {
-        row.na.idx <- apply(scores, 1, function(i) all(is.na(i)))
-        col.na.idx <- apply(scores, 2, function(i) all(is.na(i)))
+        row.na.idx <- apply(scores, 1, function(i){all(is.na(i))})
+        col.na.idx <- apply(scores, 2, function(i){all(is.na(i))})
         if (any(row.na.idx) | any(col.na.idx)) {
             scores <- scores[-which(row.na.idx), -which(col.na.idx)]
         }
