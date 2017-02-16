@@ -2,9 +2,12 @@
 % Please edit documentation in R/bio_cor.R
 \name{genesSim}
 \alias{genesSim}
+\alias{mgeneSim}
 \title{Calculates the Dice similarity score of two genes}
 \usage{
 genesSim(gene1, gene2, genes, id, pathwayDB, method = "max")
+
+mgeneSim(gene.list, genes, id, pathwayDB, method = "max")
 }
 \arguments{
 \item{gene1}{Entrez gene id.}
@@ -21,11 +24,17 @@ to be found}
 the name of the database where they come from.}
 
 \item{method}{To combine the scores of each pathway, one of \code{c("avg",
-"max", "rcmax", "rcmax.avg", "BMA")}.}
+"max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix.}
+
+\item{gene.list}{Given a list of vectors return the similarities}
 }
 \value{
 The highest Dice score of all the combinations of pathways between
-the two ids compared.
+the two ids compared if a method to combine scores is provided or NA if
+there isn't information for one gene.
+
+\code{mgeneSim} returns the matrix of similarities between the genes
+in the vector
 }
 \description{
 Given the information about the two genes via their pathways, uses the ids
@@ -50,9 +59,13 @@ genesSim("81", "18", genes.kegg, "ENTREZID", "PATH")
 genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
                       columns = "REACTOMEID")
 genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID")
+genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID", NULL)
+
+mgeneSim(c("81", "18", "10"), genes.react, "ENTREZID", "REACTOMEID")
+mgeneSim(c("81", "18", "10"), genes.react, "ENTREZID", "REACTOMEID", "avg")
 }
 \seealso{
-See also \code{\link{conversions}} help page to transform Dice
+\code{\link{conversions}} help page to transform Dice
 score to Jaccard score. For the method to combine the scores see
 \code{\link{combineScores}}.
 }

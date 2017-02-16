@@ -90,17 +90,14 @@ $J(x, w) = \frac{|x \cap w|}{|x \cup w|}$
 
 If one want to calculate the Jaccard index, can use the `D2J` function.
 
-The resulting values are $sim(x, w)  \in [0, 1]$. To calculate the similarity between two genes thus is:
-$genesSim(i, j) = max(sim(x_i, w_j))$
-
-Which is implemented in the `genesSim` function.
+The resulting values are $sim(x, w)  \in [0, 1]$. To calculate the similarity between two genes is implemented in the `genesSim` function.
 
 ## Why does it uses the maximum to calculate the bioCor?
 
 This measure is intended to simulate how close are the function of two genes in the pathways where they are described. The higher the similarity is in a pathway the higher they relate. Certainly some genes might not have a principal function or have several diverse functions, but those relationships if important should be caught by the correlation of the expression of both genes. 
 
-## Why don't you use other function to combine scores between two genes?
-Although I considered to borrow the `combineScores` function from `GOSemSim` to combine similarities it was designed for similarity matrices not similarity values. And the above reasons made me use the max score.
+## How do you combine scores between two genes with several pathways?
+Although I recommend the "max" method (Which is the default) there are implemented others in the `combineScores` of the `GOSemSim`package which I borrowed.
 
 ## How does bioCor deal when one gene is mapped to several ones?
 It keeps the one with the higher mean similarity for all the genes available in the comparison. That means that for a different comparison depending on which genes you are computing a gene can have different values. 

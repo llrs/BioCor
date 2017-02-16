@@ -2,7 +2,7 @@
 % Please edit documentation in R/bio_cor.R
 \name{genesInfo}
 \alias{genesInfo}
-\title{Extract which genes are from which reactome}
+\title{Extract which genes are from which database}
 \usage{
 genesInfo(genes, colm, id, type)
 }
@@ -17,9 +17,20 @@ genesInfo(genes, colm, id, type)
 \item{type}{is the column we are looking to keep.}
 }
 \value{
-A vector with the unique identifiers of genes of the \code{type}
+A list with the unique identifiers of genes of the \code{type}
 column
 }
 \description{
-Extract which genes are from which reactome
+Extract which genes are from which database
+}
+\examples{
+library("org.Hs.eg.db")
+library("reactome.db")
+entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
+#Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
+# data of June 31st 2011)
+genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
+                     columns = "PATH")
+g <- genesInfo(genes.kegg, "PATH", c("04510", "04520"), "ENTREZID")
+lengths(g)
 }

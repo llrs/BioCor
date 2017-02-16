@@ -26,7 +26,7 @@ pathSim(genes.id1, genes.id2)
 pathSim(genes.id2, genes.id2)
 }
 \seealso{
-Used for \code{\link{geneSim}}, see \code{\link{conversions}} help
+Used for \code{\link{genesSim}}, see \code{\link{conversions}} help
 page to transform Dice score to Jaccard score.
 }
 \author{

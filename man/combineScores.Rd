@@ -11,6 +11,8 @@ combineScores(scores, method, round = FALSE)
 vector others only a matrix.}
 
 \item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA")}}
+
+\item{round}{Should the resulting value be rounded to the third digit?}
 }
 \value{
 A numeric value as described in details.
@@ -31,6 +33,7 @@ the number of columns and rows}
 d <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
 0.285714285714286), .Dim = c(3L, 3L), .Dimnames = list(c("a",
 "b", "c"), c("d", "e", "f")))
+d
 sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA"), combineScores,
        scores = d)
 }

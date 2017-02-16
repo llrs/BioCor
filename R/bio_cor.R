@@ -51,6 +51,51 @@ pathSim <- function(g1, g2) {
     # 2*intersect/(y+t(y))
 }
 
+#' Compare pathways
+#'
+#' Given two vectors of pathways calculates the similarity between them.
+#'
+#' \code{pathSim} is used to calculate similarities between each pathway and
+#' combineScores to extract the similarity between those pathways. If one need
+#' the matrix of similarities set methods to null
+#' @param pathways1 pathways2 A vector of pathways to be found in
+#' \code{pathwayDB}
+#' @inheritParams genesSim
+#' @return The similarity between those pathways or all the similarities
+#' between each comparison.
+#' @seealso \code{\link{pathSim}} and \code{\link{combineScores}}
+#' @author Lluís Revilla
+#' @export
+#' @examples
+#' library("org.Hs.eg.db")
+#' library("reactome.db")
+#' entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
+#' # Extracts the paths of all genes of org.Hs.eg.db from reactome
+#' genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
+#'                       columns = "REACTOMEID")
+#' pathways1 <- c("112310", "112315", "112316", "373753", "916853")
+#' pathways2 <- c("109582", "114608", "1500931", "888590", "76002", "76005")
+#' mpathSim(pathways1, pathways2, genes.react, "ENTREZID", "REACTOMEID")
+#' mpathSim(pathways1, pathways2, genes.react, "ENTREZID", "REACTOMEID", NULL)
+mpathSim <- function(pathways1, pathways2, genes, id, pathwayDB,
+                     method = "max") {
+
+    # Extract the gene ids for each pathway
+    g1 <- genesInfo(genes, pathwayDB, pathways1, id)
+    g2 <- genesInfo(genes, pathwayDB, pathways2, id)
+
+    vp <- Vectorize(pathSim)
+
+    react <- outer(g1, g2, vp)
+
+    # Calculate the similarity between the two genes
+    if (is.null(method)) {
+        react
+    } else {
+        combineScores(react, method)
+    }
+}
+
 # removeDup ####
 #' Remove duplicated rows and columns
 #'
@@ -309,13 +354,13 @@ genesInfo <- function(genes, colm, id, type) {
 #' @param pathwayDB is the column where pathways should be found. It is usually
 #' the name of the database where they come from.
 #' @param method To combine the scores of each pathway, one of \code{c("avg",
-#' "max", "rcmax", "rcmax.avg", "BMA")}, if null returns the matrix.
+#' "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix.
 #' @return The highest Dice score of all the combinations of pathways between
 #' the two ids compared if a method to combine scores is provided or NA if
 #' there isn't information for one gene.
 #' @export
 #' @author Lluis Revilla
-#' @seealso See also \code{\link{conversions}} help page to transform Dice
+#' @seealso \code{\link{conversions}} help page to transform Dice
 #' score to Jaccard score. For the method to combine the scores see
 #' \code{\link{combineScores}}.
 #' @examples
@@ -331,6 +376,7 @@ genesInfo <- function(genes, colm, id, type) {
 #' genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
 #'                       columns = "REACTOMEID")
 #' genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID")
+#' genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID", NULL)
 genesSim <- function(gene1, gene2, genes, id, pathwayDB, method = "max") {
     comb <- c(gene1, gene2)
     if (!pathwayDB %in% colnames(genes)) {
@@ -367,23 +413,47 @@ genesSim <- function(gene1, gene2, genes, id, pathwayDB, method = "max") {
         combineScores(react, method)
     }
 }
-#' @rdname geneSim
-#' @alias geneSim
+#' @rdname genesSim
+#' @export
 #' @param gene.list Given a list of vectors return the similarities
 #' @return \code{mgeneSim} returns the matrix of similarities between the genes
 #' in the vector
+#' @examples
+#'
+#' mgeneSim(c("81", "18", "10"), genes.react, "ENTREZID", "REACTOMEID")
+#' mgeneSim(c("81", "18", "10"), genes.react, "ENTREZID", "REACTOMEID", "avg")
 mgeneSim <- function(gene.list, genes, id, pathwayDB, method = "max") {
     vg <- Vectorize(genesSim, vectorize.args = c("gene1", "gene2"))
     names(gene.list) <- gene.list
     outer(gene.list, gene.list, vg, genes = genes, id = id,
           pathwayDB = pathwayDB, method = method)
 }
-
+# clusterSim ####
 #' Compare two clusters of genes
 #'
 #' Given two vectors of genes looks for the similarity between those genes
 #'
-clusterSim <- function(cluster1, cluster2, genes, id, pathwayDB, method){
+#' @param cluster1 A vector with genes in \code{id}.
+#' @param cluster2 A vector with genes in \code{id}.
+#' @inheritParams genesSim
+#' @export
+#' @author Lluís Revilla
+#' @seealso \code{\link{combineScores}} and \code{\link{conversions}}
+#' @return \code{clusterSim} returns a similarity score of the two clusters
+#' @examples
+#' library("org.Hs.eg.db")
+#' entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
+#' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
+#' # data of June 31st 2011)
+#' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
+#'                      columns = "PATH")
+#' clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.react,
+#'            "ENTREZID", "REACTOMEID")
+#' clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.react,
+#'            "ENTREZID", "REACTOMEID", NULL)
+#' clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.react,
+#'            "ENTREZID", "REACTOMEID", "avg")
+clusterSim <- function(cluster1, cluster2, genes, id, pathwayDB, method = "max"){
     pathways1 <- genesInfo(genes, id, cluster1, pathwayDB)
     pathways2 <- genesInfo(genes, id, cluster2, pathwayDB)
 
@@ -393,27 +463,20 @@ clusterSim <- function(cluster1, cluster2, genes, id, pathwayDB, method){
     mpathSim(pathways1, pathways2, genes, id, pathwayDB, method)
 }
 
+#' @param clusters A list of clusters of genes to be found in \code{id}.
+#' @rdname clusterSim
+#' @return \code{mclusterSim} returns a matrix with the similarity scores for
+#' each cluster comparison.
+#' @export
+#' @examples
+#'
+#' clusters <- list(cluster1 = c("18", "81", "10"),
+#'                  cluster2 = c("100", "10", "1"),
+#'                  cluster3 = c("18", "10", "83"))
+#' mclusterSim(clusters, genes.react, "ENTREZID", "REACTOMEID")
+#' mclusterSim(clusters, genes.react, "ENTREZID", "REACTOMEID", "avg")
 mclusterSim <- function(clusters, genes, id, pathwayDB, method = "max") {
-    vg <- Vectorize(clusterSim, vectorize.args = c("cluster1", "cluster2"))
-    outer(clusters, clusters, vg, genes = genes, id = id,
+    vc <- Vectorize(clusterSim, vectorize.args = c("cluster1", "cluster2"))
+    outer(clusters, clusters, vc, genes = genes, id = id,
           pathwayDB = pathwayDB, method = method)
-}
-
-mpathSim <- function(pathways1, pathways2, genes, id, pathwayDB,
-                     method = "max") {
-
-    # Extract the gene ids for each pathway
-    g1 <- genesInfo(genes, pathwayDB, pathways1, id)
-    g2 <- genesInfo(genes, pathwayDB, pathways2, id)
-
-    vp <- Vectorize(pathSim)
-
-    react <- outer(g1, g2, vp)
-
-    # Calculate the similarity between the two genes
-    if (is.null(method)) {
-        react
-    } else {
-        combineScores(react, method)
-    }
 }
