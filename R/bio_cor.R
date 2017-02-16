@@ -14,7 +14,7 @@
 #' @importFrom graph nodes
 #' @export
 #' @author Lluís Revilla
-#' @seealso Used for \code{\link{geneSim}}, see \code{\link{conversions}} help
+#' @seealso Used for \code{\link{genesSim}}, see \code{\link{conversions}} help
 #' page to transform Dice score to Jaccard score.
 #' @examples
 #' genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")
@@ -125,7 +125,7 @@ removeDup <- function(cor_mat, dupli) {
 # #' @import bigmemory
 #' @export
 #' @author Lluís Revilla
-#' @seealso \code{\link{geneSim}}
+#' @seealso \code{\link{genesSim}}
 #' @examples
 #' bioCor(c("18", "81"))
 bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
@@ -261,14 +261,27 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
 }
 
 # genesInfo  ####
-#' Extract which genes are from which reactome
+#' Extract which genes are from which database
+#'
+#'
 #' @param genes is the data.frame with information
 #' @param colm is the colum where \code{id} is found
 #' @param id is the ids we are looking for in column \code{type} of
 #' \code{genes}  data.frame
 #' @param type is the column we are looking to keep.
-#' @return A vector with the unique identifiers of genes of the \code{type}
+#' @return A list with the unique identifiers of genes of the \code{type}
 #' column
+#' @export
+#' @examples
+#' library("org.Hs.eg.db")
+#' library("reactome.db")
+#' entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
+#' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
+#' # data of June 31st 2011)
+#' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
+#'                      columns = "PATH")
+#' g <- genesInfo(genes.kegg, "PATH", c("04510", "04520"), "ENTREZID")
+#' lengths(g)
 genesInfo <- function(genes, colm, id, type) {
     sapply(id, function(x){
         out <- unique(as.vector(genes[genes[, colm, drop = TRUE] == x,
@@ -296,9 +309,10 @@ genesInfo <- function(genes, colm, id, type) {
 #' @param pathwayDB is the column where pathways should be found. It is usually
 #' the name of the database where they come from.
 #' @param method To combine the scores of each pathway, one of \code{c("avg",
-#' "max", "rcmax", "rcmax.avg", "BMA")}.
+#' "max", "rcmax", "rcmax.avg", "BMA")}, if null returns the matrix.
 #' @return The highest Dice score of all the combinations of pathways between
-#' the two ids compared.
+#' the two ids compared if a method to combine scores is provided or NA if
+#' there isn't information for one gene.
 #' @export
 #' @author Lluis Revilla
 #' @seealso See also \code{\link{conversions}} help page to transform Dice
@@ -347,5 +361,59 @@ genesSim <- function(gene1, gene2, genes, id, pathwayDB, method = "max") {
     react <- outer(g1, g2, vp)
 
     # Calculate the similarity between the two genes
-    combineScores(react, method)
+    if (is.null(method)) {
+        react
+    } else {
+        combineScores(react, method)
+    }
+}
+#' @rdname geneSim
+#' @alias geneSim
+#' @param gene.list Given a list of vectors return the similarities
+#' @return \code{mgeneSim} returns the matrix of similarities between the genes
+#' in the vector
+mgeneSim <- function(gene.list, genes, id, pathwayDB, method = "max") {
+    vg <- Vectorize(genesSim, vectorize.args = c("gene1", "gene2"))
+    names(gene.list) <- gene.list
+    outer(gene.list, gene.list, vg, genes = genes, id = id,
+          pathwayDB = pathwayDB, method = method)
+}
+
+#' Compare two clusters of genes
+#'
+#' Given two vectors of genes looks for the similarity between those genes
+#'
+clusterSim <- function(cluster1, cluster2, genes, id, pathwayDB, method){
+    pathways1 <- genesInfo(genes, id, cluster1, pathwayDB)
+    pathways2 <- genesInfo(genes, id, cluster2, pathwayDB)
+
+    pathways1 <- unlist(pathways1, use.names = FALSE)
+    pathways2 <- unlist(pathways2, use.names = FALSE)
+
+    mpathSim(pathways1, pathways2, genes, id, pathwayDB, method)
+}
+
+mclusterSim <- function(clusters, genes, id, pathwayDB, method = "max") {
+    vg <- Vectorize(clusterSim, vectorize.args = c("cluster1", "cluster2"))
+    outer(clusters, clusters, vg, genes = genes, id = id,
+          pathwayDB = pathwayDB, method = method)
+}
+
+mpathSim <- function(pathways1, pathways2, genes, id, pathwayDB,
+                     method = "max") {
+
+    # Extract the gene ids for each pathway
+    g1 <- genesInfo(genes, pathwayDB, pathways1, id)
+    g2 <- genesInfo(genes, pathwayDB, pathways2, id)
+
+    vp <- Vectorize(pathSim)
+
+    react <- outer(g1, g2, vp)
+
+    # Calculate the similarity between the two genes
+    if (is.null(method)) {
+        react
+    } else {
+        combineScores(react, method)
+    }
 }

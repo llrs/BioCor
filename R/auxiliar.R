@@ -366,12 +366,14 @@ J2D <- function(J) {
 #' @param scores Scores to be combined, some methods accept a matrix and a
 #' vector others only a matrix.
 #' @param method one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA")}
+#' @param round Should the resulting value be rounded to the third digit?
 #' @return A numeric value as described in details.
 #' @export
 #' @examples
 #' d <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
 #' 0.285714285714286), .Dim = c(3L, 3L), .Dimnames = list(c("a",
 #' "b", "c"), c("d", "e", "f")))
+#' d
 #' sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA"), combineScores,
 #'        scores = d)
 combineScores <- function(scores, method, round = FALSE) {
