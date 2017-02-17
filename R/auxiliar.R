@@ -392,8 +392,11 @@ combineScores <- function(scores, method, round = FALSE) {
     if (length(dim(scores)) == 2) {
         row.na.idx <- apply(scores, 1, function(i){all(is.na(i))})
         col.na.idx <- apply(scores, 2, function(i){all(is.na(i))})
-        if (any(row.na.idx) | any(col.na.idx)) {
-            scores <- scores[-which(row.na.idx), -which(col.na.idx)]
+        if (any(row.na.idx)) {
+            scores <- scores[-which(row.na.idx), ]
+        }
+        if (any(col.na.idx)) {
+            scores <- scores[, -which(col.na.idx)]
         }
     }
 
