@@ -2,32 +2,56 @@
 % Please edit documentation in R/bio_cor.R
 \name{pathSim}
 \alias{pathSim}
+\alias{mpathSim}
+\alias{pathSim}
 \title{Compare pathways}
 \usage{
-pathSim(g1, g2)
+pathSim(pathways1, pathways2, genes, id, pathwayDB, method = "max")
+
+mpathSim(pathways1, pathways2, genes, id, pathwayDB, method = "max")
 }
 \arguments{
-\item{g1, g2}{Graph in GraphNEL format, or a character list with the names of
-the proteins in each pathway.}
+\item{pathways1, pathways2}{Pathways to be found in
+\code{pathwayDB}}
+
+\item{genes}{is the matrix with the information to calculate the similarity.
+It is created using select, should contain the column "id" and "pathwayDB".}
+
+\item{id}{is the column of "genes" where \code{gene1} and \code{gene2} are
+to be found}
+
+\item{pathwayDB}{is the column where pathways should be found. It is usually
+the name of the database where they come from.}
+
+\item{method}{To combine the scores of each pathway, one of \code{c("avg",
+"max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix.}
 }
 \value{
-A score between 0 and 1 calculated as the doble of the proteins
-shared by g1 and g2 divided by the number of genes in both groups.
+The similarity between those pathways or all the similarities
+between each comparison.
 }
 \description{
-Function to estimate how much two graphs or list of genes overlap by looking
-how much of the nodes are shared.
+Given two vectors of pathways calculates the similarity between them.
+}
+\details{
+\code{diceSim} is used to calculate similarities between each pathway and
+combineScores to extract the similarity between those pathways. If one need
+the matrix of similarities set methods to null
 }
 \examples{
-genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")
-genes.id1 <- c("52", "11342", "80895", "57654", "58493", "1164", "1163",
-"4150", "2130", "159")
-pathSim(genes.id1, genes.id2)
-pathSim(genes.id2, genes.id2)
+library("org.Hs.eg.db")
+library("reactome.db")
+entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
+# Extracts the paths of all genes of org.Hs.eg.db from reactome
+genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
+                      columns = "REACTOMEID")
+pathways1 <- c("112310", "112315", "112316", "373753", "916853")
+pathways2 <- c("109582", "114608", "1500931", "888590", "76002", "76005")
+pathSim(pathways1[1], pathways2[1], genes.react, "ENTREZID", "REACTOMEID")
+mpathSim(pathways1, pathways2, genes.react, "ENTREZID", "REACTOMEID", NULL)
 }
 \seealso{
-Used for \code{\link{genesSim}}, see \code{\link{conversions}} help
-page to transform Dice score to Jaccard score.
+\code{\link{pathSim}} and \code{\link{combineScores}}
 }
 \author{
 Lluís Revilla

@@ -29,19 +29,19 @@ genes.symbol <- c("ACP1", "RNF13", "ILKAP", "UVSSA", "INIP", "CKS2", "CKS1B",
                   "MAZ", "EWSR1", "ADSS")
 
 # pathSim ####
-test_that("pathSim", {
+test_that("diceSim", {
     genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")
-    test <- pathSim(genes.id, genes.id2)
+    test <- diceSim(genes.id, genes.id2)
     expect_equal(test, 0.47058823)
     graph1 <- graph::graphNEL(nodes = genes.id)
     graph2 <- graph::graphNEL(nodes = genes.id2)
 
-    test2 <- pathSim(graph1, genes.id2)
+    test2 <- diceSim(graph1, genes.id2)
     expect_equal(test, test2)
-    test3 <- pathSim(graph1, graph2)
+    test3 <- diceSim(graph1, graph2)
     expect_equal(test2, test3)
-    expect_equal(pathSim(graph1, graph1), 1L)
-    expect_equal(pathSim(c(), c()), 0L)
+    expect_equal(diceSim(graph1, graph1), 1L)
+    expect_equal(diceSim(c(), c()), 0L)
 })
 
 # addSimilarities ####

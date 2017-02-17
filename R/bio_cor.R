@@ -1,7 +1,7 @@
 # Functions required for the bio.cor or bio.cor2 computation.
 
 
-# pathSim ####
+# diceSim ####
 #' Compare pathways
 #'
 #' Function to estimate how much two graphs or list of genes overlap by looking
@@ -22,7 +22,7 @@
 #' "4150", "2130", "159")
 #' pathSim(genes.id1, genes.id2)
 #' pathSim(genes.id2, genes.id2)
-pathSim <- function(g1, g2) {
+diceSim <- function(g1, g2) {
     # Check which case are we using
     if (is(g1, "graph") & is(g2, "graph")) {
         prot1 <- nodes(g1)
@@ -45,20 +45,17 @@ pathSim <- function(g1, g2) {
     score <- (length(intersect(prot1, prot2)))*2L/(
         length(prot2) + length(prot1))
     score
-
-    # intersect <- crossprod(table(stack(x)))
-    # y <- matrix(lengths(x), ncol = ncol(intersect), nrow = nrow(intersect))
-    # 2*intersect/(y+t(y))
 }
 
+# pathSim ####
 #' Compare pathways
 #'
 #' Given two vectors of pathways calculates the similarity between them.
 #'
-#' \code{pathSim} is used to calculate similarities between each pathway and
+#' \code{diceSim} is used to calculate similarities between each pathway and
 #' combineScores to extract the similarity between those pathways. If one need
 #' the matrix of similarities set methods to null
-#' @param pathways1 pathways2 A vector of pathways to be found in
+#' @param pathways1,pathways2 Pathways to be found in
 #' \code{pathwayDB}
 #' @inheritParams genesSim
 #' @return The similarity between those pathways or all the similarities
@@ -75,8 +72,20 @@ pathSim <- function(g1, g2) {
 #'                       columns = "REACTOMEID")
 #' pathways1 <- c("112310", "112315", "112316", "373753", "916853")
 #' pathways2 <- c("109582", "114608", "1500931", "888590", "76002", "76005")
-#' mpathSim(pathways1, pathways2, genes.react, "ENTREZID", "REACTOMEID")
+#' pathSim(pathways1[1], pathways2[1], genes.react, "ENTREZID", "REACTOMEID")
 #' mpathSim(pathways1, pathways2, genes.react, "ENTREZID", "REACTOMEID", NULL)
+pathSim <- function(pathways1, pathways2, genes, id, pathwayDB,
+                    method = "max") {
+
+    # Extract the gene ids for each pathway
+    g1 <- genesInfo(genes, pathwayDB, pathways1, id)
+    g2 <- genesInfo(genes, pathwayDB, pathways2, id)
+
+    diceSim(g1, g2)
+}
+
+#' @rdname pathSim
+#' @aliases pathSim
 mpathSim <- function(pathways1, pathways2, genes, id, pathwayDB,
                      method = "max") {
 
@@ -84,7 +93,7 @@ mpathSim <- function(pathways1, pathways2, genes, id, pathwayDB,
     g1 <- genesInfo(genes, pathwayDB, pathways1, id)
     g2 <- genesInfo(genes, pathwayDB, pathways2, id)
 
-    vp <- Vectorize(pathSim)
+    vp <- Vectorize(diceSim)
     react <- outer(g1, g2, vp)
 
     # Calculate the similarity between the two genes
@@ -405,9 +414,9 @@ genesSim <- function(gene1, gene2, genes, id, pathwayDB, method = "max") {
     g1 <- genesInfo(genes, pathwayDB, pathways[[1]], id)
     g2 <- genesInfo(genes, pathwayDB, pathways[[2]], id)
 
-    vp <- Vectorize(pathSim)
+    vdiceSim <- Vectorize(diceSim)
 
-    react <- outer(g1, g2, vp)
+    react <- outer(g1, g2, vdiceSim)
 
     # Calculate the similarity between the two genes
     if (is.null(method)) {

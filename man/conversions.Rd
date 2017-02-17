@@ -11,7 +11,9 @@ D2J(D)
 J2D(J)
 }
 \arguments{
-\item{D}{Dice coefficient, as returned by pathSim, genesSim and bioCor}
+\item{D}{Dice coefficient, as returned by \code{\link{diceSim}},
+\code{\link{genesSim}}, \code{\link{clusterSim}}, \code{\link{clustersSim}}
+ and \code{\link{bioCor}}}
 
 \item{J}{Jaccard coefficient}
 }
