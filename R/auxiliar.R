@@ -365,15 +365,15 @@ J2D <- function(J) {
 #' \item{rcmax.avg}{The sum of the max values by rows and columns divided by
 #' the number of columns and rows}
 #' \item{BMA}{The same as \code{rcmax.avg}}}
-#' @param scores Scores to be combined, some methods accept a matrix and a
-#' vector others only a matrix.
-#' @param method one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA")}
+#' @param scores Matrix of scores to be combined
+#' @param method one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA")} see details
 #' @param round Should the resulting value be rounded to the third digit?
 #' @return A numeric value as described in details.
 #' @note This is a version of combineScores inspired from GOSemSim
 #' \code{\link[GOSemSim]{combineScores}} with optional rounding and some
 #' internal differences.
 #' @export
+#' @author Lluís Revilla based on Guan
 #' @examples
 #' d <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
 #' 0.285714285714286), .Dim = c(3L, 3L), .Dimnames = list(c("a",
@@ -388,18 +388,23 @@ combineScores <- function(scores, method, round = FALSE) {
         scores <- scores[[1]]
     }
     if (!is.matrix(scores)) {
-        stop("Please introduce a matrix")
-    } else if (any(dim(scores) == 0L)) {
+        stop("scores argument should be a matrix")
+    }
+
+    if (any(dim(scores) == 0L)) {
         return(NA)
     }
 
     # Remove NA
-    if (length(dim(scores)) == 2) {
+    if (any(is.na(scores)) & is.matrix(scores)) {
         row.na.idx <- apply(scores, 1, function(i){all(is.na(i))})
-        col.na.idx <- apply(scores, 2, function(i){all(is.na(i))})
         if (any(row.na.idx)) {
             scores <- scores[-which(row.na.idx), ]
         }
+
+    }
+    if (any(is.na(scores)) & is.matrix(scores)) {
+        col.na.idx <- apply(scores, 2, function(i){all(is.na(i))})
         if (any(col.na.idx)) {
             scores <- scores[, -which(col.na.idx)]
         }
@@ -410,12 +415,19 @@ combineScores <- function(scores, method, round = FALSE) {
         result <- mean(scores, na.rm = TRUE)
     } else if (method == "max") {
         result <- max(scores, na.rm = TRUE)
-    } else if (method == "rcmax") {
-        result <-  max(rowMeans(scores, na.rm = TRUE),
-                       colMeans(scores, na.rm = TRUE))
-    } else if (method == "rcmax.avg" || method == "BMA") {
-        result <- sum(apply(scores, 1, max, na.rm = TRUE),
-                      apply(scores, 2, max, na.rm = TRUE)) / sum(dim(scores))
+    } else if (is.matrix(scores)) {
+        if (method == "rcmax") {
+            result <-  max(rowMeans(scores, na.rm = TRUE),
+                           colMeans(scores, na.rm = TRUE))
+        } else if (method == "rcmax.avg" || method == "BMA") {
+            result <- sum(apply(scores, 1, max, na.rm = TRUE),
+                          apply(scores, 2, max, na.rm = TRUE)) / sum(
+                              dim(scores))
+        }
+    } else {
+        warning("Using max method because after removing NAs ",
+                "can't compute BMA and rcmax method")
+        result <- max(scores, na.rm = TRUE)
     }
 
     # Return the value

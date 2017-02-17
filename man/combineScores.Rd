@@ -7,10 +7,9 @@
 combineScores(scores, method, round = FALSE)
 }
 \arguments{
-\item{scores}{Scores to be combined, some methods accept a matrix and a
-vector others only a matrix.}
+\item{scores}{Matrix of scores to be combined}
 
-\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA")}}
+\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA")} see details}
 
 \item{round}{Should the resulting value be rounded to the third digit?}
 }
