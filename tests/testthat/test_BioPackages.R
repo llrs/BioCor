@@ -19,6 +19,10 @@ test_that("genesSim", {
         class = "data.frame", row.names = c(NA, -26L))
     test <- genesSim("2", "9", info, "ENTREZID", "REACTOMEID")
     expect_equal(test, 0L)
+    test <- genesSim("2", "9", info, "ENTREZID", "REACTOMEID", NULL)
+    expect_false(is.null(colnames(test)))
+    expect_false(is.null(rownames(test)))
+    expect_equal(ncol(test), 4L)
     expect_error(genesSim("2", "9", info, "ENTREZID", "REACTOME"),
                  "pathway")
 })

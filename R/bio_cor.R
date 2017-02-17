@@ -20,8 +20,8 @@
 #' genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")
 #' genes.id1 <- c("52", "11342", "80895", "57654", "58493", "1164", "1163",
 #' "4150", "2130", "159")
-#' pathSim(genes.id1, genes.id2)
-#' pathSim(genes.id2, genes.id2)
+#' diceSim(genes.id1, genes.id2)
+#' diceSim(genes.id2, genes.id2)
 diceSim <- function(g1, g2) {
     # Check which case are we using
     if (is(g1, "graph") & is(g2, "graph")) {
@@ -339,7 +339,7 @@ genesInfo <- function(genes, colm, id, type) {
     sapply(id, function(x){
         out <- unique(as.vector(genes[genes[, colm, drop = TRUE] == x,
                                       type, drop = TRUE]))
-        out[!is.na(out)]})
+        out[!is.na(out)]}, simplify = FALSE)
 }
 
 # genesSim ####
@@ -382,7 +382,6 @@ genesInfo <- function(genes, colm, id, type) {
 #' # data of June 31st 2011)
 #' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
 #'                      columns = "PATH")
-#' genesSim("81", "18", genes.kegg, "ENTREZID", "PATH")
 #' # Extracts the paths of all genes of org.Hs.eg.db from reactome
 #' genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
 #'                       columns = "REACTOMEID")
@@ -577,3 +576,4 @@ mclustersSim <- function(clusters, genes, id, pathwayDB,
           pathwayDB = pathwayDB, method = method)
 
 }
+

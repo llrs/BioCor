@@ -56,7 +56,6 @@ entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
 # data of June 31st 2011)
 genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
                      columns = "PATH")
-genesSim("81", "18", genes.kegg, "ENTREZID", "PATH")
 # Extracts the paths of all genes of org.Hs.eg.db from reactome
 genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
                       columns = "REACTOMEID")
