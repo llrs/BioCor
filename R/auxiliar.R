@@ -379,10 +379,12 @@ J2D <- function(J) {
 combineScores <- function(scores, method, round = FALSE) {
     # Check input
     method <- match.arg(method, c("avg", "max", "rcmax", "rcmax.avg", "BMA"))
-
-    if (!is.numeric(scores)) {
-        stop("Please introduce numeric values")
-    } else if (length(scores) == 1L && is.na(scores)) {
+    if (is.list(scores) & length(scores) == 1) {
+        scores <- scores[[1]]
+    }
+    if (!is.matrix(scores)) {
+        stop("Please introduce a matrix")
+    } else if (any(dim(scores) == 0L)) {
         return(NA)
     }
 
