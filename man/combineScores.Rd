@@ -42,3 +42,6 @@ d
 sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA"), combineScores,
        scores = d)
 }
+\author{
+Lluís Revilla based on Guan
+}

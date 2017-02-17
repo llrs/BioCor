@@ -16,8 +16,8 @@ mclustersSim(clusters, genes, id, pathwayDB, method = c("max", "rcmax.avg"))
 \item{genes}{is the matrix with the information to calculate the similarity.
 It is created using select, should contain the column "id" and "pathwayDB".}
 
-\item{id}{is the column of "genes" where \code{gene1} and \code{gene2} are
-to be found}
+\item{id}{is the column of \code{genes} where \code{gene1} and \code{gene2}
+are to be found}
 
 \item{pathwayDB}{is the column where pathways should be found. It is usually
 the name of the database where they come from.}
@@ -64,10 +64,11 @@ clus
 combineScores(clus, "rcmax.avg")
 
 clusters <- list(cluster1 = c("18", "81", "10"),
-                 cluster2 = c("100", "10", "1"),
+                 cluster2 = c("100", "11", "1"),
                  cluster3 = c("18", "10", "83"))
 mclustersSim(clusters, genes.kegg, "ENTREZID", "PATH")
 mclustersSim(clusters, genes.kegg, "ENTREZID", "PATH", c("max", "avg"))
+mclustersSim(clusters, genes.kegg, "ENTREZID", "PATH", c("max", "BMA"))
 }
 \seealso{
 \code{\link{clusterSim}}, \code{\link{combineScores}} and \code{\link{conversions}}

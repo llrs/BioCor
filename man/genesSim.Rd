@@ -15,8 +15,8 @@ mgeneSim(gene.list, genes, id, pathwayDB, method = "max")
 \item{genes}{is the matrix with the information to calculate the similarity.
 It is created using select, should contain the column "id" and "pathwayDB".}
 
-\item{id}{is the column of "genes" where \code{gene1} and \code{gene2} are
-to be found}
+\item{id}{is the column of \code{genes} where \code{gene1} and \code{gene2}
+are to be found}
 
 \item{pathwayDB}{is the column where pathways should be found. It is usually
 the name of the database where they come from.}
