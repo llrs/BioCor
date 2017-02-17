@@ -10,9 +10,7 @@ clusterSim(cluster1, cluster2, genes, id, pathwayDB, method = "max")
 mclusterSim(clusters, genes, id, pathwayDB, method = "max")
 }
 \arguments{
-\item{cluster1}{A vector with genes in \code{id}.}
-
-\item{cluster2}{A vector with genes in \code{id}.}
+\item{cluster1, cluster2}{A vector with genes in \code{id}.}
 
 \item{genes}{is the matrix with the information to calculate the similarity.
 It is created using select, should contain the column "id" and "pathwayDB".}
@@ -35,7 +33,11 @@ the name of the database where they come from.}
 each cluster comparison.
 }
 \description{
-Given two vectors of genes looks for the similarity between those genes
+Looks for the similarity between genes in groups
+}
+\details{
+Once the pathways for each cluster are found they are combined using
+combineScores.
 }
 \examples{
 library("org.Hs.eg.db")
@@ -44,20 +46,21 @@ entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
 # data of June 31st 2011)
 genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
                      columns = "PATH")
-clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.react,
-           "ENTREZID", "REACTOMEID")
-clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.react,
-           "ENTREZID", "REACTOMEID", NULL)
-clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.react,
-           "ENTREZID", "REACTOMEID", "avg")
+clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+           "ENTREZID", "PATH")
+clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+           "ENTREZID", "PATH", NULL)
+clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+           "ENTREZID", "PATH", "avg")
 
 clusters <- list(cluster1 = c("18", "81", "10"),
                  cluster2 = c("100", "10", "1"),
                  cluster3 = c("18", "10", "83"))
-mclusterSim(clusters, genes.react, "ENTREZID", "REACTOMEID")
-mclusterSim(clusters, genes.react, "ENTREZID", "REACTOMEID", "avg")
+mclusterSim(clusters, genes.kegg, "ENTREZID", "PATH")
+mclusterSim(clusters, genes.kegg, "ENTREZID", "PATH", "avg")
 }
 \seealso{
+For a different approach see \code{\link{clustersSim}},
 \code{\link{combineScores}} and \code{\link{conversions}}
 }
 \author{

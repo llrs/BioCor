@@ -10,9 +10,7 @@ genesSim(gene1, gene2, genes, id, pathwayDB, method = "max")
 mgeneSim(gene.list, genes, id, pathwayDB, method = "max")
 }
 \arguments{
-\item{gene1}{Entrez gene id.}
-
-\item{gene2}{Entrez gene id.}
+\item{gene1, gene2}{Entrez gene id.}
 
 \item{genes}{is the matrix with the information to calculate the similarity.
 It is created using select, should contain the column "id" and "pathwayDB".}
@@ -32,19 +30,23 @@ the name of the database where they come from.}
 The highest Dice score of all the combinations of pathways between
 the two ids compared if a method to combine scores is provided or NA if
 there isn't information for one gene.
+If an \code{NA} is returned this means that there isn't information
+available for any pathways for one of the genes. Otherwise a number
+between 0 and 1 (both included) is returned. Note that there isn't a
+negative value of similarity.
 
 \code{mgeneSim} returns the matrix of similarities between the genes
 in the vector
 }
 \description{
-Given the information about the two genes via their pathways, uses the ids
-of the genes in comb to find the Dice similarity score.
+For the genes given calculates the Dice similarity between each pathway
+which is combined to obtain a similarity between the genes.
 }
 \details{
-If an \code{NA} is returned this means that there isn't information
-available for any pathways for one of those two genes. Otherwise a number
-between 0 and 1 (both included) is returned. Note that there isn't a
-negative value of similarity for pathways correlation.
+Given the information about the genes and their pathways, uses the ids
+of the genes to find the Dice similarity score for each pathway comparison
+between the genes. Later this similarities are combined using
+\code{\link{combineScores}}.
 }
 \examples{
 library("org.Hs.eg.db")
@@ -59,6 +61,7 @@ genesSim("81", "18", genes.kegg, "ENTREZID", "PATH")
 genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
                       columns = "REACTOMEID")
 genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID")
+genesSim("81", "18", genes.kegg, "ENTREZID", "PATH")
 genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID", NULL)
 
 mgeneSim(c("81", "18", "10"), genes.react, "ENTREZID", "REACTOMEID")

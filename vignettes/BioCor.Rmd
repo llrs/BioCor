@@ -104,6 +104,15 @@ It keeps the one with the higher mean similarity for all the genes available in 
 
 ## Why isn't available a method for calculating GO ?
 This is covered by the GOSemSim package, you can use it to produce a similarity matrix (i.e. use `mgeneSim`). You can parallelize it with `foreach` package or `BiocParallel` if your list of genes is big. 
+## I get some criptic warnings, how do I solve them?
+
+If you see some warnings like:
+```{r, eval = FALSE}
+In FUN(if (length(d.call) < 2L) newX[, 1] else array(newX[, 1L],  :
+  no non-missing arguments to max; returning -Inf
+In is.na(out) : is.na() applied to non-(list or vector) of type 'NULL'
+```
+And the resulting values are `NaN` check if you have selected the right column to extract the pathways from the data you provided.
 
 # WGCNA and BioCor 
 

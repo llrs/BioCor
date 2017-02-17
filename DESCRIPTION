@@ -1,6 +1,6 @@
 Package: BioCor
 Title: Calculates functional similarities between genes
-Version: 0.99.11
+Version: 0.99.12
 Authors@R: person("Lluís", "Revilla Sancho", email = "lluis.revilla@gmail.com", role = c("aut", "cre"))
 Author: Lluís Revilla Sancho <lluis.revilla@gmail.com>
 Maintainer: Lluís Revilla Sancho <lluis.revilla@gmail.com>

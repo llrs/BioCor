@@ -368,6 +368,9 @@ J2D <- function(J) {
 #' @param method one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA")}
 #' @param round Should the resulting value be rounded to the third digit?
 #' @return A numeric value as described in details.
+#' @note This is a version of combineScores inspired from GOSemSim
+#' \code{\link[GOSemSim]{combineScores}} with optional rounding and some
+#' internal differences.
 #' @export
 #' @examples
 #' d <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,

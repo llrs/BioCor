@@ -29,6 +29,11 @@ The methods return:
 the number of columns and rows}
 \item{BMA}{The same as \code{rcmax.avg}}}
 }
+\note{
+This is a version of combineScores inspired from GOSemSim
+\code{\link[GOSemSim]{combineScores}} with optional rounding and some
+internal differences.
+}
 \examples{
 d <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
 0.285714285714286), .Dim = c(3L, 3L), .Dimnames = list(c("a",

@@ -85,7 +85,6 @@ mpathSim <- function(pathways1, pathways2, genes, id, pathwayDB,
     g2 <- genesInfo(genes, pathwayDB, pathways2, id)
 
     vp <- Vectorize(pathSim)
-
     react <- outer(g1, g2, vp)
 
     # Calculate the similarity between the two genes
@@ -337,16 +336,14 @@ genesInfo <- function(genes, colm, id, type) {
 # genesSim ####
 #' Calculates the Dice similarity score of two genes
 #'
-#' Given the information about the two genes via their pathways, uses the ids
-#' of the genes in comb to find the Dice similarity score.
+#' For the genes given calculates the Dice similarity between each pathway
+#' which is combined to obtain a similarity between the genes.
 #'
-#' If an \code{NA} is returned this means that there isn't information
-#' available for any pathways for one of those two genes. Otherwise a number
-#' between 0 and 1 (both included) is returned. Note that there isn't a
-#' negative value of similarity for pathways correlation.
-#'
-#' @param gene1 Entrez gene id.
-#' @param gene2 Entrez gene id.
+#' Given the information about the genes and their pathways, uses the ids
+#' of the genes to find the Dice similarity score for each pathway comparison
+#' between the genes. Later this similarities are combined using
+#' \code{\link{combineScores}}.
+#' @param gene1,gene2 Entrez gene id.
 #' @param genes is the matrix with the information to calculate the similarity.
 #' It is created using select, should contain the column "id" and "pathwayDB".
 #' @param id is the column of "genes" where \code{gene1} and \code{gene2} are
@@ -355,9 +352,14 @@ genesInfo <- function(genes, colm, id, type) {
 #' the name of the database where they come from.
 #' @param method To combine the scores of each pathway, one of \code{c("avg",
 #' "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix.
-#' @return The highest Dice score of all the combinations of pathways between
+#' @return
+#' The highest Dice score of all the combinations of pathways between
 #' the two ids compared if a method to combine scores is provided or NA if
 #' there isn't information for one gene.
+#' If an \code{NA} is returned this means that there isn't information
+#' available for any pathways for one of the genes. Otherwise a number
+#' between 0 and 1 (both included) is returned. Note that there isn't a
+#' negative value of similarity.
 #' @export
 #' @author Lluis Revilla
 #' @seealso \code{\link{conversions}} help page to transform Dice
@@ -376,6 +378,7 @@ genesInfo <- function(genes, colm, id, type) {
 #' genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
 #'                       columns = "REACTOMEID")
 #' genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID")
+#' genesSim("81", "18", genes.kegg, "ENTREZID", "PATH")
 #' genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID", NULL)
 genesSim <- function(gene1, gene2, genes, id, pathwayDB, method = "max") {
     comb <- c(gene1, gene2)
@@ -431,14 +434,16 @@ mgeneSim <- function(gene.list, genes, id, pathwayDB, method = "max") {
 # clusterSim ####
 #' Compare two clusters of genes
 #'
-#' Given two vectors of genes looks for the similarity between those genes
+#' Looks for the similarity between genes in groups
 #'
-#' @param cluster1 A vector with genes in \code{id}.
-#' @param cluster2 A vector with genes in \code{id}.
+#' Once the pathways for each cluster are found they are combined using
+#' combineScores.
+#' @param cluster1,cluster2 A vector with genes in \code{id}.
 #' @inheritParams genesSim
 #' @export
 #' @author Lluís Revilla
-#' @seealso \code{\link{combineScores}} and \code{\link{conversions}}
+#' @seealso For a different approach see \code{\link{clustersSim}},
+#' \code{\link{combineScores}} and \code{\link{conversions}}
 #' @return \code{clusterSim} returns a similarity score of the two clusters
 #' @examples
 #' library("org.Hs.eg.db")
@@ -447,12 +452,12 @@ mgeneSim <- function(gene.list, genes, id, pathwayDB, method = "max") {
 #' # data of June 31st 2011)
 #' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
 #'                      columns = "PATH")
-#' clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.react,
-#'            "ENTREZID", "REACTOMEID")
-#' clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.react,
-#'            "ENTREZID", "REACTOMEID", NULL)
-#' clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.react,
-#'            "ENTREZID", "REACTOMEID", "avg")
+#' clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+#'            "ENTREZID", "PATH")
+#' clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+#'            "ENTREZID", "PATH", NULL)
+#' clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+#'            "ENTREZID", "PATH", "avg")
 clusterSim <- function(cluster1, cluster2, genes, id, pathwayDB, method = "max"){
     pathways1 <- genesInfo(genes, id, cluster1, pathwayDB)
     pathways2 <- genesInfo(genes, id, cluster2, pathwayDB)
@@ -473,10 +478,93 @@ clusterSim <- function(cluster1, cluster2, genes, id, pathwayDB, method = "max")
 #' clusters <- list(cluster1 = c("18", "81", "10"),
 #'                  cluster2 = c("100", "10", "1"),
 #'                  cluster3 = c("18", "10", "83"))
-#' mclusterSim(clusters, genes.react, "ENTREZID", "REACTOMEID")
-#' mclusterSim(clusters, genes.react, "ENTREZID", "REACTOMEID", "avg")
+#' mclusterSim(clusters, genes.kegg, "ENTREZID", "PATH")
+#' mclusterSim(clusters, genes.kegg, "ENTREZID", "PATH", "avg")
 mclusterSim <- function(clusters, genes, id, pathwayDB, method = "max") {
     vc <- Vectorize(clusterSim, vectorize.args = c("cluster1", "cluster2"))
     outer(clusters, clusters, vc, genes = genes, id = id,
           pathwayDB = pathwayDB, method = method)
+
+}
+
+# clustersSim ####
+#' Compare two clusters of genes
+#'
+#' Looks for the similarity between genes of a group and then between each
+#' group.
+#'
+#' Differs with clusterSim that first each combination between genes is
+#' calculated, and with this values then the comparison between the two
+#' clusters is done. Thus applying combineScores twice, one at gene level and
+#' another one at cluster level.
+#' @param cluster1,cluster2 A vector with genes in \code{id}.
+#' @inheritParams genesSim
+#' @param method A vector with two  or one argument to be passed to combineScores the
+#' first one is used to summarize the similarities of genes, the second one
+#' for clusters.
+#' @export
+#' @author Lluís Revilla
+#' @seealso \code{\link{clusterSim}}, \code{\link{combineScores}} and \code{\link{conversions}}
+#' @return \code{clustersSim} returns a similarity score of the two clusters or
+#' the similarity between the genes of the two clusters.
+#' @examples
+#' library("org.Hs.eg.db")
+#' entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
+#' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
+#' # data of June 31st 2011)
+#' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
+#'                      columns = "PATH")
+#' clustersSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+#'            "ENTREZID", "PATH")
+#' clustersSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+#'            "ENTREZID", "PATH", c("avg", "avg"))
+#' clustersSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+#'            "ENTREZID", "PATH", c("avg", "rcmax.avg"))
+#' clus <- clustersSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+#'            "ENTREZID", "PATH", "avg")
+#' clus
+#' combineScores(clus, "rcmax.avg")
+clustersSim <- function(cluster1, cluster2, genes, id, pathwayDB,
+                        method = c("max", "rcmax.avg")) {
+    if (length(method) > 2L | is.null(method) | any(is.na(method))) {
+        stop("Please provide two  or one methods to combine scores.",
+             "See Details")
+    }
+
+    pathways1 <- genesInfo(genes, id, cluster1, pathwayDB)
+    pathways2 <- genesInfo(genes, id, cluster2, pathwayDB)
+
+    vmpathSim <- Vectorize(mpathSim,
+                           vectorize.args = c("pathways1", "pathways2"))
+
+    out <- outer(pathways1, pathways2, vmpathSim, genes, id, pathwayDB, NULL)
+    out <- apply(out, c(1,2), combineScores, method = method[1L])
+    if (length(method) == 2) {
+        combineScores(out, method[2L])
+    } else {
+        out
+    }
+}
+
+#' @param clusters A list of clusters of genes to be found in \code{id}.
+#' @rdname clustersSim
+#' @return \code{mclustersSim} returns a matrix with the similarity scores for
+#' each cluster comparison.
+#' @export
+#' @examples
+#'
+#' clusters <- list(cluster1 = c("18", "81", "10"),
+#'                  cluster2 = c("100", "10", "1"),
+#'                  cluster3 = c("18", "10", "83"))
+#' mclustersSim(clusters, genes.kegg, "ENTREZID", "PATH")
+#' mclustersSim(clusters, genes.kegg, "ENTREZID", "PATH", c("max", "avg"))
+mclustersSim <- function(clusters, genes, id, pathwayDB,
+                         method = c("max", "rcmax.avg")) {
+    if (length(method) != 2) {
+        stop("Please provide two methods to combine scores")
+    }
+    vc <- Vectorize(clustersSim, vectorize.args = c("cluster1", "cluster2"))
+    outer(clusters, clusters, vc, genes = genes, id = id,
+          pathwayDB = pathwayDB, method = method)
+
 }
