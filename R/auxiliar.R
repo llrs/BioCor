@@ -381,6 +381,9 @@ J2D <- function(J) {
 #' d
 #' sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA"), combineScores,
 #'        scores = d)
+#' d[1,2] <- NA
+#' sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA"), combineScores,
+#'        scores = d)
 combineScores <- function(scores, method, round = FALSE) {
     # Check input
     method <- match.arg(method, c("avg", "max", "rcmax", "rcmax.avg", "BMA"))
