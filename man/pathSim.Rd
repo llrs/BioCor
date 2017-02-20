@@ -3,7 +3,6 @@
 \name{pathSim}
 \alias{pathSim}
 \alias{mpathSim}
-\alias{pathSim}
 \title{Compare pathways}
 \usage{
 pathSim(pathways1, pathways2, genes, id, pathwayDB, method = "max")
@@ -12,7 +11,7 @@ mpathSim(pathways1, pathways2, genes, id, pathwayDB, method = "max")
 }
 \arguments{
 \item{pathways1, pathways2}{Pathways to be found in
-\code{pathwayDB}}
+\code{pathwayDB}.}
 
 \item{genes}{is the matrix with the information to calculate the similarity.
 It is created using select, should contain the column "id" and "pathwayDB".}
@@ -36,7 +35,7 @@ Given two vectors of pathways calculates the similarity between them.
 \details{
 \code{diceSim} is used to calculate similarities between each pathway and
 combineScores to extract the similarity between those pathways. If one need
-the matrix of similarities set methods to null
+the matrix of similarities set methods to \code{NULL}.
 }
 \examples{
 library("org.Hs.eg.db")

@@ -54,9 +54,9 @@ diceSim <- function(g1, g2) {
 #'
 #' \code{diceSim} is used to calculate similarities between each pathway and
 #' combineScores to extract the similarity between those pathways. If one need
-#' the matrix of similarities set methods to null
+#' the matrix of similarities set methods to \code{NULL}.
 #' @param pathways1,pathways2 Pathways to be found in
-#' \code{pathwayDB}
+#' \code{pathwayDB}.
 #' @inheritParams genesSim
 #' @return The similarity between those pathways or all the similarities
 #' between each comparison.
@@ -85,7 +85,7 @@ pathSim <- function(pathways1, pathways2, genes, id, pathwayDB,
 }
 
 #' @rdname pathSim
-#' @aliases pathSim
+#' @export
 mpathSim <- function(pathways1, pathways2, genes, id, pathwayDB,
                      method = "max") {
 
