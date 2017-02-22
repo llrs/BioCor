@@ -9,7 +9,7 @@ addSimilarities(x, bio_mat, weights = c(0.5, 0.18, 0.1, 0.22))
 \arguments{
 \item{x}{A matrix with the similarity of expression}
 
-\item{bio_mat}{A list of matrices of the same dimension}
+\item{bio_mat}{A list of matrices of the same dimension as x.}
 
 \item{weights}{A numeric vector of weight to multiply each similarity}
 }
@@ -22,7 +22,7 @@ similarity matrix.
 }
 \details{
 The total weight can't be higher than 1 to prevent values above
-1 but can be below 1.
+1 but can be below 1. It uses weighted.sum with abs = TRUE internally.
 }
 \examples{
 set.seed(100)

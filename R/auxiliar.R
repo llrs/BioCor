@@ -126,9 +126,9 @@ similarities <- function(sim, func, ...) {
 #' similarity matrix.
 #'
 #' The total weight can't be higher than 1 to prevent values above
-#' 1 but can be below 1.
+#' 1 but can be below 1. It uses weighted.sum with abs = TRUE internally.
 #' @param x A matrix with the similarity of expression
-#' @param bio_mat A list of matrices of the same dimension
+#' @param bio_mat A list of matrices of the same dimension as x.
 #' @param weights A numeric vector of weight to multiply each similarity
 #' @return A square matrix of the same dimensions as the input matrices.
 #' @export
