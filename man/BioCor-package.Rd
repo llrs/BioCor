@@ -26,7 +26,7 @@ number of genes
 similarities}
 \item{\code{\link{conversions}}}{Two functions to convert similarity
 measures}
-\item{\code{\link{weigthed}}}{Functions provided to combine similarities}
+\item{\code{\link{weighted}}}{Functions provided to combine similarities}
 }
 }
 

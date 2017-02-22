@@ -32,7 +32,7 @@ genes.id <- as.character(c(52, 11342, 80895, 57654, 58493, 1164, 1163, 4150,
 genes.symbol <- c("ACP1", "RNF13", "ILKAP", "UVSSA", "INIP", "CKS2", "CKS1B",
                   "MAZ", "EWSR1", "ADSS")
 
-# pathSim ####
+# diceSim ####
 test_that("diceSim", {
     genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")
     test <- diceSim(genes.id, genes.id2)

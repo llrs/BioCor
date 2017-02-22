@@ -5,7 +5,7 @@
 \alias{mpathSim}
 \title{Compare pathways}
 \usage{
-pathSim(pathways1, pathways2, genes, id, pathwayDB, method = "max")
+pathSim(pathways1, pathways2, genes, id, pathwayDB)
 
 mpathSim(pathways1, pathways2, genes, id, pathwayDB, method = "max")
 }

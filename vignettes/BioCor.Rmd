@@ -1,31 +1,37 @@
 ---
 title: "BioCor"
 author: '[Lluís Revilla](mailto:lrevilla@clinic.cat)'
-date: '`r date()`'
+date: '`r BiocStyle::doc_date()`'
+package: '`r BiocStyle::pkg_ver("BioCor")`'
 output:
   BiocStyle::pdf_document:
     fig_caption: yes
     toc: yes
+    toc_depth: 3
   BiocStyle::html_document:
     fig_caption: yes
     toc_float: yes
-package: '`r BiocStyle::pkg_ver("BioCor")`'
-vignette: "%\\VignetteIndexEntry{BioCor} %\\VignetteEngine{knitr::rmarkdown} %\\VignetteEncoding{UTF-8}
-  \ \n"
+    toc_depth: 3
+
+vignette: >
+  %\VignetteIndexEntry{BioCor}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}  
 ---
 ```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_knit$set(root.dir = ".")
 knitr::opts_chunk$set(fig.width = 20, fig.height = 20, collapse = TRUE)
+BiocStyle::markdown()
 ```
 
 
 # Introduction
 
-Functional similarities have already been used to several purposes, most of them are based on Gene Ontology, which can be calculated using [GOSemSim](https://bioconductor.org/packages/release/bioc/html/GOSemSim.html), or other controlled vocabulary.
+Functional similarities have already been used to several purposes, most of them are based on Gene Ontology, which can be calculated using `r BiocStyle::Biocpkg("GOSemSim")`, or other controlled vocabulary.
 
 General methods for similarity between to sets has been proposed Jaccard and Dice. However they have not been used to compare the similarity of pathways, or genes, neither between genes and pathways nor between databases. With this package we provide the methods to calculate such similarities with flexibility.
 
-Here we provides functions to calculate similarities for pathways, genes and clusters of genes. As it development started aiming to group better genes by functionallity in co-expression networks using [WGCNA](https://cran.r-project.org/package=WGCNA).
+Here we provides functions to calculate similarities for pathways, genes and clusters of genes. As it development started aiming to group better genes by functionallity in co-expression networks using *[WGCNA](https://cran.r-project.org/package=WGCNA)*.
 
 # Citation
 The main article describing how it has been applied, is currently under writing.
@@ -37,7 +43,7 @@ source("http://bioconductor.org/biocLite.R")
 biocLite("BioCor")
 ```
 
-You can install the latest version with:
+You can install the latest version of `r BiocStyle::Githubpkg("llrs/BioCor")` from Github with:
 ```{r github, eval = FALSE}
 library("devtools")
 install_github("llrs/BioCor")
@@ -75,7 +81,7 @@ mpathSim(pathways1, pathways2, genes.react, "ENTREZID", "REACTOMEID", NULL)
 ```
 In row-wise we have the pathways of the first argument and column-wise the pathways of the second argument.
 
-### Combining values
+### Combining values {#combining}
 To combine values we provide a function with several methods:
 ```{r combineScores}
 sim <- mpathSim(pathways1, pathways2, genes.react, "ENTREZID", "REACTOMEID", NULL)
@@ -84,7 +90,7 @@ sapply(methodsCombineScores, combineScores, scores = sim)
 ```
 We can also specify the method to combine the similarities in mpathSim argument method, by default it is the "max" method.
 
-## Gene similarities
+## Gene similarities {#genesSim}
 To calculate a single pair of comparisons there are the `genesSim` and `mgeneSim` function for several comparisons. In this example we compare the genes BRCA1 and BRCA2 and NAT2:
 ```{r genesSim}
 genesSim("672", "675", genes.kegg, "ENTREZID", "PATH")
@@ -94,13 +100,13 @@ mgeneSim(c("672", "675", "10"), genes.kegg, "ENTREZID", "PATH")
 mgeneSim(c("672", "675", "10"), genes.react, "ENTREZID", "REACTOMEID")
 ```
 
-Note that for the same genes each database has different annotations, which result on different similarity scores. In this example the gene 18 has `r ncol(genesSim("672", "675", genes.kegg, "ENTREZID", "PATH", NULL))` and `r ncol(genesSim("672", "675", genes.react, "ENTREZID", "REACTOMEID", NULL))` pathways in KEGG and Reactome respectively and the gene 81 has `r nrow(genesSim("672", "675", genes.kegg, "ENTREZID", "PATH", NULL))` and `r nrow(genesSim("672", "675", genes.react, "ENTREZID", "REACTOMEID", NULL))` pathways in KEGG and Reactome respectively which results on different scores.
+Note that for the same genes each database has different annotations, which result on different similarity scores. In this example the gene 672 has `r ncol(genesSim("672", "675", genes.kegg, "ENTREZID", "PATH", NULL))` and `r ncol(genesSim("672", "675", genes.react, "ENTREZID", "REACTOMEID", NULL))` pathways in KEGG and Reactome respectively and the gene 675 has `r nrow(genesSim("672", "675", genes.kegg, "ENTREZID", "PATH", NULL))` and `r nrow(genesSim("672", "675", genes.react, "ENTREZID", "REACTOMEID", NULL))` pathways in KEGG and Reactome respectively which results on different scores.
 
 ## Gene cluster similarities
 
-There are two mehtods:
- - Combining all the pathways for each cluster and then compare between them
- - Calculate the similarity between the genes of a cluster and combine the similarities for each gene of a cluster
+There are two mehtods:  
+* Combining all the unique pathways for each cluster and then compare between them
+* Calculate the similarity between the genes of a cluster and combine the similarities for each gene of a cluster
 In the first case, if a method to combine pathways similarities is not provided are all returned:
 ```{r clusterSim}
 clusterSim(c("672", "675"), c("100", "10", "1"), genes.kegg,
@@ -129,6 +135,25 @@ mclusterSim(clusters, genes.kegg, "ENTREZID", "PATH", "rcmax.avg")
 mclustersSim(clusters, genes.kegg, "ENTREZID", "PATH", c("max", "rcmax.avg"))
 ```
 
+## Merging similarities
+If one calculate similarities for with KEGG data and Reactome for the same genes there are a couple of functions to merge them:
+
+```{r merging}
+kegg <- mgeneSim(c("672", "675", "10"), genes.kegg, "ENTREZID", "PATH")
+react <- mgeneSim(c("672", "675", "10"), genes.react, "ENTREZID", "REACTOMEID")
+# We can sum it adding a weight to each origin
+weighted.sum(c(kegg[1, 2], react[1,2]), w = c(0.3, 0.7))
+
+# Or if we want to perform for all the matrix
+# A list of matrices to merge
+sim <- list("kegg" = kegg, "react" = react)
+# And call similarities and a function to apply
+similarities(sim, weighted.sum, w = c(0.3, 0.7))
+similarities(sim, weighted.prod, w = c(0.3, 0.7))
+similarities(sim, prod)
+similarities(sim, mean)
+```
+
 # High volumes of gene similarities
 If we want multiple gene pair-wise comparisons we can use bioCor, which accepts a parallel back-end:
 ```{r big, collapse=TRUE}
@@ -137,83 +162,128 @@ genes.id <- c("10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644",
               "1352", "88")
 library("BiocParallel")
 sim <- bioCor(genes.id, all = TRUE, BPPARAM = MulticoreParam())
-sim
+str(sim)
 ```
 
 Now in `sim` we have a list of matrices of `r nrow(sim[[1]])` rows and columns with similarities from both, Reatome and KEGG database.
 
+# An example of similarities
+With the genes in the list we are going to see how similar are those genes:
+```{r hclust1}
+# Calculate the similarity 
+react <- mgeneSim(genes.id, genes.react, "ENTREZID", "REACTOMEID")
+# We need to remove colums with too much NA
+nas <- apply(react, 1, function(x){sum(is.na(x))})
+react <- react[nas <= 10, nas <= 10]
+plot(hclust(as.dist(1 - react))) #We plot the relationship between the genes
+```
+As we can see there are a couple of genes which are not related to others in the list the 2073 and the 81.
+
+Now we add the two genes mores the BRCA1 and BRCA2 which have the entrez identification 672 and 675.
+```{r hclust2} 
+react2 <- mgeneSim(c(genes.id, "672", "675"), genes.react, "ENTREZID", 
+                   "REACTOMEID")
+info <- select(org.Hs.eg.db, keys = c(genes.id, "675", "672"), keytype = "ENTREZID",
+       columns = c("SYMBOL", "GENENAME"))
+# We change the ENTREZID genes for the Symbols
+colnames(react2) <- info$SYMBOL
+rownames(react2) <- info$SYMBOL
+# We need to remove colums with too much NA
+nas <- apply(react2, 1, function(x){sum(is.na(x))})
+react2 <- react2[nas <= 10, nas <= 10]
+plot(hclust(as.dist(1 - react2))) 
+info
+```
+
+We can see now that the gene 2073 is the ERCC5 related with BRCA1 and BRCA2, as the name indicates all three are linked to DNA. We can also observe that the actinin alpha 4 and 2 are involved in different functions, and there is a pair of genes related to RNA, another is not clear and two are related to metabolism one about acetil metabolism and another more general.
+
+We can group them for a cluster analysis to visualize the relationship between the clusters:
+```{r hclust3}
+clusters <- list(DNA = c("672", "675", "2073"),
+                 RNA = c("16", "9128"),
+                 acetil_metabolism = c("10", "15", "9", "644", "210", "1352"),
+                 metabolism = c("18", "2893", "88"), 
+                 unknown = c("2", "81327", "5142", "60"))
+# Remember we can use both methods to compare clusters
+sim_clus1 <- mclusterSim(clusters, genes.react, "ENTREZID", "REACTOMEID")
+plot(hclust(as.dist(1 - sim_clus1)))
+sim_clus2 <- mclustersSim(clusters, genes.react, "ENTREZID", "REACTOMEID")
+plot(hclust(as.dist(1 - sim_clus2)))
+```
+As we can see each method results in a different dendrogram, but the second is more accurate to describe the relationships between the genes in the clusters.
+
 # FAQ
 
-## How do you calculate how similar two genes are ?
+## How do you calculate how similar are two pathways ?
 It uses the [Sørensen–Dice index](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient): 
-It is the top score of the doble of the genes shared by pathways of the two genes ($i$ and $j$) divided by the number of genes in each pathway.
+It is the doble of the genes shared by the pathways divided by the number of genes in each pathway.
 
 We can calculate the similarity between two pathways ($x$, $w$) with:
 
-$sim(x, w) = \frac{2 · |x \cap y|}{|x| + |y|}$
+$$Dice(x, w) = \frac{2 |x \cap y|}{|x| + |y|}$$
 
 This is implemented in the `diceSim` function, which results is similar to Jaccard index:
 
-$J(x, w) = \frac{|x \cap w|}{|x \cup w|}$
+$$Jaccard(x, w) = \frac{|x \cap w|}{|x \cup w|}$$
 
-To calculate the Jaccard index use the `D2J` function.
-
-The resulting values are $sim(x, w)  \in [0, 1]$. To calculate the similarity between two genes is implemented in the `genesSim` function.
+Both Jaccard index and Dice index are between 0 and 1 ($[0, 1]$). To calculate the Jaccard index from the `diceSim` use the `D2J` function.
 
 ## Why do you use the dice coefficient and not the Jaccard ?
-We consider Dice coefficient better than Jaccard because it has higher values for the same comparisons. If in a database a gene is annotated to belong to a pathaway it has more meaning for the similarity than if it is not annotated. 
+We consider Dice coefficient better than Jaccard because it has higher values for the same comparisons. Also to include a gene in a pathway is difficult and it is a way to reward the known interactions. 
 
-## How do you combine similarities between two genes with several pathways?
-Although I recommend the "max" method (Which is the default) there are implemented others in the `combineScores` of the `GOSemSim` package which I borrowed.
+## How do you combine similarities between several pathways of two genes?
+Although I recommend the "max" method, the default, there are implemented other methods in `combineScores` of the `r BiocStyle::Biocpkg("GOSemSim")` package which I borrowed. See the [Combining values section]({#combining}) and the help page of `combineScores`.
 
 ## Why do you recommend using the max method to combine similarities scores for pathways?
+The purpose of combining the scores is usually to know which genes or which relationships beteen pathways are more relevant. The higher the similarity is between two pathway of two genes, the higher functionalities do the genes share, so even if those genes could be less related, this value would be the maximum functional relationship between them. 
 
-The similarity is intended to calculate how much functionally related are two genes in the pathways where they are described. The higher the similarity is in a pathway, the higher they relate. A gene might be highly related to several genes but those relationships if important can be caught by other similarities scores or by experimental data like expression correlation of both genes.
+## How to detect which functional relationship is more important between two genes?
+To detect which relationship is more important between two genes one could either measure other similarities scores or check the stechiometric of the pathways and measure the expression changes and correlation between them.
+
+## How to detect with which genes is my gene of interest related?
+You can measure the [gene similarity](#genesSim) between those genes and also measure the expression correlation of your gene of interest with other genes. 
 
 ## Why isn't available a method for calculating GO ?
-This is covered by the GOSemSim package, you can use it to produce a similarity matrix (i.e. use `mgeneSim`). You can parallelize it with `foreach` package or `BiocParallel` if your list of genes is big. 
+This is covered by the `r BiocStyle::Biocpkg("GOSemSim")` package, you can use it to produce a similarity matrix (i.e. use `mgeneSim`). You can parallelize it with `foreach` package or `BiocParallel` if your list of genes is big. 
 
 ## How does bioCor deal when one gene is mapped to several ones?
 It keeps the one with the higher mean similarity for all the genes available in the comparison. That means that for a different comparison depending on which genes you are computing a gene can have different values. 
 
 ## I get some criptic warnings, how do I solve them?
-
-If you see some warnings like:
+If you see some warnings when running a gene analysis or a cluster analysis like:
 ```{r, eval = FALSE}
 In FUN(if (length(d.call) < 2L) newX[, 1] else array(newX[, 1L],  :
   no non-missing arguments to max; returning -Inf
 In is.na(out) : is.na() applied to non-(list or vector) of type 'NULL'
 ```
-And the resulting values are `NaN` check if you have selected the right column to extract the pathways from the data you provided.
+And the resulting values have `NaN`, check if you have selected the right columns, for id and pathwayDB, to extract the information from the data you provided.
 
 # WGCNA and BioCor 
 
-BioCor was originally thought to be used with other clustering packages using similarity measures like WGCNA, does. Here we provide an example on how to use BioCor with WGCNA, assuming we have already calculated the similarities in the `sim` matrix.
+BioCor was originally thought to be used with other clustering packages using similarity measures like `r BiocStyle::CRANpkg("WGCNA")`, does. Here we provide an example on how to use BioCor with WGCNA, assuming we have already calculated the similarities in the list `sim`.
 
 ```{r wgcna, eval=FALSE}
-# Load the expression data
+# Load the expression data see tutorial 1 of WGCNA
 load("expression.RData", verbose = TRUE)
 expr.sim <- adjacency(expr) # set the power necessary for a scale free topology
-# To combine the similarities we can use several functions:
-similarity <- addSimilarities(expr.sim, sim, w = c(0.8, 0.1, 0.1))
-# Equivalent to the previous one
+# To combine the similarities either weighted.sum :
 similarity <- similarities(c(list(exp = expr.sim), sim), 
                            weighted.sum, w = c(0.8, 0.1, 0.1))
-# Multiply each similarity to keep the sign if we use 
-# adjacency type = "unsigned" for TOMType  = "signed"
-similarity <- similarities(c(list(exp = expr.sim), sim), prod) 
+# Or the mean
+similarity <- similarities(c(list(exp = expr.sim), sim), mean) 
+# Or any other function we want
 
 # Once we have the similarities we can calculate the TOM with TOM
 TOM <- TOMsimilarity(similarity)
 dissTOM <- 1 - TOM
 geneTree <- hclust(as.dist(dissTOM), method = "average")
-# We can use the recomended way of WGCNA or any other clustering tool
+# We can use a clustering tool to group the genes
 dynamicMods <- cutreeHybrid(dendro = geneTree, distM = dissTOM,
                             deepSplit = 2, pamRespectsDendro = FALSE,
                             minClusterSize = 30)
 moduleColors <- labels2colors(dynamicMods$labels) 
 ```
-Once identified the modules using the functional similarities of this package, one can continue with the workflow of WGCNA.
+Once the modules are identified using the functional similarities of this package and the gene correlations, one can continue with the workflow of WGCNA.
 
 # Session Info
 
