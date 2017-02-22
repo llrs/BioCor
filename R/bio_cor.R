@@ -74,12 +74,11 @@ diceSim <- function(g1, g2) {
 #' pathways2 <- c("109582", "114608", "1500931", "888590", "76002", "76005")
 #' pathSim(pathways1[1], pathways2[1], genes.react, "ENTREZID", "REACTOMEID")
 #' mpathSim(pathways1, pathways2, genes.react, "ENTREZID", "REACTOMEID", NULL)
-pathSim <- function(pathways1, pathways2, genes, id, pathwayDB,
-                    method = "max") {
+pathSim <- function(pathways1, pathways2, genes, id, pathwayDB) {
 
     # Extract the gene ids for each pathway
-    g1 <- genesInfo(genes, pathwayDB, pathways1, id)
-    g2 <- genesInfo(genes, pathwayDB, pathways2, id)
+    g1 <- genesInfo(genes, pathwayDB, pathways1, id)[[1]]
+    g2 <- genesInfo(genes, pathwayDB, pathways2, id)[[1]]
 
     diceSim(g1, g2)
 }
