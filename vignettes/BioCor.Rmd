@@ -167,8 +167,8 @@ str(sim)
 
 Now in `sim` we have a list of matrices of `r nrow(sim[[1]])` rows and columns with similarities from both, Reatome and KEGG database.
 
-# An example of similarities
-With the genes in the list we are going to see how similar are those genes:
+# An example of usages
+With the genes in the previous list we are going to see how similar are those genes:
 ```{r hclust1}
 # Calculate the similarity 
 react <- mgeneSim(genes.id, genes.react, "ENTREZID", "REACTOMEID")
@@ -195,7 +195,7 @@ plot(hclust(as.dist(1 - react2)))
 info
 ```
 
-We can see now that the gene 2073 is the ERCC5 related with BRCA1 and BRCA2, as the name indicates all three are linked to DNA. We can also observe that the actinin alpha 4 and 2 are involved in different functions, and there is a pair of genes related to RNA, another is not clear and two are related to metabolism one about acetil metabolism and another more general.
+We can see now that the gene 2073 is the ERCC5 related with BRCA1 and BRCA2, as the name indicates all three are linked to DNA. We can also observe that the actinin alpha 4 and 2 are involved in different functions, and there is a pair of genes related to RNA, another group is not clear what functions do they do. Two grups are related to metabolism one about acetil metabolism and another more general.
 
 We can group them for a cluster analysis to visualize the relationship between the clusters:
 ```{r hclust3}
