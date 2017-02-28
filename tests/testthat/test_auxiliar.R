@@ -88,30 +88,6 @@ test_that("removeDup", {
     expect_error(removeDup(mat, dupli), "should be symmetric")
 })
 
-# genesInfo ####
-test_that("genesInfo", {
-    info <- structure(
-        list(ENTREZID = c("1", "2", "2", "2", "2", "2", "2", "2",
-                          "2", "2", "2", "2", "3", "4", "5", "6",
-                          "7", "8", "9", "9", "9", "9", "10", "10",
-                          "10", "10"),
-             REACTOMEID = c(NA, "109582", "114608", "140837",
-                            "140877", "1474228", "1474244",
-                            "162582", "194315", "194840", "76002",
-                            "76005", NA, NA, NA, NA, NA, NA,
-                            "1430728", "156580", "156582", "211859",
-                            "1430728", "156580","156582", "211859")
-        ),
-        .Names = c("ENTREZID", "REACTOMEID"),
-        class = "data.frame", row.names = c(NA, -26L))
-
-    test <- genesInfo(info, "REACTOMEID", c("9", "10"), "REACTOMEID")
-    expect_is(test, "list")
-    expect_is(test[[1L]], "character")
-    expect_equal(names(test), c("9", "10"))
-    expect_length(test[[1L]], 0L)
-})
-
 # D2J and J2D ####
 test_that("Conversions", {
     expect_error(D2J(1.1))

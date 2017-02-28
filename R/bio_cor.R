@@ -312,35 +312,6 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
     return(cor_mat)
 }
 
-# genesInfo  ####
-#' Extract which genes are from which database
-#'
-#'
-#' @param genes is the data.frame with information
-#' @param colm is the colum where \code{id} is found
-#' @param id is the ids we are looking for in column \code{type} of
-#' \code{genes}  data.frame
-#' @param type is the column we are looking to keep.
-#' @return A list with the unique identifiers of genes of the \code{type}
-#' column
-#' @export
-#' @examples
-#' library("org.Hs.eg.db")
-#' library("reactome.db")
-#' entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
-#' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
-#' # data of June 31st 2011)
-#' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
-#'                      columns = "PATH")
-#' g <- genesInfo(genes.kegg, "PATH", c("04510", "04520"), "ENTREZID")
-#' lengths(g)
-genesInfo <- function(genes, colm, id, type) {
-    sapply(id, function(x){
-        out <- unique(as.vector(genes[genes[, colm, drop = TRUE] == x,
-                                      type, drop = TRUE]))
-        out[!is.na(out)]}, simplify = FALSE)
-}
-
 # genesSim ####
 #' Calculates the Dice similarity score of two genes
 #'
