@@ -1,8 +1,8 @@
 library("BioCor")
 context("Testing BioCor fundamental functions")
 
-# genesSim ####
-test_that("genesSim", {
+# geneSim ####
+test_that("geneSim", {
     info <- structure(
         list(ENTREZID = c("1", "2", "2", "2", "2", "2", "2", "2",
                           "2", "2", "2", "2", "3", "4", "5", "6",
@@ -17,13 +17,13 @@ test_that("genesSim", {
         ),
         .Names = c("ENTREZID", "REACTOMEID"),
         class = "data.frame", row.names = c(NA, -26L))
-    test <- genesSim("2", "9", info, "ENTREZID", "REACTOMEID")
+    test <- geneSim("2", "9", info, "ENTREZID", "REACTOMEID")
     expect_equal(test, 0L)
-    test <- genesSim("2", "9", info, "ENTREZID", "REACTOMEID", NULL)
+    test <- geneSim("2", "9", info, "ENTREZID", "REACTOMEID", NULL)
     expect_false(is.null(colnames(test)))
     expect_false(is.null(rownames(test)))
     expect_equal(ncol(test), 4L)
-    expect_error(genesSim("2", "9", info, "ENTREZID", "REACTOME"),
+    expect_error(geneSim("2", "9", info, "ENTREZID", "REACTOME"),
                  "pathway")
 })
 

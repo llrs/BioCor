@@ -13,12 +13,12 @@ based on the pathways described on KEGG and REACTOME.
 
 \describe{
 \item{\code{\link{pathSim}}}{Calculates the similarity between two pathways}
-\item{\code{\link{genesSim}}}{Calculates the similarity (based on pathSim)
+\item{\code{\link{geneSim}}}{Calculates the similarity (based on pathSim)
 between two genes}
 \item{\code{\link{clusterSim}}}{Calculates the similarity between two
-clusters of genes}
-\item{\code{\link{clustersSim}}}{Calculates the similarity between two
-clusters of genes}
+clusters of genes by joining pathways of each gene.}
+\item{\code{\link{clusterGeneSim}}}{Calculates the similarity between two
+clusters of genes by comparing the similarity between the genes of a cluster}
 \item{\code{\link{bioCor}}}{Allows to calculate the similarity for a large
 number of genes
  using parallel back-end}
