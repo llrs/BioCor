@@ -62,6 +62,7 @@ genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
 genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID")
 genesSim("81", "18", genes.kegg, "ENTREZID", "PATH")
 genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID", NULL)
+genesSim("81", "18", genes.kegg, "ENTREZID", "PATH", NULL)
 
 mgeneSim(c("81", "18", "10"), genes.react, "ENTREZID", "REACTOMEID")
 mgeneSim(c("81", "18", "10"), genes.react, "ENTREZID", "REACTOMEID", "avg")
