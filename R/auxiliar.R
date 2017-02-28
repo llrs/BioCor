@@ -441,3 +441,25 @@ combineScores <- function(scores, method, round = FALSE) {
     }
 
 }
+
+# pathSims_precalculate ####
+pathSims_precalculate <- function(x) {
+    nas <- sapply(x, function(y){all(is.na(y))})
+    lge2 <- x[!nas]
+
+    pathways <- unique(unlist(lge2))
+    mat <- as.matrix(sapply(names(lge2), function(y){
+        ifelse(pathways %in% lge2[[y]], TRUE, FALSE)
+    }
+    ))
+    rownames(mat) <- pathways
+    overPath <- crossprod(t(mat))
+    genesPerPathway <- diag(overPath)
+    genesPerPathway <- matrix(genesPerPathway, ncol(overPath), ncol(overPath))
+    2*overPath/(t(genesPerPathway) + genesPerPathway)
+}
+
+pairN <- function(x, y, prep, method){
+    combineScores(prep[x, y, drop = FALSE], method)
+}
+vpairN <- Vectorize(pairN, vectorize.args = c("x", "y"))
