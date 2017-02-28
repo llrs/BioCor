@@ -76,9 +76,13 @@ diceSim <- function(g1, g2) {
 #' mpathSim(pathways1, pathways2, genes.react, "ENTREZID", "REACTOMEID", NULL)
 pathSim <- function(pathways1, pathways2, genes, id, pathwayDB) {
 
+    # Convert data.frame into environment to speed the look up
+    pathways2genes <- split(genes[ , id], genes[, pathwayDB])
+    pathways2genes <- list2env(pathways2genes)
+
     # Extract the gene ids for each pathway
-    g1 <- genesInfo(genes, pathwayDB, pathways1, id)[[1]]
-    g2 <- genesInfo(genes, pathwayDB, pathways2, id)[[1]]
+    g1 <- pathways2genes[[pathways1]]
+    g2 <- pathways2genes[[pathways2]]
 
     diceSim(g1, g2)
 }
@@ -88,9 +92,18 @@ pathSim <- function(pathways1, pathways2, genes, id, pathwayDB) {
 mpathSim <- function(pathways1, pathways2, genes, id, pathwayDB,
                      method = "max") {
 
+    # Convert data.frame into environment to speed the look up
+    pathways2genes <- split(genes[ , id], genes[, pathwayDB])
+    pathways2genes <- list2env(pathways2genes)
+
     # Extract the gene ids for each pathway
-    g1 <- genesInfo(genes, pathwayDB, pathways1, id)
-    g2 <- genesInfo(genes, pathwayDB, pathways2, id)
+    g1 <- sapply(pathways1, function(x) {
+        pathways2genes[[x]]
+    }, simplify = FALSE)
+    g2 <- sapply(pathways2, function(x) {
+        pathways2genes[[x]]
+    }, simplify = FALSE)
+
 
     vp <- Vectorize(diceSim)
     react <- outer(g1, g2, vp)
@@ -170,11 +183,8 @@ removeDup <- function(cor_mat, dupli) {
 #' @importFrom reactome.db reactome.db
 #' @importFrom AnnotationDbi select
 #' @importFrom AnnotationDbi keys
-# #' @importFrom biganalytics apply
 #' @import BiocParallel
 #' @import org.Hs.eg.db
-# #' @import foreach
-# #' @import bigmemory
 #' @export
 #' @author Lluís Revilla
 #' @seealso \code{\link{genesSim}}
@@ -358,6 +368,7 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
 #' genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID")
 #' genesSim("81", "18", genes.kegg, "ENTREZID", "PATH")
 #' genesSim("81", "18", genes.react, "ENTREZID", "REACTOMEID", NULL)
+#' genesSim("81", "18", genes.kegg, "ENTREZID", "PATH", NULL)
 genesSim <- function(gene1, gene2, genes, id, pathwayDB, method = "max") {
     comb <- c(gene1, gene2)
     if (!pathwayDB %in% colnames(genes)) {
@@ -373,18 +384,32 @@ genesSim <- function(gene1, gene2, genes, id, pathwayDB, method = "max") {
         stop("comb can only be of length 2, to compare pairs of genes")
     }
 
+    # Convert data.frame into environment to speed the look up
+    genes2pathways <- split(genes[ , pathwayDB], genes[, id])
+    genes2pathways <- list2env(genes2pathways)
+
+    pathways2genes <- split(genes[ , id], genes[, pathwayDB])
+    pathways2genes <- list2env(pathways2genes)
+
     # Extract all pathways for each gene
-    pathways <- genesInfo(genes, id, comb, pathwayDB)
+    pathways <- sapply(comb, function(x) {
+        genes2pathways[[x]]
+        }, simplify = FALSE)
+
     # Check that we have pathways info for this combination
     if (any(lengths(pathways) == 0L)) {
         return(NA)
     }
     # Extract the gene ids for each pathway
-    g1 <- genesInfo(genes, pathwayDB, pathways[[1]], id)
-    g2 <- genesInfo(genes, pathwayDB, pathways[[2]], id)
+    g1 <- sapply(pathways[[1]], function(x) {
+        pathways2genes[[x]]
+    }, simplify = FALSE)
+    g2 <- sapply(pathways[[2]], function(x) {
+        pathways2genes[[x]]
+    }, simplify = FALSE)
 
+    # Calculate the dice index
     vdiceSim <- Vectorize(diceSim)
-
     react <- outer(g1, g2, vdiceSim)
 
     # Calculate the similarity between the two genes
@@ -394,6 +419,7 @@ genesSim <- function(gene1, gene2, genes, id, pathwayDB, method = "max") {
         combineScores(react, method)
     }
 }
+
 #' @rdname genesSim
 #' @export
 #' @param gene.list Given a list of vectors return the similarities
@@ -436,9 +462,20 @@ mgeneSim <- function(gene.list, genes, id, pathwayDB, method = "max") {
 #'            "ENTREZID", "PATH", NULL)
 #' clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
 #'            "ENTREZID", "PATH", "avg")
-clusterSim <- function(cluster1, cluster2, genes, id, pathwayDB, method = "max"){
-    pathways1 <- genesInfo(genes, id, cluster1, pathwayDB)
-    pathways2 <- genesInfo(genes, id, cluster2, pathwayDB)
+clusterSim <- function(cluster1, cluster2, genes, id, pathwayDB,
+                       method = "max") {
+    # Convert data.frame into environment to speed the look up
+    genes2pathways <- split(genes[ , pathwayDB], genes[, id])
+    genes2pathways <- list2env(genes2pathways)
+
+    # Extract all pathways for each gene
+    pathways1 <- sapply(cluster1, function(x) {
+        genes2pathways[[x]]
+    }, simplify = FALSE)
+
+    pathways2 <- sapply(cluster2, function(x) {
+        genes2pathways[[x]]
+    }, simplify = FALSE)
 
     pathways1 <- unlist(pathways1, use.names = FALSE)
     pathways2 <- unlist(pathways2, use.names = FALSE)
@@ -509,8 +546,18 @@ clustersSim <- function(cluster1, cluster2, genes, id, pathwayDB,
              "See Details")
     }
 
-    pathways1 <- genesInfo(genes, id, cluster1, pathwayDB)
-    pathways2 <- genesInfo(genes, id, cluster2, pathwayDB)
+    # Convert data.frame into environment to speed the look up
+    genes2pathways <- split(genes[ , pathwayDB], genes[, id])
+    genes2pathways <- list2env(genes2pathways)
+
+    # Extract all pathways for each gene
+    pathways1 <- sapply(cluster1, function(x) {
+        genes2pathways[[x]]
+    }, simplify = FALSE)
+
+    pathways2 <- sapply(cluster2, function(x) {
+        genes2pathways[[x]]
+    }, simplify = FALSE)
 
     vmpathSim <- Vectorize(mpathSim,
                            vectorize.args = c("pathways1", "pathways2"))
