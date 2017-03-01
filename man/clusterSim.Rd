@@ -5,24 +5,18 @@
 \alias{mclusterSim}
 \title{Compare two clusters of genes}
 \usage{
-clusterSim(cluster1, cluster2, genes, id, pathwayDB, method = "max")
+clusterSim(cluster1, cluster2, info, method = "max")
 
-mclusterSim(clusters, genes, id, pathwayDB, method = "max")
+mclusterSim(clusters, info, method = "max")
 }
 \arguments{
 \item{cluster1, cluster2}{A vector with genes in \code{id}.}
 
-\item{genes}{is the matrix with the information to calculate the similarity.
-It is created using select, should contain the column "id" and "pathwayDB".}
-
-\item{id}{is the column of \code{genes} where \code{gene1} and \code{gene2}
-are to be found}
-
-\item{pathwayDB}{is the column where pathways should be found. It is usually
-the name of the database where they come from.}
+\item{info}{A list of genes and the pathways they are involved.}
 
 \item{method}{To combine the scores of each pathway, one of \code{c("avg",
-"max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix.}
+"max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
+similarities.}
 
 \item{clusters}{A list of clusters of genes to be found in \code{id}.}
 }
@@ -41,23 +35,18 @@ combineScores.
 }
 \examples{
 library("org.Hs.eg.db")
-entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
 #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
 # data of June 31st 2011)
-genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
-                     columns = "PATH")
-clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-           "ENTREZID", "PATH")
-clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-           "ENTREZID", "PATH", NULL)
-clusterSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-           "ENTREZID", "PATH", "avg")
+genes.kegg <- as.list(org.Hs.egPATH)
+clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg)
+clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg, NULL)
+clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg, "avg")
 
 clusters <- list(cluster1 = c("18", "81", "10"),
                  cluster2 = c("100", "10", "1"),
                  cluster3 = c("18", "10", "83"))
-mclusterSim(clusters, genes.kegg, "ENTREZID", "PATH")
-mclusterSim(clusters, genes.kegg, "ENTREZID", "PATH", "avg")
+mclusterSim(clusters, genes.kegg)
+mclusterSim(clusters, genes.kegg, "avg")
 }
 \seealso{
 For a different approach see \code{\link{clustersSim}},

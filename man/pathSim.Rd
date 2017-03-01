@@ -5,25 +5,20 @@
 \alias{mpathSim}
 \title{Compare pathways}
 \usage{
-pathSim(pathways1, pathways2, genes, id, pathwayDB)
+pathSim(pathway1, pathway2, info)
 
-mpathSim(pathways1, pathways2, genes, id, pathwayDB, method = "max")
+mpathSim(pathways, info, method = "max")
 }
 \arguments{
-\item{pathways1, pathways2}{Pathways to be found in
-\code{pathwayDB}.}
+\item{pathway1, pathway2}{A single pathway to calculate the similarity}
 
-\item{genes}{is the matrix with the information to calculate the similarity.
-It is created using select, should contain the column "id" and "pathwayDB".}
+\item{info}{A list of genes and the pathways they are involved.}
 
-\item{id}{is the column of \code{genes} where \code{gene1} and \code{gene2}
-are to be found}
-
-\item{pathwayDB}{is the column where pathways should be found. It is usually
-the name of the database where they come from.}
+\item{pathways}{Pathways to calculate the similarity for}
 
 \item{method}{To combine the scores of each pathway, one of \code{c("avg",
-"max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix.}
+"max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
+similarities.}
 }
 \value{
 The similarity between those pathways or all the similarities
@@ -34,23 +29,22 @@ Given two vectors of pathways calculates the similarity between them.
 }
 \details{
 \code{diceSim} is used to calculate similarities between each pathway and
-combineScores to extract the similarity between those pathways. If one need
-the matrix of similarities set methods to \code{NULL}.
+\code{\link{combineScores}} to extract the similarity between those pathways.
+If one needs the matrix of similarities between pathways set methods to
+\code{NULL}.
 }
 \examples{
-library("org.Hs.eg.db")
 library("reactome.db")
-entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
 # Extracts the paths of all genes of org.Hs.eg.db from reactome
-genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
-                      columns = "REACTOMEID")
-pathways1 <- c("112310", "112315", "112316", "373753", "916853")
-pathways2 <- c("109582", "114608", "1500931", "888590", "76002", "76005")
-pathSim(pathways1[1], pathways2[1], genes.react, "ENTREZID", "REACTOMEID")
-mpathSim(pathways1, pathways2, genes.react, "ENTREZID", "REACTOMEID", NULL)
+genes.react <- as.list(reactomeEXTID2PATHID)
+pathways <- c("112315", "112310", "112316", "373753", "916853", "109582",
+"114608", "1500931")
+pathSim("112310", "112316", genes.react)
+mpathSim(pathways genes.react, NULL)
 }
 \seealso{
-\code{\link{pathSim}} and \code{\link{combineScores}}
+\code{\link{diceSim}} and \code{\link{combineScores}} and
+\code{\link{conversions}} help page to transform Dice score to Jaccard score.
 }
 \author{
 Lluís Revilla

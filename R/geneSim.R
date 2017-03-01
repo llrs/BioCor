@@ -10,14 +10,8 @@
 #' \code{\link{combineScores}}.
 #' @param gene1,gene2 Ids of the genes to calculate the similarity, to be found
 #' in genes.
-#' @param genes is the matrix with the information to calculate the similarity.
-#' It is created using select, should contain the column "id" and "pathwayDB".
-#' @param id is the column of \code{genes} where \code{gene1} and \code{gene2}
-#' are to be found
-#' @param pathwayDB is the column where pathways should be found. It is usually
-#' the name of the database where they come from.
-#' @param method To combine the scores of each pathway, one of \code{c("avg",
-#' "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix.
+#' @inheritParams pathSim
+#' @inheritParams combineScores
 #' @return
 #' The highest Dice score of all the combinations of pathways between
 #' the two ids compared if a method to combine scores is provided or NA if
@@ -34,81 +28,127 @@
 #' @examples
 #' library("org.Hs.eg.db")
 #' library("reactome.db")
-#' entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
 #' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
 #' # data of June 31st 2011)
-#' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
-#'                      columns = "PATH")
+#' genes.kegg <- as.list(org.Hs.egPATH)
 #' # Extracts the paths of all genes of org.Hs.eg.db from reactome
-#' genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
-#'                       columns = "REACTOMEID")
-#' geneSim("81", "18", genes.react, "ENTREZID", "REACTOMEID")
-#' geneSim("81", "18", genes.kegg, "ENTREZID", "PATH")
-#' geneSim("81", "18", genes.react, "ENTREZID", "REACTOMEID", NULL)
-#' geneSim("81", "18", genes.kegg, "ENTREZID", "PATH", NULL)
-geneSim <- function(gene1, gene2, genes, id, pathwayDB, method = "max") {
-    comb <- c(gene1, gene2)
-    if (!pathwayDB %in% colnames(genes)) {
-        stop("Please check which type of pathway do you want")
+#' genes.react <- as.list(reactomeEXTID2PATHID)
+#' geneSim("81", "18", genes.react)
+#' geneSim("81", "18", genes.kegg)
+#' geneSim("81", "18", genes.react, NULL)
+#' geneSim("81", "18", genes.kegg, NULL)
+geneSim <- function(gene1, gene2, info, method = "max") {
+
+    if (length(unique(gene1)) != 1L | length(unique(gene2)) != 1L) {
+        stop("Introduce just one gene!\n",
+             "If you want to calculate several similarities ",
+             "between genes use mgeneSim")
     }
+
+    if (!is.character(gene1) | !is.character(gene2)) {
+        stop("Please use character")
+    }
+
+    if (!is.list(info)) {
+        stop("Please introduce info as a list")
+    }
+
+    if (any(!c(gene1, gene2) %in% names(info))) {
+        stop("A gene is not in the list you provided.")
+    }
+
+    comb <- c(gene1, gene2)
+
     if (any(is.na(comb))) {
         return(NA)
     }
-    if (comb[1L] == comb[2L]) {
+    if (gene1 == gene2) {
         return(1)
     }
-    if (length(comb) > 2L) {
-        stop("comb can only be of length 2, to compare pairs of genes")
-    }
 
-    # Convert data.frame into environment to speed the look up
-    genes2pathways <- split(genes[ , pathwayDB], genes[, id])
-    genes2pathways <- list2env(genes2pathways)
-
-    pathways2genes <- split(genes[ , id], genes[, pathwayDB])
-    pathways2genes <- list2env(pathways2genes)
+    # Convert list into environment to speed the look up
+    genes2pathways <- list2env(info)
 
     # Extract all pathways for each gene
     pathways <- sapply(comb, function(x) {
         genes2pathways[[x]]
-    }, simplify = FALSE)
+    }, simplify = TRUE)
 
     # Check that we have pathways info for this combination
     if (any(lengths(pathways) == 0L)) {
         return(NA)
     }
-    # Extract the gene ids for each pathway
-    g1 <- sapply(pathways[[1]], function(x) {
-        pathways2genes[[x]]
-    }, simplify = FALSE)
-    g2 <- sapply(pathways[[2]], function(x) {
-        pathways2genes[[x]]
-    }, simplify = FALSE)
 
-    # Calculate the dice index
-    vdiceSim <- Vectorize(diceSim)
-    react <- outer(g1, g2, vdiceSim)
+    # Subseting just the important pathways
+    pathways_all <- unique(unlist(pathways))
+    sim <- mpathSim(pathways_all, info = info, method = NULL)
+    sim <- sim[pathways[[1]], pathways[[2]], drop = FALSE]
 
-    # Calculate the similarity between the two genes
+    # Combine or not
     if (is.null(method)) {
-        react
-    } else {
-        combineScores(react, method)
+        sim
+    }
+    else {
+        combineScores(sim, method = method)
     }
 }
 
+vgeneSim <- Vectorize(geneSim, vectorize.args = c("gene1", "gene2"))
+
 #' @rdname geneSim
 #' @export
-#' @param gene.list Given a list of vectors return the similarities
+#' @param genes A vector of genes.
 #' @return \code{mgeneSim} returns the matrix of similarities between the genes
 #' in the vector
 #' @examples
 #'
-#' mgeneSim(c("81", "18", "10"), genes.react, "ENTREZID", "REACTOMEID")
-#' mgeneSim(c("81", "18", "10"), genes.react, "ENTREZID", "REACTOMEID", "avg")
-mgeneSim <- function(gene.list, genes, id, pathwayDB, method = "max") {
-    vg <- Vectorize(geneSim, vectorize.args = c("gene1", "gene2"))
-    names(gene.list) <- gene.list
-    outer(gene.list, gene.list, vg, genes = genes, id = id,
-          pathwayDB = pathwayDB, method = method)
+#' mgeneSim(c("81", "18", "10"), genes.react)
+#' mgeneSim(c("81", "18", "10"), genes.react, "avg")
+mgeneSim <- function(genes, info, method = "max") {
+
+    if (length(unique(genes)) == 1) {
+        stop("Introduce several unique genes!\n",
+             "If you want to calculate one similarity ",
+             "between pathways use geneSim")
+    }
+    if (!all(is.character(genes))) {
+        stop("The input genes should be characters")
+    }
+
+    genes <- unique(genes)
+
+    if (!is.list(info)) {
+        stop("info should be a list. See documentation.")
+    }
+
+    if (any(!genes %in% names(info))) {
+        warning("Some genes are not in the list you provided.")
+    }
+
+    if (is.null(method)) {
+        method <- "max"
+        warning("Method to combine pathways can't be null, set to 'max'")
+    }
+    pathways <- unique(unlist(sapply(genes, getElement, object = info)))
+
+    # Depending how big the pathways are we do one or other strategy
+    if (sum(!is.na(pathways)) >= 30) { #TODO Improve this section not correctly done?
+        # Using precalculated pathway similarities
+        pathSim <- pathSims_matrix(info)
+
+        nas <- sapply(info, function(y) {all(is.na(y))})
+        lge2 <- info[!nas]
+        pathsGenes <- sapply(genes, getElement, object = lge2)
+        sim <- outer(pathsGenes, pathsGenes, vcombineScoresPrep, prep = pathSim,
+                     method = method)
+    } else {
+        names(genes) <- genes # To have the output with names
+        sim <- outer(genes, genes, vgeneSim, info, method = method)
+    }
+
+    sim_all <- matrix(NA, ncol = length(genes), nrow = length(genes),
+           dimnames = list(genes, genes))
+    AintoB(sim, sim_all)
+
 }
+

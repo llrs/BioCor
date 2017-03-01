@@ -5,27 +5,21 @@
 \alias{mgeneSim}
 \title{Calculates the Dice similarity score of two genes}
 \usage{
-geneSim(gene1, gene2, genes, id, pathwayDB, method = "max")
+geneSim(gene1, gene2, info, method = "max")
 
-mgeneSim(gene.list, genes, id, pathwayDB, method = "max")
+mgeneSim(genes, info, method = "max")
 }
 \arguments{
 \item{gene1, gene2}{Ids of the genes to calculate the similarity, to be found
 in genes.}
 
-\item{genes}{is the matrix with the information to calculate the similarity.
-It is created using select, should contain the column "id" and "pathwayDB".}
-
-\item{id}{is the column of \code{genes} where \code{gene1} and \code{gene2}
-are to be found}
-
-\item{pathwayDB}{is the column where pathways should be found. It is usually
-the name of the database where they come from.}
+\item{info}{A list of genes and the pathways they are involved.}
 
 \item{method}{To combine the scores of each pathway, one of \code{c("avg",
-"max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix.}
+"max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
+similarities.}
 
-\item{gene.list}{Given a list of vectors return the similarities}
+\item{genes}{A vector of genes.}
 }
 \value{
 The highest Dice score of all the combinations of pathways between
@@ -52,21 +46,18 @@ between the genes. Later this similarities are combined using
 \examples{
 library("org.Hs.eg.db")
 library("reactome.db")
-entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
 #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
 # data of June 31st 2011)
-genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
-                     columns = "PATH")
+genes.kegg <- as.list(org.Hs.egPATH)
 # Extracts the paths of all genes of org.Hs.eg.db from reactome
-genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
-                      columns = "REACTOMEID")
-geneSim("81", "18", genes.react, "ENTREZID", "REACTOMEID")
-geneSim("81", "18", genes.kegg, "ENTREZID", "PATH")
-geneSim("81", "18", genes.react, "ENTREZID", "REACTOMEID", NULL)
-geneSim("81", "18", genes.kegg, "ENTREZID", "PATH", NULL)
+genes.react <- as.list(reactomeEXTID2PATHID)
+geneSim("81", "18", genes.react)
+geneSim("81", "18", genes.kegg)
+geneSim("81", "18", genes.react, NULL)
+geneSim("81", "18", genes.kegg, NULL)
 
-mgeneSim(c("81", "18", "10"), genes.react, "ENTREZID", "REACTOMEID")
-mgeneSim(c("81", "18", "10"), genes.react, "ENTREZID", "REACTOMEID", "avg")
+mgeneSim(c("81", "18", "10"), genes.react)
+mgeneSim(c("81", "18", "10"), genes.react, "avg")
 }
 \seealso{
 \code{\link{conversions}} help page to transform Dice

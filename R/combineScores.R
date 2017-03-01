@@ -32,6 +32,8 @@
 combineScores <- function(scores, method, round = FALSE) {
     # Check input
     method <- match.arg(method, c("avg", "max", "rcmax", "rcmax.avg", "BMA"))
+
+
     if (is.list(scores) & length(scores) == 1) {
         scores <- scores[[1]]
     }
@@ -86,3 +88,13 @@ combineScores <- function(scores, method, round = FALSE) {
     }
 
 }
+
+combineScoresPrep <- function(x, y, prep, method) {
+    if (all(is.na(x)) | all(is.na(y))) {
+        NA
+    } else {
+        combineScores(prep[x, y, drop = FALSE], method)
+    }
+}
+vcombineScoresPrep <- Vectorize(combineScoresPrep,
+                                vectorize.args = c("x", "y"))

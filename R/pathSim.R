@@ -4,73 +4,122 @@
 #' Given two vectors of pathways calculates the similarity between them.
 #'
 #' \code{diceSim} is used to calculate similarities between each pathway and
-#' combineScores to extract the similarity between those pathways. If one need
-#' the matrix of similarities set methods to \code{NULL}.
-#' @param pathways1,pathways2 Pathways to be found in
-#' \code{pathwayDB}.
-#' @inheritParams geneSim
+#' \code{\link{combineScores}} to extract the similarity between those pathways.
+#' If one needs the matrix of similarities between pathways set methods to
+#' \code{NULL}.
+#' @param pathway1,pathway2 A single pathway to calculate the similarity
+#' @param info A list of genes and the pathways they are involved.
+#' @param method To combine the scores of each pathway, one of \code{c("avg",
+#' "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
+#' similarities.
 #' @return The similarity between those pathways or all the similarities
 #' between each comparison.
-#' @seealso \code{\link{pathSim}} and \code{\link{combineScores}}
+#' @seealso \code{\link{diceSim}} and \code{\link{combineScores}} and
+#' \code{\link{conversions}} help page to transform Dice score to Jaccard score.
 #' @author Lluís Revilla
 #' @export
 #' @examples
-#' library("org.Hs.eg.db")
 #' library("reactome.db")
-#' entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
 #' # Extracts the paths of all genes of org.Hs.eg.db from reactome
-#' genes.react <- select(reactome.db, keys = entrezids, keytype = "ENTREZID",
-#'                       columns = "REACTOMEID")
-#' pathways1 <- c("112310", "112315", "112316", "373753", "916853")
-#' pathways2 <- c("109582", "114608", "1500931", "888590", "76002", "76005")
-#' pathSim(pathways1[1], pathways2[1], genes.react, "ENTREZID", "REACTOMEID")
-#' mpathSim(pathways1, pathways2, genes.react, "ENTREZID", "REACTOMEID", NULL)
-pathSim <- function(pathways1, pathways2, genes, id, pathwayDB) {
+#' genes.react <- as.list(reactomeEXTID2PATHID)
+#' pathways <- c("112315", "112310", "112316", "373753", "916853", "109582",
+#' "114608", "1500931")
+#' pathSim("112310", "112316", genes.react)
+#' mpathSim(pathways genes.react, NULL)
+pathSim <- function(pathway1, pathway2, info) {
+    if (length(pathway1) != 1 | length(pathway2) != 1) {
+        stop("Introduce just one pathway!\n",
+             "If you want to calculate several similarities ",
+             "between pathways use mpathSim")
+    }
+    if (!is.character(pathway1)  | !is.character(pathway2)) {
+        stop("The input pathways should be characters")
+    }
+    if (!is.list(info)) {
+        stop("info should be a list. See documentation.")
+    }
 
-    # Convert data.frame into environment to speed the look up
-    pathways2genes <- split(genes[ , id], genes[, pathwayDB])
+    if (any(!c(pathway1, pathway2) %in% unlist(info))) {
+        stop("A pathway is not in the list you provided.")
+    }
+
+    # Invert the list
+    rId <- unlist(info, use.names = FALSE)
+    lId <- rep(names(info), sapply(info, length))
+    pathways2genes <- split(lId, rId)
+
+    # Convert the list
     pathways2genes <- list2env(pathways2genes)
 
     # Extract the gene ids for each pathway
-    g1 <- pathways2genes[[pathways1]]
-    g2 <- pathways2genes[[pathways2]]
+    g1 <- pathways2genes[[pathway1]]
+    g2 <- pathways2genes[[pathway2]]
 
     diceSim(g1, g2)
 }
 
 #' @rdname pathSim
+#' @param pathways Pathways to calculate the similarity for
 #' @export
-mpathSim <- function(pathways1, pathways2, genes, id, pathwayDB,
-                     method = "max") {
+mpathSim <- function(pathways, info, method = "max") {
 
-    # Convert data.frame into environment to speed the look up
-    pathways2genes <- split(genes[ , id], genes[, pathwayDB])
-    pathways2genes <- list2env(pathways2genes)
+    if (length(unique(pathways)) == 1 ) {
+        stop("Introduce several unique pathways!\n",
+             "If you want to calculate one similarity ",
+             "between pathways use pathSim")
+    }
 
-    # Extract the gene ids for each pathway
-    g1 <- sapply(pathways1, function(x) {
-        pathways2genes[[x]]
-    }, simplify = FALSE)
-    g2 <- sapply(pathways2, function(x) {
-        pathways2genes[[x]]
-    }, simplify = FALSE)
+    if (!all(is.character(pathways))) {
+        stop("The input pathways should be characters")
+    }
+    pathways <- unique(pathways)
 
+    if (!is.list(info)) {
+        stop("info should be a list. See documentation.")
+    }
 
-    vp <- Vectorize(diceSim)
-    react <- outer(g1, g2, vp)
+    if (any(!pathways %in% unlist(info))) {
+        warning("Some pathways are not in the list you provided.")
+    }
+
+    # If the number of pathways is quite big use another strategy
+    if (length(pathways) >= 60) {
+
+        sim <- pathSims_matrix(info)
+        sim <- sim[pathways, pathways]
+
+    } else {
+        # Invert the list
+        rId <- unlist(info, use.names = FALSE)
+        lId <- rep(names(info), sapply(info, length))
+        pathways2genes <- split(lId, rId)
+
+        # Extract the gene ids for each pathway
+        g1 <- sapply(pathways, function(x) {
+            pathways2genes[[x]]
+        }, simplify = FALSE)
+        g2 <- g1
+
+        # Calculate similarities
+        vdiceSim <- Vectorize(diceSim)
+        sim <- outer(g1, g2, vdiceSim)
+    }
+
 
     # Calculate the similarity between the two genes
     if (is.null(method)) {
-        react
+        return(sim)
     } else {
-        combineScores(react, method)
+        combineScores(sim, method)
     }
 }
-# pathSims_precalculate ####
-pathSims_precalculate <- function(x) {
+
+# pathSims_matrix ####
+# Uses linear algebra to speed the caluclations
+# x is a list of genes to pathways
+pathSims_matrix <- function(x) {
     nas <- sapply(x, function(y){all(is.na(y))})
     lge2 <- x[!nas]
-
     pathways <- unique(unlist(lge2))
     mat <- as.matrix(sapply(names(lge2), function(y){
         ifelse(pathways %in% lge2[[y]], TRUE, FALSE)
@@ -82,8 +131,3 @@ pathSims_precalculate <- function(x) {
     genesPerPathway <- matrix(genesPerPathway, ncol(overPath), ncol(overPath))
     2*overPath/(t(genesPerPathway) + genesPerPathway)
 }
-
-pairN <- function(x, y, prep, method){
-    combineScores(prep[x, y, drop = FALSE], method)
-}
-vpairN <- Vectorize(pairN, vectorize.args = c("x", "y"))

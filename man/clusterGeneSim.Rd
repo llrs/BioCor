@@ -5,23 +5,14 @@
 \alias{mclusterGeneSim}
 \title{Compare two clusters of genes}
 \usage{
-clusterGeneSim(cluster1, cluster2, genes, id, pathwayDB, method = c("max",
-  "rcmax.avg"))
+clusterGeneSim(cluster1, cluster2, info, method = c("max", "rcmax.avg"))
 
-mclusterGeneSim(clusters, genes, id, pathwayDB, method = c("max",
-  "rcmax.avg"))
+mclusterGeneSim(clusters, info, method = c("max", "rcmax.avg"))
 }
 \arguments{
-\item{cluster1, cluster2}{A vector with genes in \code{id}.}
+\item{cluster1, cluster2}{A vector with genes.}
 
-\item{genes}{is the matrix with the information to calculate the similarity.
-It is created using select, should contain the column "id" and "pathwayDB".}
-
-\item{id}{is the column of \code{genes} where \code{gene1} and \code{gene2}
-are to be found}
-
-\item{pathwayDB}{is the column where pathways should be found. It is usually
-the name of the database where they come from.}
+\item{info}{A list of genes and the pathways they are involved.}
 
 \item{method}{A vector with two  or one argument to be passed to combineScores the
 first one is used to summarize the similarities of genes, the second one
@@ -48,28 +39,25 @@ another one at cluster level.
 }
 \examples{
 library("org.Hs.eg.db")
-entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
 #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
 # data of June 31st 2011)
-genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
-                     columns = "PATH")
+genes.kegg <- as.list(org.Hs.egPATH)
+clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg)
 clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-           "ENTREZID", "PATH")
+ c("avg", "avg"))
 clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-           "ENTREZID", "PATH", c("avg", "avg"))
-clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-           "ENTREZID", "PATH", c("avg", "rcmax.avg"))
+           c("avg", "rcmax.avg"))
 clus <- clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-           "ENTREZID", "PATH", "avg")
+           "avg")
 clus
 combineScores(clus, "rcmax.avg")
 
 clusters <- list(cluster1 = c("18", "81", "10"),
                  cluster2 = c("100", "11", "1"),
                  cluster3 = c("18", "10", "83"))
-mclusterGeneSim(clusters, genes.kegg, "ENTREZID", "PATH")
-mclusterGeneSim(clusters, genes.kegg, "ENTREZID", "PATH", c("max", "avg"))
-mclusterGeneSim(clusters, genes.kegg, "ENTREZID", "PATH", c("max", "BMA"))
+mclusterGeneSim(clusters, genes.kegg)
+mclusterGeneSim(clusters, genes.kegg, c("max", "avg"))
+mclusterGeneSim(clusters, genes.kegg, c("max", "BMA"))
 }
 \seealso{
 \code{\link{clusterGeneSim}}, \code{\link{combineScores}} and \code{\link{conversions}}

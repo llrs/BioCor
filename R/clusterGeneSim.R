@@ -8,7 +8,7 @@
 #' calculated, and with this values then the comparison between the two
 #' clusters is done. Thus applying combineScores twice, one at gene level and
 #' another one at cluster level.
-#' @param cluster1,cluster2 A vector with genes in \code{id}.
+#' @param cluster1,cluster2 A vector with genes.
 #' @inheritParams geneSim
 #' @param method A vector with two  or one argument to be passed to combineScores the
 #' first one is used to summarize the similarities of genes, the second one
@@ -20,52 +20,74 @@
 #' the similarity between the genes of the two clusters.
 #' @examples
 #' library("org.Hs.eg.db")
-#' entrezids <- keys(org.Hs.eg.db, keytype = "ENTREZID")
 #' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
 #' # data of June 31st 2011)
-#' genes.kegg <- select(org.Hs.eg.db, keys = entrezids, keytype = "ENTREZID",
-#'                      columns = "PATH")
+#' genes.kegg <- as.list(org.Hs.egPATH)
+#' clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg)
 #' clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-#'            "ENTREZID", "PATH")
+#'  c("avg", "avg"))
 #' clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-#'            "ENTREZID", "PATH", c("avg", "avg"))
-#' clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-#'            "ENTREZID", "PATH", c("avg", "rcmax.avg"))
+#'            c("avg", "rcmax.avg"))
 #' clus <- clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-#'            "ENTREZID", "PATH", "avg")
+#'            "avg")
 #' clus
 #' combineScores(clus, "rcmax.avg")
-clusterGeneSim <- function(cluster1, cluster2, genes, id, pathwayDB,
-                        method = c("max", "rcmax.avg")) {
+clusterGeneSim <- function(cluster1, cluster2, info,
+                           method = c("max", "rcmax.avg")) {
+    if (length(unique(cluster1)) == 1L & length(unique(cluster2)) == 1L) {
+        stop("Introduce several genes in each cluster!\n",
+             "If you want to calculate similarities ",
+             "between two genes use geneSim")
+    }
+    if (!all(is.character(cluster1)) | !all(is.character(cluster2))) {
+        stop("The input genes should be characters")
+    }
+    cluster1 <- unique(cluster1)
+    cluster2 <- unique(cluster2)
+
+    if (!is.list(info)) {
+        stop("info should be a list. See documentation.")
+    }
+
+    if (any(!cluster1 %in% names(info)) | any(!cluster2 %in% names(info))) {
+        warning("Some genes are not in the list you provided.")
+    }
+
     if (length(method) > 2L | is.null(method) | any(is.na(method))) {
         stop("Please provide two  or one methods to combine scores.",
              "See Details")
     }
 
-    # Convert data.frame into environment to speed the look up
-    genes2pathways <- split(genes[ , pathwayDB], genes[, id])
-    genes2pathways <- list2env(genes2pathways)
-
     # Extract all pathways for each gene
-    pathways1 <- sapply(cluster1, function(x) {
-        genes2pathways[[x]]
+    pathways1.a <- sapply(cluster1, function(x) {
+        info[[x]]
+    }, simplify = FALSE)
+    pathways2.a <- sapply(cluster2, function(x) {
+        info[[x]]
     }, simplify = FALSE)
 
-    pathways2 <- sapply(cluster2, function(x) {
-        genes2pathways[[x]]
-    }, simplify = FALSE)
+    # Remove duplicated and NA
+    pathways1 <- unique(unlist(pathways1.a, use.names = FALSE))
+    pathways2 <- unique(unlist(pathways2.a, use.names = FALSE))
+    pathways1 <- pathways1[!is.na(pathways1)]
+    pathways2 <- pathways2[!is.na(pathways2)]
 
-    vmpathSim <- Vectorize(mpathSim,
-                           vectorize.args = c("pathways1", "pathways2"))
+    pathways <- unique(c(pathways1, pathways2))
 
-    out <- outer(pathways1, pathways2, vmpathSim, genes, id, pathwayDB, NULL)
-    out <- apply(out, c(1,2), combineScores, method = method[1L])
-    if (length(method) == 2) {
-        combineScores(out, method[2L])
+    sim <- mpathSim(pathways, info, method = NULL)
+    genes <- outer(pathways1.a, pathways2.a, vcombineScoresPrep,
+                   prep = sim, method = method[1L])
+    if (!is.null(method[2L])) {
+        combineScores(genes, method = method[2L])
     } else {
-        out
+        genes
     }
+
+
 }
+
+vclusterGeneSim <- Vectorize(clusterGeneSim,
+                             vectorize.args = c("cluster1", "cluster2"))
 
 #' @param clusters A list of clusters of genes to be found in \code{id}.
 #' @rdname clusterGeneSim
@@ -77,16 +99,35 @@ clusterGeneSim <- function(cluster1, cluster2, genes, id, pathwayDB,
 #' clusters <- list(cluster1 = c("18", "81", "10"),
 #'                  cluster2 = c("100", "11", "1"),
 #'                  cluster3 = c("18", "10", "83"))
-#' mclusterGeneSim(clusters, genes.kegg, "ENTREZID", "PATH")
-#' mclusterGeneSim(clusters, genes.kegg, "ENTREZID", "PATH", c("max", "avg"))
-#' mclusterGeneSim(clusters, genes.kegg, "ENTREZID", "PATH", c("max", "BMA"))
-mclusterGeneSim <- function(clusters, genes, id, pathwayDB,
-                         method = c("max", "rcmax.avg")) {
+#' mclusterGeneSim(clusters, genes.kegg)
+#' mclusterGeneSim(clusters, genes.kegg, c("max", "avg"))
+#' mclusterGeneSim(clusters, genes.kegg, c("max", "BMA"))
+mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg")) {
+
+    if (!is.list(clusters)) {
+        stop("Please use a list to introduce the clusters.")
+    }
+    if (length(clusters) == 1) {
+        stop("Introduce several clusters!\n",
+             "If you want to calculate the similarity ",
+             "between genes use mgeneSim")
+    }
+    if (!all(sapply(clusters, is.character))) {
+        stop("The input genes should be characters")
+    }
+    # Remove duplicate genes in each cluster
+    clusters <- sapply(clusters, unique, simplify = FALSE)
+
+    if (!is.list(info)) {
+        stop("info should be a list. See documentation.")
+    }
+
+    if (any(!unlist(clusters) %in% names(info))) {
+        warning("Some genes are not in the list you provided.")
+    }
     if (length(method) != 2) {
         stop("Please provide two methods to combine scores")
     }
-    vc <- Vectorize(clusterGeneSim, vectorize.args = c("cluster1", "cluster2"))
-    outer(clusters, clusters, vc, genes = genes, id = id,
-          pathwayDB = pathwayDB, method = method)
 
+    outer(clusters, clusters, vclusterGeneSim, info, method = method)
 }
