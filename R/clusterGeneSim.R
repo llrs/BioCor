@@ -74,15 +74,15 @@ clusterGeneSim <- function(cluster1, cluster2, info,
 
     pathways <- unique(c(pathways1, pathways2))
 
-    sim <- mpathSim(pathways, info, method = NULL)
+    simPaths <- mpathSim(pathways, info, method = NULL)
     genes <- outer(pathways1.a, pathways2.a, vcombineScoresPrep,
-                   prep = sim, method = method[1L])
-    if (!is.null(method[2L])) {
+                   prep = simPaths, method = method[1L])
+
+    if (length(method) == 2L) {
         combineScores(genes, method = method[2L])
     } else {
         genes
     }
-
 
 }
 
