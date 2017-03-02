@@ -62,9 +62,9 @@ geneSim <- function(gene1, gene2, info, method = "max") {
     if (any(is.na(comb))) {
         return(NA)
     }
-    if (gene1 == gene2) {
-        return(1)
-    }
+    # if (gene1 == gene2) {
+    #     return(1)
+    # }
 
     # Convert list into environment to speed the look up
     genes2pathways <- list2env(info)
@@ -72,7 +72,7 @@ geneSim <- function(gene1, gene2, info, method = "max") {
     # Extract all pathways for each gene
     pathways <- sapply(comb, function(x) {
         genes2pathways[[x]]
-    }, simplify = TRUE)
+    }, simplify = FALSE)
 
     # Check that we have pathways info for this combination
     if (any(lengths(pathways) == 0L)) {
@@ -81,6 +81,10 @@ geneSim <- function(gene1, gene2, info, method = "max") {
 
     # Subseting just the important pathways
     pathways_all <- unique(unlist(pathways))
+
+    if (length(pathways_all) == 1) {
+        return(1)
+    }
     sim <- mpathSim(pathways_all, info = info, method = NULL)
     sim <- sim[pathways[[1]], pathways[[2]], drop = FALSE]
 
@@ -130,6 +134,7 @@ mgeneSim <- function(genes, info, method = "max") {
         warning("Method to combine pathways can't be null, set to 'max'")
     }
     pathways <- unique(unlist(sapply(genes, getElement, object = info)))
+    pathways <- pathways[!is.na(pathways)]
 
     # Depending how big the pathways are we do one or other strategy
     if (sum(!is.na(pathways)) >= 30) { #TODO Improve this section not correctly done?
