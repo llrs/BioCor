@@ -4,10 +4,6 @@
 #' Calculates a functional similarity of genes  using information available in
 #' several databases.
 #'
-#' For Gene Ontologies, the DAG path structure is used to compute how similar
-#' two genes are. For metabolic pathways the max number of proteins involved in
-#' a pathway for each gene is calculated.
-#'
 #' @param genes_id is vector of ids to compare
 #' @param ids indicate if the id is eihter ENTREZID or SYMBOL
 #' @param react logical; indicates if the similarities in Reactome pathway is
@@ -53,7 +49,8 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
     orig.ids <- gene.symbol$ENTREZID
 
     if (sum(is.na(gene.symbol$ENTREZID)) >= 1L) {
-        message("Some symbols are not mapped to Entrez Genes IDs")
+        message("Some symbols are not mapped to Entrez Genes IDs ",
+                "and will be omitted")
     }
     dup_symb <- duplicated(gene.symbol$SYMBOL[
         !is.na(gene.symbol$ENTREZID)])
@@ -63,55 +60,20 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
     } else if (sum(dup_symb) >= 1L & ids == "Entrez Gene") {
         message("Some Entrez Genes IDs are mapped to several symbols.")
     }
-    entrez <- keys(org.Hs.eg.db, keytype = "ENTREZID")
-    # Obtain the data of kegg and Reactome pathways
+
     if (kegg) {
-        # Obtain data
-        gene.kegg <- suppressMessages(select(org.Hs.eg.db,
-                                             keys = entrez,
-                            keytype = "ENTREZID", columns = "PATH"))
-        # Merge data
-        genes <- unique(merge(gene.symbol, gene.kegg, all = TRUE,
-                              sort = FALSE))
+        gene.kegg <- as.list(org.Hs.egPATH)
     }
 
     if (react) {
-        if (!kegg) {
-            genes <- gene.symbol
-        }
-        if (all(!gene.symbol$ENTREZID %in% keys(reactome.db))) {
-            gene.reactome <- cbind(ENTREZID = gene.symbol$ENTREZID,
-                                   REACTOMEID = NA)
-        } else {
-            gene.reactome <- suppressMessages(select(reactome.db,
-                                    keys = entrez,
-                                    keytype = "ENTREZID",
-                                    columns = "REACTOMEID"))
-        }
-
-        genes <- unique(merge(genes, gene.reactome, all = TRUE, sort = FALSE))
+        gene.reactome <- as.list(reactomeEXTID2PATHID)
     }
 
     if (kegg) {  # parallel # to run non parallel transform the %dopar% into
-        # %do%
-        # kegg_mat <- big.matrix(length(orig.ids), length(orig.ids), init = NA,
-        #                        dimnames = list(orig.ids, orig.ids),
-        #                        backingfile = "kegg.bin",
-        #                        descriptorfile = "kegg.desc")
-        # datadesc <- describe(kegg_mat)
-
         message("Calculating KEGG similarities")
-        # kegg.bio <- foreach(i = orig.ids, .combine = c,
-        #                     .verbose = FALSE) %dopar% {
-        #                         for (j in orig.ids) {
-        #                             kegg_mat <- attach.big.matrix(datadesc)
-        #                             kegg_mat[i, j] <- geneSim(
-        #                                 c(i, j), genes,"ENTREZID", "PATH")
-        #                         }
-        #                     }
         kegg.bio <- bpmapply(function(x){
             comb <- combinadic(n = orig.ids, r = 2, i = x)
-            geneSim(comb[1], comb[2], genes, "ENTREZID", "PATH")},
+            geneSim(comb[1], comb[2], gene.kegg)},
             seq_len(n.combin), BPPARAM = BPPARAM)
         message("KEGG similarities has been calculated")
 
@@ -126,7 +88,7 @@ bioCor <- function(genes_id, ids = "ENTREZID", react = TRUE, kegg = FALSE,
         message("Calculating REACTOME similarities")
         react.bio <- bpmapply( function(x){
             comb <- combinadic(n = orig.ids, r = 2, i = x)
-            geneSim(comb[1], comb[2], genes, "ENTREZID", "REACTOMEID")},
+            geneSim(comb[1], comb[2], gene.reactome)},
             seq_len(n.combin), BPPARAM = BPPARAM)
 
         message("REACTOME similarities has been calculated")
