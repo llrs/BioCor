@@ -98,7 +98,7 @@ mgeneSim(c("672", "675", "10"), genes.kegg)
 mgeneSim(c("672", "675", "10"), genes.react)
 ```
 
-Note that for the same genes each database has different annotations, which result on different similarity scores. In this example the gene 672 has `r ncol(geneSim("672", "675", genes.kegg, "ENTREZID", "PATH", NULL))` and `r ncol(geneSim("672", "675", genes.react, "ENTREZID", "REACTOMEID", NULL))` pathways in KEGG and Reactome respectively and the gene 675 has `r nrow(geneSim("672", "675", genes.kegg, "ENTREZID", "PATH", NULL))` and `r nrow(geneSim("672", "675", genes.react, "ENTREZID", "REACTOMEID", NULL))` pathways in KEGG and Reactome respectively which results on different scores.
+Note that for the same genes each database has different annotations, which result on different similarity scores. In this example the gene 672 has `r ncol(geneSim("672", "675", genes.kegg, NULL))` and `r ncol(geneSim("672", "675", genes.react, NULL))` pathways in KEGG and Reactome respectively and the gene 675 has `r nrow(geneSim("672", "675", genes.kegg, NULL))` and `r nrow(geneSim("672", "675", genes.react, NULL))` pathways in KEGG and Reactome respectively which results on different scores.
 
 ## Gene cluster similarities
 
