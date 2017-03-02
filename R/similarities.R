@@ -24,6 +24,9 @@
 #' # Note the differences in the sign of some values
 #' similarities(sim, weighted.sum, c(0.5, 0.5))
 similarities <- function(sim, func, ...) {
+    if (!is.list(sim)) {
+        stop("Please introduce a list with the similarities")
+    }
     # Check that all the matrices are of the same dimensions and squared
     if (length(unique(as.vector(sapply(sim, dim)))) >= 2) {
         stop("Dimensions of the similarities differ")
