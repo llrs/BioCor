@@ -3,20 +3,24 @@
 \name{clusterGeneSim}
 \alias{clusterGeneSim}
 \alias{mclusterGeneSim}
-\title{Compare two clusters of genes}
+\title{Similarity score between clusters of genes based on genes similarity}
 \usage{
-clusterGeneSim(cluster1, cluster2, info, method = c("max", "rcmax.avg"))
+clusterGeneSim(cluster1, cluster2, info, method = c("max", "rcmax.avg"), ...)
 
-mclusterGeneSim(clusters, info, method = c("max", "rcmax.avg"))
+mclusterGeneSim(clusters, info, method = c("max", "rcmax.avg"), ...)
 }
 \arguments{
-\item{cluster1, cluster2}{A vector with genes.}
+\item{cluster1}{A vector with genes.}
+
+\item{cluster2}{A vector with genes.}
 
 \item{info}{A list of genes and the pathways they are involved.}
 
 \item{method}{A vector with two  or one argument to be passed to combineScores the
 first one is used to summarize the similarities of genes, the second one
 for clusters.}
+
+\item{...}{Other arguments passed to \code{\link{combineScores}}}
 
 \item{clusters}{A list of clusters of genes to be found in \code{id}.}
 }
@@ -53,7 +57,7 @@ clus
 combineScores(clus, "rcmax.avg")
 
 clusters <- list(cluster1 = c("18", "81", "10"),
-                 cluster2 = c("100", "11", "1"),
+                 cluster2 = c("100", "594", "836"),
                  cluster3 = c("18", "10", "83"))
 mclusterGeneSim(clusters, genes.kegg)
 mclusterGeneSim(clusters, genes.kegg, c("max", "avg"))

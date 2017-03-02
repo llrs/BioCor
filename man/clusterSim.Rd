@@ -3,20 +3,22 @@
 \name{clusterSim}
 \alias{clusterSim}
 \alias{mclusterSim}
-\title{Compare two clusters of genes}
+\title{Similarity score between clusters of genes based on pathways similarity}
 \usage{
-clusterSim(cluster1, cluster2, info, method = "max")
+clusterSim(cluster1, cluster2, info, method = "max", ...)
 
-mclusterSim(clusters, info, method = "max")
+mclusterSim(clusters, info, method = "max", ...)
 }
 \arguments{
-\item{cluster1, cluster2}{A vector with genes in \code{id}.}
+\item{cluster1, cluster2}{A vector with genes.}
 
 \item{info}{A list of genes and the pathways they are involved.}
 
 \item{method}{To combine the scores of each pathway, one of \code{c("avg",
 "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
 similarities.}
+
+\item{...}{Other arguments passed to \code{\link{combineScores}}}
 
 \item{clusters}{A list of clusters of genes to be found in \code{id}.}
 }

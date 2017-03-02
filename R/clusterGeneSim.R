@@ -1,5 +1,5 @@
 # clusterGeneSim ####
-#' Compare two clusters of genes
+#' Similarity score between clusters of genes based on genes similarity
 #'
 #' Looks for the similarity between genes of a group and then between each
 #' group.
@@ -8,8 +8,9 @@
 #' calculated, and with this values then the comparison between the two
 #' clusters is done. Thus applying combineScores twice, one at gene level and
 #' another one at cluster level.
-#' @param cluster1,cluster2 A vector with genes.
+#' @inheritParams clusterSim
 #' @inheritParams geneSim
+#' @inheritParams pathSim
 #' @param method A vector with two  or one argument to be passed to combineScores the
 #' first one is used to summarize the similarities of genes, the second one
 #' for clusters.
@@ -33,7 +34,7 @@
 #' clus
 #' combineScores(clus, "rcmax.avg")
 clusterGeneSim <- function(cluster1, cluster2, info,
-                           method = c("max", "rcmax.avg")) {
+                           method = c("max", "rcmax.avg"), ...) {
     if (length(unique(cluster1)) == 1L & length(unique(cluster2)) == 1L) {
         stop("Introduce several genes in each cluster!\n",
              "If you want to calculate similarities ",
@@ -74,12 +75,12 @@ clusterGeneSim <- function(cluster1, cluster2, info,
 
     pathways <- unique(c(pathways1, pathways2))
 
-    simPaths <- mpathSim(pathways, info, method = NULL)
+    simPaths <- mpathSim(pathways, info, method = NULL, ...)
     genes <- outer(pathways1.a, pathways2.a, vcombineScoresPrep,
-                   prep = simPaths, method = method[1L])
+                   prep = simPaths, method = method[1L], ... = ...)
 
     if (length(method) == 2L) {
-        combineScores(genes, method = method[2L])
+        combineScores(genes, method = method[2L], ...)
     } else {
         genes
     }
@@ -97,12 +98,12 @@ vclusterGeneSim <- Vectorize(clusterGeneSim,
 #' @examples
 #'
 #' clusters <- list(cluster1 = c("18", "81", "10"),
-#'                  cluster2 = c("100", "11", "1"),
+#'                  cluster2 = c("100", "594", "836"),
 #'                  cluster3 = c("18", "10", "83"))
 #' mclusterGeneSim(clusters, genes.kegg)
 #' mclusterGeneSim(clusters, genes.kegg, c("max", "avg"))
 #' mclusterGeneSim(clusters, genes.kegg, c("max", "BMA"))
-mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg")) {
+mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"), ...) {
 
     if (!is.list(clusters)) {
         stop("Please use a list to introduce the clusters.")
@@ -129,5 +130,5 @@ mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg")) {
         stop("Please provide two methods to combine scores")
     }
 
-    outer(clusters, clusters, vclusterGeneSim, info, method = method)
+    outer(clusters, clusters, vclusterGeneSim, info, method = method, ... = ...)
 }

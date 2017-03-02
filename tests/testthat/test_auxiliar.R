@@ -10,7 +10,6 @@ test_that("seq2mat puts a combination to the right place", {
     expect_error(seq2mat(LETTERS[1:5], 1:11))
     expect_error(seq2mat(LETTERS[1:5], 1:9))
 
-
     com <- combn(as.character(1:5), 2)
     dat <- apply(com, 2, function(x){sum(as.numeric(x))})
 
@@ -29,37 +28,6 @@ test_that("combinadic", {
 
 })
 
-# weighted ####
-test_that("weighted.sum", {
-    set.seed(5)
-    x <- runif(5)
-    weights <-  c(0.1, 0.2, 0.3, 0.4, 0.0)
-    test <- weighted.sum(c(-0.5, 0.5), c(0.6, 0.2))
-    expect_equal(test, -0.4)
-    test <- weighted.sum(c(-0.5, 0.5), c(0.6, 0.2), abs = FALSE)
-    expect_equal(test, -0.2)
-    test <- weighted.sum(x, weights)
-    expect_equal(test, 0.54588768)
-    expect_error(weighted.sum(x, c(0.1, 0.2)), "match the length")
-    expect_error(weighted.sum("a", c(0.1)), "should be numeric")
-    expect_error(weighted.sum(0.1, "a"), "should be numeric")
-    weights <-  c(0.1, 0.2, 0.3, 0.4, 0.2)
-    expect_warning(weighted.sum(x, weights), "the weights is above 1")
-})
-
-test_that("weighted.prod", {
-    set.seed(5)
-    x <- runif(5)
-    weights <-  c(0.1, 0.2, 0.3, 0.4, NA)
-    test <- weighted.prod(x, weights)
-    expect_equal(weighted.prod(x, c(0.1, 0.2, 0.3, 0.4, 0)), 0L)
-    expect_equal(test, 8.58568731153938e-05)
-    expect_error(weighted.prod(x, c(0.1, 0.2)), "match the length")
-    expect_error(weighted.prod("a", c(0.1)), "should be numeric")
-    expect_error(weighted.prod(0.1, "a"), "should be numeric")
-    weights <-  c(0.1, 0.2, 0.3, 0.4, 0.2)
-    expect_warning(weighted.prod(x, weights), "the weights is above 1")
-})
 # duplicateIndices ####
 test_that("duplicateIndices", {
     vec <- c("52", "52", "52", "53", "55")
@@ -88,30 +56,4 @@ test_that("removeDup", {
     expect_error(removeDup(mat, dupli), "should be symmetric")
 })
 
-# D2J and J2D ####
-test_that("Conversions", {
-    expect_error(D2J(1.1))
-    expect_error(D2J(-1.1))
-    expect_error(J2D(1.1))
-    expect_error(J2D(-1.1))
 
-    expect_equal(J2D(D2J(0.5)), 0.5)
-
-    expect_equal(D2J(0.5), 1/3)
-    expect_equal(J2D(0.5), 2/3)
-})
-# combineScores ####
-test_that("combineScores", {
-    d <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
-                     0.285714285714286), .Dim = c(3L, 3L),
-                   .Dimnames = list(c("a","b", "c"), c("d", "e", "f")))
-    test <- sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA"), combineScores,
-           scores = d)
-    expect_equal(as.numeric(test["rcmax.avg"]), as.numeric(test["BMA"]))
-    expect_true(all(test["max"] > test[-2]))
-    expect_equal(as.numeric(test["avg"]), 0.339770723104056)
-    expect_equal(as.numeric(test["max"]), 0.6)
-    expect_equal(as.numeric(test["rcmax"]), 0.5)
-    expect_equal(as.numeric(test["rcmax.avg"]), 0.464285714285714)
-
-})

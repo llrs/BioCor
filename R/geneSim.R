@@ -1,7 +1,7 @@
 # geneSim ####
-#' Calculates the Dice similarity score of two genes
+#' Similarity score genes based on pathways similarity
 #'
-#' For the genes given calculates the Dice similarity between each pathway
+#' Given two genes, calculates the Dice similarity between each pathway
 #' which is combined to obtain a similarity between the genes.
 #'
 #' Given the information about the genes and their pathways, uses the ids
@@ -37,7 +37,7 @@
 #' geneSim("81", "18", genes.kegg)
 #' geneSim("81", "18", genes.react, NULL)
 #' geneSim("81", "18", genes.kegg, NULL)
-geneSim <- function(gene1, gene2, info, method = "max") {
+geneSim <- function(gene1, gene2, info, method = "max", ...) {
 
     if (length(unique(gene1)) != 1L | length(unique(gene2)) != 1L) {
         stop("Introduce just one gene!\n",
@@ -78,14 +78,14 @@ geneSim <- function(gene1, gene2, info, method = "max") {
     if (any(lengths(pathways) == 0L)) {
         return(NA)
     }
-
+    pathways <- sapply(pathways, function(x)x[!is.na(x)])
     # Subseting just the important pathways
     pathways_all <- unique(unlist(pathways))
-
+    # If there is one single pathway in common then the similarity is 1
     if (length(pathways_all) == 1) {
         return(1)
     }
-    sim <- mpathSim(pathways_all, info = info, method = NULL)
+    sim <- mpathSim(pathways_all, info = info, method = NULL, ...)
     sim <- sim[pathways[[1]], pathways[[2]], drop = FALSE]
 
     # Combine or not
@@ -93,7 +93,7 @@ geneSim <- function(gene1, gene2, info, method = "max") {
         sim
     }
     else {
-        combineScores(sim, method = method)
+        combineScores(sim, method = method, ...)
     }
 }
 
@@ -108,7 +108,7 @@ vgeneSim <- Vectorize(geneSim, vectorize.args = c("gene1", "gene2"))
 #'
 #' mgeneSim(c("81", "18", "10"), genes.react)
 #' mgeneSim(c("81", "18", "10"), genes.react, "avg")
-mgeneSim <- function(genes, info, method = "max") {
+mgeneSim <- function(genes, info, method = "max", ...) {
 
     if (length(unique(genes)) == 1) {
         stop("Introduce several unique genes!\n",
@@ -145,10 +145,10 @@ mgeneSim <- function(genes, info, method = "max") {
         lge2 <- info[!nas]
         pathsGenes <- sapply(genes, getElement, object = lge2)
         sim <- outer(pathsGenes, pathsGenes, vcombineScoresPrep, prep = pathSim,
-                     method = method)
+                     method = method, ...)
     } else {
         names(genes) <- genes # To have the output with names
-        sim <- outer(genes, genes, vgeneSim, info, method = method)
+        sim <- outer(genes, genes, vgeneSim, info, method = method, ...)
     }
 
     sim_all <- matrix(NA, ncol = length(genes), nrow = length(genes),

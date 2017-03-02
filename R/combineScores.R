@@ -41,6 +41,10 @@ combineScores <- function(scores, method, round = FALSE) {
         stop("scores argument should be a matrix")
     }
 
+    if (length(round) != 1 & is.logical(round)) {
+        stop("round argument is not logical")
+    }
+
     if (any(dim(scores) == 0L)) {
         return(NA)
     }
@@ -89,11 +93,11 @@ combineScores <- function(scores, method, round = FALSE) {
 
 }
 
-combineScoresPrep <- function(x, y, prep, method) {
+combineScoresPrep <- function(x, y, prep, method, ...) {
     if (all(is.na(x)) | all(is.na(y))) {
         NA
     } else {
-        combineScores(prep[x, y, drop = FALSE], method)
+        combineScores(prep[x[!is.na(x)], y[!is.na(y)], drop = FALSE], method, ...)
     }
 }
 vcombineScoresPrep <- Vectorize(combineScoresPrep,

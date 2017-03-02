@@ -3,11 +3,11 @@
 \name{geneSim}
 \alias{geneSim}
 \alias{mgeneSim}
-\title{Calculates the Dice similarity score of two genes}
+\title{Similarity score genes based on pathways similarity}
 \usage{
-geneSim(gene1, gene2, info, method = "max")
+geneSim(gene1, gene2, info, method = "max", ...)
 
-mgeneSim(genes, info, method = "max")
+mgeneSim(genes, info, method = "max", ...)
 }
 \arguments{
 \item{gene1, gene2}{Ids of the genes to calculate the similarity, to be found
@@ -18,6 +18,8 @@ in genes.}
 \item{method}{To combine the scores of each pathway, one of \code{c("avg",
 "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
 similarities.}
+
+\item{...}{Other arguments passed to \code{\link{combineScores}}}
 
 \item{genes}{A vector of genes.}
 }
@@ -34,7 +36,7 @@ negative value of similarity.
 in the vector
 }
 \description{
-For the genes given calculates the Dice similarity between each pathway
+Given two genes, calculates the Dice similarity between each pathway
 which is combined to obtain a similarity between the genes.
 }
 \details{

@@ -1,13 +1,14 @@
 # clusterSim ####
-#' Compare two clusters of genes
+#' Similarity score between clusters of genes based on pathways similarity
 #'
 #' Looks for the similarity between genes in groups
 #'
 #' Once the pathways for each cluster are found they are combined using
 #' combineScores.
-#' @param cluster1,cluster2 A vector with genes in \code{id}.
+#' @param cluster1,cluster2 A vector with genes.
 #' @inheritParams geneSim
 #' @inheritParams combineScores
+#' @inheritParams pathSim
 #' @export
 #' @author Lluís Revilla
 #' @seealso For a different approach see \code{\link{clustersSim}},
@@ -21,7 +22,7 @@
 #' clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg)
 #' clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg, NULL)
 #' clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg, "avg")
-clusterSim <- function(cluster1, cluster2, info, method = "max"){
+clusterSim <- function(cluster1, cluster2, info, method = "max", ...){
 
     if (length(unique(cluster1)) == 1L & length(unique(cluster2)) == 1L) {
         stop("Introduce several genes in each cluster!\n",
@@ -65,7 +66,7 @@ clusterSim <- function(cluster1, cluster2, info, method = "max"){
     sim_all <- mpathSim(pathways, info, NULL)
     sim <- sim_all[pathways1, pathways2]
     if (!is.null(method)) {
-        combineScores(sim, method)
+        combineScores(sim, method, ...)
     } else {
         sim
     }
@@ -85,7 +86,7 @@ vclusterSim <- Vectorize(clusterSim, vectorize.args = c("cluster1", "cluster2"))
 #'                  cluster3 = c("18", "10", "83"))
 #' mclusterSim(clusters, genes.kegg)
 #' mclusterSim(clusters, genes.kegg, "avg")
-mclusterSim <- function(clusters, info, method = "max") {
+mclusterSim <- function(clusters, info, method = "max", ...) {
 
     if (!is.list(clusters)) {
         stop("Please use a list to introduce the clusters.")
@@ -118,7 +119,7 @@ mclusterSim <- function(clusters, info, method = "max") {
         paths <- sapply(x, getElement, object = info, simplify = TRUE)
         paths <- unique(unlist(paths)) # Unique pathways
         paths[!is.na(paths)] # Without NAs
-    })
+    }, simplify = FALSE)
     pathways <- unique(unlist(cluster2pathways)) # Total pathways
 
     # Depending how big the pathways are we do one or other strategy
@@ -126,13 +127,13 @@ mclusterSim <- function(clusters, info, method = "max") {
         # Using precalculated pathway similarities
         pathSims <- pathSims_matrix(info)
         sim <- outer(cluster2pathways, cluster2pathways, vcombineScoresPrep,
-                     prep = pathSims, method = method)
+                     prep = pathSims, method = method, ...)
     } else {
         # Calculating just the pathways we are interested in
         names(pathways) <- pathways
         pathSims <- outer(pathways, pathways, vpathSim, info)
         sim <- outer(cluster2pathways, cluster2pathways, vcombineScoresPrep,
-              prep = pathSims, method = method)
+              prep = pathSims, method = method, ...)
     }
     # In case any cluster don't have any relevant data
     sim_all <- matrix(NA, ncol = length(clusters), nrow = length(clusters),

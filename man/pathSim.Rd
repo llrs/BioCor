@@ -3,11 +3,11 @@
 \name{pathSim}
 \alias{pathSim}
 \alias{mpathSim}
-\title{Compare pathways}
+\title{Calculates the Dice similarity between pathways}
 \usage{
 pathSim(pathway1, pathway2, info)
 
-mpathSim(pathways, info, method = "max")
+mpathSim(pathways, info, method = "max", ...)
 }
 \arguments{
 \item{pathway1, pathway2}{A single pathway to calculate the similarity}
@@ -19,19 +19,23 @@ mpathSim(pathways, info, method = "max")
 \item{method}{To combine the scores of each pathway, one of \code{c("avg",
 "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
 similarities.}
+
+\item{...}{Other arguments passed to \code{\link{combineScores}}}
 }
 \value{
 The similarity between those pathways or all the similarities
 between each comparison.
 }
 \description{
-Given two vectors of pathways calculates the similarity between them.
+Calculates the similarity between pathways using dice similarity score.
 }
 \details{
-\code{diceSim} is used to calculate similarities between each pathway and
+\code{diceSim} is used to calculate similarities between the two pathways.
+
+\code{mpathSim} compares the similarity between several pathways and can use
 \code{\link{combineScores}} to extract the similarity between those pathways.
-If one needs the matrix of similarities between pathways set methods to
-\code{NULL}.
+If one needs the matrix of similarities between pathways set the argument
+methods to \code{NULL}.
 }
 \examples{
 library("reactome.db")
@@ -40,7 +44,7 @@ genes.react <- as.list(reactomeEXTID2PATHID)
 pathways <- c("112315", "112310", "112316", "373753", "916853", "109582",
 "114608", "1500931")
 pathSim("112310", "112316", genes.react)
-mpathSim(pathways genes.react, NULL)
+mpathSim(pathways, genes.react, NULL)
 }
 \seealso{
 \code{\link{diceSim}} and \code{\link{combineScores}} and

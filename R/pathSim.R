@@ -1,17 +1,20 @@
 # pathSim ####
-#' Compare pathways
+#' Calculates the Dice similarity between pathways
 #'
-#' Given two vectors of pathways calculates the similarity between them.
+#' Calculates the similarity between pathways using dice similarity score.
 #'
-#' \code{diceSim} is used to calculate similarities between each pathway and
+#' \code{diceSim} is used to calculate similarities between the two pathways.
+#'
+#' \code{mpathSim} compares the similarity between several pathways and can use
 #' \code{\link{combineScores}} to extract the similarity between those pathways.
-#' If one needs the matrix of similarities between pathways set methods to
-#' \code{NULL}.
+#' If one needs the matrix of similarities between pathways set the argument
+#' methods to \code{NULL}.
 #' @param pathway1,pathway2 A single pathway to calculate the similarity
 #' @param info A list of genes and the pathways they are involved.
 #' @param method To combine the scores of each pathway, one of \code{c("avg",
 #' "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
 #' similarities.
+#' @param ... Other arguments passed to \code{\link{combineScores}}
 #' @return The similarity between those pathways or all the similarities
 #' between each comparison.
 #' @seealso \code{\link{diceSim}} and \code{\link{combineScores}} and
@@ -25,7 +28,7 @@
 #' pathways <- c("112315", "112310", "112316", "373753", "916853", "109582",
 #' "114608", "1500931")
 #' pathSim("112310", "112316", genes.react)
-#' mpathSim(pathways genes.react, NULL)
+#' mpathSim(pathways, genes.react, NULL)
 pathSim <- function(pathway1, pathway2, info) {
     if (length(pathway1) != 1 | length(pathway2) != 1) {
         stop("Introduce just one pathway!\n",
@@ -63,7 +66,7 @@ vpathSim <- Vectorize(pathSim, vectorize.args = c("pathway1", "pathway2"))
 #' @rdname pathSim
 #' @param pathways Pathways to calculate the similarity for
 #' @export
-mpathSim <- function(pathways, info, method = "max") {
+mpathSim <- function(pathways, info, method = "max", ...) {
 
     if (length(unique(pathways)) == 1 ) {
         stop("Introduce several unique pathways!\n",
@@ -103,16 +106,14 @@ mpathSim <- function(pathways, info, method = "max") {
         g2 <- g1
 
         # Calculate similarities
-        vdiceSim <- Vectorize(diceSim)
         sim <- outer(g1, g2, vdiceSim)
     }
-
 
     # Calculate the similarity between the two genes
     if (is.null(method)) {
         return(sim)
     } else {
-        combineScores(sim, method)
+        combineScores(sim, method, ... = ...)
     }
 }
 

@@ -43,3 +43,5 @@ diceSim <- function(g1, g2) {
         length(prot2) + length(prot1))
     score
 }
+
+vdiceSim <- Vectorize(diceSim)

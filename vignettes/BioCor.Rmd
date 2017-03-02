@@ -255,7 +255,7 @@ Steps:
 3. Join the similarities and use them to calculate the adjacency (`adjacency.fromSimilarity(similarity)`)
 4. Build the dendrogram to obtain the modules of related genes.
 
-```{r wgcna, eval=FALSE}
+```{r wgcna1, eval=FALSE}
 # Load the expression data see tutorial 1 of WGCNA
 load("expression.RData", verbose = TRUE)
 expr.sim <- WGCNA::cor(expr) # or bicor
@@ -282,7 +282,7 @@ moduleColors <- labels2colors(dynamicMods$labels)
 
 We can similarly apply the similarity of BioCor after calculating the adjacency by pure expression correlation, and using it with low weight:
 
-```{r wgcna, eval=FALSE}
+```{r wgcna2, eval=FALSE}
 # Load the expression data see tutorial 1 of WGCNA
 load("expression.RData", verbose = TRUE)
 # set the power necessary for a scale free topology based only in the expression
