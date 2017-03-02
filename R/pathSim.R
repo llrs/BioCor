@@ -58,6 +58,8 @@ pathSim <- function(pathway1, pathway2, info) {
     diceSim(g1, g2)
 }
 
+vpathSim <- Vectorize(pathSim, vectorize.args = c("pathway1", "pathway2"))
+
 #' @rdname pathSim
 #' @param pathways Pathways to calculate the similarity for
 #' @export
