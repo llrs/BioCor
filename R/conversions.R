@@ -4,8 +4,8 @@
 #' Functions to convert the similarity coefficients between Jaccard and Dice.
 #' D2J is the opposite of J2D.
 #' @param D Dice coefficient, as returned by \code{\link{diceSim}},
-#' \code{\link{geneSim}}, \code{\link{clusterSim}}, \code{\link{clusterGeneSim}}
-#'  and \code{\link{bioCor}}
+#' \code{\link{geneSim}}, \code{\link{clusterSim}} and
+#' \code{\link{clusterGeneSim}}
 #' @param J Jaccard coefficient
 #' @return A numeric value.
 #' @author Lluís Revilla

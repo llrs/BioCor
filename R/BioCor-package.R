@@ -12,9 +12,6 @@
 #' clusters of genes by joining pathways of each gene.}
 #' \item{\code{\link{clusterGeneSim}}}{Calculates the similarity between two
 #' clusters of genes by comparing the similarity between the genes of a cluster}
-#' \item{\code{\link{bioCor}}}{Allows to calculate the similarity for a large
-#' number of genes
-#'  using parallel back-end}
 #' \item{\code{\link{similarities}}}{Allows to combine the value of matrices of
 #' similarities}
 #' \item{\code{\link{conversions}}}{Two functions to convert similarity

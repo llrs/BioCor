@@ -152,25 +152,15 @@ similarities(sim, mean)
 ```
 
 # High volumes of gene similarities
-If we want multiple gene pair-wise comparisons we can use bioCor, which accepts a parallel back-end:
-```{r big, collapse=TRUE}
-genes.id <- c("10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644", 
-              "81327", "9128", "2073", "2893", "5142", "60", "210", "81", 
-              "1352", "88")
-library("BiocParallel")
-sim <- bioCor(genes.id, all = TRUE, BPPARAM = MulticoreParam())
-str(sim)
-```
-
-Now in `sim` we have a list of matrices of `r nrow(sim[[1]])` rows and columns with similarities from both, Reactome and KEGG database.
-
-We can also compute the whole similarity of genes in Kegg or reactome by using (it would take 5 hours) whoever it requires high memory available:
+We can compute the whole similarity of genes in KEGG or Reactome by using :
 ```{r whole_db, eval=FALSE}
 # Omit those genes without a pathway
 nas <- sapply(gene.kegg, function(y){all(is.na(y))})
 gene.kegg2 <- gene.kegg[!nas]
 m <- mgeneSim(names(gene.kegg2), gene.kegg2, method  = NULL)
 ```
+It takes around 5 hours in one core but it requires high memory available.
+
 Then it can be used to fit with other matrix with
 ```{r whole_db2, eval=FALSE}
 sim <- AintoB(m, B)
