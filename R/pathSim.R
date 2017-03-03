@@ -88,7 +88,7 @@ mpathSim <- function(pathways, info, method = "max", ...) {
     }
 
     # If the number of pathways is quite big use another strategy
-    if (length(pathways) >= 60) {
+    if (length(pathways) >= 100) {
 
         sim <- pathSims_matrix(info)
         sim <- sim[pathways, pathways]

@@ -168,11 +168,14 @@ sim <- AintoB(m, B)
 Where B is a symmetric matrix of the size our genes * genes.
 
 # An example of usages
-With the genes in the previous list we are going to see how similar are those genes:
+With a list of genes we are going to see how similar are those genes:
 ```{r hclust1}
 # Calculate the similarity 
+genes.id <- c("10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644", 
+              "81327", "9128", "2073", "2893", "5142", "60", "210", "81", 
+              "1352", "88")
 react <- mgeneSim(genes.id, genes.react)
-# We need to remove colums with too much NA
+# We can remove colums with too much NA
 nas <- apply(react, 1, function(x){sum(is.na(x))})
 react <- react[nas <= 10, nas <= 10]
 plot(hclust(as.dist(1 - react))) #We plot the relationship between the genes
