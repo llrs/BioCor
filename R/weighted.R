@@ -47,7 +47,7 @@ weighted.sum <- function(x, w, abs = TRUE) {
         warning("The sum of the weights is above 1")
     }
     if (abs) {
-        if (any(sign(x) < 0)) {
+        if (any(sign(x[!is.na(x)]) < 0)) {
             -sum(abs(x)*w, na.rm = TRUE)
         } else {
             sum(x*w, na.rm = TRUE)

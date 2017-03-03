@@ -64,8 +64,6 @@ similarities <- function(sim, func, ...) {
 #' sim <- list(b)
 #' addSimilarities(a, sim, c(0.5, 0.5))
 addSimilarities <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)){
-    # exp, reactome, kegg, go
-    # cor_mat <- cor(x, use = "p")
     if (sum(weights) > 1L) {
         stop("Weights are too big. The sum must be equal to 1")
     } else if (sum(weights) < 1L) {
