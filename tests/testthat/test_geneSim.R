@@ -18,3 +18,8 @@ test_that("mgeneSim", {
     expect_true(isSymmetric(test))
     expect_equal(test["2", "10"], 0.4)
 })
+
+test_that("mgeneSim", {
+    test <- mgeneSim(c("672", "675", "10"), genes.kegg)
+    expect_true(isSymmetric(test))
+})

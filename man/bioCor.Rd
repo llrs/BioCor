@@ -38,11 +38,6 @@ genes but no overlap between those genes.
 Calculates a functional similarity of genes  using information available in
 several databases.
 }
-\details{
-For Gene Ontologies, the DAG path structure is used to compute how similar
-two genes are. For metabolic pathways the max number of proteins involved in
-a pathway for each gene is calculated.
-}
 \examples{
 bioCor(c("18", "81"))
 }

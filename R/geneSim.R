@@ -62,23 +62,17 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
     if (any(is.na(comb))) {
         return(NA)
     }
-    # if (gene1 == gene2) {
-    #     return(1)
-    # }
-
-    # Convert list into environment to speed the look up
-    genes2pathways <- list2env(info)
 
     # Extract all pathways for each gene
     pathways <- sapply(comb, function(x) {
-        genes2pathways[[x]]
+        info[[x]]
     }, simplify = FALSE)
 
     # Check that we have pathways info for this combination
     if (any(lengths(pathways) == 0L)) {
         return(NA)
     }
-    pathways <- sapply(pathways, function(x)x[!is.na(x)])
+    pathways <- sapply(pathways, function(x){x[!is.na(x)]}, simplify = FALSE)
     # Subseting just the important pathways
     pathways_all <- unique(unlist(pathways))
     # If there is one single pathway in common then the similarity is 1
