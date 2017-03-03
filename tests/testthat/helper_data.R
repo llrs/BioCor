@@ -1,5 +1,4 @@
 # Sample data for test
-library("org.Hs.eg.db")
 
 info <- structure(list(`1` = NA_character_,
                        `10` = c("1430728", "156580", "156582", "211859"),
@@ -25,5 +24,3 @@ genes.symbol <- c("ACP1", "RNF13", "ILKAP", "UVSSA", "INIP", "CKS2", "CKS1B",
 d <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
                  0.285714285714286), .Dim = c(3L, 3L),
                .Dimnames = list(c("a","b", "c"), c("d", "e", "f")))
-
-genes.kegg <- as.list(org.Hs.egPATH)

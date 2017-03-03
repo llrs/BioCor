@@ -5,11 +5,15 @@ context("Testing geneSim")
 test_that("geneSim", {
 
     test <- geneSim("2", "9", info)
+    test2 <- geneSim("9", "2", info)
     expect_equal(test, 0.4)
+    expect_equal(test, test2)
     test <- geneSim("2", "9", info, NULL)
+    expect_true(is.matrix(test))
     expect_false(is.null(colnames(test)))
     expect_false(is.null(rownames(test)))
     expect_equal(ncol(test), 4L)
+
 })
 
 test_that("mgeneSim", {
@@ -17,9 +21,4 @@ test_that("mgeneSim", {
     expect_true(is.na(test["1", "1"]))
     expect_true(isSymmetric(test))
     expect_equal(test["2", "10"], 0.4)
-})
-
-test_that("mgeneSim", {
-    test <- mgeneSim(c("672", "675", "10"), genes.kegg)
-    expect_true(isSymmetric(test))
 })

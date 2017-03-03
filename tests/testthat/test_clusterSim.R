@@ -4,7 +4,9 @@ context("Testing clusterSim")
 test_that("clusterSim", {
 
     test <- clusterSim(c("2", "1"), c("9", "4"), info)
+    test2 <- clusterSim(c("9", "4"), c("2", "1"), info)
     expect_equal(test, 0.4)
+    expect_equal(test2, test)
     test <- clusterSim(c("2", "1"), c("9", "4"), info, "avg")
     expect_equal(test, 0.00909090909090909)
     test <- clusterSim(c("2", "1"), c("9", "4"), info, "avg", round = TRUE)
