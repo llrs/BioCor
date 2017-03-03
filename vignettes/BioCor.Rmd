@@ -164,6 +164,19 @@ str(sim)
 
 Now in `sim` we have a list of matrices of `r nrow(sim[[1]])` rows and columns with similarities from both, Reactome and KEGG database.
 
+We can also compute the whole similarity of genes in Kegg or reactome by using (it would take 5 hours) whoever it requires high memory available:
+```{r whole_db, eval=FALSE}
+# Omit those genes without a pathway
+nas <- sapply(gene.kegg, function(y){all(is.na(y))})
+gene.kegg2 <- gene.kegg[!nas]
+m <- mgeneSim(names(gene.kegg2), gene.kegg2, method  = NULL)
+```
+Then it can be used to fit with other matrix with
+```{r whole_db2, eval=FALSE}
+sim <- AintoB(m, B)
+```
+Where B is a symmetric matrix of the size our genes * genes.
+
 # An example of usages
 With the genes in the previous list we are going to see how similar are those genes:
 ```{r hclust1}
