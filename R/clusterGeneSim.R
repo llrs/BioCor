@@ -130,5 +130,22 @@ mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"), ...)
         stop("Please provide two methods to combine scores")
     }
 
-    outer(clusters, clusters, vclusterGeneSim, info, method = method, ... = ...)
+    # Extract all pathways for each gene
+    pathways <- sapply(unlist(clusters), function(x) {
+        info[[x]]
+    }, simplify = FALSE)
+    pathwaysl <- unique(unlist(pathways))
+    pathwaysl <- pathwaysl[!is.na(pathwaysl)]
+
+    # Calculate similarities between pathways
+    pathSims <- mpathSim(pathwaysl, info, NULL)
+
+    # Calculate similarities between genes
+    names(pathways) <- unlist(clusters) # give the name of the genes
+    genesSims <- outer(pathways, pathways, vcombineScoresPrep,
+                       method = method[1L], prep = pathSims, ... = ...)
+
+    # Calculate similarities between clusters of genes
+    outer(clusters, clusters, vcombineScoresPrep, prep = genesSims,
+          method = method[2L], ... = ...)
 }
