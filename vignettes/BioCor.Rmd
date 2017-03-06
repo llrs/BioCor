@@ -27,9 +27,9 @@ BiocStyle::markdown()
 
 # Introduction
 
-Functional similarities have already been used to several purposes, most of them are based on Gene Ontology, which can be calculated using `r BiocStyle::Biocpkg("GOSemSim")`, or other controlled vocabulary.
+Methods to find similarities have been developed for several purposes, being Jaccard and Dice similarities the most known. In bioinformatics much of the research on the topic centered on Gene Ontologies partially because there is a known structure and has a controlled vocabulary. Several methods of calculating similarities using Gene Ontologies are available at `r BiocStyle::Biocpkg("GOSemSim")`.
 
-General methods for similarity between to sets has been proposed Jaccard and Dice. However they have not been used to compare the similarity of pathways, or genes, neither between genes and pathways nor between databases. With this package we provide the methods to calculate such similarities with flexibility.
+However, there is another resource of similarities between genes: metabolic pathways. Metabolic pathways describe the relationship between genes, proteins, fats and other elements of the cells. A pathway describes, to some extent, the function in which it is involved in the cell. There exists several databases about which gene belong to which pathway. With this package we provide the methods to calculate similarities based on this information.
 
 Here we provides functions to calculate similarities for pathways, genes and clusters of genes. As it development started aiming to group better genes by functionality in co-expression networks using *[WGCNA](https://cran.r-project.org/package=WGCNA)*.
 
@@ -131,7 +131,7 @@ mclusterGeneSim(clusters, genes.kegg, c("max", "rcmax.avg"))
 
 Note the differences between each method in the similarity values of the clusters  with the same information.
 
-## Merging similarities
+## Merging similarities {#merging}
 If one calculate similarities for with KEGG data and Reactome or other input for the same genes or clusters we provide a couple of functions to merge them:
 
 We can set a weight to each similarity input with `weighted.sum`, multiply them but using also a weight for each, doing the mean or just adding them up
@@ -182,18 +182,15 @@ plot(hclust(as.dist(1 - react))) #We plot the relationship between the genes
 ```
 As we can see there are a couple of genes which are not related to others in the list the 2073 and the 81.
 
-Now we add the two genes mores the BRCA1 and BRCA2 which have the entrez identification 672 and 675.
+Now we add the two genes mores the BRCA1 and BRCA2 which have the entrez identification 672 and 675, respectively.
 ```{r hclust2} 
 react2 <- mgeneSim(c(genes.id, "672", "675"), genes.react)
-info <- select(org.Hs.eg.db, keys = c(genes.id, "675", "672"), keytype = "ENTREZID",
-       columns = c("SYMBOL", "GENENAME"))
-# We change the ENTREZID genes for the Symbols
-colnames(react2) <- info$SYMBOL
-rownames(react2) <- info$SYMBOL
 # We need to remove colums with too much NA
 nas <- apply(react2, 1, function(x){sum(is.na(x))})
 react2 <- react2[nas <= 10, nas <= 10]
 plot(hclust(as.dist(1 - react2))) 
+info <- select(org.Hs.eg.db, keys = c(genes.id, "675", "672"), keytype = "ENTREZID",
+       columns = c("SYMBOL", "GENENAME"))
 info
 ```
 
@@ -207,9 +204,9 @@ clusters <- list(DNA = c("672", "675", "2073"),
                  metabolism = c("18", "2893", "88"), 
                  unknown = c("2", "81327", "5142", "60"))
 # Remember we can use both methods to compare clusters
-sim_clus1 <- mclusterSim(clusters, genes.react, "ENTREZID", "REACTOMEID")
+sim_clus1 <- mclusterSim(clusters, genes.react)
 plot(hclust(as.dist(1 - sim_clus1)))
-sim_clus2 <- mclusterGeneSim(clusters, genes.react, "ENTREZID", "REACTOMEID")
+sim_clus2 <- mclusterGeneSim(clusters, genes.react)
 plot(hclust(as.dist(1 - sim_clus2)))
 ```
 As we can see each method results in a different dendrogram, but the second is more accurate to describe the relationships between the genes in the clusters.
@@ -253,27 +250,35 @@ It keeps the one with the higher mean similarity for all the genes available in 
 
 # WGCNA and BioCor 
 
-BioCor was originally thought to be used with other clustering packages using similarity measures like `r BiocStyle::CRANpkg("WGCNA")`, does. Here we provide an example on how to use BioCor with WGCNA, assuming we have already calculated the similarities in the list `sim`.
+WGCNA uses the correlation of the expression data of several samples to group genes. From a biological point of view the interpretation of the resulting groups is difficult. Even more when some groups of genes end up not having an enrichment in described functions. BioCor was originally thought to be used to overcome this problem: to help clustering genes, not only by correlation but also by functionality. 
 
-Steps:
+In order to have groups functionally related, functional similarities can enhance the clustering of genes when combined (See [this section](#merging)) with experimental correlations. The resulting groups will reflect, not only the correlation of the expression provided, but also the functionality known of those genes.
+
+We propose the following steps:
+
 1. Calculate the similarities for the expression data 
-2. Calculate the similarities of the genes in the expression data as described previously
+2. Calculate the similarities of the genes in the expression 
 3. Join the similarities and use them to calculate the adjacency (`adjacency.fromSimilarity(similarity)`)
-4. Build the dendrogram to obtain the modules of related genes.
+4. Identify modules with hierarchical clustering
+
+Here we provide an example on how to use BioCor with WGCNA:
+
+`sim` is a list where each element is a matrix of similarities between genes 
+Our normalized expression data in the file *expression.RData* in the `expr` variable: a matrix where the samples are in the rows and genes at the columns.
 
 ```{r wgcna1, eval=FALSE}
-# Load the expression data see tutorial 1 of WGCNA
+# Load the expression data (see tutorial 1 of WGCNA)
 load("expression.RData", verbose = TRUE)
 expr.sim <- WGCNA::cor(expr) # or bicor
 
-# To combine the similarities either weighted.sum :
+# Combine the similarities
 similarity <- similarities(c(list(exp = expr.sim), sim), mean)
 
 # Choose the softThreshold
 pSFT <- pickSoftThreshold.fromSimilarity(similarity)
 
 # Or any other function we want
-adjacency <- adjacency.fromSimilarity(similarity, power = powerEstimate)
+adjacency <- adjacency.fromSimilarity(similarity, power = pSFT$powerEstimate)
 
 # Once we have the similarities we can calculate the TOM with TOM
 TOM <- TOMsimilarity(adjacency)
@@ -286,7 +291,7 @@ dynamicMods <- cutreeHybrid(dendro = geneTree, distM = dissTOM,
 moduleColors <- labels2colors(dynamicMods$labels) 
 ```
 
-We can similarly apply the similarity of BioCor after calculating the adjacency by pure expression correlation, and using it with low weight:
+We can also use the functional similarities after calculating the adjacency:
 
 ```{r wgcna2, eval=FALSE}
 # Load the expression data see tutorial 1 of WGCNA
@@ -312,6 +317,12 @@ dynamicMods <- cutreeHybrid(dendro = geneTree, distM = dissTOM,
 moduleColors <- labels2colors(dynamicMods$labels) 
 ```
 Once the modules are identified using the functional similarities of this package and the gene correlations, one can continue with the workflow of WGCNA.
+
+The critical point of this process is deciding how to combine the similarities and the expression data: 
+ - If the functional similarities play a huge role, we will end up having only those genes closely related to the same functions. 
+ - If the functional similarities play a low role, it will be similarly to only use WGCNA, and the genes won't be functionally related.
+ 
+To choose how to select a combine method, we propose the following rules, build several networks with different combinations and pick the one which produces more groups or whose modules are more randomly related or where the 0 modules or the grey modules has the less number of genes. 
 
 # Session Info
 
