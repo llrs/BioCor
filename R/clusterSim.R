@@ -118,12 +118,16 @@ mclusterSim <- function(clusters, info, method = "max", ...) {
     cluster2pathways <- sapply(clusters, function(x) {
         paths <- sapply(x, getElement, object = info, simplify = TRUE)
         paths <- unique(unlist(paths)) # Unique pathways
+        if (is.null(paths)) {
+            return(NA)
+        }
         paths[!is.na(paths)] # Without NAs
     }, simplify = FALSE)
+
     pathways <- unique(unlist(cluster2pathways)) # Total pathways
 
     # Depending how big the pathways are we do one or other strategy
-    if (sum(!is.na(pathways)) >= 30) {
+    if (sum(!is.na(pathways)) >= 150) {
         # Using precalculated pathway similarities
         pathSims <- pathSims_matrix(info)
         sim <- outer(cluster2pathways, cluster2pathways, vcombineScoresPrep,
@@ -131,9 +135,10 @@ mclusterSim <- function(clusters, info, method = "max", ...) {
     } else {
         # Calculating just the pathways we are interested in
         names(pathways) <- pathways
-        pathSims <- outer(pathways, pathways, vpathSim, info)
+        pathSims <- mpathSim(pathways, info, method = NULL)
+        # pathSims <- outer(pathways, pathways, vpathSim, info)
         sim <- outer(cluster2pathways, cluster2pathways, vcombineScoresPrep,
-              prep = pathSims, method = method, ...)
+              prep = pathSims, method = method, ... = ...)
     }
     # In case any cluster don't have any relevant data
     sim_all <- matrix(NA, ncol = length(clusters), nrow = length(clusters),

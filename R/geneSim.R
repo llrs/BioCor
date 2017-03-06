@@ -127,22 +127,25 @@ mgeneSim <- function(genes, info, method = "max", ...) {
         method <- "max"
         warning("Method to combine pathways can't be null, set to 'max'")
     }
-    pathways <- unique(unlist(sapply(genes, getElement, object = info)))
-    pathways <- pathways[!is.na(pathways)]
+
+    pathways <- sapply(genes, getElement, object = info)
+    pathwaysl <- unique(unlist(pathways))
+    pathwaysl <- pathwaysl[!is.na(pathwaysl)]
 
     # Depending how big the pathways are we do one or other strategy
-    if (sum(!is.na(pathways)) >= 30) { #TODO Improve this section not correctly done?
+    if (length(pathwaysl) >= 150) { #TODO Improve this section not correctly done?
         # Using precalculated pathway similarities
-        pathSim <- pathSims_matrix(info)
+        pathsSims <- pathSims_matrix(info)
 
         nas <- sapply(info, function(y) {all(is.na(y))})
         lge2 <- info[!nas]
         pathsGenes <- sapply(genes, getElement, object = lge2)
-        sim <- outer(pathsGenes, pathsGenes, vcombineScoresPrep, prep = pathSim,
-                     method = method, ...)
+        sim <- outer(pathsGenes, pathsGenes, vcombineScoresPrep,
+                     prep = pathsSims, method = method, ...)
     } else {
-        names(genes) <- genes # To have the output with names
-        sim <- outer(genes, genes, vgeneSim, info, method = method, ...)
+        pathsSims <- mpathSim(pathwaysl, info, NULL)
+        sim <- outer(pathways, pathways, vcombineScoresPrep,
+                     prep = pathsSims, method = method, ... = ...)
     }
 
     sim_all <- matrix(NA, ncol = length(genes), nrow = length(genes),
