@@ -51,7 +51,7 @@ mclusterSim(clusters, genes.kegg)
 mclusterSim(clusters, genes.kegg, "avg")
 }
 \seealso{
-For a different approach see \code{\link{clustersSim}},
+For a different approach see \code{\link{clusterGeneSim}},
 \code{\link{combineScores}} and \code{\link{conversions}}
 }
 \author{

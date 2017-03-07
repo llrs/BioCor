@@ -124,7 +124,7 @@ mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"), ...)
     }
 
     if (any(!unlist(clusters) %in% names(info))) {
-        warning("Some genes are not in the list you provided.")
+        warning("Some genes are not in the list provided.")
     }
     if (length(method) != 2) {
         stop("Please provide two methods to combine scores")

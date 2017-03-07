@@ -7,3 +7,7 @@
 BioCor.Rproj
 Info_kegg.RData
 Rprof.out
+# Ignore bioCor
+R/bioCor.R
+man/bioCor.Rd
+tests/testthat/test_bioCor.R

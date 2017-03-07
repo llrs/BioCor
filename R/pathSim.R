@@ -43,7 +43,7 @@ pathSim <- function(pathway1, pathway2, info) {
     }
 
     if (any(!c(pathway1, pathway2) %in% unlist(info))) {
-        stop("A pathway is not in the list you provided.")
+        return(NA)
     }
 
     # Invert the list

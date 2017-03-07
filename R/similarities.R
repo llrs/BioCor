@@ -11,6 +11,8 @@
 #' @param ... Other arguments passed to the function \code{func}. Usually na.rm
 #' or similar.
 #' @return A matrix of the size of the similarities
+#' @note It doesn't check that the columns and rows of the matrices are in the
+#' same order or are the same.
 #' @export
 #' @seealso \code{\link{weighted}} for functions that can be used, and
 #' \code{\link{addSimilarities}} for a wrapper to one of them

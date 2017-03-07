@@ -24,6 +24,10 @@ A matrix of the size of the similarities
 \description{
 Function to join list of similarities by a function provided by the user.
 }
+\note{
+It doesn't check that the columns and rows of the matrices are in the
+same order or are the same.
+}
 \examples{
 set.seed(100)
 a <- seq2mat(LETTERS[1:5], rnorm(10))
