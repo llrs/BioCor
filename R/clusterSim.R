@@ -11,7 +11,7 @@
 #' @inheritParams pathSim
 #' @export
 #' @author Lluís Revilla
-#' @seealso For a different approach see \code{\link{clustersSim}},
+#' @seealso For a different approach see \code{\link{clusterGeneSim}},
 #' \code{\link{combineScores}} and \code{\link{conversions}}
 #' @return \code{clusterSim} returns a similarity score of the two clusters
 #' @examples
