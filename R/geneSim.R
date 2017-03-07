@@ -54,7 +54,7 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
     }
 
     if (any(!c(gene1, gene2) %in% names(info))) {
-        stop("A gene is not in the list you provided.")
+        return(NA)
     }
 
     comb <- c(gene1, gene2)
@@ -65,20 +65,18 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
 
     # Extract all pathways for each gene
     pathways <- sapply(comb, function(x) {
-        info[[x]]
+        y <- info[[x]]
+        y[!is.na(y)]
     }, simplify = FALSE)
 
     # Check that we have pathways info for this combination
     if (any(lengths(pathways) == 0L)) {
         return(NA)
     }
-    pathways <- sapply(pathways, function(x){x[!is.na(x)]}, simplify = FALSE)
     # Subseting just the important pathways
     pathways_all <- unique(unlist(pathways))
-    # If there is one single pathway in common then the similarity is 1
-    if (length(pathways_all) == 1) {
-        return(1)
-    }
+
+
     sim <- mpathSim(pathways_all, info = info, method = NULL, ...)
     sim <- sim[pathways[[1]], pathways[[2]], drop = FALSE]
 
@@ -112,14 +110,16 @@ mgeneSim <- function(genes, info, method = "max", ...) {
     if (!all(is.character(genes))) {
         stop("The input genes should be characters")
     }
-
+    namgenes <- names(genes)
     genes <- unique(genes)
 
     if (!is.list(info)) {
         stop("info should be a list. See documentation.")
     }
 
-    if (any(!genes %in% names(info))) {
+    if (all(!genes %in% names(info))) {
+        stop("Check genes are in the list provided.")
+    } else if (any(!genes %in% names(info))) {
         warning("Some genes are not in the list you provided.")
     }
 
@@ -150,7 +150,12 @@ mgeneSim <- function(genes, info, method = "max", ...) {
 
     sim_all <- matrix(NA, ncol = length(genes), nrow = length(genes),
            dimnames = list(genes, genes))
-    AintoB(sim, sim_all)
+    sim <- AintoB(sim, sim_all)
+    if (!is.null(namgenes)) {
+        dimnames(sim) <- list(namgenes, namgenes)
+    }
+    sim
+
 
 }
 
