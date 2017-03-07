@@ -1,6 +1,6 @@
 Package: BioCor
 Title: Calculates functional similarities between genes
-Version: 0.99.21
+Version: 0.99.22
 Authors@R: person("Lluís", "Revilla Sancho", email = "lluis.revilla@gmail.com", 
     role = c("aut", "cre"))
 Author: Lluís Revilla Sancho <lluis.revilla@gmail.com>
@@ -25,14 +25,14 @@ Imports:
     reactome.db,
     graph, 
     methods,
-    utils,
-    BiocParallel
+    utils
 Suggests:
     WGCNA,
     testthat,
     knitr,
     rmarkdown,
-    BiocStyle
+    BiocStyle,
+    GOSemSim
 BugReports: https://github.com/llrs/BioCor/issues
 URL: https://github.com/llrs/BioCor/
 VignetteBuilder: knitr
