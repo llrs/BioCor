@@ -6,11 +6,11 @@ Authors@R: person("Lluís", "Revilla Sancho", email = "lluis.revilla@gmail.com",
 Author: Lluís Revilla Sancho <lluis.revilla@gmail.com>
 Maintainer: Lluís Revilla Sancho <lluis.revilla@gmail.com>
 Description:
-    Calculates similarities based on the pathways described on KEGG and 
-    REACTOME. This similarities can be calculated for genes, pathways or 
-    clusters and combined with co-expression similarities or semantic 
-    similarities to improve network building, gene selection, 
-    functionality testing...
+    Calculates functional similarities based on the pathways described on KEGG 
+    and REACTOME or in gene sets. These similarities can be calculated for 
+    pathways or gene sets, genes, or clusters and combined with other 
+    similarities. They can be used to improve networks, gene selection, testing
+    relationships...
 Depends:
     R (>= 3.3.0)
 License: GPL-3 | file LICENSE
@@ -32,7 +32,8 @@ Suggests:
     knitr,
     rmarkdown,
     BiocStyle,
-    GOSemSim
+    GOSemSim,
+    GSEABase
 BugReports: https://github.com/llrs/BioCor/issues
 URL: https://github.com/llrs/BioCor/
 VignetteBuilder: knitr
