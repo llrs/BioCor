@@ -11,6 +11,9 @@
 #' @inheritParams clusterSim
 #' @inheritParams geneSim
 #' @inheritParams pathSim
+#' @import AnnotationDbi
+#' @import org.Hs.eg.db
+#' @import reactome.db
 #' @param method A vector with two  or one argument to be passed to combineScores the
 #' first one is used to summarize the similarities of genes, the second one
 #' for clusters.

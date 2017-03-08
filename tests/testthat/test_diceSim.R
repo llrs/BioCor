@@ -15,5 +15,5 @@ test_that("diceSim", {
     test3 <- diceSim(graph1, graph2)
     expect_equal(test2, test3)
     expect_equal(diceSim(graph1, graph1), 1L)
-    expect_equal(diceSim(c(), c()), 0L)
+    expect_error(diceSim(c(), c()))
 })

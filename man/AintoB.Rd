@@ -26,7 +26,7 @@ have calculated on the matrix of genes.
 \examples{
 B <- matrix(ncol = 10, nrow = 10,
     dimnames = list(letters[1:10], letters[1:10]))
-A <- matrix(c(1:15), byrow=T, nrow=5,
+A <- matrix(c(1:15), byrow=TRUE, nrow=5,
     dimnames = list(letters[1:5], letters[1:3]))
 AintoB(A, B)
 

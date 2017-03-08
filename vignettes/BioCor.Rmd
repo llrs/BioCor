@@ -252,7 +252,7 @@ Each method results in a different dendrogram as we can see  on Figure \@ref(fig
 In this section I will compare the functional similarity of BioCor with the closely related package `r Biocpkg("GOSemSim")`. The genes to measure are extracted from the vignette of GOSemSim 2.0.4.
 
 I will compare the functions geneSim and clusterSim with both datasets from Kegg and Reactome:
-```{r geneSim}
+```{r geneSimGOSemSim}
 geneSim("241", "251", genesKegg, "BMA")
 geneSim("241", "251", genesReact, "BMA")
 mgeneSim(c("835", "5261","241", "994"), genesKegg, "BMA", round = TRUE)
@@ -269,13 +269,14 @@ mgeneSim(genese, genesReact, "BMA")
 mgeneSim(genese, genesKegg, "BMA")
 ```
 In this example the CD45 is closer with MCM10 than any other gene as in GOSemSim, but CDC20 is closer tto MCM10 than to NMU as calculated with GOSemSim.
-```{r}
+```{r clusterSimGOSemSim}
 gs1 <- c("835", "5261","241", "994", "514", "533")
 gs2 <- c("578","582", "400", "409", "411")
 clusterSim(gs1, gs2, genesReact, "BMA")
 clusterSim(gs1, gs2, genesKegg, "BMA")
 ```
 The similarity between those two clusters is lower than the one calculated with GOSemSim, maybe due to not having data for some genes in the list provided from Reactome.
+
 # WGCNA and BioCor 
 
 [WGCNA](https://cran.r-project.org/package=WGCNA) uses the correlation of the expression data of several samples to cluster genes. From a biological point of view the interpretation of the resulting groups is difficult. Even more when some groups of genes end up not having an enrichment in described functions. BioCor was originally thought to be used to overcome this problem: to help clustering genes, not only by correlation but also by functionality. 
@@ -354,7 +355,7 @@ To choose how to select a combine method, we propose the following rules, build 
 
 # FAQ
 
-## How do you calculate how similar are two pathways ? {#FAQ1}
+## How is defined how similar are two pathways? {#FAQ1}
 It uses the [Sørensen–Dice index](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient): 
 It is the double of the genes shared by the pathways divided by the number of genes in each pathway.
 
@@ -369,25 +370,22 @@ $$Jaccard(x, w) = \frac{|x \cap w|}{|x \cup w|}$$
 Both Jaccard index and Dice index are between 0 and 1 ($[0, 1]$). To calculate the Jaccard index from the `diceSim` use the `D2J` function.
 
 ## Why do you use the dice coefficient and not the Jaccard ?
-We consider Dice coefficient better than Jaccard because it has higher values for the same comparisons. Also to include a gene in a pathway is difficult and it is a way to reward the known interactions. 
+We consider Dice coefficient better than Jaccard because it has higher values for the same comparisons, which reflects that including a gene in a pathway is not easily done.
 
 ## How do you combine similarities between several pathways of two genes?
 Although the recommend method is the "max" method, (set as default), there are implemented other methods in `combineScores` of the `r BiocStyle::Biocpkg("GOSemSim")` package which I borrowed. See the [Combining values section](#combining) and the help page of `combineScores`.
 
 ## Why do you recommend using the max method to combine similarities scores for pathways?
-The purpose of combining the scores is usually to know which genes or which relationships between pathways are more relevant. The higher the similarity is between two pathway of two genes, the higher functionalities do the genes share, so even if those genes could be less related, this value would be the maximum functional relationship between them. 
+The purpose of combining the scores is usually the relationships between genes. The higher the similarity is between two pathway of two genes, the higher functionalities do the genes share, even if those genes have other non-related functions. 
 
 ## How to detect which functional relationship is more important between two genes?
-To detect which relationship is more important between two genes one could either measure other similarities scores or check the stechiometric of the pathways and measure the expression changes and correlation between them.
+The fact that they share interactions with other genes does not imply that the relationship between these two genes is strong. To detect which relationship is more important between two genes one could either measure other similarities scores or check the stechiometric of the pathways and measure the expression changes and correlation between them. 
 
 ## How to detect with which genes is my gene of interest related?
 You can measure the [gene similarity](#geneSim) between those genes and also measure the expression correlation of your gene of interest with other genes. 
 
 ## Why isn't available a method for calculating GO similarities?
 This is covered by the `r BiocStyle::Biocpkg("GOSemSim")` package, you can use it to produce a similarity matrix (i.e. use `mgeneSim`). You can parallelize it with `foreach` package or `BiocParallel` if your list of genes is big. 
-
-## How does bioCor deal when one gene is mapped to several ones?
-It keeps the one with the higher mean similarity for all the genes available in the comparison. That means that for a different comparison depending on which genes you are computing a gene can have different values. 
 
 # Session Info {.unnumbered}
 
