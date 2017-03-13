@@ -9,13 +9,9 @@ abstract: >
   frequent or important questions about the package are answered at the end of
   the document.
 output:
-  BiocStyle::pdf_document2:
-    fig_caption: yes
-    toc: yes
-    toc_depth: 3
   BiocStyle::html_document2:
-    fig_caption: yes
-    toc_float: yes
+    fig_caption: true
+    toc_float: true
     toc_depth: 3
 author:
   name: Lluís Revilla
