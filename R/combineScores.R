@@ -42,7 +42,7 @@ combineScores <- function(scores, method, round = FALSE) {
         stop("scores argument should be a matrix")
     }
 
-    if (length(round) != 1 & is.logical(round)) {
+    if (length(round) != 1 | !is.logical(round)) {
         stop("round argument is not logical")
     }
 
