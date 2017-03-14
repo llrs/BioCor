@@ -15,8 +15,8 @@
 #' see details
 #' @param round Should the resulting value be rounded to the third digit?
 #' @return A numeric value as described in details.
-#' @note This is a version of combineMethods from
-#' \code{\link[GOSemSim]{combineMethods}} with optional rounding and some
+#' @note This is a version of combineScores from
+#' \code{\link[GOSemSim]{combineScores}} with optional rounding and some
 #' internal differences.
 #' @export
 #' @author Lluís Revilla based on Guangchuang Yu
