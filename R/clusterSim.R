@@ -38,8 +38,10 @@ clusterSim <- function(cluster1, cluster2, info, method = "max", ...){
     if (!is.list(info)) {
         stop("info should be a list. See documentation.")
     }
-
-    if (any(!cluster1 %in% names(info)) | any(!cluster2 %in% names(info))) {
+    if (all(!cluster1 %in% names(info)) & all(!cluster2 %in% names(info))) {
+        warning("At least one gene should be in the list provided")
+        return(NA)
+    } else if (any(!cluster1 %in% names(info)) | any(!cluster2 %in% names(info))) {
         warning("Some genes are not in the list you provided.")
     }
 
@@ -72,7 +74,8 @@ clusterSim <- function(cluster1, cluster2, info, method = "max", ...){
     }
 }
 
-vclusterSim <- Vectorize(clusterSim, vectorize.args = c("cluster1", "cluster2"))
+vclusterSim <- Vectorize(clusterSim,
+                         vectorize.args = c("cluster1", "cluster2"))
 
 #' @param clusters A list of clusters of genes to be found in \code{id}.
 #' @rdname clusterSim
@@ -126,26 +129,17 @@ mclusterSim <- function(clusters, info, method = "max", ...) {
 
     pathways <- unique(unlist(cluster2pathways)) # Total pathways
 
-    # Depending how big the pathways are we do one or other strategy
-    if (sum(!is.na(pathways)) >= 150) {
-        # Using precalculated pathway similarities
-        pathSims <- pathSims_matrix(info)
-        sim <- outer(cluster2pathways, cluster2pathways, vcombineScoresPrep,
-                     prep = pathSims, method = method, ...)
-    } else {
-        # Calculating just the pathways we are interested in
-        names(pathways) <- pathways
-        pathSims <- mpathSim(pathways, info, method = NULL)
-        # pathSims <- outer(pathways, pathways, vpathSim, info)
-        sim <- outer(cluster2pathways, cluster2pathways, vcombineScoresPrep,
-              prep = pathSims, method = method, ... = ...)
-    }
+    # Calculates similarities between pathways
+    names(pathways) <- pathways
+    pathSims <- mpathSim(pathways, info, method = NULL)
+
+    # Calculates similarities between clusters
+    sim <- outer(cluster2pathways, cluster2pathways, vcombineScoresPrep,
+                 prep = pathSims, method = method, ... = ...)
+
     # In case any cluster don't have any relevant data
     sim_all <- matrix(NA, ncol = length(clusters), nrow = length(clusters),
                       dimnames = list(names(clusters), names(clusters)))
     AintoB(sim, sim_all)
-
-    # vc <- Vectorize(clusterSim, vectorize.args = c("cluster1", "cluster2"))
-    # suppressWarnings(outer(clusters, clusters, vc, info, method = method))
 
 }

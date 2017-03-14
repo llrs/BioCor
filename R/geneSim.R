@@ -132,21 +132,9 @@ mgeneSim <- function(genes, info, method = "max", ...) {
     pathwaysl <- unique(unlist(pathways))
     pathwaysl <- pathwaysl[!is.na(pathwaysl)]
 
-    # Depending how big the pathways are we do one or other strategy
-    if (length(pathwaysl) >= 150) { #TODO Improve this section not correctly done?
-        # Using precalculated pathway similarities
-        pathsSims <- pathSims_matrix(info)
-
-        nas <- sapply(info, function(y) {all(is.na(y))})
-        lge2 <- info[!nas]
-        pathsGenes <- sapply(genes, getElement, object = lge2)
-        sim <- outer(pathsGenes, pathsGenes, vcombineScoresPrep,
-                     prep = pathsSims, method = method, ...)
-    } else {
-        pathsSims <- mpathSim(pathwaysl, info, NULL)
-        sim <- outer(pathways, pathways, vcombineScoresPrep,
-                     prep = pathsSims, method = method, ... = ...)
-    }
+    pathsSims <- mpathSim(pathwaysl, info, NULL)
+    sim <- outer(pathways, pathways, vcombineScoresPrep,
+                 prep = pathsSims, method = method, ... = ...)
 
     sim_all <- matrix(NA, ncol = length(genes), nrow = length(genes),
            dimnames = list(genes, genes))
