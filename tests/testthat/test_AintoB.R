@@ -8,7 +8,7 @@ test_that("AintoB", {
                 dimnames = list(letters[1:5], letters[1:3]))
     test <- AintoB(A, B)
     expect_equal(test[1:5, 1:3], A)
-
+    expect_error(AintoB(B, A), "Impossible")
     # Mixed orders
     colnames(A) <- c("c", "h", "e")
     rownames(A) <- c("b", "a", "f", "c", "j")

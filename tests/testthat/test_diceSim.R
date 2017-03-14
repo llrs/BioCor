@@ -14,6 +14,8 @@ test_that("diceSim", {
     expect_equal(test, test2)
     test3 <- diceSim(graph1, graph2)
     expect_equal(test2, test3)
+    test4 <- diceSim(genes.id, graph2)
+    expect_equal(test2, test4)
     expect_equal(diceSim(graph1, graph1), 1L)
     expect_error(diceSim(c(), c()))
 })

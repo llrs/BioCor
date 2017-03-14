@@ -4,6 +4,14 @@ context("Testing clusterGeneSim")
 test_that("clusterGeneSim", {
 
     expect_warning(test <- clusterGeneSim(c("2", "1"), c("9", "4"), info))
+    expect_error(clusterGeneSim(c("2", "2"), c("4", "4"), info), "several")
+    expect_error(clusterGeneSim(c("2", "2"), c(9, 4), info), "character")
+    expect_error(clusterGeneSim(c("2", "2"), c("9", "4"),
+                                as.environment(info)),
+                 "list")
+    expect_warning(clusterGeneSim(c("13", "12"), c("9", "4"), info), "list")
+    expect_error(clusterGeneSim(c("2", "1"), c("9", "3"), info,
+                                method = NULL), "method")
     expect_warning(test2 <- clusterGeneSim(c("9", "4"), c("2", "1"), info))
     expect_equal(test, 0.4)
     expect_equal(test, test2)

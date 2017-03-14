@@ -19,4 +19,6 @@ test_that("combineScores", {
     expect_equal(as.numeric(test2["max"]), 0.6)
     expect_equal(as.numeric(test2["rcmax"]), 0.5)
     expect_equal(as.numeric(test2["rcmax.avg"]), 0.464)
+    expect_error(combineScores(as.vector(d), "max"), "matrix")
+    expect_error(combineScores(d, "max", round = "a"), "logical")
 })
