@@ -36,9 +36,7 @@ similarities <- function(sim, func, ...) {
     if (!all(sapply(sim, isSymmetric))) {
         stop("Similarities are not symmetric")
     }
-    if (any(is.na(sim))) {
-        warning("There are some NA values in the similarities provided")
-    }
+
     FUN <- match.fun(func)
     # Apply weighted to each cell position of each similarity measure
     apply(simplify2array(sim), c(1L, 2L), FUN, ...)
