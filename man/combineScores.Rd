@@ -30,8 +30,8 @@ the number of columns and rows}
 \item{BMA}{The same as \code{rcmax.avg}}}
 }
 \note{
-This is a version of combineScores inspired from GOSemSim
-\code{\link[GOSemSim]{combineScores}} with optional rounding and some
+This is a version of combineMethods from
+\code{\link[GOSemSim]{combineMethods}} with optional rounding and some
 internal differences.
 }
 \examples{
@@ -46,5 +46,5 @@ sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA"), combineScores,
        scores = d)
 }
 \author{
-Lluís Revilla based on Guan
+Lluís Revilla based on Guangchuang Yu
 }
