@@ -16,20 +16,20 @@ mclusterGeneSim(clusters, info, method = c("max", "rcmax.avg"), ...)
 
 \item{info}{A list of genes and the pathways they are involved.}
 
-\item{method}{A vector with two  or one argument to be passed to combineScores the
-first one is used to summarize the similarities of genes, the second one
-for clusters.}
+\item{method}{A vector with two  or one argument to be passed to
+combineScores the first one is used to summarize the similarities of genes,
+the second one for clusters.}
 
 \item{...}{Other arguments passed to \code{\link{combineScores}}}
 
 \item{clusters}{A list of clusters of genes to be found in \code{id}.}
 }
 \value{
-\code{clusterGeneSim} returns a similarity score of the two clusters or
-the similarity between the genes of the two clusters.
+\code{clusterGeneSim} returns a similarity score of the two clusters
+or the similarity between the genes of the two clusters.
 
-\code{mclusterGeneSim} returns a matrix with the similarity scores for
-each cluster comparison.
+\code{mclusterGeneSim} returns a matrix with the similarity scores
+for each cluster comparison.
 }
 \description{
 Looks for the similarity between genes of a group and then between each
@@ -64,7 +64,8 @@ mclusterGeneSim(clusters, genes.kegg, c("max", "avg"))
 mclusterGeneSim(clusters, genes.kegg, c("max", "BMA"))
 }
 \seealso{
-\code{\link{clusterGeneSim}}, \code{\link{combineScores}} and \code{\link{conversions}}
+\code{\link{clusterGeneSim}}, \code{\link{combineScores}} and
+\code{\link{conversions}}
 }
 \author{
 Lluís Revilla

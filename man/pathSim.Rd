@@ -33,7 +33,8 @@ Calculates the similarity between pathways using dice similarity score.
 \code{diceSim} is used to calculate similarities between the two pathways.
 
 \code{mpathSim} compares the similarity between several pathways and can use
-\code{\link{combineScores}} to extract the similarity between those pathways.
+\code{\link{combineScores}} to extract the similarity between those
+pathways.
 If one needs the matrix of similarities between pathways set the argument
 methods to \code{NULL}.
 }
@@ -48,7 +49,8 @@ mpathSim(pathways, genes.react, NULL)
 }
 \seealso{
 \code{\link{diceSim}} and \code{\link{combineScores}} and
-\code{\link{conversions}} help page to transform Dice score to Jaccard score.
+\code{\link{conversions}} help page to transform Dice score to Jaccard
+score.
 }
 \author{
 Lluís Revilla

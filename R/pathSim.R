@@ -6,7 +6,8 @@
 #' \code{diceSim} is used to calculate similarities between the two pathways.
 #'
 #' \code{mpathSim} compares the similarity between several pathways and can use
-#' \code{\link{combineScores}} to extract the similarity between those pathways.
+#' \code{\link{combineScores}} to extract the similarity between those
+#' pathways.
 #' If one needs the matrix of similarities between pathways set the argument
 #' methods to \code{NULL}.
 #' @param pathway1,pathway2 A single pathway to calculate the similarity
@@ -18,7 +19,8 @@
 #' @return The similarity between those pathways or all the similarities
 #' between each comparison.
 #' @seealso \code{\link{diceSim}} and \code{\link{combineScores}} and
-#' \code{\link{conversions}} help page to transform Dice score to Jaccard score.
+#' \code{\link{conversions}} help page to transform Dice score to Jaccard
+#' score.
 #' @author Lluís Revilla
 #' @export
 #' @examples

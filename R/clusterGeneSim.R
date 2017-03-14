@@ -14,14 +14,15 @@
 #' @import AnnotationDbi
 #' @import org.Hs.eg.db
 #' @import reactome.db
-#' @param method A vector with two  or one argument to be passed to combineScores the
-#' first one is used to summarize the similarities of genes, the second one
-#' for clusters.
+#' @param method A vector with two  or one argument to be passed to
+#' combineScores the first one is used to summarize the similarities of genes,
+#' the second one for clusters.
 #' @export
 #' @author Lluís Revilla
-#' @seealso \code{\link{clusterGeneSim}}, \code{\link{combineScores}} and \code{\link{conversions}}
-#' @return \code{clusterGeneSim} returns a similarity score of the two clusters or
-#' the similarity between the genes of the two clusters.
+#' @seealso \code{\link{clusterGeneSim}}, \code{\link{combineScores}} and
+#' \code{\link{conversions}}
+#' @return \code{clusterGeneSim} returns a similarity score of the two clusters
+#' or the similarity between the genes of the two clusters.
 #' @examples
 #' library("org.Hs.eg.db")
 #' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
@@ -57,7 +58,7 @@ clusterGeneSim <- function(cluster1, cluster2, info,
         warning("Some genes are not in the list you provided.")
     }
 
-    if (length(method) > 2L | is.null(method) | any(is.na(method))) {
+    if (length(method) > 2L | is.null(method)) {
         stop("Please provide two  or one methods to combine scores.",
              "See Details")
     }
@@ -95,8 +96,8 @@ vclusterGeneSim <- Vectorize(clusterGeneSim,
 
 #' @param clusters A list of clusters of genes to be found in \code{id}.
 #' @rdname clusterGeneSim
-#' @return \code{mclusterGeneSim} returns a matrix with the similarity scores for
-#' each cluster comparison.
+#' @return \code{mclusterGeneSim} returns a matrix with the similarity scores
+#' for each cluster comparison.
 #' @export
 #' @examples
 #'
@@ -106,7 +107,8 @@ vclusterGeneSim <- Vectorize(clusterGeneSim,
 #' mclusterGeneSim(clusters, genes.kegg)
 #' mclusterGeneSim(clusters, genes.kegg, c("max", "avg"))
 #' mclusterGeneSim(clusters, genes.kegg, c("max", "BMA"))
-mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"), ...) {
+mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"),
+                            ...) {
 
     if (!is.list(clusters)) {
         stop("Please use a list to introduce the clusters.")

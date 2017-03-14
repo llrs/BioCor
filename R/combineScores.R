@@ -11,7 +11,8 @@
 #' the number of columns and rows}
 #' \item{BMA}{The same as \code{rcmax.avg}}}
 #' @param scores Matrix of scores to be combined
-#' @param method one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA")} see details
+#' @param method one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA")}
+#' see details
 #' @param round Should the resulting value be rounded to the third digit?
 #' @return A numeric value as described in details.
 #' @note This is a version of combineScores inspired from GOSemSim
