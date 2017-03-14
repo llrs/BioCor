@@ -30,8 +30,8 @@ the number of columns and rows}
 \item{BMA}{The same as \code{rcmax.avg}}}
 }
 \note{
-This is a version of combineMethods from
-\code{\link[GOSemSim]{combineMethods}} with optional rounding and some
+This is a version of combineScores from
+\code{\link[GOSemSim]{combineScores}} with optional rounding and some
 internal differences.
 }
 \examples{
