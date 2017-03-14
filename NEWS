@@ -1,3 +1,10 @@
+Github v0.99.27 (Release date: 2017-03-14)
+=============
+
+Changes
+
+* Correct a test for clusterSim
+
 Github v0.99.26 (Release date: 2017-03-14)
 ==============
 
@@ -6,7 +13,6 @@ Changes:
 * Update the required R version from 3.3 to 3.4's
 * Adding more tests to increase the coverage
 * Using mpathSim to calculate path similarities
-
 
 Github v0.99.25 (Release date: 2017-03-13)
 ==============

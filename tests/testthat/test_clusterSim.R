@@ -34,9 +34,9 @@ test_that("clusterSim", {
     expect_equal(rownames(test), names(clusters))
     test <- mclusterSim(clusters, info, "avg", round = TRUE)
     expect_equal(test[1L, 1L], 0.664)
-    clusters <- list(cluster1 = c("10", "2", "3"),
+    clusters3 <- list(cluster1 = c("10", "2", "3"),
                      cluster2 = c(10, 2, 9))
-    expect_error(mclusterSim(clusters, info))
+    expect_error(mclusterSim(clusters3, info))
     clusters2 <- list(cluster1 = c("10", "2", "3"))
     expect_error(mclusterSim(clusters2, info), "several")
     expect_error(mclusterSim(clusters, as.environment(info)), "list")
@@ -45,3 +45,4 @@ test_that("clusterSim", {
                    "in the list")
     expect_warning(mclusterSim(clusters, info, method = NULL, round = TRUE))
 })
+
