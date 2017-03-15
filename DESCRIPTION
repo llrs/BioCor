@@ -1,0 +1,27 @@
+Package: BioCor
+Title: Functional similarities
+Version: 0.99.30
+Authors@R: person("Lluís", "Revilla Sancho", email =
+        "lluis.revilla@gmail.com", role = c("aut", "cre"))
+Author: Lluís Revilla Sancho <lluis.revilla@gmail.com>
+Maintainer: Lluís Revilla Sancho <lluis.revilla@gmail.com>
+Description: Calculates functional similarities based on the pathways
+        described on KEGG and REACTOME or in gene sets. These
+        similarities can be calculated for pathways or gene sets,
+        genes, or clusters and combined with other similarities. They
+        can be used to improve networks, gene selection, testing
+        relationships...
+Depends: R (>= 3.4.0)
+License: GPL-3 | file LICENSE
+Encoding: UTF-8
+LazyData: true
+biocViews: Software, StatisticalMethod, Clustering, GeneExpression,
+        Reactome, Network, KEGG, Pathways
+Imports: org.Hs.eg.db, AnnotationDbi, reactome.db, graph, methods,
+        utils
+Suggests: WGCNA, testthat, knitr, rmarkdown, BiocStyle, GOSemSim,
+        GSEABase
+BugReports: https://github.com/llrs/BioCor/issues
+URL: https://github.com/llrs/BioCor/
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1
