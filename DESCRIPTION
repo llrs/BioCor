@@ -12,7 +12,7 @@ Description:
     similarities. They can be used to improve networks, gene selection, testing
     relationships...
 Depends:
-    R (>= 3.4.0)
+    R (>= 3.3.0)
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true

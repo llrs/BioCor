@@ -1,12 +1,6 @@
 [![Build Status](https://travis-ci.org/llrs/BioCor.svg?branch=master)](
 https://travis-ci.org/llrs/BioCor)  
 
-[![HitCount](https://hitt.herokuapp.com/llrs/BioCor.svg)](
-https://github.com/llrs/BioCor) 
-
-[![Issue Count](
-https://codeclimate.com/github/llrs/BioCor/badges/issue_count.svg)](
-https://codeclimate.com/github/llrs/BioCor) 
 
 [![Bioc](http://www.bioconductor.org/shields/years-in-bioc/BioCor.svg)](https://www.bioconductor.org/packages/devel/bioc/html/BioCor.html#since) [![total](https://img.shields.io/badge/downloads-43487/total-blue.svg?style=flat)](https://bioconductor.org/packages/stats/bioc/BioCor) [![month](https://img.shields.io/badge/downloads-1663/month-blue.svg?style=flat)](https://bioconductor.org/packages/stats/bioc/BioCor)
 
