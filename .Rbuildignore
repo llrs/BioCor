@@ -11,3 +11,5 @@ Rprof.out
 R/bioCor.R
 man/bioCor.Rd
 tests/testthat/test_bioCor.R
+# Setting for the github repository
+^.github

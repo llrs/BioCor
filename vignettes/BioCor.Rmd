@@ -45,7 +45,7 @@ As it development started aiming to better group genes by functionality in co-ex
 The main article describing how it has been applied, is currently under writing.
 
 # Installation
-The BioCor package will be available at bioconductor.org and will be downloaded and installed via biocLite:
+The BioCor package is available at [Bioconductor](https://bioconductor.org) and can be downloaded and installed via biocLite:
 ```{r install, eval=FALSE}
 source("http://bioconductor.org/biocLite.R")
 biocLite("BioCor")
@@ -100,7 +100,8 @@ When the method to combine the similarities is set to `NULL` mpathSim returns a 
 To combine values we provide a function with several methods:
 ```{r combineScores}
 sim <- mpathSim(pathways, genesReact, NULL)
-methodsCombineScores <- c("avg", "max", "rcmax", "rcmax.avg", "BMA")
+methodsCombineScores <- c("avg", "max", "rcmax", "rcmax.avg", "BMA",
+                          "reciprocal")
 sapply(methodsCombineScores, combineScores, scores = sim)
 ```
 
