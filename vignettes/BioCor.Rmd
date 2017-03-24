@@ -84,7 +84,10 @@ library("GSEABase")
 3gsc2 <- getGmt("/path/to/c3.all.v2.5.symbols.gmt",
                  collectionType=BroadCollection(category="c3"),
                  geneIdType=SymbolIdentifier())
-genesC3 <- geneIds(3gsc2)
+paths2Genes <- geneIds(3gsc2)
+genes <- unlist(paths2Genes, use.names = FALSE)
+pathways <- rep(names(paths2Genes), lengths(paths2Genes))
+genes2paths <- split(pathways, genes)
 ```
 
 ## Pathway similarities
@@ -95,7 +98,7 @@ pathSim("112310", "1500931", genesReact)
 
 pathways <- c("112310", "112315", "112316", "373753", "916853", "109582", 
               "114608")
-mpathSim(pathways, genesReact, NULL)
+mpathSim(pathways, genesReact)
 ```
 
 When the method to combine the similarities is set to `NULL` mpathSim returns a matrix of pathway similarities. In the next section we can see the methods to combine pathway similarities.
@@ -103,7 +106,7 @@ When the method to combine the similarities is set to `NULL` mpathSim returns a 
 ### Combining values {#combining}
 To combine values we provide a function with several methods:
 ```{r combineScores}
-sim <- mpathSim(pathways, genesReact, NULL)
+sim <- mpathSim(pathways, genesReact)
 methodsCombineScores <- c("avg", "max", "rcmax", "rcmax.avg", "BMA",
                           "reciprocal")
 sapply(methodsCombineScores, combineScores, scores = sim)
