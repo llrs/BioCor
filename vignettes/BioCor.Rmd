@@ -1,23 +1,26 @@
 ---
 title: "BioCor"
-date: "`r BiocStyle::doc_date()`"
-package: "`r BiocStyle::pkg_ver('BioCor')`"
 abstract: >
   Describes the background of the package, important functions defined in the
   package and their applications and usages, including the integration with
   other packages and analysis, and comparisons with related packages. Some
   frequent or important questions about the package are answered at the end of
   the document.
+date: "`r BiocStyle::doc_date()`"
+package: "`r BiocStyle::pkg_ver('BioCor')`"
 output:
   BiocStyle::html_document2:
     fig_caption: true
-    toc_float: true
-    toc_depth: 3
+    toc_float:
+      collapsed: false
+      toc_depth: 3
+    
 author:
-  name: Lluís Revilla
+- name: Lluís Revilla
   affiliation: 
-    IDIBAPS
-    Liver Unit, Hospital Clinic
+    - IDIBAPS
+    - Liver Unit, Hospital Clinic
+    - Universitat Pompeu Fabra
   email: lrevilla@clinic.cat
 vignette: >
   %\VignetteIndexEntry{BioCor}
@@ -26,8 +29,9 @@ vignette: >
 ---
 ```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_knit$set(root.dir = ".")
-knitr::opts_chunk$set(fig.width = 20, fig.height = 10, collapse = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
 BiocStyle::markdown()
+library("BiocStyle")
 ```
 
 
