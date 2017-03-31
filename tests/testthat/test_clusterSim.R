@@ -26,13 +26,15 @@ test_that("mclusterSim", {
     clusters <- list(cluster1 = c("10", "2", "3"),
                      cluster2 = c("10", "2", "9"))
     test <- mclusterSim(clusters, info)
+    expect_equal(test[1L, 1L], 1L)
+    expect_equal(colnames(test), names(clusters))
+    expect_equal(rownames(test), names(clusters))
+
+
     expect_error(mclusterSim(c("10", "2"), info), "list")
     test <- mclusterSim(list(a = c("4", "5"), b = c("6", "7")), info)
     expect_true(all(is.na(unlist(test))))
     expect_true(isSymmetric(test))
-    expect_equal(test[1L, 1L], 1L)
-    expect_equal(colnames(test), names(clusters))
-    expect_equal(rownames(test), names(clusters))
     clusters <- list(cluster1 = c("10", "3"),
                      cluster2 = c("10", "2", "9"),
                      cluster3 = c("2", "9", "3", "4"))

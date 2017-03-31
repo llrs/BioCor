@@ -241,7 +241,8 @@ clusters2 <- list(DNA = c("672", "675", "2073"),
                  acetil_metabolism = c("10", "15", "9", "644", "210", "1352"),
                  metabolism = c("18", "2893", "88"), 
                  unknown = c("2", "81327", "5142", "60"))
-clusters <- split(names(hc), as.factor(hc))
+mycl <- cutree(hc, h = 0.8)
+clusters <- split(names(mycl), as.factor(mycl))
 names(clusters) <- c("acetil_metabolism", "RNA", "metabolism", "unknown", "DNA", "81")
 ## Remember we can use both methods to compare clusters
 sim_clus1 <- mclusterSim(clusters, genesReact)
