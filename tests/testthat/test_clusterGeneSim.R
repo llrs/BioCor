@@ -26,6 +26,13 @@ test_that("clusterGeneSim", {
 })
 
 test_that("mclusterGeneSim", {
+    expect_error(mclusterGeneSim(c("a", "b"), info), "list")
+    expect_error(mclusterGeneSim(list(a = c("a", "b"), b = c(1, 2)), info),
+                 "character")
+    expect_error(mclusterGeneSim(clusters, c("a", "b")), "list")
+    cluster2 <- clusters
+    cluster2$cluster1 <- "199"
+    expect_warning(mclusterGeneSim(cluster2, info), "not in")
     test <- mclusterGeneSim(clusters, info)
     expect_equal(test[1L, 1L], 1)
 

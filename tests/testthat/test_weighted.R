@@ -16,6 +16,8 @@ test_that("weighted.sum", {
     expect_error(weighted.sum(0.1, "a"), "should be numeric")
     weights <-  c(0.1, 0.2, 0.3, 0.4, 0.2)
     expect_warning(weighted.sum(x, weights), "the weights is above 1")
+    expect_warning(weighted.sum(c(-0.5, 0.5), c(0.6, -0.2), abs = FALSE),
+                   "negative")
 })
 
 test_that("weighted.prod", {

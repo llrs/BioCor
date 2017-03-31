@@ -12,6 +12,13 @@ test_that("combineScores", {
     expect_equal(as.numeric(test["rcmax.avg"]), 0.464285714285714)
     expect_equal(as.numeric(test["reciprocal"]), 0.2)
 
+    expect_error(combineScores(d, "reciprocal", t = "a"), "between")
+    expect_error(combineScores(d, "reciprocal", t = 2), "between")
+    expect_error(combineScores(d, "reciprocal", t = -2), "between")
+    expect_true(is.na(combineScores(d, "reciprocal", t = 0.6)))
+    d2 <- list("d" = d)
+    expect_equal(combineScores(d2, "max"), 0.6)
+
     test2 <- sapply(methods, combineScores, scores = d, round = TRUE)
     expect_equal(as.numeric(test2["rcmax.avg"]), as.numeric(test2["BMA"]))
     expect_true(all(test2["max"] > test2[-2]))

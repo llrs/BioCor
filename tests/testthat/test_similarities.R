@@ -27,6 +27,7 @@ test_that("addSimilarities", {
 })
 
 test_that("similarities", {
+
     test <- similarities(mat, mean)
     expect_error(similarities(matrix(, ncol = 2), mean), "introduce")
     expect_error(similarities(list(mat = matrix(, ncol = 2, nrow = 2),
@@ -43,4 +44,8 @@ test_that("similarities", {
 
     test <- similarities(mat, prod)
     expect_equal(test["A", "B"], 0.0546880340227757)
+
+    mat2 <- mat
+    mat2$react[1, 2] <- 1
+    expect_error(similarities(mat2, prod), "symmetric")
 })
