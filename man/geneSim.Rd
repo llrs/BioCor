@@ -45,6 +45,10 @@ of the genes to find the Dice similarity score for each pathway comparison
 between the genes. Later this similarities are combined using
 \code{\link{combineScores}}.
 }
+\note{
+genes accept named characters and the output will use the names of the
+genes.
+}
 \examples{
 library("org.Hs.eg.db")
 library("reactome.db")
@@ -60,6 +64,9 @@ geneSim("81", "18", genes.kegg, NULL)
 
 mgeneSim(c("81", "18", "10"), genes.react)
 mgeneSim(c("81", "18", "10"), genes.react, "avg")
+named_genes <- structure(c("81", "18", "10"),
+.Names = c("ACTN4", "ABAT", "NAT2"))
+mgeneSim(named_genes, genes.react, "max")
 }
 \seealso{
 \code{\link{conversions}} help page to transform Dice
