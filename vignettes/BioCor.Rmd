@@ -80,13 +80,15 @@ However, one can use any list where the names of the list are the genes and the 
 
 ```{r GSEABase, eval = FALSE}
 library("GSEABase")
-3gsc2 <- getGmt("/path/to/c3.all.v2.5.symbols.gmt",
+paths2Genes <- geneIds(getGmt("/path/to/c3.all.v2.5.symbols.gmt",
                  collectionType=BroadCollection(category="c3"),
-                 geneIdType=SymbolIdentifier())
-paths2Genes <- geneIds(3gsc2)
+                 geneIdType=SymbolIdentifier()))
+
 genes <- unlist(paths2Genes, use.names = FALSE)
 pathways <- rep(names(paths2Genes), lengths(paths2Genes))
 genes2paths <- split(pathways, genes)
+
+gmt_sim <- mgeneSim(names(genes2paths), genes2paths)
 ```
 
 ## Pathway similarities
