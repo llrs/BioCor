@@ -47,14 +47,14 @@ combineScores <- function(scores, method, round = FALSE, t = 0) {
                           "reciprocal"))
 
 
-    if (is.list(scores) & length(scores) == 1) {
+    if (is.list(scores) && length(scores) == 1) {
         scores <- scores[[1]]
     }
     if (!is.matrix(scores)) {
         stop("scores argument should be a matrix")
     }
 
-    if (length(round) != 1 | !is.logical(round)) {
+    if (length(round) != 1 || !is.logical(round)) {
         stop("round argument is not logical")
     }
 
@@ -67,14 +67,14 @@ combineScores <- function(scores, method, round = FALSE, t = 0) {
     }
 
     # Remove NA
-    if (any(is.na(scores)) & is.matrix(scores)) {
+    if (any(is.na(scores)) && is.matrix(scores)) {
         row.na.idx <- apply(scores, 1, function(i){all(is.na(i))})
         if (any(row.na.idx)) {
             scores <- scores[-which(row.na.idx), ]
         }
 
     }
-    if (any(is.na(scores)) & is.matrix(scores)) {
+    if (any(is.na(scores)) && is.matrix(scores)) {
         col.na.idx <- apply(scores, 2, function(i){all(is.na(i))})
         if (any(col.na.idx)) {
             scores <- scores[, -which(col.na.idx)]
@@ -98,8 +98,9 @@ combineScores <- function(scores, method, round = FALSE, t = 0) {
             rows <- apply(scores, 2, which.max)
             columns <- apply(scores, 1, which.max)
             reciprocal <- rows[columns[rows] == seq_along(rows)]
-            rScores <- sapply(seq_along(reciprocal), function(x){
-                scores[reciprocal[x], names(reciprocal)[x]]})
+            rScores <- sapply(seq_along(reciprocal), function(x) {
+                scores[reciprocal[x], names(reciprocal)[x]]
+            })
 
             if (all(rScores <= t)) {
                 result <- NA
@@ -110,7 +111,7 @@ combineScores <- function(scores, method, round = FALSE, t = 0) {
         }
     } else {
         warning("Using max method because after removing NAs ",
-                "can't compute BMA and rcmax method")
+                "there isn't a matrix to use.")
         result <- max(scores, na.rm = TRUE)
     }
 
@@ -124,9 +125,9 @@ combineScores <- function(scores, method, round = FALSE, t = 0) {
 }
 
 combineScoresPrep <- function(x, y, prep, method, ...) {
-    if (is.null(x) | is.null(y)) {
+    if (is.null(x) || is.null(y)) {
         NA
-    } else if (all(is.na(x)) | all(is.na(y))) {
+    } else if (all(is.na(x)) || all(is.na(y))) {
         NA
     } else {
         combineScores(prep[x[!is.na(x)], y[!is.na(y)], drop = FALSE],
