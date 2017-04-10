@@ -20,6 +20,7 @@ test_that("clusterSim", {
     expect_true(is.na(clusterSim(c("4", "5"), c("6", "7"), info)))
     test <- clusterSim(c("2", "1"), c("9", "4"), info, NULL)
     expect_true(is.matrix(test))
+    expect_true(is.na(clusterSim(c("1", "5"), c("7", "9"), info)))
 })
 
 test_that("mclusterSim", {
