@@ -72,6 +72,8 @@ library("org.Hs.eg.db")
 library("reactome.db")
 genesKegg <- as.list(org.Hs.egPATH)
 genesReact <- as.list(reactomeEXTID2PATHID)
+genesReact <- sapply(genesReact, function(x){grep("R-HSA-", x, value = TRUE)}) # Only for human pathways
+genesReact <- genesReact[lengths(genesReact) >= 1]
 ```
 
 To avoid having biased data it is important to have all the data about the pathways and genes associated to all pathways for organism under study. Here we assume that we are interested in human pathways. We use this two databases KEGG and Reactome as they are easy to obtain the data. However KEGG database is no longer free for large retrievals therefore it is not longer updated in the Bioconductor annotation packages.
@@ -95,10 +97,10 @@ gmt_sim <- mgeneSim(names(genes2paths), genes2paths)
 
 We can compute similarities (Dice similarity, see [question 1](#FAQ1) of FAQ) between two pathways or between several pathways and combine them, or not:
 ```{r pathSim}
-pathSim("112310", "1500931", genesReact)
+(paths <- sample(unique(unlist(genesReact)), 2))
+pathSim(paths[1], paths[2], genesReact)
 
-pathways <- c("112310", "112315", "112316", "373753", "916853", "109582", 
-              "114608")
+(pathways <- sample(unique(unlist(genesReact)), 10))
 mpathSim(pathways, genesReact)
 ```
 
@@ -216,37 +218,26 @@ With a list of genes we are going to see how similar are those genes:
 
 ```{r hclust1, fig.cap="Gene clustering by similarities", fig.wide = TRUE}
 genes.id <- c("10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644", 
-              "81327", "9128", "2073", "2893", "5142", "60", "210", "81", 
-              "1352", "88", "672", "675")
-react <- mgeneSim(genes.id, genesReact)
-## We remove genes which are not in list:
-nan <- genes.id %in% names(genesReact)
+              "81327", "9128", "2073", "2893", "5142", "210", "81", 
+              "1352", "672", "675")
+genes.id <- mapIds(org.Hs.eg.db, keys = genes.id, keytype = "ENTREZID", column = "SYMBOL")
+genes <- names(genes.id)
+names(genes) <- genes.id
+sum(lengths(genesReact[genes])) # Check the total number of pathways involved
+react <- mgeneSim(genes, genesReact)
+## We remove genes which are not in list (hence the warning):
+nan <- genes %in% names(genesReact)
 react <- react[nan, nan]
 hc <- hclust(as.dist(1 - react))
 plot(hc)
 ```
-As we can see there is a gene which is not related to others in the list (the 81). We can explore why by looking at the name
-
-```{r hclust2, tidy=TRUE} 
-info <- select(org.Hs.eg.db, keys = genes.id, keytype = "ENTREZID",
-       columns = c("SYMBOL", "GENENAME"))
-info
-```
-
-We can see now that the gene 2073 is the ERCC5 related with BRCA1 and BRCA2, as the name indicates all three are linked to DNA. We can also observe that the actinin alpha 4 and 2 are involved in different functions, and there is a pair of genes related to RNA, another group is not clear what functions do they do. Two groups are related to metabolism one about acetil metabolism and another more general.
-
-We can group them for a cluster analysis to visualize the relationship between the clusters:
+Now we can see the relationship between the genes. We can group them for a cluster analysis to visualize the relationship between the clusters:
 
 ```{r hclust3, fig.cap="Clustering using clusterSim", fig.wide = TRUE}
-clusters2 <- list(DNA = c("672", "675", "2073"),
-                 RNA = c("16", "9128"),
-                 acetil_metabolism = c("10", "15", "9", "644", "210", "1352"),
-                 metabolism = c("18", "2893", "88"), 
-                 unknown = c("2", "81327", "5142", "60"))
-mycl <- cutree(hc, h = 0.8)
-clusters <- split(names(mycl), as.factor(mycl))
-names(clusters) <- c("acetil_metabolism", "RNA", "metabolism", "unknown", "DNA", "81")
-## Remember we can use both methods to compare clusters
+mycl <- cutree(hc, h = 0.2)
+clusters <- split(genes[nan], as.factor(mycl))
+names(clusters) <- paste0("cluster", seq_len(max(mycl)))
+## Remember we can use two methods to compare clusters
 sim_clus1 <- mclusterSim(clusters, genesReact)
 plot(hclust(as.dist(1 - sim_clus1)))
 ```
@@ -256,7 +247,7 @@ sim_clus2 <- mclusterGeneSim(clusters, genesReact)
 plot(hclust(as.dist(1 - sim_clus2)))
 ```
 
-Each method results in a different dendrogram as we can see  on Figure \@ref(fig:hclust3) compared to Figure \@ref(fig:hclust3b), but the second is more accurate to describe the functional relationships between the genes in the clusters.
+Each method results in a different dendrogram as we can see  on Figure \@ref(fig:hclust3) compared to Figure \@ref(fig:hclust3b).
 
 # Comparing with GOSemSim
 

@@ -91,23 +91,9 @@ combineScores <- function(scores, method, round = FALSE, t = 0) {
             result <-  max(rowMeans(scores, na.rm = TRUE),
                            colMeans(scores, na.rm = TRUE))
         } else if (method == "rcmax.avg" || method == "BMA") {
-            result <- sum(apply(scores, 1, max, na.rm = TRUE),
-                          apply(scores, 2, max, na.rm = TRUE)) / sum(
-                              dim(scores))
+            result <- BMA(scores)
         } else if (method == "reciprocal") {
-            rows <- apply(scores, 2, which.max)
-            columns <- apply(scores, 1, which.max)
-            reciprocal <- rows[columns[rows] == seq_along(rows)]
-            rScores <- sapply(seq_along(reciprocal), function(x) {
-                scores[reciprocal[x], names(reciprocal)[x]]
-            })
-
-            if (all(rScores <= t)) {
-                result <- NA
-            } else {
-                result <- 2*sum(rScores[rScores >= t])/(sum(dim(scores)))
-            }
-
+            result <- reciprocal(scores, t)
         }
     } else {
         warning("Using max method because after removing NAs ",
@@ -124,6 +110,26 @@ combineScores <- function(scores, method, round = FALSE, t = 0) {
 
 }
 
+BMA <- function(scores) {
+    sum(apply(scores, 1, max, na.rm = TRUE),
+                  apply(scores, 2, max, na.rm = TRUE)) / sum(
+                      dim(scores))
+}
+
+reciprocal <- function(scores, t){
+    rows <- apply(scores, 2, which.max)
+    columns <- apply(scores, 1, which.max)
+    reciprocal <- rows[columns[rows] == seq_along(rows)]
+    rScores <- sapply(seq_along(reciprocal), function(x) {
+        scores[reciprocal[x], names(reciprocal)[x]]
+    })
+
+    if (all(rScores <= t)) {
+        NA
+    } else {
+        2*sum(rScores[rScores >= t])/(sum(dim(scores)))
+    }
+}
 combineScoresPrep <- function(x, y, prep, method, ...) {
     if (is.null(x) || is.null(y)) {
         NA
