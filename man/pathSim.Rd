@@ -49,7 +49,7 @@ genes.react <- as.list(reactomeEXTID2PATHID)
 (paths <- sample(unique(unlist(genes.react)), 2))
 pathSim(paths[1], paths[2], genes.react)
 
-(paths <- sample(unique(unlist(genes.react)), 10))
+(pathways <- sample(unique(unlist(genes.react)), 10))
 mpathSim(pathways, genes.react, NULL)
 named_paths <- structure(c("R-HSA-112310", "R-HSA-112316", "R-HSA-112315"),
 .Names = c("Neurotransmitter Release Cycle",
