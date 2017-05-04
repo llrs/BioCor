@@ -33,7 +33,7 @@ diceSim <- function(g1, g2) {
     } else if (is.character(g1) & is.character(g2)) {
         prot1 <- g1
         prot2 <- g2
-    } else if (is.na(g1) | is.na(g2)) {
+    } else if (is.null(g1) | is.null(g2)) { # Check if length is 0
         return(NA)
     }
     else {
