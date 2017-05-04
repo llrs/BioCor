@@ -1,15 +1,19 @@
 ^.*\.Rproj$         # Automatically added by RStudio,
+^\.Rproj\.user$     # used for temporary files.
 ^cran-comments\.md$ # Comments for CRAN submission
+^README\.Rmd$       # An Rmarkdown file used to generate README.md
 ^NEWS\.md$          # A news file written in Markdown
 ^\.travis\.yml$     # Used for continuous integration testing with travis
-^\.Rproj\.user$
-.travis.yml
-BioCor.Rproj
-Info_kegg.RData
-Rprof.out
 # Ignore bioCor
 R/bioCor.R
 man/bioCor.Rd
 tests/testthat/test_bioCor.R
 # Setting for the github repository
-^.github
+^\.github$
+^\.BACKUP\.$
+^\.BASE\.$
+^\.LOCAL\.$
+^\.REMOTE\.$
+^\.orig$
+^\.out$
+^\.RData$
