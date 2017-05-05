@@ -97,11 +97,13 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
         warning("Some pathways are not in the list you provided.")
     }
 
-    # If the number of pathways is quite big use another strategy
+    # If the number of pathways is quite big uses matrix properties
+    # Calculate just the pathways needed
     if (length(pathways) >= 150) {
-
+        keep <- sapply(info, function(x){any(x %in% pathways)})
+        info <- info[keep]
+        info <- sapply(info, function(x){x[x %in% pathways]})
         sim <- pathSims_matrix(info)
-        sim <- sim[pathways, pathways]
 
     } else {
         # Invert the list
@@ -135,16 +137,22 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
 # x is a list of genes to pathways
 # Omits pathways with no gene
 pathSims_matrix <- function(x) {
+    # Remove empty genes
     nas <- sapply(x, function(y){all(is.na(y))})
     lge2 <- x[!nas]
+    # Extract all pathways
     pathways <- unique(unlist(lge2))
+    # Create the incidence matrix
     mat <- as.matrix(sapply(names(lge2), function(y){
         ifelse(pathways %in% lge2[[y]], TRUE, FALSE)
     }
     ))
     rownames(mat) <- pathways
-    overPath <- crossprod(t(mat))
+    # Calculate genes in common between pathways
+    overPath <- tcrossprod(mat)
+    # Extract the genes per pathway
     genesPerPathway <- diag(overPath)
     genesPerPathway <- matrix(genesPerPathway, ncol(overPath), ncol(overPath))
+    # Calculate the dice similarity
     2*overPath/(t(genesPerPathway) + genesPerPathway)
 }
