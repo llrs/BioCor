@@ -26,17 +26,19 @@
 #' score to Jaccard score. For the method to combine the scores see
 #' \code{\link{combineScores}}.
 #' @examples
-#' library("org.Hs.eg.db")
-#' library("reactome.db")
-#' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
-#' # data of June 31st 2011)
-#' genes.kegg <- as.list(org.Hs.egPATH)
-#' # Extracts the paths of all genes of org.Hs.eg.db from reactome
-#' genes.react <- as.list(reactomeEXTID2PATHID)
-#' geneSim("81", "18", genes.react)
-#' geneSim("81", "18", genes.kegg)
-#' geneSim("81", "18", genes.react, NULL)
-#' geneSim("81", "18", genes.kegg, NULL)
+#' if (require("org.Hs.eg.db") & require("reactome.db")) {
+#'     # Extract the paths of all genes of org.Hs.eg.db from KEGG
+#'     # (last update in data of June 31st 2011)
+#'     genes.kegg <- as.list(org.Hs.egPATH)
+#'     # Extracts the paths of all genes of org.Hs.eg.db from reactome
+#'     genes.react <- as.list(reactomeEXTID2PATHID)
+#'     geneSim("81", "18", genes.react)
+#'     geneSim("81", "18", genes.kegg)
+#'     geneSim("81", "18", genes.react, NULL)
+#'     geneSim("81", "18", genes.kegg, NULL)
+#' } else {
+#'     warning('You need reactome.db and org.Hs.eg.db package for this example')
+#' }
 geneSim <- function(gene1, gene2, info, method = "max", ...) {
 
     if (length(unique(gene1)) != 1L | length(unique(gene2)) != 1L) {

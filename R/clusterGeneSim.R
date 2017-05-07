@@ -11,9 +11,9 @@
 #' @inheritParams clusterSim
 #' @inheritParams geneSim
 #' @inheritParams pathSim
-#' @import AnnotationDbi
-#' @import org.Hs.eg.db
-#' @import reactome.db
+# #' @import AnnotationDbi
+# #' @import org.Hs.eg.db
+# #' @import reactome.db
 #' @param method A vector with two  or one argument to be passed to
 #' combineScores the first one is used to summarize the similarities of genes,
 #' the second one for clusters.
@@ -24,19 +24,21 @@
 #' @return \code{clusterGeneSim} returns a similarity score of the two clusters
 #' or the similarity between the genes of the two clusters.
 #' @examples
-#' library("org.Hs.eg.db")
-#' #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
-#' # data of June 31st 2011)
-#' genes.kegg <- as.list(org.Hs.egPATH)
-#' clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg)
-#' clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-#'  c("avg", "avg"))
-#' clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-#'            c("avg", "rcmax.avg"))
-#' clus <- clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-#'            "avg")
-#' clus
-#' combineScores(clus, "rcmax.avg")
+#' if (require("org.Hs.eg.db")) {
+#'     #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
+#'     # data of June 31st 2011)
+#'     genes.kegg <- as.list(org.Hs.egPATH)
+#'     clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg)
+#'     clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+#'                    c("avg", "avg"))
+#'     clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+#'                    c("avg", "rcmax.avg"))
+#'     (clus <- clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+#'                             "avg"))
+#'     combineScores(clus, "rcmax.avg")
+#' } else {
+#'     warning('You need org.Hs.eg.db package for this example')
+#' }
 clusterGeneSim <- function(cluster1, cluster2, info,
                            method = c("max", "rcmax.avg"), ...) {
     if (length(unique(cluster1)) == 1L & length(unique(cluster2)) == 1L) {
