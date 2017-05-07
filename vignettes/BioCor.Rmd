@@ -26,7 +26,7 @@ vignette: >
 ---
 ```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_knit$set(root.dir = ".")
-knitr::opts_chunk$set(collapse = TRUE)
+knitr::opts_chunk$set(collapse = TRUE, warning = TRUE)
 BiocStyle::markdown()
 library("BiocStyle")
 ```
@@ -42,7 +42,7 @@ However, there is another resource of similarities between genes: metabolic path
 
 Here we provides functions to calculate functional similarities for pathways, gene sets, genes and clusters of genes.  
 
-As it development started aiming to improve clustering of genes by functionality in co-expression networks using `r BiocStyle::CRANpkg("WGCNA")` it also has some functions to combine similarities. 
+As it development started aiming to improve clustering of genes by functionality in weighted gene co-expression networks using `r BiocStyle::CRANpkg("WGCNA")` it also has some functions to combine similarities. 
 
 # Citation
 The main article describing the software and its usefulness is currently under writing.
@@ -73,25 +73,23 @@ library("reactome.db")
 genesKegg <- as.list(org.Hs.egPATH)
 genesReact <- as.list(reactomeEXTID2PATHID)
 genesReact <- sapply(genesReact, function(x){grep("R-HSA-", x, value = TRUE)}) # Only for human pathways
-genesReact <- genesReact[lengths(genesReact) >= 1]
+genesReact <- genesReact[lengths(genesReact) >= 1] # Remove genes which are not from human organism
 ```
 
-To avoid having biased data it is important to have all the data about the pathways and genes associated to all pathways for organism under study. Here we assume that we are interested in human pathways. We use this two databases KEGG and Reactome as they are easy to obtain the data. However KEGG database is no longer free for large retrievals therefore it is not longer updated in the Bioconductor annotation packages.
+To avoid having biased data it is important to have all the data about the pathways and genes associated to all pathways for the organism under study. Here we assume that we are interested in human pathways. We use this two databases KEGG and Reactome as they are easy to obtain the data. However KEGG database is no longer free for large retrievals therefore it is not longer updated in the Bioconductor annotation packages.
 
 However, one can use any list where the names of the list are the genes and the elements of the list the pathways or groups where the gene belong. One could also read from a GMT file or use GeneSetCollections in addition or instead of those associations from a pathway database and convert it to list using:
 
 ```{r GSEABase, eval = FALSE}
 library("GSEABase")
-paths2Genes <- geneIds(getGmt("/path/to/c3.all.v2.5.symbols.gmt",
-                 collectionType=BroadCollection(category="c3"),
+paths2Genes <- geneIds(getGmt("/path/to/file.symbol.gmt",
                  geneIdType=SymbolIdentifier()))
 
 genes <- unlist(paths2Genes, use.names = FALSE)
 pathways <- rep(names(paths2Genes), lengths(paths2Genes))
-genes2paths <- split(pathways, genes)
-
-gmt_sim <- mgeneSim(names(genes2paths), genes2paths)
+genes2paths <- split(pathways, genes) # List of genes and the gene sets
 ```
+With `genes2paths` we have the information ready to use.
 
 ## Pathway similarities
 
@@ -136,7 +134,7 @@ There are two methods:
 * Combining all the pathways for each cluster and compare between them.
 * Calculate the similarity between genes of a cluster and the other cluster.
 
-### By pathways similarities {#clusterSim}
+### By pathways {#clusterSim}
 
 As explained, in this method all the pathways of a cluster are compared with all the pathways of the other cluster. If a method to combine pathways similarities is not provided, all pathway similarities are returned:
 ```{r clusterSim}
@@ -150,11 +148,9 @@ mclusterSim(clusters, genesKegg, "rcmax.avg")
 mclusterSim(clusters, genesKegg, "max")
 ```
 
-### By genes similarities {#clusterGeneSim}
+### By genes {#clusterGeneSim}
 
-First the similarities between each gene is calculated, then the similarity between each group of genes is calculated. 
-
-This method of comparing clusters requires two methods to combine values, the first one to combine pathways similarities and the second one to combine genes similarities. If only one is provided it returns the matrix of similarities of the genes of each cluster:
+In this method first the similarities between each gene is calculated, then the similarity between each group of genes is calculated. Requiring two methods to combine values, the first one to combine pathways similarities and the second one to combine genes similarities. If only one is provided it returns the matrix of similarities of the genes of each cluster:
 ```{r clusterGeneSim}
 clusterGeneSim(c("672", "675"), c("100", "10", "1"), genesKegg)
 clusterGeneSim(c("672", "675"), c("100", "10", "1"), genesKegg, "max")
@@ -163,12 +159,12 @@ mclusterGeneSim(clusters, genesKegg, c("max", "rcmax.avg"))
 mclusterGeneSim(clusters, genesKegg, c("max", "max"))
 ```
 
-Note the differences between `mclusterGeneSim` and `mclusterSim` in the similarity values of the clusters except if we set `method = c("max", "max")`, then the similarity between the clusters is the same as `clusterSim`.
+Note the differences between `mclusterGeneSim` and `mclusterSim` in the similarity values of the clusters. If we set `method = c("max", "max")` in `mclusterGeneSim` then the similarity between the clusters is the same as `clusterSim`.
 
 ## Merging similarities {#merging}
-If one calculates similarities with KEGG data and Reactome or other input for the same genes or clusters we provide a couple of functions to merge them.
+If one calculates similarities with KEGG data and Reactome or other input for the same genes or clusters BioCor provides a couple of functions to merge them.
 
-We can set a weight to each similarity input with `weighted.sum`, multiply them also using a weight for each similarity (with `weighted.prod`), doing the mean or just adding them up.
+We can set a weight to each similarity input with `weighted.sum`, multiply them also using a weight for each similarity (with `weighted.prod`), doing the mean or just adding them up. similarities allow us to apply a function to combine the matrices of a list.
 ```{r merging}
 kegg <- mgeneSim(c("672", "675", "10"), genesKegg)
 react <- mgeneSim(c("672", "675", "10"), genesReact)
@@ -183,7 +179,16 @@ similarities(sim, weighted.prod, w = c(0.3, 0.7))
 similarities(sim, prod)
 similarities(sim, mean)
 ```
-This functions are similar to `weighted.mean`, except that first the multiplication by the weights is done and then the `NA`s are removed.
+This functions are similar to `weighted.mean`, except that first the multiplication by the weights is done and then the `NA`s are removed:
+```{r weighted}
+weighted.mean(c(1, NA), w = c(0.5, 0.5), na.rm = TRUE)
+weighted.mean(c(1, 0.5, NA), w = c(0.5, 0.25, 0.25), na.rm = TRUE)
+weighted.sum(c(1, NA), w = c(0.5, 0.5))
+weighted.sum(c(1, 0.5, NA), w = c(0.5, 0.25, 0.25))
+weighted.prod(c(1, NA), w = c(0.5, 0.5))
+weighted.prod(c(1, 0.5, NA), w = c(0.5, 0.25, 0.25))
+```
+
 
 ## Converting similarities
 If needed, Jaccard similarity can be calculated from Dice similarity using `D2J`:
@@ -218,49 +223,49 @@ With a list of genes we are going to see how similar are those genes:
 
 ```{r hclust1, fig.cap="Gene clustering by similarities", fig.wide = TRUE}
 genes.id <- c("10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644", 
-              "81327", "9128", "2073", "2893", "5142", "210", "81", 
-              "1352", "672", "675")
+              "81327", "9128", "2073", "2893", "5142", "60", "210", "81", 
+              "1352", "88", "672", "675")
 genes.id <- mapIds(org.Hs.eg.db, keys = genes.id, keytype = "ENTREZID", column = "SYMBOL")
 genes <- names(genes.id)
 names(genes) <- genes.id
-sum(lengths(genesReact[genes])) # Check the total number of pathways involved
 react <- mgeneSim(genes, genesReact)
 ## We remove genes which are not in list (hence the warning):
 nan <- genes %in% names(genesReact)
 react <- react[nan, nan]
 hc <- hclust(as.dist(1 - react))
-plot(hc)
+plot(hc, main = "Similarities between genes")
 ```
 Now we can see the relationship between the genes. We can group them for a cluster analysis to visualize the relationship between the clusters:
 
 ```{r hclust3, fig.cap="Clustering using clusterSim", fig.wide = TRUE}
 mycl <- cutree(hc, h = 0.2)
 clusters <- split(genes[nan], as.factor(mycl))
-names(clusters) <- paste0("cluster", seq_len(max(mycl)))
+(clusters <- clusters[lengths(clusters) >= 2] )# Removing clusters of just one gene
+names(clusters) <- paste0("cluster", names(clusters))
 ## Remember we can use two methods to compare clusters
 sim_clus1 <- mclusterSim(clusters, genesReact)
-plot(hclust(as.dist(1 - sim_clus1)))
+plot(hclust(as.dist(1 - sim_clus1)), main = "Similarities between clusters by pathways")
 ```
 
 ```{r hclust3b, fig.cap="Clustering using clusterGeneSim", fig.wide = TRUE}
 sim_clus2 <- mclusterGeneSim(clusters, genesReact)
-plot(hclust(as.dist(1 - sim_clus2)))
+plot(hclust(as.dist(1 - sim_clus2)), main ="Similarities between clusters by genes")
 ```
 
 Each method results in a different dendrogram as we can see  on Figure \@ref(fig:hclust3) compared to Figure \@ref(fig:hclust3b).
 
 # Comparing with GOSemSim
 
-In this section I will compare the functional similarity of BioCor with the closely related package `r Biocpkg("GOSemSim")`. The genes to measure are extracted from the vignette of GOSemSim 2.0.4.
+In this section I will compare the functional similarity of BioCor with the closely related package `r Biocpkg("GOSemSim")`. The genes to measure are extracted from the vignette of GOSemSim.
 
-I will compare the functions geneSim and clusterSim with both datasets from Kegg and Reactome:
+I will compare the functions geneSim from section [geneSim and mgeneSim from GOSemSim](http://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#genesim-and-mgenesim) with both data sets from Kegg and Reactome:
 ```{r geneSimGOSemSim}
 geneSim("241", "251", genesKegg, "BMA")
 geneSim("241", "251", genesReact, "BMA")
 mgeneSim(c("835", "5261","241", "994"), genesKegg, "BMA", round = TRUE)
 mgeneSim(c("835", "5261","241", "994"), genesReact, "BMA", round = TRUE)
 ```
-We can observe that for the first genes there isn't information on the pathways of those genes. And in the list of genes we can observe that the values using Reactome information are closer to those from GOSemSim than using KEGG. However, the values of similarity are different from GOSemSim, because the gene 241 has higher similarity with the gene 5261 while in GOSemSim is higher with 845.
+We can observe that for the first genes there isn't information on the pathways of those genes in the Kegg data set.
 
 If named characters are passed they are used to name the resulting matrix:
 ```{r named}
@@ -268,16 +273,22 @@ genes <- c("CDC45", "MCM10", "CDC20", "NMU", "MMP1")
 genese <- mapIds(org.Hs.eg.db, keys = genes, column = "ENTREZID", 
                  keytype = "SYMBOL")
 mgeneSim(genese, genesReact, "BMA")
-mgeneSim(genese, genesKegg, "BMA")
 ```
-In this example the CD45 is closer with MCM10 than any other gene as in GOSemSim, but CDC20 is closer tto MCM10 than to NMU as calculated with GOSemSim.
+
+We can further compare the cluster similarities from the [next section of the vignette](http://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#clustersim-and-mclustersim):
 ```{r clusterSimGOSemSim}
 gs1 <- c("835", "5261","241", "994", "514", "533")
 gs2 <- c("578","582", "400", "409", "411")
 clusterSim(gs1, gs2, genesReact, "BMA")
-clusterSim(gs1, gs2, genesKegg, "BMA")
+
+x <- org.Hs.egGO
+hsEG <- mappedkeys(x)
+set.seed(123)
+(clusters <- list(a=sample(hsEG, 20), b=sample(hsEG, 20), c=sample(hsEG, 20)))
+mclusterSim(clusters, genesReact, "BMA")
 ```
-The similarity between those two clusters is lower than the one calculated with GOSemSim, maybe due to not having data for some genes in the list provided from `Biocpkg("reactome.db")`. This serves us a reminder of how important is the input data for the results.
+
+GOSemSim doesn't compare the clusters by comparing each gene but by comparing the gene ontologies. Thus the most appropiate way to compare the similarities based on gene ontologies and this comparisons
 
 # WGCNA and BioCor 
 
@@ -339,9 +350,9 @@ Violin plots may help to view the differences in size and distribution of the mo
 
 # FAQ
 
-## How is defined how similar are two pathways? {#FAQ1}
-It uses the [Sørensen–Dice index](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient): 
-It is the double of the genes shared by the pathways divided by the number of genes in each pathway.
+## How is defined the pathway similarity? {#FAQ1}
+BioCor uses the [Sørensen–Dice index](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient): 
+The dice similarity is the double of the genes shared by the pathways divided by the number of genes in each pathway.
 
 We can calculate the similarity between two pathways ($x$, $w$) with:
 
@@ -351,21 +362,19 @@ This is implemented in the `diceSim` function, which results is similar to Jacca
 
 $$Jaccard(x, w) = \frac{|x \cap w|}{|x \cup w|}$$
 
-Both Jaccard index and Dice index are between 0 and 1 ($[0, 1]$). To calculate the Jaccard index from the `diceSim` use the `D2J` function.
+Both Jaccard index and dice index are between 0 and 1 ($[0, 1]$). To calculate the Jaccard index from the `diceSim` use the `D2J` function.
 
-## Why do you use the dice coefficient and not the Jaccard ?
+## Why does BioCor use the dice coefficient and not the Jaccard ?
 We consider Dice coefficient better than Jaccard because it has higher values for the same comparisons, which reflects that including a gene in a pathway is not easily done.
 
-## How do you combine similarities between several pathways of two genes?
+## How does BioCor combine similarities between several pathways of two genes?
 Although the recommend method is the "max" method, (set as default), there are implemented other methods in `combineScores` of the `r BiocStyle::Biocpkg("GOSemSim")` package which I borrowed. See the [Combining values section](#combining) and the help page of `combineScores`.
 
 ## Why do you recommend using the max method to combine similarities scores for pathways?
-The purpose of combining the scores is usually the relationships between genes. The higher the similarity is between two pathway of two genes, the higher functionalities do the genes share, even if those genes have other non-related functions. 
+The purpose of combining the scores is usually to find the relationships between genes through their pathways. The higher the similarity is between two pathway of two genes, the higher functionalities do the genes share, even if those genes have other non-related functions. 
 
 ## How to detect which functional relationship is more important between two genes?
-If two genes are involved in the same pathways usually they have (to some extent, maybe indirect) interactions. The fact that they share interactions with other genes does not imply that the relationship between these two genes is stronger. To detect which relationship is more important between two genes one could measure other similarities scores and check the stechiometric of the pathways and measure the expression changes and correlation between them. 
-
-This could be approached using dynamic simulations but this is out of the scope of the package.
+If two genes are involved in the same pathways usually they have (to some extent, maybe indirect) interactions. To detect which relationship is more important between two genes one could measure other similarities scores and check the stechiometric of the pathways and measure the expression changes and correlation between them or use dynamic simulations of the pathways.
 
 ## How to detect with which genes is my gene of interest related?
 You can measure the [gene similarity](#geneSim) between those genes and also measure the expression correlation of your gene of interest with other genes. 
