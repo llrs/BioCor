@@ -43,18 +43,23 @@ pathways accept named characters, and then the output will have
 the names
 }
 \examples{
-library("reactome.db")
-# Extracts the paths of all genes of org.Hs.eg.db from reactome
-genes.react <- as.list(reactomeEXTID2PATHID)
-(paths <- sample(unique(unlist(genes.react)), 2))
-pathSim(paths[1], paths[2], genes.react)
+if (require("reactome.db")){
+    # Extracts the paths of all genes of org.Hs.eg.db from reactome
+    genes.react <- as.list(reactomeEXTID2PATHID)
+    (paths <- sample(unique(unlist(genes.react)), 2))
+    pathSim(paths[1], paths[2], genes.react)
 
-(pathways <- sample(unique(unlist(genes.react)), 10))
-mpathSim(pathways, genes.react, NULL)
-named_paths <- structure(c("R-HSA-112310", "R-HSA-112316", "R-HSA-112315"),
-.Names = c("Neurotransmitter Release Cycle",
-"Neuronal System", "Transmission across Chemical Synapses"))
-mpathSim(named_paths, genes.react, NULL)
+    (pathways <- sample(unique(unlist(genes.react)), 10))
+    mpathSim(pathways, genes.react, NULL)
+    named_paths <- structure(
+        c("R-HSA-112310", "R-HSA-112316", "R-HSA-112315"),
+        .Names = c("Neurotransmitter Release Cycle",
+                   "Neuronal System",
+                   "Transmission across Chemical Synapses"))
+    mpathSim(named_paths, genes.react, NULL)
+} else {
+    warning('You need reactome.db package for this example')
+}
 }
 \seealso{
 \code{\link{diceSim}} and \code{\link{combineScores}} and
