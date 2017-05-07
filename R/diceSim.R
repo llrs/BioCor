@@ -1,14 +1,11 @@
 # diceSim ####
 #' Compare pathways
 #'
-#' Function to estimate how much two graphs or list of genes overlap by looking
+#' Function to estimate how much two list of genes overlap by looking
 #' how much of the nodes are shared.
-#' @param g1,g2 Graph in GraphNEL format, or a character list with the names of
-#' the proteins in each pathway.
+#' @param g1,g2 A character list with the names of the proteins in each pathway.
 #' @return A score between 0 and 1 calculated as the doble of the proteins
 #' shared by g1 and g2 divided by the number of genes in both groups.
-#' @importFrom methods is
-#' @importFrom graph nodes
 #' @export
 #' @author Lluís Revilla
 #' @seealso Used for \code{\link{geneSim}}, see \code{\link{conversions}} help
@@ -20,24 +17,14 @@
 #' diceSim(genes.id1, genes.id2)
 #' diceSim(genes.id2, genes.id2)
 diceSim <- function(g1, g2) {
-    # Check which case are we using
-    if (is(g1, "graph") & is(g2, "graph")) {
-        prot1 <- nodes(g1)
-        prot2 <- nodes(g2)
-    } else if (is(g1, "graph") & is.character(g2)) {
-        prot1 <- nodes(g1)
-        prot2 <- g2
-    } else if (is(g2, "graph") & is.character(g1)) {
-        prot2 <- nodes(g2)
-        prot1 <- g1
-    } else if (is.character(g1) & is.character(g2)) {
+    if (is.character(g1) & is.character(g2)) {
         prot1 <- g1
         prot2 <- g2
     } else if (is.null(g1) | is.null(g2)) { # Check if length is 0
         return(NA)
     }
     else {
-        warning("g1 or g2 is not character or graph")
+        warning("g1 or g2 is not character")
         return(NA)
     }
     # If there isn't any information of a pathway for a gene then then
