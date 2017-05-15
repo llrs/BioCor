@@ -96,10 +96,15 @@ vgeneSim <- Vectorize(geneSim, vectorize.args = c("gene1", "gene2"))
 #' @param genes A vector of genes.
 #' @return \code{mgeneSim} returns the matrix of similarities between the genes
 #' in the vector
+#' @note genes accept named characters and the output will use the names of the
+#' genes.
 #' @examples
 #'
 #' mgeneSim(c("81", "18", "10"), genes.react)
 #' mgeneSim(c("81", "18", "10"), genes.react, "avg")
+#' named_genes <- structure(c("81", "18", "10"),
+#' .Names = c("ACTN4", "ABAT", "NAT2"))
+#' mgeneSim(named_genes, genes.react, "max")
 mgeneSim <- function(genes, info, method = "max", ...) {
 
     if (length(unique(genes)) == 1) {
