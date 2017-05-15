@@ -46,12 +46,12 @@ the names
 library("reactome.db")
 # Extracts the paths of all genes of org.Hs.eg.db from reactome
 genes.react <- as.list(reactomeEXTID2PATHID)
-pathSim("112310", "112316", genes.react)
+(paths <- sample(unique(unlist(genes.react)), 2))
+pathSim(paths[1], paths[2], genes.react)
 
-pathways <- c("112315", "112310", "112316", "373753", "916853", "109582",
-"114608", "1500931")
+(paths <- sample(unique(unlist(genes.react)), 10))
 mpathSim(pathways, genes.react, NULL)
-named_paths <- structure(c("112310", "112316", "112315"),
+named_paths <- structure(c("R-HSA-112310", "R-HSA-112316", "R-HSA-112315"),
 .Names = c("Neurotransmitter Release Cycle",
 "Neuronal System", "Transmission across Chemical Synapses"))
 mpathSim(named_paths, genes.react, NULL)
