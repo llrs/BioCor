@@ -27,10 +27,15 @@
 #' library("reactome.db")
 #' # Extracts the paths of all genes of org.Hs.eg.db from reactome
 #' genes.react <- as.list(reactomeEXTID2PATHID)
+#' pathSim("112310", "112316", genes.react)
+#'
 #' pathways <- c("112315", "112310", "112316", "373753", "916853", "109582",
 #' "114608", "1500931")
-#' pathSim("112310", "112316", genes.react)
 #' mpathSim(pathways, genes.react, NULL)
+#' named_paths <- structure(c("112310", "112316", "112315"),
+#' .Names = c("Neurotransmitter Release Cycle",
+#' "Neuronal System", "Transmission across Chemical Synapses"))
+#' mpathSim(named_paths, genes.react, NULL)
 pathSim <- function(pathway1, pathway2, info) {
     if (length(pathway1) != 1 | length(pathway2) != 1) {
         stop("Introduce just one pathway!\n",
@@ -67,6 +72,8 @@ vpathSim <- Vectorize(pathSim, vectorize.args = c("pathway1", "pathway2"))
 
 #' @rdname pathSim
 #' @param pathways Pathways to calculate the similarity for
+#' @note pathways accept named characters, and then the output will have
+#' the names
 #' @export
 mpathSim <- function(pathways, info, method = NULL, ...) {
 
@@ -79,6 +86,7 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
     if (!all(is.character(pathways))) {
         stop("The input pathways should be characters")
     }
+    nam <- names(pathways)
     pathways <- unique(pathways)
 
     if (!is.list(info)) {
@@ -109,6 +117,9 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
 
         # Calculate similarities
         sim <- outer(g1, g2, vdiceSim)
+    }
+    if (!is.null(nam)) {
+        dimnames(sim) <- list(nam, nam)
     }
 
     # Calculate the similarity between the two genes
