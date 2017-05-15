@@ -7,7 +7,7 @@
 duplicateIndices(vec)
 }
 \arguments{
-\item{vec}{Vector of identififiers presumably duplicated}
+\item{vec}{Vector of identifiers presumably duplicated}
 }
 \value{
 The format is determined by the simplify2array

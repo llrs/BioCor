@@ -52,7 +52,7 @@ combinadic <- function(n, r, i) {
 #' Transforms a vector to a symmetric matrix
 #'
 #' Fils a matrix of \code{ncol = length(x)} and \code{nrow = length(x)} with
-#' the values in \code{dat} and setting the diagnoal to 1.
+#' the values in \code{dat} and setting the diagonal to 1.
 #'
 #' \code{dat} should be at least \code{choose(length(x), 2)} of length. It
 #' assumes that the data provided comes from using the row and column id to
@@ -86,7 +86,7 @@ seq2mat <- function(x, dat) {
 #'
 #' For each duplication it can return a list or if all the duplication events
 #' are of the same length it returns a matrix, where each column is duplicated.
-#' @param vec Vector of identififiers presumably duplicated
+#' @param vec Vector of identifiers presumably duplicated
 #' @return The format is determined by the simplify2array
 #' @export
 #' @author Lluís Revilla
