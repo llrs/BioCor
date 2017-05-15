@@ -68,7 +68,7 @@ vpathSim <- Vectorize(pathSim, vectorize.args = c("pathway1", "pathway2"))
 #' @rdname pathSim
 #' @param pathways Pathways to calculate the similarity for
 #' @export
-mpathSim <- function(pathways, info, method = "max", ...) {
+mpathSim <- function(pathways, info, method = NULL, ...) {
 
     if (length(unique(pathways)) == 1 ) {
         stop("Introduce several unique pathways!\n",
@@ -122,6 +122,7 @@ mpathSim <- function(pathways, info, method = "max", ...) {
 # pathSims_matrix ####
 # Uses linear algebra to speed the caluclations
 # x is a list of genes to pathways
+# Omits pathways with no gene
 pathSims_matrix <- function(x) {
     nas <- sapply(x, function(y){all(is.na(y))})
     lge2 <- x[!nas]

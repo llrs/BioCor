@@ -7,7 +7,7 @@
 \usage{
 pathSim(pathway1, pathway2, info)
 
-mpathSim(pathways, info, method = "max", ...)
+mpathSim(pathways, info, method = NULL, ...)
 }
 \arguments{
 \item{pathway1, pathway2}{A single pathway to calculate the similarity}
