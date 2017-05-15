@@ -30,8 +30,11 @@ similarities <- function(sim, func, ...) {
         stop("Please introduce a list with the similarities")
     }
     # Check that all the matrices are of the same dimensions and squared
-    if (length(unique(as.vector(sapply(sim, dim)))) >= 2) {
-        stop("Dimensions of the similarities differ")
+    dims <- sapply(sim, dim)
+    if (is.list(dims)) {
+        stop("There are arrays with different dimensions")
+    } else if (!all(apply(dims, 2, function(x) length(unique(x)) == 1))) {
+        stop("Matrices with different dimensions.")
     }
     if (!all(sapply(sim, isSymmetric))) {
         stop("Similarities are not symmetric")
