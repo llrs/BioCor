@@ -21,7 +21,8 @@
 #' @aliases weighted
 #' @author Lluís Revilla
 #' @seealso
-#' \code{\link{similarities}} and \code{\link{addSimilarities}}
+#' \code{\link{weighted.mean}}, \code{\link{similarities}} and
+#' \code{\link{addSimilarities}}
 #' @export
 #' @examples
 #' expr <- c(-0.2, 0.3, 0.5, 0.8, 0.1)
