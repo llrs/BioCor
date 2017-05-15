@@ -81,7 +81,7 @@ combineScores <- function(scores, method, round = FALSE) {
         }
     } else {
         warning("Using max method because after removing NAs ",
-                "can't compute BMA and rcmax method")
+                "there isn't a matrix to use.")
         result <- max(scores, na.rm = TRUE)
     }
 
