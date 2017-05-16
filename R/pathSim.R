@@ -106,8 +106,10 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
     # If the number of pathways is quite big uses matrix properties
     # Calculate just the pathways needed
     if (length(pathways) >= 150) {
+        # Keep genes with those pathways
         keep <- sapply(info, function(x){any(x %in% pathways)})
         info <- info[keep]
+        # Keep only the pathways of interest
         info <- sapply(info, function(x){x[x %in% pathways]})
         sim <- pathSims_matrix(info)
 

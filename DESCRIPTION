@@ -1,6 +1,6 @@
 Package: BioCor
 Title: Functional similarities
-Version: 0.99.33
+Version: 1.1.1
 Authors@R: person("Lluís", "Revilla Sancho", email = "lluis.revilla@gmail.com", 
     role = c("aut", "cre"))
 Author: Lluís Revilla Sancho <lluis.revilla@gmail.com>
@@ -20,20 +20,18 @@ biocViews:
     StatisticalMethod, Clustering, GeneExpression, Network, Pathways, 
     NetworkEnrichment, SystemsBiology
 Imports:
-    org.Hs.eg.db,
-    AnnotationDbi,
-    reactome.db,
-    graph, 
-    methods,
-    utils
+    Matrix,
+    BiocParallel
 Suggests:
+    reactome.db,
+    org.Hs.eg.db,
     WGCNA,
+    GOSemSim,
+    GSEABase,
     testthat,
     knitr,
     rmarkdown,
-    BiocStyle,
-    GOSemSim,
-    GSEABase
+    BiocStyle
 BugReports: https://github.com/llrs/BioCor/issues
 URL: https://github.com/llrs/BioCor/
 VignetteBuilder: knitr
