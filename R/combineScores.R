@@ -160,6 +160,7 @@ vcombineScoresPrep <- Vectorize(combineScoresPrep,
 #' @export
 #' @import Matrix
 #' @import BiocParallel
+#' @importFrom utils combn
 #' @examples
 #' colnames(e) <- rownames(e)
 #' combineScoresPar(e, list(a= c("a", "b"), b = c("b", "c")), NULL,
