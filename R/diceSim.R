@@ -33,8 +33,12 @@ diceSim <- function(g1, g2) {
     } else if (is.character(g1) & is.character(g2)) {
         prot1 <- g1
         prot2 <- g2
-    } else {
-        stop("g1 or g2 is not character or graph")
+    } else if (is.na(g1) | is.na(g2)) {
+        return(NA)
+    }
+    else {
+        warning("g1 or g2 is not character or graph")
+        return(NA)
     }
     # If there isn't any information of a pathway for a gene then then
     # functional similarity is 0

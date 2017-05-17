@@ -12,7 +12,7 @@ AintoB(A, B)
 \item{B}{A matrix to insert in.}
 }
 \value{
-A matrix with the values of A in the matrix B
+A matrix with the values of A in the matrix B.
 }
 \description{
 Insert values from a matrix into another matrix baded on the rownames and

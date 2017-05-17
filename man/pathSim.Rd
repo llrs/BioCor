@@ -7,7 +7,7 @@
 \usage{
 pathSim(pathway1, pathway2, info)
 
-mpathSim(pathways, info, method = "max", ...)
+mpathSim(pathways, info, method = NULL, ...)
 }
 \arguments{
 \item{pathway1, pathway2}{A single pathway to calculate the similarity}
@@ -38,14 +38,23 @@ pathways.
 If one needs the matrix of similarities between pathways set the argument
 methods to \code{NULL}.
 }
+\note{
+pathways accept named characters, and then the output will have
+the names
+}
 \examples{
 library("reactome.db")
 # Extracts the paths of all genes of org.Hs.eg.db from reactome
 genes.react <- as.list(reactomeEXTID2PATHID)
-pathways <- c("112315", "112310", "112316", "373753", "916853", "109582",
-"114608", "1500931")
-pathSim("112310", "112316", genes.react)
+(paths <- sample(unique(unlist(genes.react)), 2))
+pathSim(paths[1], paths[2], genes.react)
+
+(pathways <- sample(unique(unlist(genes.react)), 10))
 mpathSim(pathways, genes.react, NULL)
+named_paths <- structure(c("R-HSA-112310", "R-HSA-112316", "R-HSA-112315"),
+.Names = c("Neurotransmitter Release Cycle",
+"Neuronal System", "Transmission across Chemical Synapses"))
+mpathSim(named_paths, genes.react, NULL)
 }
 \seealso{
 \code{\link{diceSim}} and \code{\link{combineScores}} and

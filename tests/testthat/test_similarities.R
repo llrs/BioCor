@@ -33,7 +33,10 @@ test_that("similarities", {
                                    met = NA), mean), "differ")
     expect_error(similarities(list(mat = matrix(, ncol = 2, nrow = 2),
                                    met = matrix(ncol = 2, nrow = 3)), mean),
-                 "Dimensions")
+                 "dimensions")
+    expect_error(similarities(list(mat = matrix(, ncol = 3, nrow = 2),
+                                   met = matrix(ncol = 2, nrow = 3)), mean),
+                 "dimensions")
 
     expect_equal(test["A", "B"], (b["A", "B"] + a["A", "B"])/2)
     expect_equal(test["A", "B"], 0.2357416190207)

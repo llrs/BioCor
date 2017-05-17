@@ -52,7 +52,8 @@ weighted.prod(expr, c(0.4, 0.2, 0, 0.2, 0.1))
 weighted.prod(expr, c(0.5, 0.2, 0, 0.2, 0.1))
 }
 \seealso{
-\code{\link{similarities}} and \code{\link{addSimilarities}}
+\code{\link{weighted.mean}}, \code{\link{similarities}} and
+\code{\link{addSimilarities}}
 }
 \author{
 Lluís Revilla
