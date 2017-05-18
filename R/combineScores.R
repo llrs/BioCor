@@ -21,9 +21,9 @@
 #' @param t Numeric value to filter scores below this value. Only used in the
 #' reciprocal method.
 #' @return A numeric value as described in details.
-#' @note This is a version of combineScores from
-#' \code{\link[GOSemSim]{combineScores}} with optional rounding and some
-#' internal differences.
+#' @note \code{combineScores} is a version of the function of the same name in
+#' package GOSemSim (\code{\link[GOSemSim]{combineScores}}) with optional
+#' rounding and some internal differences.
 #' @export
 #' @author Lluís Revilla based on Guangchuang Yu
 #' @references
@@ -150,10 +150,9 @@ vcombineScoresPrep <- Vectorize(combineScoresPrep,
 
 #' \code{cobmineScoresPar} performs multiple (parallel) combineScores based on
 #' a list of elements to combine into one.
-#' @inheritParams combineScores
 #' @param subSets List of combinations as info in other functions.
-#' @param BPPARAM Determining the parallel back-end. If NULL is provided a
-#' for loop is used.
+#' @param BPPARAM Determining the parallel back-end. By default a for loop is
+#' used.
 #' @param ... Other arguments passed to \code{\link{combineScores}}
 #' @seealso \code{\link[BiocParallel]{bpparam}}
 #' @rdname combineScores
@@ -163,9 +162,9 @@ vcombineScoresPrep <- Vectorize(combineScoresPrep,
 #' @importFrom utils combn
 #' @examples
 #' colnames(e) <- rownames(e)
-#' combineScoresPar(e, list(a= c("a", "b"), b = c("b", "c")), NULL,
-#' method = "max")
-combineScoresPar <- function(scores, subSets, BPPARAM, ...){
+#' combineScoresPar(e, list(a= c("a", "b"), b = c("b", "c")),
+#'                  method = "max")
+combineScoresPar <- function(scores, subSets, BPPARAM = NULL, method, ...){
 
 
     if (!isSymmetric(scores)) {
@@ -191,7 +190,8 @@ combineScoresPar <- function(scores, subSets, BPPARAM, ...){
         res <- numeric(ncol(ij)) # preallocate
         for (k in seq_len(ncol(ij))) {
             res[k] <- combineScores(
-                scores[subSets[[ij[1, k]]], subSets[[ij[2, k]]]], ...)
+                scores[subSets[[ij[1, k]]], subSets[[ij[2, k]]]], method,
+                ... = ...)
         }
     } else {
         res <- bplapply(seq_len(ncol(ij)), function(x){
@@ -199,7 +199,8 @@ combineScoresPar <- function(scores, subSets, BPPARAM, ...){
                 message(print(ij))
             }
             combineScores(
-                scores[subSets[[ij[1, x]]], subSets[[ij[2, x]]]], ...)
+                scores[subSets[[ij[1, x]]], subSets[[ij[2, x]]]], method,
+                ... = ...)
         }, BPPARAM = BPPARAM)
         res <- as.numeric(res)
     }

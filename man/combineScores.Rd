@@ -7,7 +7,7 @@
 \usage{
 combineScores(scores, method, round = FALSE, t = 0)
 
-combineScoresPar(scores, subSets, BPPARAM, ...)
+combineScoresPar(scores, subSets, BPPARAM = NULL, method, ...)
 }
 \arguments{
 \item{scores}{Matrix of scores to be combined}
@@ -22,8 +22,8 @@ reciprocal method.}
 
 \item{subSets}{List of combinations as info in other functions.}
 
-\item{BPPARAM}{Determining the parallel back-end. If NULL is provided a
-for loop is used.}
+\item{BPPARAM}{Determining the parallel back-end. By default a for loop is
+used.}
 
 \item{...}{Other arguments passed to \code{\link{combineScores}}}
 }
@@ -50,9 +50,9 @@ similarities (above  a threshold) divided by the number of elements.
 See equation 3 of the Tao \emph{et al} 2007 article}}
 }
 \note{
-This is a version of combineScores from
-\code{\link[GOSemSim]{combineScores}} with optional rounding and some
-internal differences.
+\code{combineScores} is a version of the function of the same name in
+package GOSemSim (\code{\link[GOSemSim]{combineScores}}) with optional
+rounding and some internal differences.
 }
 \examples{
 (d <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
@@ -65,8 +65,8 @@ d[1,2] <- NA
 sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
        combineScores, scores = d)
 colnames(e) <- rownames(e)
-combineScoresPar(e, list(a= c("a", "b"), b = c("b", "c")), NULL,
-method = "max")
+combineScoresPar(e, list(a= c("a", "b"), b = c("b", "c")),
+                 method = "max")
 }
 \references{
 Ying Tao, Lee Sam, Jianrong Li, Carol Friedman, Yves A. Lussier;

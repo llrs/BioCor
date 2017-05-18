@@ -30,3 +30,17 @@ test_that("combineScores", {
     expect_error(combineScores(as.vector(d), "max"), "matrix")
     expect_error(combineScores(d, "max", round = "a"), "logical")
 })
+
+test_that("combineScoresPar", {
+    methods <- c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal")
+    e <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
+                      0.285714285714286), .Dim = c(3L, 3L),
+                    .Dimnames = list(c("a", "b", "c"), c("a", "b", "c")))
+    subSet <- list(a = c("a", "b"), b = c("b", "c"))
+    expect_warning(combineScoresPar(e, subSet, NULL,
+                     method = "max"), "symmetric")
+    expect_warning(test3 <- combineScoresPar(e, subSet, bpparam(1),
+                                             method = "max"),
+                   "symmetric")
+    class(test3)
+})
