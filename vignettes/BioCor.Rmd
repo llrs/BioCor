@@ -12,7 +12,7 @@ output:
   BiocStyle::html_document2:
     fig_caption: true
     toc_float:
-      collapsed: false
+      collapsed: True
       toc_depth: 3
 author:
 - name: Lluís Revilla
@@ -288,7 +288,7 @@ set.seed(123)
 mclusterSim(clusters, genesReact, "BMA")
 ```
 
-GOSemSim doesn't compare the clusters by comparing each gene but by comparing the gene ontologies. Thus the most appropiate way to compare the similarities based on gene ontologies and this comparisons
+GOSemSim doesn't compare the clusters by comparing each gene but by comparing the gene ontologies. Thus we use the mclusterSim which is the equivalent.
 
 # WGCNA and BioCor 
 
