@@ -2,48 +2,80 @@
 % Please edit documentation in R/combineScores.R
 \name{combineScores}
 \alias{combineScores}
+\alias{combineScoresPar}
 \title{Combining values}
 \usage{
-combineScores(scores, method, round = FALSE)
+combineScores(scores, method, round = FALSE, t = 0)
+
+combineScoresPar(scores, subSets, BPPARAM = NULL, method, ...)
 }
 \arguments{
 \item{scores}{Matrix of scores to be combined}
 
-\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA")}
-see details}
+\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA",
+"reciprocal")}, see Details.}
 
 \item{round}{Should the resulting value be rounded to the third digit?}
+
+\item{t}{Numeric value to filter scores below this value. Only used in the
+reciprocal method.}
+
+\item{subSets}{List of combinations as info in other functions.}
+
+\item{BPPARAM}{Determining the parallel back-end. By default a for loop is
+used.}
+
+\item{...}{Other arguments passed to \code{\link{combineScores}}}
 }
 \value{
 A numeric value as described in details.
 }
 \description{
 Combine several values into one by several methods.
+
+\code{cobmineScoresPar} performs multiple (parallel) combineScores based on
+a list of elements to combine into one.
 }
 \details{
+The input matrix can be a base matrix or a matrix from package Matrix.
 The methods return:
 \describe{\item{avg}{The average or mean value}
 \item{max}{The max value}
 \item{rcmax}{The max of the column means or row means}
 \item{rcmax.avg}{The sum of the max values by rows and columns divided by
 the number of columns and rows}
-\item{BMA}{The same as \code{rcmax.avg}}}
+\item{BMA}{The same as \code{rcmax.avg}}
+\item{reciprocal}{The double of the sum of the reciprocal maximal
+similarities (above  a threshold) divided by the number of elements.
+See equation 3 of the Tao \emph{et al} 2007 article}}
 }
 \note{
-This is a version of combineScores from
-\code{\link[GOSemSim]{combineScores}} with optional rounding and some
-internal differences.
+\code{combineScores} is a version of the function of the same name in
+package GOSemSim (\code{\link[GOSemSim]{combineScores}}) with optional
+rounding and some internal differences.
 }
 \examples{
-d <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
-0.285714285714286), .Dim = c(3L, 3L), .Dimnames = list(c("a",
-"b", "c"), c("d", "e", "f")))
-d
-sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA"), combineScores,
-       scores = d)
+(d <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
+                  0.285714285714286), .Dim = c(3L, 3L),
+                .Dimnames = list(c("a", "b", "c"), c("d", "e", "f"))))
+e <- d
+sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
+       combineScores, scores = d)
 d[1,2] <- NA
-sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA"), combineScores,
-       scores = d)
+sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
+       combineScores, scores = d)
+colnames(e) <- rownames(e)
+combineScoresPar(e, list(a= c("a", "b"), b = c("b", "c")),
+                 method = "max")
+}
+\references{
+Ying Tao, Lee Sam, Jianrong Li, Carol Friedman, Yves A. Lussier;
+Information theory applied to the sparse gene ontology annotation network to
+predict novel gene function. Bioinformatics 2007; 23 (13): i529-i538.
+doi: 10.1093/bioinformatics/btm195
+}
+\seealso{
+\code{\link[BiocParallel]{bpparam}}
 }
 \author{
 Lluís Revilla based on Guangchuang Yu

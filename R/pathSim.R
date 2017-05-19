@@ -24,18 +24,24 @@
 #' @author Lluís Revilla
 #' @export
 #' @examples
-#' library("reactome.db")
-#' # Extracts the paths of all genes of org.Hs.eg.db from reactome
-#' genes.react <- as.list(reactomeEXTID2PATHID)
-#' (paths <- sample(unique(unlist(genes.react)), 2))
-#' pathSim(paths[1], paths[2], genes.react)
+#' if (require("reactome.db")){
+#'     # Extracts the paths of all genes of org.Hs.eg.db from reactome
+#'     genes.react <- as.list(reactomeEXTID2PATHID)
+#'     (paths <- sample(unique(unlist(genes.react)), 2))
+#'     pathSim(paths[1], paths[2], genes.react)
 #'
-#' (pathways <- sample(unique(unlist(genes.react)), 10))
-#' mpathSim(pathways, genes.react, NULL)
-#' named_paths <- structure(c("R-HSA-112310", "R-HSA-112316", "R-HSA-112315"),
-#' .Names = c("Neurotransmitter Release Cycle",
-#' "Neuronal System", "Transmission across Chemical Synapses"))
-#' mpathSim(named_paths, genes.react, NULL)
+#'     (pathways <- sample(unique(unlist(genes.react)), 10))
+#'     mpathSim(pathways, genes.react, NULL)
+#'     named_paths <- structure(
+#'         c("R-HSA-112310", "R-HSA-112316", "R-HSA-112315"),
+#'         .Names = c("Neurotransmitter Release Cycle",
+#'                    "Neuronal System",
+#'                    "Transmission across Chemical Synapses"))
+#'     mpathSim(named_paths, genes.react, NULL)
+#' } else {
+#'     warning('You need reactome.db package for this example')
+#' }
+
 pathSim <- function(pathway1, pathway2, info) {
     if (length(pathway1) != 1 | length(pathway2) != 1) {
         stop("Introduce just one pathway!\n",
@@ -97,11 +103,15 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
         warning("Some pathways are not in the list you provided.")
     }
 
-    # If the number of pathways is quite big use another strategy
+    # If the number of pathways is quite big uses matrix properties
+    # Calculate just the pathways needed
     if (length(pathways) >= 150) {
-
+        # Keep genes with those pathways
+        keep <- sapply(info, function(x){any(x %in% pathways)})
+        info <- info[keep]
+        # Keep only the pathways of interest
+        info <- sapply(info, function(x){x[x %in% pathways]})
         sim <- pathSims_matrix(info)
-        sim <- sim[pathways, pathways]
 
     } else {
         # Invert the list
@@ -135,16 +145,22 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
 # x is a list of genes to pathways
 # Omits pathways with no gene
 pathSims_matrix <- function(x) {
+    # Remove empty genes
     nas <- sapply(x, function(y){all(is.na(y))})
     lge2 <- x[!nas]
+    # Extract all pathways
     pathways <- unique(unlist(lge2))
+    # Create the incidence matrix
     mat <- as.matrix(sapply(names(lge2), function(y){
         ifelse(pathways %in% lge2[[y]], TRUE, FALSE)
     }
     ))
     rownames(mat) <- pathways
-    overPath <- crossprod(t(mat))
+    # Calculate genes in common between pathways
+    overPath <- tcrossprod(mat)
+    # Extract the genes per pathway
     genesPerPathway <- diag(overPath)
     genesPerPathway <- matrix(genesPerPathway, ncol(overPath), ncol(overPath))
+    # Calculate the dice similarity
     2*overPath/(t(genesPerPathway) + genesPerPathway)
 }

@@ -36,13 +36,16 @@ Once the pathways for each cluster are found they are combined using
 combineScores.
 }
 \examples{
-library("org.Hs.eg.db")
+if (require("org.Hs.eg.db")) {
 #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
 # data of June 31st 2011)
 genes.kegg <- as.list(org.Hs.egPATH)
 clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg)
 clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg, NULL)
 clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg, "avg")
+} else {
+warning('You need org.Hs.eg.db package for this example')
+}
 
 clusters <- list(cluster1 = c("18", "81", "10"),
                  cluster2 = c("100", "10", "1"),

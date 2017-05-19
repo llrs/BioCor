@@ -15,12 +15,22 @@ Depends: R (>= 3.4.0)
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
-biocViews: Software, StatisticalMethod, Clustering, GeneExpression,
-        Reactome, Network, KEGG, Pathways
-Imports: org.Hs.eg.db, AnnotationDbi, reactome.db, graph, methods,
-        utils
-Suggests: WGCNA, testthat, knitr, rmarkdown, BiocStyle, GOSemSim,
-        GSEABase
+biocViews: 
+    StatisticalMethod, Clustering, GeneExpression, Network, Pathways, 
+    NetworkEnrichment, SystemsBiology
+Imports:
+    Matrix,
+    BiocParallel
+Suggests:
+    reactome.db,
+    org.Hs.eg.db,
+    WGCNA,
+    GOSemSim,
+    GSEABase,
+    testthat,
+    knitr,
+    rmarkdown,
+    BiocStyle
 BugReports: https://github.com/llrs/BioCor/issues
 URL: https://github.com/llrs/BioCor/
 VignetteBuilder: knitr

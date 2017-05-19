@@ -2,7 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
-.orig
-.LOCAL.
-.REMOTE.
-.BACKUP.
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+*.orig

@@ -8,7 +8,7 @@
 #' have calculated on the matrix of genes.
 #' @param A A matrix to be inserted.
 #' @param B A matrix to insert in.
-#' @return A matrix with the values of A in the matrix B
+#' @return A matrix with the values of A in the matrix B.
 #' @author Lluís Revilla
 #' @examples
 #' B <- matrix(ncol = 10, nrow = 10,
@@ -27,13 +27,18 @@
 #' AintoB(A, B)
 #' @export
 AintoB <- function(A, B) {
+    if (!is.matrix(A) | !is.matrix(B)) {
+        stop("Input should be matrices")
+    }
     # Select the order for columns
     if (ncol(A) <= ncol(B) & nrow(A) <= nrow(B)) {
         mc <- match(colnames(A), colnames(B))
         mr <- match(rownames(A), rownames(B))
     } else {
-        stop("Impossible to insert matrix A into matrix B")
+        stop("Impossible to insert matrix A into matrix B\n",
+             "Matrix A is bigger than matrix B.")
     }
+    # Omit those with NA
     nar <- is.na(mr)
     nac <- is.na(mc)
     mr <- mr[!nar]
