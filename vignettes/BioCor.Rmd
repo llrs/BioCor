@@ -276,7 +276,7 @@ gs2 <- c("578","582", "400", "409", "411")
 clusterSim(gs1, gs2, genesReact, "BMA")
 clusterSim(gs1, gs2, genesKegg, "BMA")
 ```
-The similarity between those two clusters is lower than the one calculated with GOSemSim, maybe due to not having data for some genes in the list provided from `Biocpkg("reactome.db")`. This serves us a reminder of how important is the input data for the results.
+The similarity between those two clusters is lower than the one calculated with GOSemSim, maybe due to not having data for some genes in the list provided from `r Biocpkg("reactome.db")`. This serves us a reminder of how important is the input data for the results.
 
 # WGCNA and BioCor 
 
