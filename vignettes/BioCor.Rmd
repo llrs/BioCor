@@ -12,7 +12,7 @@ output:
   BiocStyle::html_document2:
     fig_caption: true
     toc_float:
-      collapsed: True
+      collapsed: False
       toc_depth: 3
 author:
 - name: Lluís Revilla

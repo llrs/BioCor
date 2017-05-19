@@ -135,6 +135,7 @@ reciprocal <- function(scores, t){
         2*sum(rScores[rScores >= t])/(sum(dim(scores)))
     }
 }
+
 combineScoresPrep <- function(x, y, prep, method, ...) {
     if (is.null(x) || is.null(y)) {
         NA

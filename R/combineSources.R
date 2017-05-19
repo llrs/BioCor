@@ -8,6 +8,7 @@
 #' identifiers are returned.
 #' @param ... Lists of genes and their pathways.
 #' @return A single list with the pathways of each source on the same gene.
+#' @importFrom stats setNames
 #' @examples
 #' DB1 <- list(g1 = letters[6:8], g2 = letters[1:5], g3 = letters[4:7])
 #' DB2 <- list(g1 = c("one", "two"), g2 = c("three", "four"),

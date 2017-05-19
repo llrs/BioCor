@@ -17,3 +17,4 @@ tests/testthat/test_bioCor.R
 ^\.orig$
 ^\.out$
 ^\.RData$
+^\BioCor.Rproj$
