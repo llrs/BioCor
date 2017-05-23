@@ -121,13 +121,17 @@ BMA <- function(scores) {
                       dim(scores))
 }
 
-reciprocal <- function(scores, t){
-    rows <- apply(scores, 2, which.max)
-    columns <- apply(scores, 1, which.max)
-    reciprocal <- rows[columns[rows] == seq_along(rows)]
-    rScores <- sapply(seq_along(reciprocal), function(x) {
-        scores[reciprocal[x], names(reciprocal)[x]]
-    })
+reciprocal <- function(scores, t) {
+    # Find the ones that max row is also the max col
+    fmax <- function(x){
+        x == max(x, na.rm = TRUE)
+    }
+    # Max in rows
+    # Transpose to correct for the fact that apply fill by column
+    rowsMax <- which(t(apply(scores, 1, fmax)))
+    # Max in columns
+    colsMax <- which(apply(scores, 2, fmax))
+    rScores <- scores[intersect(rowsMax, colsMax)]
 
     if (all(rScores <= t)) {
         NA
