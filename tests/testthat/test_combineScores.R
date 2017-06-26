@@ -62,7 +62,7 @@ test_that("combineScores", {
     expect_true(all(test5["max"] > test5[-2]))
     expect_equal(as.numeric(test5["avg"]), 0.332328042328042)
     expect_equal(as.numeric(test5["max"]), 0.6)
-    expect_equal(as.numeric(test5["rcmax"]), 0.5)
+    expect_equal(as.numeric(test5["rcmax"]), 0.566666666666667)
     expect_equal(as.numeric(test5["rcmax.avg"]), 0.507142857142857)
     expect_equal(as.numeric(test5["reciprocal"]), 0.342857142857143)
 })

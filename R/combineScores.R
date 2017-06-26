@@ -93,8 +93,7 @@ combineScores <- function(scores, method, round = FALSE, t = 0) {
         result <- max(scores, na.rm = TRUE)
     } else if (is.Matrix(scores)) {
         if (method == "rcmax") {
-            result <-  max(rowMeans(scores, na.rm = TRUE),
-                           colMeans(scores, na.rm = TRUE))
+            result <- rcmax(scores)
         } else if (method == "rcmax.avg" || method == "BMA") {
             result <- BMA(scores)
         } else if (method == "reciprocal") {
@@ -116,12 +115,30 @@ combineScores <- function(scores, method, round = FALSE, t = 0) {
 }
 
 BMA <- function(scores) {
+    if (length(dim(scores)) != 2) {
+        stop("scores must be a matrix.")
+    }
     sum(apply(scores, 1, max, na.rm = TRUE),
                   apply(scores, 2, max, na.rm = TRUE)) / sum(
                       dim(scores))
 }
+rcmax <- function(scores) {
+    if (length(dim(scores)) != 2) {
+        stop("scores must be a matrix.")
+    }
+    col <- mean(apply(scores, 1, max, na.rm = TRUE))
+    row <- mean(apply(scores, 2, max, na.rm = TRUE))
+    max(col, row, na.rm = TRUE)
+}
 
 reciprocal <- function(scores, t) {
+
+    if (t < 0 | t > 1) {
+        stop("t must be between 1 and 0")
+    }
+    if (length(dim(scores)) != 2) {
+        stop("scores must be a matrix.")
+    }
     # Find the ones that max row is also the max col
     fmax <- function(x){
         x == max(x, na.rm = TRUE)
