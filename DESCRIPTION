@@ -1,19 +1,18 @@
 Package: BioCor
 Title: Functional similarities
 Version: 1.1.4
-Authors@R: person("Lluís", "Revilla Sancho", email = "lluis.revilla@gmail.com", 
-    role = c("aut", "cre"))
+Authors@R: person("Lluís", "Revilla Sancho", email =
+        "lluis.revilla@gmail.com", role = c("aut", "cre"))
 Author: Lluís Revilla Sancho <lluis.revilla@gmail.com>
 Maintainer: Lluís Revilla Sancho <lluis.revilla@gmail.com>
-Description:
-    Calculates functional similarities based on the pathways described on KEGG 
-    and REACTOME or in gene sets. These similarities can be calculated for 
-    pathways or gene sets, genes, or clusters and combined with other 
-    similarities. They can be used to improve networks, gene selection, testing
-    relationships...
-Depends:
-    R (>= 3.3.0)
-License: GPL-3 + file LICENSE
+Description: Calculates functional similarities based on the pathways
+        described on KEGG and REACTOME or in gene sets. These
+        similarities can be calculated for pathways or gene sets,
+        genes, or clusters and combined with other similarities. They
+        can be used to improve networks, gene selection, testing
+        relationships...
+Depends: R (>= 3.4.0)
+License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
 biocViews: 
