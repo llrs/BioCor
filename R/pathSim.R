@@ -129,7 +129,11 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
         sim <- outer(g1, g2, vdiceSim)
     }
     if (!is.null(nam)) {
-        dimnames(sim) <- list(nam, nam)
+        if (length(nam) != nrow(sim)) {
+            warning("Omitting pathway names: duplicated names")
+        } else {
+            dimnames(sim) <- list(nam, nam)
+        }
     }
 
     # Calculate the similarity between the two genes

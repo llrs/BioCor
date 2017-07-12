@@ -147,7 +147,11 @@ mgeneSim <- function(genes, info, method = "max", ...) {
            dimnames = list(genes, genes))
     sim <- AintoB(sim, sim_all)
     if (!is.null(namgenes)) {
-        dimnames(sim) <- list(namgenes, namgenes)
+        if (length(namgenes) != nrow(sim)) {
+            warning("Omitting gene names: duplicated names")
+        } else {
+            dimnames(sim) <- list(namgenes, namgenes)
+        }
     }
     sim
 
