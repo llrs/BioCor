@@ -15,7 +15,7 @@ test_that("combineScores", {
     expect_error(combineScores(d, "reciprocal", t = "a"), "between")
     expect_error(combineScores(d, "reciprocal", t = 2), "between")
     expect_error(combineScores(d, "reciprocal", t = -2), "between")
-    expect_true(is.na(combineScores(d, "reciprocal", t = 0.6)))
+    expect_true(is.na(combineScores(d, "reciprocal", t = 0.61)))
     d2 <- list("d" = d)
     expect_equal(combineScores(d2, "max"), 0.6)
 
