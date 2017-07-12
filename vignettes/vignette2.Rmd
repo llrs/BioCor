@@ -1,0 +1,180 @@
+---
+title: "Advanced usage of BioCor"
+abstract: >
+  Describes how to use the BioCor package to select the threshold for genes 
+  differentially expressed
+date: "`r BiocStyle::doc_date()`"
+package: "`r BiocStyle::pkg_ver('BioCor')`"
+output:
+  BiocStyle::html_document2:
+    fig_caption: true
+    toc_float:
+      collapsed: false
+      toc_depth: 3
+author:
+- name: Lluís Revilla
+  affiliation: 
+    - IDIBAPS; Liver Unit, Hospital Clinic; Universitat Pompeu Fabra
+  email: lrevilla@clinic.cat
+vignette: >
+  %\VignetteIndexEntry{Advanced usage of BioCor}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}  
+---
+```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
+knitr::opts_knit$set(root.dir = ".")
+knitr::opts_chunk$set(collapse = TRUE, warning = TRUE)
+BiocStyle::markdown()
+library("BiocStyle")
+```
+
+# Assesing a differential study
+
+## Simulating data
+We start using some standard library of data from the [RNAseq workflow](http://bioconductor.org/help/workflows/rnaseqGene/#differential-expression-analysis):
+
+```{r simulate, fig.cap="Volcano plot. The airway data", fig.wide = TRUE}
+library("airway")
+data("airway")
+library("DESeq2")
+
+dds <- DESeqDataSet(airway, design = ~ cell + dex)
+dds$dex <- relevel(dds$dex, "untrt")
+dds <- DESeq(dds)
+res <- results(dds, alpha = 0.05)
+summary(res)
+plot(res$log2FoldChange, -log10(res$padj), pch = 16)
+```
+
+## Testing the different methods
+
+First we need to know how similar are the genes in the several methods :
+```{r BioCor}
+library("org.Hs.eg.db")
+genes <- mapIds(org.Hs.eg.db, keys = rownames(res), keytype = "ENSEMBL", column = "ENTREZID")
+genesI <- names(genes)
+names(genesI) <- genes
+library("BioCor")
+library("reactome.db")
+genesReact <- as.list(reactomeEXTID2PATHID)
+fc3 <- res[abs(res$log2FoldChange) >= 3 & !is.na(res$log2FoldChange), ]
+genesFC3 <- genes[rownames(fc3)]
+names(genesFC3) <- NULL
+m <- c("avg", "max", "rcmax", "rcmax.avg", "reciprocal")
+methods <- sapply(m, mgeneSim, genes = genesFC3, info = genesReact, simplify = FALSE)
+```
+Once we have caluclated the similarity for the genes we can now visualize the effect of each method:
+```{r pval1, fig.cap="Functional similarity of genes. Different methods results in different similarities.", fig.wide = TRUE}
+MDSs <- sapply(methods, function(x){
+    gS <- x
+    gS <- gS[rowSums(is.na(gS)) != ncol(gS), rowSums(is.na(gS)) != ncol(gS)]
+    tryCatch({cmdscale(1-gS)}, error = function(x){NA}, warning=function(x){NA})
+    # Reciprocal method ends with NA and thus is unable to calculate cmdscale
+}, simplify = FALSE)
+par(mfrow = c(3, 2))
+sapply(names(MDSs), function(x){
+    # plot(seq(-1, 1, by = 0.25), seq(-1, 1, by = 0.25), main = x, type = "n")
+    plot(MDS, type = "n", main = x)
+    text(MDSs[[x]], labels =  rownames(MDS))
+    abline(h = 0)
+    abline(v = 0)
+    })
+```
+*Note:* The position on the axis of this plots can be flipped. 
+
+In general all the methods output similar plots, except the "max" method. Also note that here we are only using `r nrow(MDSs[[1]])` genes. The difference between the methods might be higher when using more genes.
+
+# Selecting differentially expressed genes
+
+First to reduce the complexity we reduce to 400 genes with a known fold change.
+```{r setting}
+set.seed(220)
+subRes <- res[!is.na(res$log2FoldChange), ]
+subs <- sample.int(nrow(subRes), size = 400)
+subRes <- subRes[subs, ]
+g <- genes[rownames(subRes)]
+# names(g) <- NULL
+gS <- mgeneSim(g, genesReact, "BMA")
+nrow(gS)
+deg <- rownames(subRes[subRes$padj < 0.05 & !is.na(subRes$padj), ])
+keep <- rownames(gS) %in% genes[deg]
+```
+Are genes differentially expressed more functional related than those which aren't differential expressed?
+
+We can answer this by testing it empirically:
+```{r cluster2, fig.cap="Gene clustering by similarities distribution", fig.wide = TRUE}
+library("boot")
+(scoreB <- mean(gS[keep, !keep], na.rm = TRUE))
+b <- boot(data = gS, R = 1000, statistic= function(x, i){
+    g <- !rownames(x) %in% rownames(x)[i]
+    mean(x[g, i], na.rm = TRUE)
+})
+(p.val <- (1 + sum(b$t>scoreB))/1001)
+hist(b$t, main = "Distribution of scores", xlab = "Similarity score")
+abline(v=scoreB, col = "red")
+```
+Comparing the genes differentially expressed and those who aren't doesn't show that they are specially selected. *Note:* from 400 genes there are `r nrow(gS)` with pathway information.
+
+# Are functionally related genes of my gene set?
+One of the main questions is the significance of the pathways in the condition under the study. Here we show a method to answer a related question: are genes functionally related differentially expressed than those which aren't?
+
+```{r pval2, fig.cap="Distribution of the similarity between genes", fig.wide = TRUE}
+(scoreW <- combineScores(gS[keep, keep], "avg"))
+b <- boot(data = gS, R = 1000, statistic= function(x, i){
+    mean(x[i, i], na.rm = TRUE)
+})
+(p.val <- (1 + sum(b$t>scoreW))/1001) # P-value
+hist(b$t, main = "Distribution of scores", xlab = "Similarity score")
+abline(v=scoreW, col = "red")
+```
+We can see that we would expect a score around `r scoreW` if we selected randomly the genes from our pool with a probability of `r p.val`.  
+
+## Influence of the fold change in the funtionally similarity of the genes
+We have seen that the genes differentially expressed are not selected by functional similarity but never the less they are related functionally. Now we could want to know when does this similarity appear when selecting a fold change as threshold.
+To know the relationship between the fold change and the similarity between genes we have several methods:
+```{r logfc1, fig.cap="Similarity of genes above logFC. Assessing the similarity of genes according to their absolute log2 fold change. ", fig.wide = TRUE}
+s <- seq(0, max(abs(subRes$log2FoldChange))+0.05, by = 0.05)
+l <- sapply(s, function(x){
+    deg <- rownames(subRes[abs(subRes$log2FoldChange) >= x, ])
+    keep <- rownames(gS) %in% genes[deg]
+    mean(gS[keep, keep], na.rm = TRUE)
+})
+L <- cbind(logfc = s, value = l)
+L <- as.data.frame(L)
+plot(L$logfc, L$value, type = "l", xlab = "abs(log2) fold change", ylab = "Similarity score", main = "Similarity score of the genes above the logFC")
+abline(h=scoreB, col = "red")
+```
+The red line indicates the functional similarity of the genes considered differentially expressed base only on a p.value < 0.05. 
+The similarity of the functions of the genes increase when higher is the threshold.
+If we want to compare the clusters of differentially expressed and not differentially expressed at different thresholds, we can do:
+```{r cluster1, fig.cap="Gene clustering by similarities along logFC", fig.wide = TRUE}
+l <- sapply(s, function(x){
+    deg <- rownames(subRes[abs(subRes$log2FoldChange) >= x, ])
+    keep <- rownames(gS) %in% genes[deg]
+    mean(gS[keep, !keep], na.rm = TRUE)
+})
+L <- cbind(logfc = s, value = l)
+L <- as.data.frame(L)
+plot(L$logfc, L$value, type = "l", xlab = "abs(log2) fold change", ylab = "Similarity score", main = "Similarity score of the clusters above the logFC and below")
+abline(h=scoreW, col = "red")
+```
+Here we can observe that the logFC theshold doesn't affect the similarity between genes differentially expressed and those who aren't.
+
+# Assesing a new pathway
+
+We can test how does the network of genes change if we add a new pathway, for instance we have a new pathway with the genes of deg:
+
+```{r newPathway, fig.wide = TRUE}
+# Adding a new pathway "deg" to those genes
+genesReact2 <- genesReact
+genesReact2[genes[deg]] <- sapply(genesReact[genes[deg]], function(x){c(x, "deg")})
+plot(ecdf(mgeneSim(names(genesReact), genesReact)))
+curves(ecdf(mgeneSim(names(genesReact2), genesReact2)), color = "red")
+```
+
+# Session Info {.unnumbered}
+
+```{r session}
+sessionInfo()
+```
+
