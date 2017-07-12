@@ -1,15 +1,14 @@
 ---
 title: "Advanced usage of BioCor"
 abstract: >
-  Describes how to use the BioCor package to select the threshold for genes 
-  differentially expressed
+  Describes how to use the BioCor package to answer several biological questions.
 date: "`r BiocStyle::doc_date()`"
 package: "`r BiocStyle::pkg_ver('BioCor')`"
 output:
   BiocStyle::html_document2:
     fig_caption: true
     toc_float:
-      collapsed: false
+      collapsed: true
       toc_depth: 3
 author:
 - name: Lluís Revilla
@@ -23,7 +22,7 @@ vignette: >
 ---
 ```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_knit$set(root.dir = ".")
-knitr::opts_chunk$set(collapse = TRUE, warning = TRUE)
+knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, fig.wide = TRUE)
 BiocStyle::markdown()
 library("BiocStyle")
 ```
@@ -84,7 +83,7 @@ sapply(names(MDSs), function(x){
 
 In general all the methods output similar plots, except the "max" method. Also note that here we are only using `r nrow(MDSs[[1]])` genes. The difference between the methods might be higher when using more genes.
 
-# Selecting differentially expressed genes
+## Selecting differentially expressed genes
 
 First to reduce the complexity we reduce to 400 genes with a known fold change.
 ```{r setting}
@@ -115,7 +114,7 @@ abline(v=scoreB, col = "red")
 ```
 Comparing the genes differentially expressed and those who aren't doesn't show that they are specially selected. *Note:* from 400 genes there are `r nrow(gS)` with pathway information.
 
-# Are functionally related genes of my gene set?
+## Are functionally related genes of my gene set?
 One of the main questions is the significance of the pathways in the condition under the study. Here we show a method to answer a related question: are genes functionally related differentially expressed than those which aren't?
 
 ```{r pval2, fig.cap="Distribution of the similarity between genes", fig.wide = TRUE}
@@ -164,13 +163,61 @@ Here we can observe that the logFC theshold doesn't affect the similarity betwee
 
 We can test how does the network of genes change if we add a new pathway, for instance we have a new pathway with the genes of deg:
 
-```{r newPathway, fig.wide = TRUE}
+```{r newPathway, fig.wide = TRUE, eval = FALSE}
 # Adding a new pathway "deg" to those genes
 genesReact2 <- genesReact
 genesReact2[genes[deg]] <- sapply(genesReact[genes[deg]], function(x){c(x, "deg")})
 plot(ecdf(mgeneSim(names(genesReact), genesReact)))
-curves(ecdf(mgeneSim(names(genesReact2), genesReact2)), color = "red")
+curve(ecdf(mgeneSim(names(genesReact2), genesReact2)), color = "red")
 ```
+This would take lot of time we can reduce our pathways to fewer genes:
+
+```{r newPathway2, fig.wide=TRUE, fig.cap="Comparison of functional similarities. Functional similarities with different pathways.", warning=FALSE}
+library("Hmisc")
+genesReact2 <- genesReact
+genesReact2[genes[deg]] <- sapply(genesReact[genes[deg]], function(x){c(x, "deg")})
+Ecdf(mgeneSim(unique(genes[rownames(subRes)]), genesReact), main = "ecdf", xlab = "Functional similarities")
+Ecdf(mgeneSim(unique(genes[rownames(subRes)]), genesReact2), add = TRUE, col = "red")
+
+```
+
+# miRNA analysis
+
+In this section we try to answer how functionally similar are two miRNA. This preparation has ben adapted from a [previous discussion](https://support.bioconductor.org/p/48138/#48236):
+```{r miRNA1}
+library("targetscan.Hs.eg.db")
+## select human mirna 
+humanMirnaIdx <- grep("hsa", mappedkeys(targetscan.Hs.egMIRNA)) 
+## select seed-based families for human mirna
+humanMirna <- mappedkeys(targetscan.Hs.egMIRNA)[humanMirnaIdx]
+## select targets of families 
+humanMirnaFamilies <- unlist(mget(humanMirna, targetscan.Hs.egMIRBASE2FAMILY)) 
+humanMirnaTargets <- mget(humanMirnaFamilies, revmap(targetscan.Hs.egTARGETS))
+names(humanMirnaTargets) <- humanMirna
+# Restrict to miRNA with more than one target and less than 150
+miRNAs <- sample(humanMirnaTargets[lengths(humanMirnaTargets) > 1 &
+                                       lengths(humanMirnaTargets) < 150], 10)
+lengths(miRNAs)
+```
+Now we have selected our miRNAs we can compare them using a cluster approach.
+```{r miRNA2}
+(cluster1 <- mclusterSim(miRNAs, genesReact, method = "BMA"))
+(cluster2 <- mclusterGeneSim(miRNAs, genesReact))
+```
+So for instance `r m <- which(cluster2 == max(as.dist(cluster2)), arr.ind = TRUE); rownames(m)[m[, 1] != m[, 2]]` are functionalli related despite being from different families. 
+
+# Comparing with GO similarities
+
+As suggested in the main vignette functional similarities can be compared to semantic similarities such as those based on GO. Here I will make a comparison using the biological process:
+
+```{r GOSemSim, fig.wide = TRUE, fig.cap = "Comparison of similarities. Functional similarities compared to biological process semantic similarity."}
+library("GOSemSim")
+d <- godata('org.Hs.eg.db', ont="BP", computeIC=TRUE)
+gsGO <- GOSemSim::mgeneSim(rownames(gS), semData = d, measure = "Resnik")
+keep <- rownames(gS) %in% rownames(gsGO)
+hist(as.dist(gS[keep, keep]-gsGO), main = "Difference between functional similarity and biological process", xlab = "Functional similarity - biological process similarity")
+```
+As we can see in this example, genes with similar biological process tend to be on different functions. 
 
 # Session Info {.unnumbered}
 
