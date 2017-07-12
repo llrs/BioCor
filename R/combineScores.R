@@ -150,7 +150,7 @@ reciprocal <- function(scores, t) {
     colsMax <- which(apply(scores, 2, fmax))
     rScores <- scores[intersect(rowsMax, colsMax)]
 
-    if (all(rScores <= t)) {
+    if (all(rScores < t)) {
         NA
     } else {
         2*sum(rScores[rScores >= t])/(sum(dim(scores)))
