@@ -127,7 +127,7 @@ mgeneSim <- function(genes, info, method = "max", ...) {
     if (all(!genes %in% names(info))) {
         stop("Check genes are in the list provided.")
     } else if (any(!genes %in% names(info))) {
-        warning("Some genes are not in the list you provided.")
+        warning("Some genes are not in the list provided.")
     }
 
     if (is.null(method)) {

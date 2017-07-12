@@ -57,7 +57,7 @@ clusterGeneSim <- function(cluster1, cluster2, info,
     }
 
     if (any(!cluster1 %in% names(info)) | any(!cluster2 %in% names(info))) {
-        warning("Some genes are not in the list you provided.")
+        warning("Some genes are not in the list provided.")
     }
 
     if (length(method) > 2L | is.null(method)) {

@@ -100,7 +100,7 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
     }
 
     if (any(!pathways %in% unlist(info))) {
-        warning("Some pathways are not in the list you provided.")
+        warning("Some pathways are not in the list provided.")
     }
 
     # If the number of pathways is quite big uses matrix properties

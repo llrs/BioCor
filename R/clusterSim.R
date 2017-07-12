@@ -45,7 +45,7 @@ clusterSim <- function(cluster1, cluster2, info, method = "max", ...){
         warning("At least one gene should be in the list provided")
         return(NA)
     } else if (any(!cluster1 %in% names(info)) | any(!cluster2 %in% names(info))) {
-        warning("Some genes are not in the list you provided.")
+        warning("Some genes are not in the list provided.")
     }
 
     # Extract all pathways for each gene
@@ -112,7 +112,7 @@ mclusterSim <- function(clusters, info, method = "max", ...) {
     }
 
     if (any(!unlist(clusters) %in% names(info))) {
-        warning("Some genes are not in the list you provided.")
+        warning("Some genes are not in the list provided.")
     }
 
     if (is.null(method)) {
