@@ -9,6 +9,7 @@ test_that("AintoB", {
     test <- AintoB(A, B)
     expect_equal(test[1:5, 1:3], A)
     expect_error(AintoB(B, A), "Impossible")
+    expect_error(AintoB(character(), B), "matrices")
     # Mixed orders
     colnames(A) <- c("c", "h", "e")
     rownames(A) <- c("b", "a", "f", "c", "j")
