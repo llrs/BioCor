@@ -29,6 +29,10 @@ install_github("llrs/BioCor")
 
 It is intended for bioinformaticians, both people interested in *knowing* the functionally similarity of some genes or clusters and people *developing* some other analysis at the top of it.
 
+# How to use BioCor?
+
+See the [vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor.html) in Bioconductor site and the [advanced vignette](https://llrs.github.io/vignette2.html).
+
 # What is the goal of this project?
 
 The goal of this project is to provide methods to calculate functional similarities based on pathways. 
@@ -52,6 +56,7 @@ The goal of this project is to provide methods to calculate functional similarit
  - Evaluate pathways databases:  
   By comparing scores of the same entities
 
+See [advanced vignette](https://llrs.github.io/vignette2.html)
 
 # Contributing
 
