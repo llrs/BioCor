@@ -167,34 +167,6 @@ mclusterGeneSim(clusters, genesKegg, c("max", "max"))
 
 Note the differences between `mclusterGeneSim` and `mclusterSim` in the similarity values of the clusters. If we set `method = c("max", "max")` in `mclusterGeneSim` then the similarity between the clusters is the same as `clusterSim`.
 
-## Merging similarities {#merging}
-If one calculates similarities with KEGG data and Reactome or other input for the same genes or clusters BioCor provides a couple of functions to merge them.
-
-We can set a weight to each similarity input with `weighted.sum`, multiply them also using a weight for each similarity (with `weighted.prod`), doing the mean or just adding them up. similarities allow us to apply a function to combine the matrices of a list.
-```{r merging}
-kegg <- mgeneSim(c("672", "675", "10"), genesKegg)
-react <- mgeneSim(c("672", "675", "10"), genesReact)
-## We can sum it adding a weight to each origin
-weighted.sum(c(kegg["672", "675"], react["672","675"]), w = c(0.3, 0.7))
-
-## Or if we want to perform for all the matrix
-## A list of matrices to merge
-sim <- list("kegg" = kegg, "react" = react)
-similarities(sim, weighted.sum, w = c(0.3, 0.7))
-similarities(sim, weighted.prod, w = c(0.3, 0.7))
-similarities(sim, prod)
-similarities(sim, mean)
-```
-This functions are similar to `weighted.mean`, except that first the multiplication by the weights is done and then the `NA`s are removed:
-```{r weighted}
-weighted.mean(c(1, NA), w = c(0.5, 0.5), na.rm = TRUE)
-weighted.mean(c(1, 0.5, NA), w = c(0.5, 0.25, 0.25), na.rm = TRUE)
-weighted.sum(c(1, NA), w = c(0.5, 0.5))
-weighted.sum(c(1, 0.5, NA), w = c(0.5, 0.25, 0.25))
-weighted.prod(c(1, NA), w = c(0.5, 0.5))
-weighted.prod(c(1, 0.5, NA), w = c(0.5, 0.25, 0.25))
-```
-
 
 ## Converting similarities
 If needed, Jaccard similarity can be calculated from Dice similarity using `D2J`:
@@ -301,7 +273,7 @@ GOSemSim doesn't compare the clusters by comparing each gene but by comparing th
 `r BiocStyle::CRANpkg("WGCNA")` uses the correlation of the expression data of several samples to cluster genes. Sometimes, from a biological point of view the interpretation of the resulting modules is difficult, even more when some groups of genes end up not having an enrichment in previously described functions. 
 BioCor was originally thought to be used to overcome this problem: to help clustering genes, not only by correlation but also by functionality. 
 
-In order to have groups functionally related, functional similarities can enhance the clustering of genes when combined (See [this section](#merging)) with experimental correlations. The resulting groups will reflect, not only the correlation of the expression provided, but also the functionality known of those genes.
+In order to have groups functionally related, functional similarities can enhance the clustering of genes when combined with experimental correlations. The resulting groups will reflect, not only the correlation of the expression provided, but also the functionality known of those genes.
 
 We propose the following steps:
 
