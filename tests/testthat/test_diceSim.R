@@ -11,6 +11,6 @@ test_that("diceSim", {
     expect_true(is.na(diceSim(c(), c())))
     expect_true(is.na(diceSim(c(), genes.id)))
     expect_warning(diceSim(1, 2))
-    expect_true(is.na(diceSim(1, 2)))
-    expect_equal(diceSim(character(), character()), 0)
+    expect_equal(diceSim(character(), "2"), 0L)
+    expect_equal(diceSim(character(), character()), 0L)
 })

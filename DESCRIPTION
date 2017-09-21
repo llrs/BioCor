@@ -1,6 +1,6 @@
 Package: BioCor
 Title: Functional similarities
-Version: 1.1.5
+Version: 1.1.6
 Authors@R: person("Lluís", "Revilla Sancho", email =
         "lluis.revilla@gmail.com", role = c("aut", "cre"))
 Author: Lluís Revilla Sancho <lluis.revilla@gmail.com>
@@ -12,15 +12,14 @@ Description: Calculates functional similarities based on the pathways
         can be used to improve networks, gene selection, testing
         relationships...
 Depends: R (>= 3.4.0)
-License: GPL-3 | file LICENSE
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
-biocViews: 
+biocViews:
     StatisticalMethod, Clustering, GeneExpression, Network, Pathways, 
     NetworkEnrichment, SystemsBiology
 Imports:
-    Matrix,
-    BiocParallel
+    Matrix
 Suggests:
     reactome.db,
     org.Hs.eg.db,

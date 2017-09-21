@@ -62,6 +62,12 @@ install_github("llrs/BioCor")
 
 # Using BioCor
 
+```{r preload, include=FALSE}
+library("BioCor")
+library("org.Hs.eg.db")
+library("reactome.db")
+```
+
 ## Preparation
 
 We can load the package and prepare the data for which we want to calculate the similarities:
@@ -256,14 +262,14 @@ Each method results in a different dendrogram as we can see  on Figure \@ref(fig
 
 # Comparing with GOSemSim
 
-In this section I will compare the functional similarity of BioCor with the closely related package `r Biocpkg("GOSemSim")`. The genes to measure are extracted from the vignette of GOSemSim.
+In this section I will compare the functional similarity of BioCor with the closely related package `r Biocpkg("GOSemSim")`. The genes and gene clusters used were extracted from GOSemSim's vignette.
 
 I will compare the functions geneSim from section [geneSim and mgeneSim from GOSemSim](http://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#genesim-and-mgenesim) with both data sets from Kegg and Reactome:
 ```{r geneSimGOSemSim}
-geneSim("241", "251", genesKegg, "BMA")
-geneSim("241", "251", genesReact, "BMA")
-mgeneSim(c("835", "5261","241", "994"), genesKegg, "BMA", round = TRUE)
-mgeneSim(c("835", "5261","241", "994"), genesReact, "BMA", round = TRUE)
+geneSim("241", "251", genesKegg, "BMA") - go2
+geneSim("241", "251", genesReact, "BMA") - go2
+BioCor::mgeneSim(c("835", "5261","241", "994"), genesKegg, "BMA", round = TRUE)
+mgeneSim(c("835", "5261","241", "994"), genesReact, "BMA", round = TRUE) - go4
 ```
 We can observe that for the first genes there isn't information on the pathways of those genes in the Kegg data set.
 
@@ -285,7 +291,7 @@ x <- org.Hs.egGO
 hsEG <- mappedkeys(x)
 set.seed(123)
 (clusters <- list(a=sample(hsEG, 20), b=sample(hsEG, 20), c=sample(hsEG, 20)))
-mclusterSim(clusters, genesReact, "BMA")
+BioCor::mclusterSim(clusters, genesReact, "BMA")
 ```
 
 GOSemSim doesn't compare the clusters by comparing each gene but by comparing the gene ontologies. Thus we use the mclusterSim which is the equivalent.

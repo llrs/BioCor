@@ -2,7 +2,9 @@
 #' Compare pathways
 #'
 #' Function to estimate how much two list of genes overlap by looking
-#' how much of the nodes are shared.
+#' how much of the nodes are shared. Calculates the Dice similarity
+#'
+#' It requires a vector of characters otherwise will return an \code{NA}.
 #' @param g1,g2 A character list with the names of the proteins in each pathway.
 #' @return A score between 0 and 1 calculated as the doble of the proteins
 #' shared by g1 and g2 divided by the number of genes in both groups.
