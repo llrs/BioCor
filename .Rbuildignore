@@ -18,3 +18,4 @@ tests/testthat/test_bioCor.R
 ^\.out$
 ^\.RData$
 ^BioCor.Rproj$
+^,travis.yml

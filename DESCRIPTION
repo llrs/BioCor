@@ -19,6 +19,7 @@ biocViews:
     StatisticalMethod, Clustering, GeneExpression, Network, Pathways, 
     NetworkEnrichment, SystemsBiology
 Imports:
+    BiocParallel,
     Matrix
 Suggests:
     reactome.db,
