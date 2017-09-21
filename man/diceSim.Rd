@@ -15,7 +15,10 @@ shared by g1 and g2 divided by the number of genes in both groups.
 }
 \description{
 Function to estimate how much two list of genes overlap by looking
-how much of the nodes are shared.
+how much of the nodes are shared. Calculates the Dice similarity
+}
+\details{
+It requires a vector of characters otherwise will return an \code{NA}.
 }
 \examples{
 genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")

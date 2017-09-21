@@ -78,8 +78,9 @@ library("org.Hs.eg.db")
 library("reactome.db")
 genesKegg <- as.list(org.Hs.egPATH)
 genesReact <- as.list(reactomeEXTID2PATHID)
-genesReact <- sapply(genesReact, function(x){grep("R-HSA-", x, value = TRUE)}) # Only for human pathways
-genesReact <- genesReact[lengths(genesReact) >= 1] # Remove genes which are not from human organism
+# Remove genes and pathways which are not from human pathways 
+genesReact <- sapply(genesReact, function(x){grep("R-HSA-", x, value = TRUE)}) 
+genesReact <- genesReact[lengths(genesReact) >= 1] 
 ```
 
 To avoid having biased data it is important to have all the data about the pathways and genes associated to all pathways for the organism under study. Here we assume that we are interested in human pathways. We use this two databases KEGG and Reactome as they are easy to obtain the data. However KEGG database is no longer free for large retrievals therefore it is not longer updated in the Bioconductor annotation packages.
@@ -172,7 +173,7 @@ Note the differences between `mclusterGeneSim` and `mclusterSim` in the similari
 If needed, Jaccard similarity can be calculated from Dice similarity using `D2J`:
 
 ```{r sims}
-lapply(sim, D2J)
+D2J(sim)
 ```
 
 Also if one has a Jaccard similarity and wants a Dice similarity, can use the `J2D` function.
@@ -203,7 +204,8 @@ With a list of genes we are going to see how similar are those genes:
 genes.id <- c("10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644", 
               "81327", "9128", "2073", "2893", "5142", "60", "210", "81", 
               "1352", "88", "672", "675")
-genes.id <- mapIds(org.Hs.eg.db, keys = genes.id, keytype = "ENTREZID", column = "SYMBOL")
+genes.id <- mapIds(org.Hs.eg.db, keys = genes.id, keytype = "ENTREZID", 
+                   column = "SYMBOL")
 genes <- names(genes.id)
 names(genes) <- genes.id
 react <- mgeneSim(genes, genesReact)
@@ -218,55 +220,71 @@ Now we can see the relationship between the genes. We can group them for a clust
 ```{r hclust3, fig.cap="Clustering using clusterSim", fig.wide = TRUE}
 mycl <- cutree(hc, h = 0.2)
 clusters <- split(genes[nan], as.factor(mycl))
-(clusters <- clusters[lengths(clusters) >= 2] )# Removing clusters of just one gene
+# Removing clusters of just one gene
+(clusters <- clusters[lengths(clusters) >= 2])
 names(clusters) <- paste0("cluster", names(clusters))
 ## Remember we can use two methods to compare clusters
 sim_clus1 <- mclusterSim(clusters, genesReact)
-plot(hclust(as.dist(1 - sim_clus1)), main = "Similarities between clusters by pathways")
+plot(hclust(as.dist(1 - sim_clus1)), 
+     main = "Similarities between clusters by pathways")
 ```
 
 ```{r hclust3b, fig.cap="Clustering using clusterGeneSim", fig.wide = TRUE}
 sim_clus2 <- mclusterGeneSim(clusters, genesReact)
-plot(hclust(as.dist(1 - sim_clus2)), main ="Similarities between clusters by genes")
+plot(hclust(as.dist(1 - sim_clus2)), 
+     main ="Similarities between clusters by genes")
 ```
 
 Each method results in a different dendrogram as we can see  on Figure \@ref(fig:hclust3) compared to Figure \@ref(fig:hclust3b).
 
 # Comparing with GOSemSim
 
-In this section I will compare the functional similarity of BioCor with the closely related package `r Biocpkg("GOSemSim")`. The genes and gene clusters used were extracted from GOSemSim's vignette.
+In this section I will compare the functional similarity of BioCor with the closely related package `r Biocpkg("GOSemSim")`. The genes and gene clusters used were extracted from GOSemSim's vignette, we only change the ontology, instead of the molecular function, the biological process will be used:
+
+```{r GOSemSim}
+suppressPackageStartupMessages(library("GOSemSim"))
+hsGO <- godata('org.Hs.eg.db', ont = "BP", computeIC = FALSE)
+```
 
 I will compare the functions geneSim from section [geneSim and mgeneSim from GOSemSim](http://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#genesim-and-mgenesim) with both data sets from Kegg and Reactome:
 ```{r geneSimGOSemSim}
-geneSim("241", "251", genesKegg, "BMA") - go2
-geneSim("241", "251", genesReact, "BMA") - go2
-BioCor::mgeneSim(c("835", "5261","241", "994"), genesKegg, "BMA", round = TRUE)
-mgeneSim(c("835", "5261","241", "994"), genesReact, "BMA", round = TRUE) - go4
+goSemSim <- GOSemSim::geneSim("241", "251", semData = hsGO, 
+                              measure = "Wang", combine="BMA")$geneSim
+BioCor::geneSim("241", "251", genesKegg, "BMA") - goSemSim
+BioCor::geneSim("241", "251", genesReact, "BMA") - goSemSim
+
+genes <- c("835", "5261","241", "994")
+goSemSim <- GOSemSim::mgeneSim(genes, semData = hsGO, 
+                   measure = "Wang", combine = "BMA",
+                   verbose = FALSE, drop = NULL)
+BioCor::mgeneSim(genes, genesKegg, "BMA", round = TRUE) - goSemSim
+BioCor::mgeneSim(genes, genesReact, "BMA", round = TRUE) - goSemSim
 ```
 We can observe that for the first genes there isn't information on the pathways of those genes in the Kegg data set.
+See FAQ [question 8](#conflict) about the use of `BioCor::` and `GOSemSim::`.
 
 If named characters are passed they are used to name the resulting matrix:
 ```{r named}
 genes <- c("CDC45", "MCM10", "CDC20", "NMU", "MMP1")
 genese <- mapIds(org.Hs.eg.db, keys = genes, column = "ENTREZID", 
                  keytype = "SYMBOL")
-mgeneSim(genese, genesReact, "BMA")
+BioCor::mgeneSim(genese, genesReact, "BMA")
 ```
 
 We can further compare the cluster similarities from the [next section of the vignette](http://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#clustersim-and-mclustersim):
 ```{r clusterSimGOSemSim}
 gs1 <- c("835", "5261","241", "994", "514", "533")
 gs2 <- c("578","582", "400", "409", "411")
-clusterSim(gs1, gs2, genesReact, "BMA")
+BioCor::clusterSim(gs1, gs2, genesReact, "BMA") - 
+    GOSemSim::clusterSim(gs1, gs2, hsGO, measure = "Wang", combine = "BMA")
 
 x <- org.Hs.egGO
 hsEG <- mappedkeys(x)
 set.seed(123)
 (clusters <- list(a=sample(hsEG, 20), b=sample(hsEG, 20), c=sample(hsEG, 20)))
-BioCor::mclusterSim(clusters, genesReact, "BMA")
+BioCor::mclusterSim(clusters, genesReact, "BMA") - 
+    GOSemSim::mclusterSim(clusters, hsGO, measure = "Wang", combine = "BMA")
 ```
-
-GOSemSim doesn't compare the clusters by comparing each gene but by comparing the gene ontologies. Thus we use the mclusterSim which is the equivalent.
 
 # WGCNA and BioCor 
 
@@ -346,7 +364,9 @@ Both Jaccard index and dice index are between 0 and 1 ($[0, 1]$). To calculate t
 We consider Dice coefficient better than Jaccard because it has higher values for the same comparisons, which reflects that including a gene in a pathway is not easily done.
 
 ## How does BioCor combine similarities between several pathways of two genes?
-Although the recommend method is the "max" method, (set as default), there are implemented other methods in `combineScores` of the `r BiocStyle::Biocpkg("GOSemSim")` package which I borrowed. See the [Combining values section](#combining) and the help page of `combineScores`.
+Although the recommend method is the "max" method, (set as default), there are implemented other methods in `combineScores` of the `r BiocStyle::Biocpkg("GOSemSim")` package which I borrowed. [^1]
+
+[^1]: See the [Combining values section](#combining) and the help page of `combineScores`.
 
 ## Why do you recommend using the max method to combine similarities scores for pathways?
 The purpose of combining the scores is usually to find the relationships between genes through their pathways. The higher the similarity is between two pathway of two genes, the higher functionalities do the genes share, even if those genes have other non-related functions. 
@@ -360,7 +380,7 @@ You can measure the [gene similarity](#geneSim) between those genes and also mea
 ## Why isn't available a method for calculating GO similarities?
 This is covered by the `r BiocStyle::Biocpkg("GOSemSim")` package, you can use it to produce a similarity matrix (i.e. use `mgeneSim`). You can parallelize it with `foreach` package or `BiocParallel` if your list of genes is big. 
 
-## I get an error! How do I solve its?
+## I get an error! How do I solve this? {#conflict}
 If the error is like this:
 ```{r, eval = FALSE}
 Error in FUN(X[[i]], ...) : 
