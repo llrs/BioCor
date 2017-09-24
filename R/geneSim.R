@@ -87,7 +87,7 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
         sim
     }
     else {
-        combineScores(sim, method = method, ...)
+        combineScoresPar(sim, method = method, ...)
     }
 }
 
@@ -140,12 +140,13 @@ mgeneSim <- function(genes, info, method = "max", ...) {
     pathwaysl <- pathwaysl[!is.na(pathwaysl)]
 
     pathsSims <- mpathSim(pathwaysl, info, NULL)
-    sim <- outer(pathways, pathways, vcombineScoresPrep,
-                 prep = pathsSims, method = method, ... = ...)
+    sim <- combineScoresPar(pathsSims, method, pathways, ... = ...)
+    # sim <- outer(pathways, pathways, vcombineScoresPrep,
+    #              prep = pathsSims, method = method, ... = ...)
 
     sim_all <- matrix(NA, ncol = length(genes), nrow = length(genes),
            dimnames = list(genes, genes))
-    sim <- AintoB(sim, sim_all)
+    sim <- AintoB(as.matrix(sim), sim_all)
     if (!is.null(namgenes)) {
         if (length(namgenes) != nrow(sim)) {
             warning("Omitting gene names: duplicated names")

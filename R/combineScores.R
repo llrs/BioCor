@@ -188,26 +188,32 @@ vcombineScoresPrep <- Vectorize(combineScoresPrep,
 #'                  method = "max")
 combineScoresPar <- function(scores, method, subSets = NULL, BPPARAM = NULL, ...){
 
-    if (is.null(subSets)) {
+    # Check scores
+    if (is.null(subSets) | sum(dim(scores)) == 0) {
         return(combineScores(scores, method = method, ...))
-    } else {
+    } else { # To handle cases where subSets are not present in scores
         # Check the ids
         subId <- unique(unlist(subSets))
-        if (!all(subId %in% colnames(scores))) {
-            stop("Not all the names provided are column names of scores")
+        if (!all(subId %in% unlist(dimnames(scores)))) {
+            B <- matrix(NA, ncol = length(subSets), nrow = length(subSets),
+                        dimnames = list(names(subSets), names(subSets)))
         }
-        if (!all(subId %in% rownames(scores))) {
-            stop("Not all the names provided are row names of scores")
+        keep <- sapply(subSets, function(x) {
+            all(x %in% unlist(dimnames(scores)))
+            })
+        subSets <- subSets[keep]
+        if (length(subSets) == 0) {
+            return(B)
         }
     }
 
     #all combinations of indices
     ij <- combn(seq_along(subSets), 2)
 
-    #add all i = j
+    #add all i = j to the combination of indices
     ij <- matrix(c(ij, rep(seq_along(subSets), each = 2)), nrow = 2)
 
-    if (is.null(BPPARAM)) {
+    if (is.null(BPPARAM)) { # If not a parallel background is provided
         # only one loop
         res <- numeric(ncol(ij)) # preallocate
         for (k in seq_len(ncol(ij))) {
@@ -216,19 +222,25 @@ combineScoresPar <- function(scores, method, subSets = NULL, BPPARAM = NULL, ...
                 ... = ...)
         }
     } else {
+        # Use the parallel background provided
         res <- bplapply(seq_len(ncol(ij)), function(x){
             if (ncol(ij) < x) {
                 message(print(ij))
             }
-            combineScores(
-                scores[subSets[[ij[1, x]]], subSets[[ij[2, x]]]], method,
-                ... = ...)
+            rowIds <- subSets[[ij[1, x]]]
+            colIds <- subSets[[ij[2, x]]]
+            combineScores(scores[rowIds, colIds], method, ... = ...)
         }, BPPARAM = BPPARAM)
         res <- as.numeric(res)
     }
 
-    sparseMatrix(i = ij[1,], j = ij[2,],
-                 x = res, dims = rep(length(subSets), 2),
-                 symmetric = TRUE, index1 = TRUE,
-                 dimnames = list(names(subSets), names(subSets)))
+    A <- sparseMatrix(i = ij[1,], j = ij[2,],
+                      x = res, dims = rep(length(subSets), 2),
+                      symmetric = TRUE, index1 = TRUE,
+                      dimnames = list(names(subSets), names(subSets)))
+    if (exists("B")) {
+        return(AintoB(as.matrix(A), B))
+    } else {
+        return(A)
+    }
 }
