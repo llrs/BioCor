@@ -33,7 +33,8 @@ Looks for the similarity between genes in groups
 }
 \details{
 Once the pathways for each cluster are found they are combined using
-combineScores.
+\code{combineScores}. In \code{mclusterSim} the function
+\code{combineScoresPar} is used instead.
 }
 \examples{
 if (require("org.Hs.eg.db")) {

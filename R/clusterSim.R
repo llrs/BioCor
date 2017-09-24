@@ -4,7 +4,8 @@
 #' Looks for the similarity between genes in groups
 #'
 #' Once the pathways for each cluster are found they are combined using
-#' combineScores.
+#' \code{combineScores}. In \code{mclusterSim} the function
+#' \code{combineScoresPar} is used instead.
 #' @param cluster1,cluster2 A vector with genes.
 #' @inheritParams geneSim
 #' @inheritParams combineScores
@@ -71,7 +72,7 @@ clusterSim <- function(cluster1, cluster2, info, method = "max", ...){
     sim_all <- mpathSim(pathways, info, NULL)
     sim <- sim_all[pathways1, pathways2]
     if (!is.null(method)) {
-        combineScores(sim, method, ...)
+        combineScoresPar(sim, method, ...)
     } else {
         sim
     }
@@ -137,12 +138,13 @@ mclusterSim <- function(clusters, info, method = "max", ...) {
     pathSims <- mpathSim(pathways, info, method = NULL)
 
     # Calculates similarities between clusters
-    sim <- outer(cluster2pathways, cluster2pathways, vcombineScoresPrep,
-                 prep = pathSims, method = method, ... = ...)
+    sim <- combineScoresPar(pathSims, method, cluster2pathways, ... = ...)
+    # sim <- outer(cluster2pathways, cluster2pathways, vcombineScoresPrep,
+    #              prep = pathSims, method = method, ... = ...)
 
     # In case any cluster don't have any relevant data
     sim_all <- matrix(NA, ncol = length(clusters), nrow = length(clusters),
                       dimnames = list(names(clusters), names(clusters)))
-    AintoB(sim, sim_all)
+    AintoB(as.matrix(sim), sim_all)
 
 }

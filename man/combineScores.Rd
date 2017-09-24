@@ -7,7 +7,7 @@
 \usage{
 combineScores(scores, method, round = FALSE, t = 0)
 
-combineScoresPar(scores, subSets, BPPARAM = NULL, method, ...)
+combineScoresPar(scores, method, subSets = NULL, BPPARAM = NULL, ...)
 }
 \arguments{
 \item{scores}{Matrix of scores to be combined}
