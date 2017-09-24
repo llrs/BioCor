@@ -157,19 +157,6 @@ reciprocal <- function(scores, t) {
     }
 }
 
-combineScoresPrep <- function(x, y, prep, method, ...) {
-    if (is.null(x) || is.null(y)) {
-        NA
-    } else if (all(is.na(x)) || all(is.na(y))) {
-        NA
-    } else {
-        combineScores(prep[x[!is.na(x)], y[!is.na(y)], drop = FALSE],
-                      method, ...)
-    }
-}
-vcombineScoresPrep <- Vectorize(combineScoresPrep,
-                                vectorize.args = c("x", "y"))
-
 #' \code{cobmineScoresPar} performs multiple (parallel) combineScores based on
 #' a list of elements to combine into one.
 #' @param subSets List of combinations as info in other functions.

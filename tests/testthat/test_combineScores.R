@@ -141,3 +141,16 @@ test_that("combineScoresPar equivalent to combineScores", {
     expect_equal(as.numeric(test5["rcmax.avg"]), 0.507142857142857)
     expect_equal(as.numeric(test5["reciprocal"]), 0.342857142857143)
 })
+
+test_that("reciprocal", {
+    expect_error(reciprocal(d, 2), "between")
+    expect_error(reciprocal(as.vector(d), 0.5), "matrix")
+})
+
+test_that("BMA", {
+    expect_error(BMA(as.vector(d)), "matrix")
+})
+
+test_that("rcmax", {
+    expect_error(rcmax(as.vector(d)), "matrix")
+})
