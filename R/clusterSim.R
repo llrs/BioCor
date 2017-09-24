@@ -72,7 +72,7 @@ clusterSim <- function(cluster1, cluster2, info, method = "max", ...){
     sim_all <- mpathSim(pathways, info, NULL)
     sim <- sim_all[pathways1, pathways2]
     if (!is.null(method)) {
-        as.matrix(combineScoresPar(sim, method, ...))
+        combineScoresPar(sim, method, ...)
     } else {
         sim
     }

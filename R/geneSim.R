@@ -87,7 +87,7 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
         sim
     }
     else {
-        as.matrix(combineScoresPar(sim, method = method, ...))
+        combineScoresPar(sim, method = method, ...)
     }
 }
 

@@ -140,7 +140,7 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
     if (is.null(method)) {
         return(sim)
     } else {
-        as.matrix(combineScoresPar(sim, method, ... = ...))
+        combineScoresPar(sim, method, ... = ...)
     }
 }
 
