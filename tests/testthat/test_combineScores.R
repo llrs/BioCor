@@ -73,6 +73,7 @@ test_that("combineScoresPar", {
                       0.285714285714286), .Dim = c(3L, 3L),
                     .Dimnames = list(c("a", "b", "c"), c("a", "b", "c")))
     subSet <- list(a = c("a", "b"), b = c("b", "c"))
+    test3 <- combineScoresPar(e, method = "max", subSet)
     expect_that(test3, is_a("dsCMatrix"))
 })
 

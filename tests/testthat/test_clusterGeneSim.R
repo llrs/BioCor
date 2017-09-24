@@ -3,7 +3,8 @@ context("Testing clusterGeneSim")
 
 test_that("clusterGeneSim", {
 
-    expect_warning(test <- clusterGeneSim(c("2", "1"), c("9", "4"), info))
+    expect_warning(test <- clusterGeneSim(c("2", "1"), c("9", "4"), info),
+                   "Using max method because after removing NAs")
     expect_error(clusterGeneSim(c("2", "2"), c("4", "4"), info), "several")
     expect_error(clusterGeneSim(c("2", "2"), c(9, 4), info), "character")
     expect_error(clusterGeneSim(c("2", "2"), c("9", "4"),

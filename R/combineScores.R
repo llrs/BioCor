@@ -217,8 +217,9 @@ combineScoresPar <- function(scores, method, subSets = NULL, BPPARAM = NULL, ...
         # only one loop
         res <- numeric(ncol(ij)) # preallocate
         for (k in seq_len(ncol(ij))) {
-            res[k] <- combineScores(
-                scores[subSets[[ij[1, k]]], subSets[[ij[2, k]]]], method,
+            rowIds <- subSets[[ij[1, k]]]
+            colIds <- subSets[[ij[2, k]]]
+            res[k] <- combineScores(scores[rowIds, colIds, drop = FALSE], method,
                 ... = ...)
         }
     } else {
@@ -229,7 +230,7 @@ combineScoresPar <- function(scores, method, subSets = NULL, BPPARAM = NULL, ...
             }
             rowIds <- subSets[[ij[1, x]]]
             colIds <- subSets[[ij[2, x]]]
-            combineScores(scores[rowIds, colIds], method, ... = ...)
+            combineScores(scores[rowIds, colIds, drop = FALSE], method, ... = ...)
         }, BPPARAM = BPPARAM)
         res <- as.numeric(res)
     }
