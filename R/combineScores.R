@@ -186,19 +186,19 @@ vcombineScoresPrep <- Vectorize(combineScoresPrep,
 #' colnames(e) <- rownames(e)
 #' combineScoresPar(e, list(a= c("a", "b"), b = c("b", "c")),
 #'                  method = "max")
-combineScoresPar <- function(scores, subSets, BPPARAM = NULL, method, ...){
+combineScoresPar <- function(scores, method, subSets = NULL, BPPARAM = NULL, ...){
 
-
-    if (!isSymmetric(scores)) {
-        warning("Scores are not symmetric")
-    }
-    # Check the ids
-    subId <- unique(unlist(subSets))
-    if (!all(subId %in% colnames(scores))) {
-        stop("Not all the names provided are column names of scores")
-    }
-    if (!all(subId %in% rownames(scores))) {
-        stop("Not all the names provided are row names of scores")
+    if (is.null(subSets)) {
+        return(combineScores(scores, method = method, ...))
+    } else {
+        # Check the ids
+        subId <- unique(unlist(subSets))
+        if (!all(subId %in% colnames(scores))) {
+            stop("Not all the names provided are column names of scores")
+        }
+        if (!all(subId %in% rownames(scores))) {
+            stop("Not all the names provided are row names of scores")
+        }
     }
 
     #all combinations of indices
