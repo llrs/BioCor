@@ -19,7 +19,7 @@ in genes.}
 "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
 similarities.}
 
-\item{...}{Other arguments passed to \code{\link{combineScores}}}
+\item{...}{Other arguments passed to \code{\link{combineScoresPar}}}
 
 \item{genes}{A vector of genes.}
 }
@@ -43,7 +43,7 @@ which is combined to obtain a similarity between the genes.
 Given the information about the genes and their pathways, uses the ids
 of the genes to find the Dice similarity score for each pathway comparison
 between the genes. Later this similarities are combined using
-\code{\link{combineScores}}.
+\code{\link{combineScoresPar}}.
 }
 \note{
 genes accept named characters and the output will use the names of the
@@ -73,7 +73,7 @@ mgeneSim(named_genes, genes.react, "max")
 \seealso{
 \code{\link{conversions}} help page to transform Dice
 score to Jaccard score. For the method to combine the scores see
-\code{\link{combineScores}}.
+\code{\link{combineScoresPar}}.
 }
 \author{
 Lluis Revilla

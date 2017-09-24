@@ -175,7 +175,7 @@ vcombineScoresPrep <- Vectorize(combineScoresPrep,
 #' @param subSets List of combinations as info in other functions.
 #' @param BPPARAM Determining the parallel back-end. By default a for loop is
 #' used.
-#' @param ... Other arguments passed to \code{\link{combineScores}}
+#' @param ... Other arguments passed to \code{\link{combineScoresPar}}
 #' @seealso \code{\link[BiocParallel]{bpparam}}
 #' @rdname combineScores
 #' @export

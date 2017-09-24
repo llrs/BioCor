@@ -7,7 +7,7 @@
 #' Given the information about the genes and their pathways, uses the ids
 #' of the genes to find the Dice similarity score for each pathway comparison
 #' between the genes. Later this similarities are combined using
-#' \code{\link{combineScores}}.
+#' \code{\link{combineScoresPar}}.
 #' @param gene1,gene2 Ids of the genes to calculate the similarity, to be found
 #' in genes.
 #' @inheritParams pathSim
@@ -24,7 +24,7 @@
 #' @author Lluis Revilla
 #' @seealso \code{\link{conversions}} help page to transform Dice
 #' score to Jaccard score. For the method to combine the scores see
-#' \code{\link{combineScores}}.
+#' \code{\link{combineScoresPar}}.
 #' @examples
 #' if (require("org.Hs.eg.db") & require("reactome.db")) {
 #'     # Extract the paths of all genes of org.Hs.eg.db from KEGG
@@ -87,7 +87,7 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
         sim
     }
     else {
-        combineScoresPar(sim, method = method, ...)
+        as.matrix(combineScoresPar(sim, method = method, ...))
     }
 }
 
@@ -141,8 +141,6 @@ mgeneSim <- function(genes, info, method = "max", ...) {
 
     pathsSims <- mpathSim(pathwaysl, info, NULL)
     sim <- combineScoresPar(pathsSims, method, pathways, ... = ...)
-    # sim <- outer(pathways, pathways, vcombineScoresPrep,
-    #              prep = pathsSims, method = method, ... = ...)
 
     sim_all <- matrix(NA, ncol = length(genes), nrow = length(genes),
            dimnames = list(genes, genes))

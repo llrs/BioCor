@@ -72,7 +72,7 @@ clusterSim <- function(cluster1, cluster2, info, method = "max", ...){
     sim_all <- mpathSim(pathways, info, NULL)
     sim <- sim_all[pathways1, pathways2]
     if (!is.null(method)) {
-        combineScoresPar(sim, method, ...)
+        as.matrix(combineScoresPar(sim, method, ...))
     } else {
         sim
     }
@@ -139,8 +139,6 @@ mclusterSim <- function(clusters, info, method = "max", ...) {
 
     # Calculates similarities between clusters
     sim <- combineScoresPar(pathSims, method, cluster2pathways, ... = ...)
-    # sim <- outer(cluster2pathways, cluster2pathways, vcombineScoresPrep,
-    #              prep = pathSims, method = method, ... = ...)
 
     # In case any cluster don't have any relevant data
     sim_all <- matrix(NA, ncol = length(clusters), nrow = length(clusters),

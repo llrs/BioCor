@@ -25,7 +25,7 @@ reciprocal method.}
 \item{BPPARAM}{Determining the parallel back-end. By default a for loop is
 used.}
 
-\item{...}{Other arguments passed to \code{\link{combineScores}}}
+\item{...}{Other arguments passed to \code{\link{combineScoresPar}}}
 }
 \value{
 A numeric value as described in details.

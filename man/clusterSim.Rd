@@ -18,7 +18,7 @@ mclusterSim(clusters, info, method = "max", ...)
 "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
 similarities.}
 
-\item{...}{Other arguments passed to \code{\link{combineScores}}}
+\item{...}{Other arguments passed to \code{\link{combineScoresPar}}}
 
 \item{clusters}{A list of clusters of genes to be found in \code{id}.}
 }

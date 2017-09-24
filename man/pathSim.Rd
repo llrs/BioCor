@@ -20,7 +20,7 @@ mpathSim(pathways, info, method = NULL, ...)
 "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
 similarities.}
 
-\item{...}{Other arguments passed to \code{\link{combineScores}}}
+\item{...}{Other arguments passed to \code{\link{combineScoresPar}}}
 }
 \value{
 The similarity between those pathways or all the similarities
@@ -33,7 +33,7 @@ Calculates the similarity between pathways using dice similarity score.
 \code{diceSim} is used to calculate similarities between the two pathways.
 
 \code{mpathSim} compares the similarity between several pathways and can use
-\code{\link{combineScores}} to extract the similarity between those
+\code{\link{combineScoresPar}} to extract the similarity between those
 pathways.
 If one needs the matrix of similarities between pathways set the argument
 methods to \code{NULL}.

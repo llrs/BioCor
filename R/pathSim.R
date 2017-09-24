@@ -6,7 +6,7 @@
 #' \code{diceSim} is used to calculate similarities between the two pathways.
 #'
 #' \code{mpathSim} compares the similarity between several pathways and can use
-#' \code{\link{combineScores}} to extract the similarity between those
+#' \code{\link{combineScoresPar}} to extract the similarity between those
 #' pathways.
 #' If one needs the matrix of similarities between pathways set the argument
 #' methods to \code{NULL}.
@@ -15,7 +15,7 @@
 #' @param method To combine the scores of each pathway, one of \code{c("avg",
 #' "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
 #' similarities.
-#' @param ... Other arguments passed to \code{\link{combineScores}}
+#' @param ... Other arguments passed to \code{\link{combineScoresPar}}
 #' @return The similarity between those pathways or all the similarities
 #' between each comparison.
 #' @seealso \code{\link{diceSim}} and \code{\link{combineScores}} and
@@ -140,7 +140,7 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
     if (is.null(method)) {
         return(sim)
     } else {
-        combineScoresPar(sim, method, ... = ...)
+        as.matrix(combineScoresPar(sim, method, ... = ...))
     }
 }
 
