@@ -1,0 +1,298 @@
+---
+title: "Advanced usage of BioCor"
+abstract: >
+  Describes how to use the BioCor package to answer several biological 
+  questions and how to use functional similarities with other measures.
+date: "`r BiocStyle::doc_date()`"
+package: "`r BiocStyle::pkg_ver('BioCor')`"
+output:
+  BiocStyle::html_document2:
+    fig_caption: true
+    toc_float:
+      collapsed: true
+      toc_depth: 3
+author:
+- name: Lluís Revilla
+  affiliation: 
+    - IDIBAPS; Liver Unit, Hospital Clinic; Universitat Pompeu Fabra
+  email: lluis.revilla@gmail.com
+vignette: >
+  %\VignetteIndexEntry{Advanced usage of BioCor}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}  
+---
+```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
+knitr::opts_knit$set(root.dir = ".")
+knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, fig.wide = TRUE, cache = TRUE)
+BiocStyle::markdown()
+library("BiocStyle")
+library("BioCor")
+library("org.Hs.eg.db")
+library("reactome.db")
+genesKegg <- as.list(org.Hs.egPATH)
+genesReact <- as.list(reactomeEXTID2PATHID)
+# Remove genes and pathways which are not from human pathways 
+genesReact <- sapply(genesReact, function(x){grep("R-HSA-", x, value = TRUE)}) 
+genesReact <- genesReact[lengths(genesReact) >= 1] 
+```
+
+# Merging similarities {#merging}
+
+If one calculates similarities with KEGG data and Reactome or other input for the same genes or clusters BioCor provides a couple of functions to merge them.
+
+We can set a weight to each similarity input with `weighted.sum`, multiply them also using a weight for each similarity (with `weighted.prod`), doing the mean or just adding them up. Similarities allow us to apply a function to combine the matrices of a list. Here we use some of the genes used in the first vignette:
+```{r merging}
+kegg <- mgeneSim(c("672", "675", "10"), genesKegg)
+react <- mgeneSim(c("672", "675", "10"), genesReact)
+## We can sum it adding a weight to each origin
+weighted.sum(c(kegg["672", "675"], react["672","675"]), w = c(0.3, 0.7))
+
+## Or if we want to perform for all the matrix
+## A list of matrices to merge
+sim <- list("kegg" = kegg, "react" = react)
+similarities(sim, weighted.sum, w = c(0.3, 0.7))
+similarities(sim, weighted.prod, w = c(0.3, 0.7))
+similarities(sim, prod)
+similarities(sim, mean)
+```
+This functions are similar to `weighted.mean`, except that first the multiplication by the weights is done and then the `NA`s are removed:
+```{r weighted}
+weighted.mean(c(1, NA), w = c(0.5, 0.5), na.rm = TRUE)
+weighted.mean(c(1, 0.5, NA), w = c(0.5, 0.25, 0.25), na.rm = TRUE)
+weighted.sum(c(1, NA), w = c(0.5, 0.5))
+weighted.sum(c(1, 0.5, NA), w = c(0.5, 0.25, 0.25))
+weighted.prod(c(1, NA), w = c(0.5, 0.5))
+weighted.prod(c(1, 0.5, NA), w = c(0.5, 0.25, 0.25))
+```
+
+# Assesing a differential study
+In this example we will use the functional similarities in a classical differential study.
+
+## Obtaining data
+We start using data from the [RNAseq workflow](http://bioconductor.org/help/workflows/rnaseqGene/#differential-expression-analysis) and following the analysis:
+
+```{r simulate, fig.cap="Volcano plot. The airway data", fig.wide = TRUE}
+suppressPackageStartupMessages(library("airway"))
+data("airway")
+library("DESeq2")
+
+dds <- DESeqDataSet(airway, design = ~ cell + dex)
+dds$dex <- relevel(dds$dex, "untrt")
+dds <- DESeq(dds)
+res <- results(dds, alpha = 0.05)
+summary(res)
+plot(res$log2FoldChange, -log10(res$padj), pch = 16, xlab = "log2FC", 
+     ylab = "-log10(p.ajd)", main = "Untreated vs treated")
+logFC <- 2.5
+abline(v=c(-logFC, logFC), col = "red")
+```
+As we can see here there are around 4000 genes differentially expressed genes
+
+## Subsetting the list
+
+Usually in such a study one select a genes above a logFC or fold change threshold, here we use the absolute value of `r logFC`:
+```{r BioCor}
+fc <- res[abs(res$log2FoldChange) >= logFC & !is.na(res$log2FoldChange), ]
+# Convert Ids
+genes <- select(org.Hs.eg.db, keys = rownames(res), keytype = "ENSEMBL", column = c("ENTREZID", "SYMBOL"))
+genesFC3 <- genes[genes$ENSEMBL %in% rownames(fc3),]
+genesSim <- genesFC3$ENTREZID
+names(genesSim) <- genesFC3$SYMBOL
+genesSim <- genesSim[!duplicated(genesSim)]
+# Calculate the functional similarity
+sim <- mgeneSim(genes = genesSim, info = genesReact, method = "BMA")
+```
+Once we have calculated the similarity for the genes we can now visualize the effect of each method:
+```{r pval1, fig.cap="Functional similarity of genes. Different methods results in different similarities.", fig.width=15, fig.height=20}
+nas <- apply(sim, 1, function(x){all(is.na(x))})
+sim <- sim[!nas, !nas]
+
+MDSs <- cmdscale(1-sim)
+plot(MDSs, type = "n", main = "BMA similarity", xlab = "MDS1", ylab = "MDS2")
+text(MDSs, labels =  rownames(MDSs))
+abline(h = 0, v = 0)
+```
+*Note:* The position on the axis of this plots can be flipped. 
+
+In general all the methods output similar plots, except the "max" method. Also note that here we are only using `r nrow(MDSs)` genes. The difference between the methods might be higher when using more genes.
+
+## Selecting differentially expressed genes
+
+First to reduce the complexity we reduce to 400 genes with a known fold change to speed the calculations. The resulting plots must not be taken as an example of what it should happen or look like in a real analysis, they are just ilustrative. 
+```{r setting}
+set.seed(220)
+subRes <- res[!is.na(res$log2FoldChange), ]
+subs <- sample.int(nrow(subRes), size = 400)
+subRes <- subRes[subs, ]
+g <- genes[rownames(subRes)]
+# names(g) <- NULL
+gS <- mgeneSim(g, genesReact, "BMA")
+nrow(gS)
+deg <- rownames(subRes[subRes$padj < 0.05 & !is.na(subRes$padj), ])
+keep <- rownames(gS) %in% genes[deg]
+```
+Are genes differentially expressed more functional related than those which aren't differential expressed?
+
+We can answer this by testing it empirically:
+```{r cluster2, fig.cap="Gene clustering by similarities distribution", fig.wide = TRUE}
+par(mfrow = c(1, 1))
+library("boot")
+(scoreB <- mean(gS[keep, !keep], na.rm = TRUE))
+b <- boot(data = gS, R = 1000, statistic= function(x, i){
+    g <- !rownames(x) %in% rownames(x)[i]
+    mean(x[g, i], na.rm = TRUE)
+})
+(p.val <- (1 + sum(b$t>scoreB))/1001)
+hist(b$t, main = "Distribution of scores", xlab = "Similarity score")
+abline(v=scoreB, col = "red")
+```
+Comparing the genes differentially expressed and those who aren't doesn't show that they are specially selected. *Note:* from 400 genes there are `r nrow(gS)` with pathway information.
+
+## Are functionally related genes of my gene set?
+One of the main questions is the significance of the pathways in the condition under the study. Here we show a method to answer a related question: are genes functionally related differentially expressed than those which aren't?
+
+```{r pval2, fig.cap="Distribution of the similarity between genes", fig.wide = TRUE}
+(scoreW <- combineScores(gS[keep, keep], "avg"))
+b <- boot(data = gS, R = 1000, statistic= function(x, i){
+    mean(x[i, i], na.rm = TRUE)
+})
+(p.val <- (1 + sum(b$t>scoreW))/1001) # P-value
+hist(b$t, main = "Distribution of scores", xlab = "Similarity score")
+abline(v=scoreW, col = "red")
+```
+We can see that we would expect a score around `r scoreW` if we selected randomly the genes from our pool with a probability of `r p.val`. That means that our pool of differentially expressed genes is highly similar to  what would be expected. 
+
+## Influence of the fold change in the funtionally similarity of the genes
+We have seen that the genes differentially expressed are not selected by functional similarity but never the less they are related functionally. Now we could want to know when does this similarity appear when selecting a fold change as threshold.
+To know the relationship between the fold change and the similarity between genes we have several methods:
+```{r logfc1, fig.cap="Similarity of genes above logFC. Assessing the similarity of genes according to their absolute log2 fold change. ", fig.wide = TRUE}
+s <- seq(0, max(abs(subRes$log2FoldChange))+0.05, by = 0.05)
+l <- sapply(s, function(x){
+    deg <- rownames(subRes[abs(subRes$log2FoldChange) >= x, ])
+    keep <- rownames(gS) %in% genes[deg]
+    mean(gS[keep, keep], na.rm = TRUE)
+})
+L <- cbind(logfc = s, value = l)
+L <- as.data.frame(L)
+plot(L$logfc, L$value, type = "l", xlab = "abs(log2) fold change", ylab = "Similarity score", main = "Similarity score of the genes above the logFC")
+abline(h=scoreB, col = "red")
+```
+The red line indicates the functional similarity of the genes considered differentially expressed base only on a p.value < 0.05. 
+The similarity of the functions of the genes increase when higher is the threshold.
+If we want to compare the clusters of differentially expressed and not differentially expressed at different thresholds, we can do:
+```{r cluster1, fig.cap="Gene clustering by similarities along logFC", fig.wide = TRUE}
+l <- sapply(s, function(x){
+    deg <- rownames(subRes[abs(subRes$log2FoldChange) >= x, ])
+    keep <- rownames(gS) %in% genes[deg]
+    mean(gS[keep, !keep], na.rm = TRUE)
+})
+L <- cbind(logfc = s, value = l)
+L <- as.data.frame(L)
+plot(L$logfc, L$value, type = "l", xlab = "abs(log2) fold change", ylab = "Similarity score", main = "Similarity score of the clusters above the logFC and below")
+abline(h=scoreW, col = "red")
+```
+Here we can observe that the logFC threshold doesn't affect the similarity between genes differentially expressed and those who aren't.
+
+# Assesing a new pathway
+
+We can test how does the network of genes change if we add a new pathway, for instance we have a new pathway with the genes of deg:
+
+```{r newPathway, fig.wide = TRUE, eval = FALSE}
+# Adding a new pathway "deg" to those genes
+genesReact2 <- genesReact
+genesReact2[genes[deg]] <- sapply(genesReact[genes[deg]], function(x){c(x, "deg")})
+plot(ecdf(mgeneSim(names(genesReact), genesReact)))
+curve(ecdf(mgeneSim(names(genesReact2), genesReact2)), color = "red")
+```
+This would take lot of time, for a ilustration purpose we reduce to a list of genes:
+
+```{r newPathway2, fig.wide=TRUE, fig.cap="Comparison of functional similarities. In red the modified pathways.", warning=FALSE, message=FALSE}
+library("Hmisc")
+genesReact2 <- genesReact
+genesReact2[genes[deg]] <- sapply(genesReact[genes[deg]], function(x){c(x, "deg")})
+Ecdf(c(mgeneSim(unique(genes[rownames(subRes)]), genesReact), 
+       mgeneSim(unique(genes[rownames(subRes)]), genesReact2)), 
+     group = c(rep("Reactome", length(gS)), rep("Modified", length(gS))), 
+     col = c("black", "red"), xlab = "Functional similarities", main = "ecdf")
+```
+
+# Merging source of information
+
+We can compare and evaluate what happens when we mix sources of pathways:
+```{r combineSource, fig.cap = "Comparison of functional similarity in different databases."}
+genesKegg <- as.list(org.Hs.egPATH)
+gSK <- mgeneSim(rownames(gS), genesKegg)
+mix <- combineSources(genesKegg, genesReact)
+gSMix <- BioCor::mgeneSim(rownames(gS), mix)
+Ecdf(c(gS, gSK, gSMix), 
+     group = c(rep("Reactome", length(gS)), rep("Kegg", length(gSK)), 
+               rep("Mix", length(gSMix))), 
+     col = c("black", "red", "blue"), xlab = "Functional similarities", main = "ecdf")
+```
+When mixed, there is a huge increase in the genes that share a pathway.
+```{r cominbeSource2, fig.cap = "Comparison of functional similarity in different gene sets."}
+gSK2 <- BioCor::mgeneSim(rownames(gS), genesKegg, method = "BMA")
+gS2 <- BioCor::mgeneSim(rownames(gS), genesReact, method = "BMA")
+gSMix2 <- BioCor::mgeneSim(rownames(gS), mix, method = "BMA")
+Ecdf(c(gS2, gSK2, gSMix2), 
+     group = c(rep("Reactome", length(gS)), rep("Kegg", length(gSK)), 
+               rep("Mix", length(gSMix))), 
+     col = c("black", "red", "blue"), xlab = "Functional similarities (BMA)", main = "ecdf")
+```
+Now we can appreciate that most of the functional similarity is brought by Reactome database
+
+# miRNA analysis
+
+In this section we try to answer how functionally similar are two miRNA. This preparation has Been adapted from a [previous discussion](https://support.bioconductor.org/p/48138/#48236):
+```{r miRNA1}
+library("targetscan.Hs.eg.db")
+## select human mirna 
+humanMirnaIdx <- grep("hsa", mappedkeys(targetscan.Hs.egMIRNA)) 
+## select seed-based families for human mirna
+humanMirna <- mappedkeys(targetscan.Hs.egMIRNA)[humanMirnaIdx]
+## select targets of families 
+humanMirnaFamilies <- unlist(mget(humanMirna, targetscan.Hs.egMIRBASE2FAMILY)) 
+humanMirnaTargets <- mget(humanMirnaFamilies, revmap(targetscan.Hs.egTARGETS))
+names(humanMirnaTargets) <- humanMirna
+# Restrict to miRNA with more than one target and less than 150
+miRNAs <- sample(humanMirnaTargets[lengths(humanMirnaTargets) > 1 &
+                                       lengths(humanMirnaTargets) < 150], 10)
+lengths(miRNAs)
+```
+Now we have selected our miRNAs we can compare them using a cluster approach.
+```{r miRNA2}
+cluster1 <- BioCor::mclusterSim(miRNAs, genesReact, method = "BMA")
+cluster1[1:10, 1:5]
+```
+So for instance `r m <- which(cluster1 == max(as.dist(cluster1)), arr.ind = TRUE); rownames(m)[m[, 1] != m[, 2]]` are functionally related despite being from different families. 
+
+# Comparing with GO similarities
+
+As suggested in the main vignette functional similarities can be compared to semantic similarities such as those based on GO. Here I will make a comparison using the biological process:
+
+```{r GOSemSim, fig.wide = TRUE, fig.cap = "Comparison of similarities. Functional similarities compared to biological process semantic similarity."}
+library("GOSemSim")
+BP <- godata('org.Hs.eg.db', ont="BP", computeIC=TRUE)
+gsGO <- GOSemSim::mgeneSim(rownames(gS), semData = BP, measure = "Resnik", verbose = FALSE)
+keep <- rownames(gS) %in% rownames(gsGO)
+hist(as.dist(gS[keep, keep]-gsGO), 
+     main = "Difference between functional similarity and biological process", 
+     xlab = "Functional similarity - biological process similarity")
+```
+As we can see in this example, genes with similar biological process tend to be on different functions. We can further compare with the different databases:
+
+```{r GOSemSim2, fig.cap="Histogram of functional similarities minus biological process similarities"}
+par(mfrow = c(1, 2))
+hist(as.dist(gS2[keep, keep]-gsGO), main = "Reactome", 
+     xlab = "Functional similarity - biological process similarity")
+hist(as.dist(gSK2[keep, keep]-gsGO), main = "Kegg",
+     xlab = "Functional similarity - biological process similarity")
+```
+Both databases show the same trend, the difference follow a beta distribution. 
+
+# Session Info {.unnumbered}
+
+```{r session}
+sessionInfo()
+```
+
