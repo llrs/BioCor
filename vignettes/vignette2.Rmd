@@ -6,7 +6,7 @@ abstract: >
 date: "`r BiocStyle::doc_date()`"
 package: "`r BiocStyle::pkg_ver('BioCor')`"
 output:
-  BiocStyle::html_document2:
+  BiocStyle::html_document:
     fig_caption: true
     toc_float:
       collapsed: true
