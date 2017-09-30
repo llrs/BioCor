@@ -228,7 +228,7 @@ We can test how does the network of genes change if we add a new pathway, for in
 ```{r newPathway, fig.wide = TRUE, eval = FALSE}
 # Adding a new pathway "deg" to those genes
 genesReact2 <- genesReact
-genesReact2[genes[deg]] <- sapply(genesReact[genes[deg]], function(x){c(x, "deg")})
+genesReact2[genes[genes$ENSEMBL %in% deg, "ENTREZID"]] <- sapply(genesReact[genes[genes$ENSEMBL %in% deg, "ENTREZID"]], function(x){c(x, "deg")})
 plot(ecdf(mgeneSim(names(genesReact), genesReact)))
 curve(ecdf(mgeneSim(names(genesReact2), genesReact2)), color = "red")
 ```
@@ -237,7 +237,7 @@ This would take lot of time, for a ilustration purpose we reduce to a list of ge
 ```{r newPathway2, fig.wide=TRUE, fig.cap="Comparison of functional similarities. In red the modified pathways.", warning=FALSE, message=FALSE}
 library("Hmisc")
 genesReact2 <- genesReact
-genesReact2[genes[deg]] <- sapply(genesReact[genes[deg]], function(x){c(x, "deg")})
+genesReact2[genes[genes$ENSEMBL %in% deg, "ENTREZID"]] <- sapply(genesReact[genes[genes$ENSEMBL %in% deg, "ENTREZID"]], function(x){c(x, "deg")})
 Ecdf(c(mgeneSim(unique(genes[rownames(subRes)]), genesReact), 
        mgeneSim(unique(genes[rownames(subRes)]), genesReact2)), 
      group = c(rep("Reactome", length(gS)), rep("Modified", length(gS))), 
