@@ -84,18 +84,20 @@ summary(res)
 plot(res$log2FoldChange, -log10(res$padj), pch = 16, xlab = "log2FC", 
      ylab = "-log10(p.ajd)", main = "Untreated vs treated")
 logFC <- 2.5
-abline(v=c(-logFC, logFC), col = "red")
+abline(v=c(-logFC, logFC), h = -log10(0.05), col = "red")
 ```
 As we can see here there are around 4000 genes differentially expressed genes
 
-## Subsetting the list
+## Selecting differentially expressed genes
 
 Usually in such a study one select a genes above a logFC or fold change threshold, here we use the absolute value of `r logFC`:
 ```{r BioCor}
-fc <- res[abs(res$log2FoldChange) >= logFC & !is.na(res$log2FoldChange), ]
+fc <- res[abs(res$log2FoldChange) >= logFC & !is.na(res$padj), ]
+fc <- fc[fc$padj < 0.05, ]
 # Convert Ids
-genes <- select(org.Hs.eg.db, keys = rownames(res), keytype = "ENSEMBL", column = c("ENTREZID", "SYMBOL"))
-genesFC3 <- genes[genes$ENSEMBL %in% rownames(fc3),]
+genes <- select(org.Hs.eg.db, keys = rownames(res), keytype = "ENSEMBL", 
+                column = c("ENTREZID", "SYMBOL"))
+genesFC <- genes[genes$ENSEMBL %in% rownames(fc),]
 genesSim <- genesFC3$ENTREZID
 names(genesSim) <- genesFC3$SYMBOL
 genesSim <- genesSim[!duplicated(genesSim)]
@@ -103,7 +105,7 @@ genesSim <- genesSim[!duplicated(genesSim)]
 sim <- mgeneSim(genes = genesSim, info = genesReact, method = "BMA")
 ```
 Once we have calculated the similarity for the genes we can now visualize the effect of each method:
-```{r pval1, fig.cap="Functional similarity of genes. Different methods results in different similarities.", fig.width=15, fig.height=20}
+```{r pval1, fig.cap="Functional similarity of genes with logFC above 2.5. Similar genes cluster together as ADCY8 and ADC1.", fig.width=15, fig.height=20}
 nas <- apply(sim, 1, function(x){all(is.na(x))})
 sim <- sim[!nas, !nas]
 
@@ -112,86 +114,112 @@ plot(MDSs, type = "n", main = "BMA similarity", xlab = "MDS1", ylab = "MDS2")
 text(MDSs, labels =  rownames(MDSs))
 abline(h = 0, v = 0)
 ```
-*Note:* The position on the axis of this plots can be flipped. 
 
-In general all the methods output similar plots, except the "max" method. Also note that here we are only using `r nrow(MDSs)` genes. The difference between the methods might be higher when using more genes.
+Note that here we are only using `r nrow(MDSs)` genes from the original `r nrow(fc)`.
 
-## Selecting differentially expressed genes
+## Are differentially expressed genes selected by their functionallity?
 
-First to reduce the complexity we reduce to 400 genes with a known fold change to speed the calculations. The resulting plots must not be taken as an example of what it should happen or look like in a real analysis, they are just ilustrative. 
-```{r setting}
-set.seed(220)
+In the previous section we have seen that some genes are functionally related and that they have a high logFC value. Are genes differentially expressed more functional related than those which aren't differential expressed?
+```{r setting, fig.cap="Volcano plot of the subset of 400 genes. This subset will be used in the following sections"} 
+set.seed(250)
 subRes <- res[!is.na(res$log2FoldChange), ]
 subs <- sample.int(nrow(subRes), size = 400)
 subRes <- subRes[subs, ]
-g <- genes[rownames(subRes)]
-# names(g) <- NULL
+plot(subRes$log2FoldChange, -log10(subRes$padj), pch = 16, xlab = "log2FC", 
+     ylab = "-log10(p.ajd)", main = "Untreated vs treated")
+abline(v=c(-logFC, logFC), h = -log10(0.05), col = "red")
+g <- genes[genes$ENSEMBL %in% rownames(subRes), "ENTREZID"]
 gS <- mgeneSim(g, genesReact, "BMA")
-nrow(gS)
 deg <- rownames(subRes[subRes$padj < 0.05 & !is.na(subRes$padj), ])
-keep <- rownames(gS) %in% genes[deg]
+keep <- rownames(gS) %in% genes[genes$ENSEMBL %in% deg, "ENTREZID"]
 ```
-Are genes differentially expressed more functional related than those which aren't differential expressed?
 
 We can answer this by testing it empirically:
-```{r cluster2, fig.cap="Gene clustering by similarities distribution", fig.wide = TRUE}
-par(mfrow = c(1, 1))
+```{r cluster2, fig.cap="Distribution of scores between differentially expressed genes and those who aren't. The line indicates the mean score of the similarity between differentially expressed genes and those which aren't differentially expressed.", fig.wide = TRUE}
 library("boot")
-(scoreB <- mean(gS[keep, !keep], na.rm = TRUE))
+# The mean of genes differentially expressed
+(scoreB <- mean(gS[!keep, keep], na.rm = TRUE)) 
 b <- boot(data = gS, R = 1000, statistic= function(x, i){
     g <- !rownames(x) %in% rownames(x)[i]
     mean(x[g, i], na.rm = TRUE)
 })
 (p.val <- (1 + sum(b$t>scoreB))/1001)
 hist(b$t, main = "Distribution of scores", xlab = "Similarity score")
-abline(v=scoreB, col = "red")
+abline(v = scoreB, col = "red")
 ```
-Comparing the genes differentially expressed and those who aren't doesn't show that they are specially selected. *Note:* from 400 genes there are `r nrow(gS)` with pathway information.
+Comparing the genes differentially expressed and those who aren't doesn't show that they are non-randomly selected (p-value `r p.val`). The genes with a p-value below the threshold are not more closely functionally related than all the other genes[^1].
 
-## Are functionally related genes of my gene set?
-One of the main questions is the significance of the pathways in the condition under the study. Here we show a method to answer a related question: are genes functionally related differentially expressed than those which aren't?
+[^1]: From 400 genes there are `r nrow(gS)` with pathway information and only `r length(deg)` where significantly differentially expressed. Testing for the whole set of genes might yield different results.
 
-```{r pval2, fig.cap="Distribution of the similarity between genes", fig.wide = TRUE}
+## Are functionally related the selected differentially expressed genes?
+
+We have seen that the genes differentially expressed aren't selected by their functionallity. But are they more functionally related than it would be expected ?
+
+```{r pval2, fig.cap="Distribution of the similarity within differentially expressed genes. The line indicates the mean funtional similarity whitin them.", fig.wide = TRUE}
 (scoreW <- combineScores(gS[keep, keep], "avg"))
 b <- boot(data = gS, R = 1000, statistic= function(x, i){
     mean(x[i, i], na.rm = TRUE)
 })
 (p.val <- (1 + sum(b$t>scoreW))/1001) # P-value
 hist(b$t, main = "Distribution of scores", xlab = "Similarity score")
-abline(v=scoreW, col = "red")
+abline(v = scoreW, col = "red")
 ```
-We can see that we would expect a score around `r scoreW` if we selected randomly the genes from our pool with a probability of `r p.val`. That means that our pool of differentially expressed genes is highly similar to  what would be expected. 
+We can see that we would expect a score around `r scoreW` if we selected randomly the genes from our pool with a probability of `r p.val`. That means that the differentially expressed genes is highly different compared to the other genes[^2].
+
+[^2]: Remember that this is a small subset.
 
 ## Influence of the fold change in the funtionally similarity of the genes
-We have seen that the genes differentially expressed are not selected by functional similarity but never the less they are related functionally. Now we could want to know when does this similarity appear when selecting a fold change as threshold.
+
+We have seen that the genes differentially expressed are not selected by functional similarity but they are functionally related.  Now we would like to know if selecting a fold change threshold affects the functional similarity between them. 
+
 To know the relationship between the fold change and the similarity between genes we have several methods:
-```{r logfc1, fig.cap="Similarity of genes above logFC. Assessing the similarity of genes according to their absolute log2 fold change. ", fig.wide = TRUE}
+```{r logfc1, fig.cap="Similarity of genes along abs(logFC). Assessing the similarity of genes according to their absolute log2 fold change. The red line indicates the fold change of the selected differentially expressed genes. The green line indicates the similarity score between ths selected ", fig.wide = TRUE}
 s <- seq(0, max(abs(subRes$log2FoldChange))+0.05, by = 0.05)
 l <- sapply(s, function(x){
     deg <- rownames(subRes[abs(subRes$log2FoldChange) >= x, ])
-    keep <- rownames(gS) %in% genes[deg]
-    mean(gS[keep, keep], na.rm = TRUE)
+    keep <- rownames(gS) %in% genes[genes$ENSEMBL %in% deg, "ENTREZID"]
+    BetweenAbove <- mean(gS[keep, keep], na.rm = TRUE)
+    AboveBelow <- mean(gS[keep, !keep], na.rm = TRUE)
+    c("BetweenAbove" = BetweenAbove, "AboveBelow" = AboveBelow)
 })
-L <- cbind(logfc = s, value = l)
-L <- as.data.frame(L)
-plot(L$logfc, L$value, type = "l", xlab = "abs(log2) fold change", ylab = "Similarity score", main = "Similarity score of the genes above the logFC")
-abline(h=scoreB, col = "red")
+L <- as.data.frame(cbind(logfc = s, t(l)))
+plot(L$logfc, L$BetweenAbove, type = "l", xlab = "abs(log2) fold change", 
+     ylab = "Similarity score", 
+     main = "Similarity scores along logFC", col = "darkred")
+lines(L$logfc, L$AboveBelow, col = "darkgreen")
+abline(h = c(scoreB, scoreW), col = c("green", "red"))
+legend("topleft", 
+       legend = c("Between genes above and below threshold", 
+                  "Whitin genes above threshold"), 
+       fill = c("darkgreen", "darkred"))
 ```
-The red line indicates the functional similarity of the genes considered differentially expressed base only on a p.value < 0.05. 
-The similarity of the functions of the genes increase when higher is the threshold.
-If we want to compare the clusters of differentially expressed and not differentially expressed at different thresholds, we can do:
-```{r cluster1, fig.cap="Gene clustering by similarities along logFC", fig.wide = TRUE}
+
+The functional similarity of the genes above the threshold increase with a more restrictive threshold, indicating that a logFC threshold selects related genes by functionality. While the similarity between those genes above the threshold and below remains constant. The lines indicate that the differentially expressed genes  have a los log2 fold change.
+
+```{r logfc2, fig.catp = "Functional similarity between the three classifications of genes according to fold change. The upr-r"}
+s <- seq(0, max(subRes$log2FoldChange)+0.05, by = 0.05)
 l <- sapply(s, function(x){
-    deg <- rownames(subRes[abs(subRes$log2FoldChange) >= x, ])
-    keep <- rownames(gS) %in% genes[deg]
-    mean(gS[keep, !keep], na.rm = TRUE)
+    degUp <- rownames(subRes[subRes$log2FoldChange >= x, ])
+    degDown <- rownames(subRes[subRes$log2FoldChange <= -x, ])
+    keepUp <- rownames(gS) %in% genes[genes$ENSEMBL %in% degUp, "ENTREZID"]
+    keepDown <- rownames(gS) %in% genes[genes$ENSEMBL %in% degDown, "ENTREZID"]
+    between <- mean(gS[keepUp, keepDown], na.rm = TRUE)
+    downOthers <- mean(gS[keepDown, !(keepDown & keepUp)], na.rm = TRUE)
+    upOthers <- mean(gS[keepUp, !(keepDown & keepUp)], na.rm = TRUE)
+    c("UpVsDown" = between, "UpVsOthers" = upOthers, "DownVsOthers"= downOthers)
 })
-L <- cbind(logfc = s, value = l)
-L <- as.data.frame(L)
-plot(L$logfc, L$value, type = "l", xlab = "abs(log2) fold change", ylab = "Similarity score", main = "Similarity score of the clusters above the logFC and below")
-abline(h=scoreW, col = "red")
+L <- as.data.frame(cbind("logfc" = s, t(l)))
+plot(L$logfc, L$UpVsDown, type = "l", xlab = "abs(log2) fold change threshold", ylab = "Similarity score", 
+     main = "Similarity scores along logFC")
+lines(L$logfc, L$UpVsOthers, col = "red")
+lines(L$logfc, L$DownVsOthers, col = "green")
+legend("topright", legend = c("Up vs down regulated genes",
+                              "Up-regulated vs not down-regulated genes",
+                              "Down-regulated vs not up-regulated genes"),
+       fill = c("black", "red", "green"))
 ```
-Here we can observe that the logFC threshold doesn't affect the similarity between genes differentially expressed and those who aren't.
+
+The maximal functional similarity between genes up-regulated and down-regulated are at `r L[which.max(L$l), "logfc"]` log2 fold change.
 
 # Assesing a new pathway
 
