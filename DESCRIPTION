@@ -30,7 +30,12 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    BiocStyle
+    BiocStyle,
+    airway,
+    DESeq2,
+    boot,
+    targetscan.Hs.eg.db,
+    Hmsic,
 BugReports: https://github.com/llrs/BioCor/issues
 URL: https://github.com/llrs/BioCor/
 VignetteBuilder: knitr
