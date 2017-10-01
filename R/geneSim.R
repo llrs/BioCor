@@ -135,7 +135,7 @@ mgeneSim <- function(genes, info, method = "max", ...) {
         warning("Method to combine pathways can't be null, set to 'max'")
     }
 
-    pathways <- sapply(genes, getElement, object = info)
+    pathways <- info[genes]
     pathwaysl <- unique(unlist(pathways))
     pathwaysl <- pathwaysl[!is.na(pathwaysl)]
 
