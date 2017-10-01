@@ -122,14 +122,10 @@ mclusterSim <- function(clusters, info, method = "max", ...) {
     }
 
     # Find the pathways for each cluster
-    cluster2pathways <- sapply(clusters, function(x) {
-        paths <- sapply(x, getElement, object = info, simplify = TRUE)
-        paths <- unique(unlist(paths)) # Unique pathways
-        if (is.null(paths)) {
-            return(NA)
-        }
-        paths[!is.na(paths)] # Without NAs
-    }, simplify = FALSE)
+    pathsGenes <- info[unlist(clusters)]
+    pathsGenes <- pathsGenes[!is.na(names(pathsGenes))]
+    cluster2pathways <- lapply(clusters, function(genes){
+        unlist(pathsGenes[genes], use.names = FALSE)})
 
     pathways <- unique(unlist(cluster2pathways)) # Total pathways
 
