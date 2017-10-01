@@ -149,6 +149,10 @@ reciprocal <- function(scores, t) {
     # Max in columns
     colsMax <- which(apply(scores, 2, fmax))
     rScores <- scores[intersect(rowsMax, colsMax)]
+    # In case of a draw select the first 4
+    # (it wouldn't matter as it should be all 1)
+    rScores <- rScores[seq_len(min(ncol(scores), nrow(scores)))]
+    rScores <- rScores[!is.na(rScores)]
 
     if (all(rScores < t)) {
         NA

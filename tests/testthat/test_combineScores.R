@@ -145,6 +145,21 @@ test_that("combineScoresPar equivalent to combineScores", {
 test_that("reciprocal", {
     expect_error(reciprocal(d, 2), "between")
     expect_error(reciprocal(as.vector(d), 0.5), "matrix")
+
+    p2 <- structure(c(1, 0.8, 1, 1, 0.8, 1, 0.8, 0.8, 1, 0.8, 1, 1, 1,
+                0.8, 1, 1), .Dim = c(4L, 4L),
+              .Dimnames = list(c("1430728", "156580", "156582", "211859"),
+                               c("1430728", "156580", "156582", "211859"
+                                 )))
+    scores <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
+                        0.285714285714286), .Dim = c(3L, 3L),
+                      .Dimnames = list(c("a", "b", "c"), c("d", "e", "f")))
+    scores2 <- scores
+    scores2[1,1] <- 0.5
+    expect_equal(reciprocal(p2, 0L), 1L) # Test many draws
+    expect_equal(reciprocal(scores, 0), 1/3)
+    expect_equal(reciprocal(scores2, 0), 0.2)
+
 })
 
 test_that("BMA", {
