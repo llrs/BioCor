@@ -128,13 +128,19 @@ mclusterSim <- function(clusters, info, method = "max", ...) {
         unlist(pathsGenes[genes], use.names = FALSE)})
 
     pathways <- unique(unlist(cluster2pathways)) # Total pathways
+    pathways <- pathways[!is.na(pathways)]
 
     # Calculates similarities between pathways
     names(pathways) <- pathways
-    pathSims <- mpathSim(pathways, info, method = NULL)
 
-    # Calculates similarities between clusters
-    sim <- combineScoresPar(pathSims, method, cluster2pathways, ... = ...)
+    if (!is.null(pathways)) { # check that there is at least one pathway
+        pathSims <- mpathSim(pathways, info, method = NULL)
+
+        # Calculates similarities between clusters
+        sim <- combineScoresPar(pathSims, method, cluster2pathways, ... = ...)
+    } else {
+        sim <- as.matrix(NA)
+    }
 
     # In case any cluster don't have any relevant data
     sim_all <- matrix(NA, ncol = length(clusters), nrow = length(clusters),

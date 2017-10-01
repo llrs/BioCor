@@ -44,7 +44,7 @@ test_that("mclusterSim", {
     expect_equal(colnames(test), names(clusters))
     expect_equal(rownames(test), names(clusters))
     test <- mclusterSim(clusters, info, "avg", round = TRUE)
-    expect_equal(test[1L, 1L], 0.664)
+    expect_equal(test[1L, 1L], 0.7) # 0.664
     clusters3 <- list(cluster1 = c("10", "2", "3"),
                      cluster2 = c(10, 2, 9))
     expect_error(mclusterSim(clusters3, info))
