@@ -54,6 +54,12 @@ test_that("mclusterSim", {
     expect_warning(mclusterSim(list(cluster1 = c("10", "2", "3"),
                                   cluster2 = c("13", "2", "9")), info),
                    "in the list")
+
+    clusters <- list(cluster1 = c("4", "2"),
+                     cluster2 = c("10", "2", "9"),
+                     cluster3 = c("4", "9", "10"))
+    test4 <- mclusterSim(clusters, info, "rcmax.avg")
+    expect_equal(test4["cluster1", "cluster2"], 0.76)
     expect_warning(mclusterSim(clusters, info, method = NULL, round = TRUE))
 })
 

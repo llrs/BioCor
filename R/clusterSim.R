@@ -125,7 +125,8 @@ mclusterSim <- function(clusters, info, method = "max", ...) {
     pathsGenes <- info[unlist(clusters)]
     pathsGenes <- pathsGenes[!is.na(names(pathsGenes))]
     cluster2pathways <- lapply(clusters, function(genes){
-        unlist(pathsGenes[genes], use.names = FALSE)})
+        x <- unlist(pathsGenes[genes], use.names = FALSE)
+        x[!is.na(x)]})
 
     pathways <- unique(unlist(cluster2pathways)) # Total pathways
     pathways <- pathways[!is.na(pathways)]
