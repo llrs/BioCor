@@ -1,6 +1,6 @@
 Package: BioCor
 Title: Functional similarities
-Version: 1.1.10
+Version: 1.1.11
 Authors@R: person("Lluís", "Revilla Sancho", email =
         "lluis.revilla@gmail.com", role = c("aut", "cre"))
 Author: Lluís Revilla Sancho <lluis.revilla@gmail.com>
@@ -35,7 +35,7 @@ Suggests:
     DESeq2,
     boot,
     targetscan.Hs.eg.db,
-    Hmsic,
+    Hmisc,
 BugReports: https://github.com/llrs/BioCor/issues
 URL: https://github.com/llrs/BioCor/
 VignetteBuilder: knitr
