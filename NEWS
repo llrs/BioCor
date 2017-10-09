@@ -1,3 +1,16 @@
+Github v1.1.12
+============
+
+Changes
+
+* Improve speed on geneSim and clusterSim
+* Add a vignette describing more uses of BioCor
+* Adding more tests
+
+Bug fix
+
+* Calculating similarities correctly when non-existent genes are provided.
+
 Github v1.1.4 (Release date: 2017-06-26)
 ============
 
