@@ -1,26 +1,32 @@
 ---
-title: "BioCor"
+title: "About BioCor"
 abstract: >
   Describes the background of the package, important functions defined in the
-  package and their applications and usages, including the integration with
+  package and some of the applications and usages, including the integration with
   other packages and analysis, and comparisons with related packages. Some
   frequent or important questions about the package are answered at the end of
-  the document.
+  the document. For more advanced usage you can look at the other vignette.
 date: "`r BiocStyle::doc_date()`"
 package: "`r BiocStyle::pkg_ver('BioCor')`"
 output:
   BiocStyle::html_document:
     fig_caption: true
     toc_float:
-      collapsed: False
+      collapsed: true
       toc_depth: 3
 author:
 - name: Lluís Revilla
   affiliation: 
-    - IDIBAPS; Liver Unit, Hospital Clinic; Universitat Pompeu Fabra
+    - August Pi i Sunyer Biomedical Research Institute (IDIBAPS); Liver Unit, Hospital Clinic
   email: lrevilla@clinic.cat
+- name: Juan José Lozano
+  affiliation:
+    - Centro de Investigación Biomédica en Red de Enfermedades Hepaticas y Digestivas (CIBEREHD); Barcelona, Spain
+- name: Pau Sancho-Bru
+  affiliation:
+   - August Pi i Sunyer Biomedical Research Institute (IDIBAPS); Liver Unit, Hospital Clinic
 vignette: >
-  %\VignetteIndexEntry{BioCor}
+  %\VignetteIndexEntry{About BioCor}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}  
 ---
@@ -40,12 +46,17 @@ Methods to find similarities have been developed for several purposes, being Jac
 
 However, there is another resource of similarities between genes: metabolic pathways. Metabolic pathways describe the relationship between genes, proteins, lipids and other elements of the cells. A pathway describes, to some extent, the function in which it is involved in the cell. There exists several databases about which gene belong to which pathway. Together with pathways, gene sets related to a function or to a phenotype are a source of information of the genes function. With this package we provide the methods to calculate functional similarities based on this information.
 
-Here we provides functions to calculate functional similarities for pathways, gene sets, genes and clusters of genes.  
+Here we provides functions to calculate functional similarities for pathways, gene sets, genes and clusters of genes. The name BioCor stands from biological correlation, shortened to BioCor, because as said we look if some genes are in the same pathways or gene sets as other genes. 
 
-As it development started aiming to improve clustering of genes by functionality in weighted gene co-expression networks using `r BiocStyle::CRANpkg("WGCNA")` it also has some functions to combine similarities. 
+As it development started aiming to improve clustering of genes by functionality in weighted gene co-expression networks using `r BiocStyle::CRANpkg("WGCNA")`. The package has some functions to combine similarities in order to integrate with `WGCNA`. 
 
 # Citation
-The main article describing the software and its usefulness is currently under writing.
+The main article describing the software and its usefulness is currently under writing. However you can cite as said in:
+
+```{r eval = FALSE}
+citation("BioCor")
+```
+
 
 # Installation
 The BioCor package is available at [Bioconductor](https://bioconductor.org) and can be downloaded and installed via biocLite:
