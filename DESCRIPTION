@@ -1,14 +1,13 @@
 Package: BioCor
 Title: Functional similarities
 Version: 1.1.12
-Authors@R: c(
-person("Lluís", "Revilla Sancho", 
-    email ="lluis.revilla@gmail.com", role = c("aut", "cre"), 
-    comments = c(ORCID = "0000-0001-9747-2570")), 
-person("Pau", "Sancho-Bru" role = "ths", 
-    comments = c(ORCID = "0000-0001-5569-9259")),
-person("Juan José", "Lozano", role = "ths"), 
-    comments = c(ORCID = "0000-0001-7613-3908"))
+Authors@R: c(person("Lluís", "Revilla Sancho", 
+            email ="lluis.revilla@gmail.com", role = c("aut", "cre"), 
+            comment = c(ORCID = "0000-0001-9747-2570")), 
+            person("Pau", "Sancho-Bru", role = "ths", 
+            comment = c(ORCID = "0000-0001-5569-9259")),
+            person("Juan José", "Lozano", role = "ths", 
+            comment = c(ORCID = "0000-0001-7613-3908")))
 Author: Lluís Revilla Sancho <lluis.revilla@gmail.com>
 Maintainer: Lluís Revilla Sancho <lluis.revilla@gmail.com>
 Description: Calculates functional similarities based on the pathways
