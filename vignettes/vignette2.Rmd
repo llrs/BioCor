@@ -266,7 +266,7 @@ genesReact2[diffGenes] <- sapply(genesReact[diffGenes], function(x){c(x, "deg")}
 ids <- unique(genes[genes$ENSEMBL %in% rownames(subRes), "ENTREZID"])
 Ecdf(c(mgeneSim(ids, genesReact, method = "BMA"),  
        mgeneSim(ids, genesReact2, method = "BMA")), 
-     group = c(rep("Reactome", length(gS)), rep("Modified", length(gS))), 
+     group = c(rep("Reactome", length(ids)^2), rep("Modified", length(ids)^2)), 
      col = c("black", "red"), xlab = "Functional similarities", main = "Empirical cumulative distribution")
 ```
 
