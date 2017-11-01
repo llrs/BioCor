@@ -328,7 +328,7 @@ lengths(miRNAs)
 Now we calculate the functional similarity of those miRNAs using a cluster approach.
 ```{r miRNA2}
 cluster1 <- mclusterSim(miRNAs, genesReact, method = "BMA")
-knitr::kable(cluster1, caption = "The similarity between miRNA")
+knitr::kable(round(cluster1, 2), caption = "The similarity between miRNA", format = "html")
 ```
 So for instance `r m <- which(cluster1 == max(as.dist(cluster1)), arr.ind = TRUE); unique(rownames(m)[m[, 1] != m[, 2]])` are functionally related despite being from different families. 
 
