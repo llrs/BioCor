@@ -182,20 +182,34 @@ combineScoresPar <- function(scores, method, subSets = NULL, BPPARAM = NULL, ...
     # Check scores
     if (is.null(subSets) | sum(dim(scores)) == 0) {
         return(combineScores(scores, method = method, ...))
+    } else if (length(subSets) == 1) { # To handle cases when it is already simplified
+        return(combineScores(scores, method = method, ...))
     } else { # To handle cases where subSets are not present in scores
         # Check the ids
-        subId <- unique(unlist(subSets))
-        if (!all(subId %in% unlist(dimnames(scores)))) {
-            B <- matrix(NA, ncol = length(subSets), nrow = length(subSets),
-                        dimnames = list(names(subSets), names(subSets)))
-        }
-        keep <- sapply(subSets, function(x) {
-            all(x %in% unlist(dimnames(scores)))
+        subId <- unique(unlist(subSets, use.names = FALSE))
+        subId <- subId[!is.na(subId)]
+
+        B <- matrix(NA, ncol = length(subSets), nrow = length(subSets),
+                    dimnames = list(names(subSets), names(subSets)))
+
+        cond1 <- !all(subId %in% unlist(dimnames(scores), use.names = FALSE))
+        cond2 <- unique(unlist(subSets, use.names = FALSE)) > subId
+        if (cond1 || cond2) {
+            keep <- sapply(subSets, function(x) {
+                if (all(is.na(x) || is.null(x))) {
+                    FALSE
+                } else {
+                    all(x %in% unlist(dimnames(scores), use.names = FALSE))
+                }
             })
+        } else {
+            keep <- rep(TRUE, length(subSets))
+        }
         subSets <- subSets[keep]
         if (length(subSets) == 0) {
             return(B)
         }
+
     }
 
     #all combinations of indices
@@ -210,8 +224,12 @@ combineScoresPar <- function(scores, method, subSets = NULL, BPPARAM = NULL, ...
         for (k in seq_len(ncol(ij))) {
             rowIds <- subSets[[ij[1, k]]]
             colIds <- subSets[[ij[2, k]]]
-            res[k] <- combineScores(scores[rowIds, colIds, drop = FALSE], method,
-                ... = ...)
+            if (is.na(rowIds) || is.na(colIds)) {
+                res[k] <- NA
+            } else {
+                res[k] <- combineScores(scores[rowIds, colIds, drop = FALSE],
+                                        method, ... = ...)
+            }
         }
     } else {
         # Use the parallel background provided
@@ -221,7 +239,12 @@ combineScoresPar <- function(scores, method, subSets = NULL, BPPARAM = NULL, ...
             }
             rowIds <- subSets[[ij[1, x]]]
             colIds <- subSets[[ij[2, x]]]
-            combineScores(scores[rowIds, colIds, drop = FALSE], method, ... = ...)
+            if (is.na(rowIds) || is.na(colIds)) {
+                NA
+            } else {
+                combineScores(scores[rowIds, colIds, drop = FALSE],
+                                        method, ... = ...)
+            }
         }, BPPARAM = BPPARAM)
         res <- as.numeric(res)
     }
