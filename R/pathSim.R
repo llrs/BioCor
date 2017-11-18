@@ -55,7 +55,7 @@ pathSim <- function(pathway1, pathway2, info) {
         stop("info should be a list. See documentation.")
     }
 
-    if (any(!c(pathway1, pathway2) %in% unlist(info))) {
+    if (any(!c(pathway1, pathway2) %in% unlist(info, use.names = FALSE))) {
         return(NA)
     }
 
@@ -99,7 +99,7 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
         stop("info should be a list. See documentation.")
     }
 
-    if (any(!pathways %in% unlist(info))) {
+    if (any(!pathways %in% unlist(info, use.names = FALSE))) {
         warning("Some pathways are not in the list provided.")
     }
 
@@ -153,7 +153,7 @@ pathSims_matrix <- function(x) {
     nas <- sapply(x, function(y){all(is.na(y))})
     lge2 <- x[!nas]
     # Extract all pathways
-    pathways <- unique(unlist(lge2))
+    pathways <- unique(unlist(lge2, use.names = FALSE))
     # Create the incidence matrix
     mat <- as.matrix(sapply(names(lge2), function(y){
         ifelse(pathways %in% lge2[[y]], TRUE, FALSE)

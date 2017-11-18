@@ -132,7 +132,7 @@ mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"),
         stop("info should be a list. See documentation.")
     }
 
-    if (any(!unlist(clusters) %in% names(info))) {
+    if (any(!unlist(clusters, use.names = FALSE) %in% names(info))) {
         warning("Some genes are not in the list provided.")
     }
     if (length(method) != 2) {
@@ -140,17 +140,17 @@ mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"),
     }
 
     # Extract all pathways for each gene
-    pathways <- sapply(unlist(clusters), function(x) {
+    pathways <- sapply(unlist(clusters, use.names = FALSE), function(x) {
         info[[x]]
     }, simplify = FALSE)
-    pathwaysl <- unique(unlist(pathways))
+    pathwaysl <- unique(unlist(pathways, use.names = FALSE))
     pathwaysl <- pathwaysl[!is.na(pathwaysl)]
 
     # Calculate similarities between pathways
     pathSims <- mpathSim(pathwaysl, info, NULL)
 
     # Calculate similarities between genes
-    names(pathways) <- unlist(clusters) # give the name of the genes
+    names(pathways) <- unlist(clusters, use.names = FALSE) # give the name of the genes
     genesSims <- combineScoresPar(pathSims, method[1L], pathways, ... = ...)
 
     # Calculate similarities between clusters of genes

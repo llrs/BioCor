@@ -72,7 +72,7 @@ seq2mat <- function(x, dat) {
         stop("Data is not enough big to populate the matrix")
     }
     out <- matrix(ncol = length(x), nrow = length(x))
-    out[upper.tri(out)] <- unlist(dat)
+    out[upper.tri(out)] <- unlist(dat, use.names = TRUE)
     out[lower.tri(out)] <- t(out)[lower.tri(t(out))]
     diag(out) <- 1L
     rownames(out) <- colnames(out) <- x
