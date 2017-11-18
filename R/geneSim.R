@@ -76,7 +76,7 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
         return(NA)
     }
     # Subseting just the important pathways
-    pathways_all <- unique(unlist(pathways))
+    pathways_all <- unique(unlist(pathways, use.names = FALSE))
 
 
     sim <- mpathSim(pathways_all, info = info, method = NULL, ...)
@@ -135,8 +135,8 @@ mgeneSim <- function(genes, info, method = "max", ...) {
         warning("Method to combine pathways can't be null, set to 'max'")
     }
 
-    pathways <- info[genes]
-    pathwaysl <- unique(unlist(pathways))
+    pathways <- info[names(info) %in% genes]
+    pathwaysl <- unique(unlist(pathways, use.names = FALSE))
     pathwaysl <- pathwaysl[!is.na(pathwaysl)]
 
     pathsSims <- mpathSim(pathwaysl, info, NULL)

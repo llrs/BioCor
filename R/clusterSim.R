@@ -112,7 +112,7 @@ mclusterSim <- function(clusters, info, method = "max", ...) {
         stop("info should be a list. See documentation.")
     }
 
-    if (any(!unlist(clusters) %in% names(info))) {
+    if (any(!unlist(clusters, use.names = FALSE) %in% names(info))) {
         warning("Some genes are not in the list provided.")
     }
 
@@ -122,13 +122,13 @@ mclusterSim <- function(clusters, info, method = "max", ...) {
     }
 
     # Find the pathways for each cluster
-    pathsGenes <- info[unlist(clusters)]
+    pathsGenes <- info[unlist(clusters, use.names = FALSE)]
     pathsGenes <- pathsGenes[!is.na(names(pathsGenes))]
     cluster2pathways <- lapply(clusters, function(genes){
         x <- unlist(pathsGenes[genes], use.names = FALSE)
         x[!is.na(x)]})
 
-    pathways <- unique(unlist(cluster2pathways)) # Total pathways
+    pathways <- unique(unlist(cluster2pathways, use.names = FALSE)) # Total pathways
     pathways <- pathways[!is.na(pathways)]
 
     # Calculates similarities between pathways
