@@ -66,12 +66,10 @@ clusterGeneSim <- function(cluster1, cluster2, info,
     }
 
     # Extract all pathways for each gene
-    pathways1.a <- sapply(cluster1, function(x) {
-        info[[x]]
-    }, simplify = FALSE)
-    pathways2.a <- sapply(cluster2, function(x) {
-        info[[x]]
-    }, simplify = FALSE)
+    pathways1.a <- lapply(cluster1, getElement, object = info)
+    names(pathways1.a) <- cluster1
+    pathways2.a <- lapply(cluster2, getElement, object = info)
+    names(pathways2.a) <- cluster2
 
     # Remove duplicated and NA
     pathways1 <- unique(unlist(pathways1.a, use.names = FALSE))
@@ -80,7 +78,9 @@ clusterGeneSim <- function(cluster1, cluster2, info,
     pathways2 <- pathways2[!is.na(pathways2)]
 
     pathways <- unique(c(pathways1, pathways2))
-
+    if (is.null(pathways1) || is.null(pathways2)) {
+        return(NA)
+    }
     simPaths <- mpathSim(pathways, info, method = NULL, ...)
     genes <- combineScoresPar(simPaths, method[1L],
                               c(pathways1.a, pathways2.a),
@@ -126,7 +126,7 @@ mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"),
         stop("The input genes should be characters")
     }
     # Remove duplicate genes in each cluster
-    clusters <- sapply(clusters, unique, simplify = FALSE)
+    clusters <- lapply(clusters, unique)
 
     if (!is.list(info)) {
         stop("info should be a list. See documentation.")
@@ -140,9 +140,9 @@ mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"),
     }
 
     # Extract all pathways for each gene
-    pathways <- sapply(unlist(clusters, use.names = FALSE), function(x) {
+    pathways <-lapply(unlist(clusters, use.names = FALSE), function(x) {
         info[[x]]
-    }, simplify = FALSE)
+    })
     pathwaysl <- unique(unlist(pathways, use.names = FALSE))
     pathwaysl <- pathwaysl[!is.na(pathwaysl)]
 

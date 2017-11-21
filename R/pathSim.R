@@ -61,7 +61,7 @@ pathSim <- function(pathway1, pathway2, info) {
 
     # Invert the list
     rId <- unlist(info, use.names = FALSE)
-    lId <- rep(names(info), sapply(info, length))
+    lId <- rep(names(info), lengths(info))
     pathways2genes <- split(lId, rId)
 
     # Convert the list
@@ -120,9 +120,10 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
         pathways2genes <- split(lId, rId)
 
         # Extract the gene ids for each pathway
-        g1 <- sapply(pathways, function(x) {
+        g1 <- lapply(pathways, function(x) {
             pathways2genes[[x]]
-        }, simplify = FALSE)
+        })
+        names(g1) <- pathways
         g2 <- g1
 
         # Calculate similarities

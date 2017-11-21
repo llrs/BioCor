@@ -66,10 +66,11 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
     }
 
     # Extract all pathways for each gene
-    pathways <- sapply(comb, function(x) {
+    pathways <- lapply(comb, function(x) {
         y <- info[[x]]
         y[!is.na(y)]
-    }, simplify = FALSE)
+    })
+    names(pathways) <- comb
 
     # Check that we have pathways info for this combination
     if (any(lengths(pathways) == 0L)) {

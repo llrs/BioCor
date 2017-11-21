@@ -21,7 +21,7 @@
 #' @export
 combineSources <- function(...) {
     sources <- list(...)
-    geneIds <- sapply(sources, names, simplify = FALSE)
+    geneIds <- lapply(sources, names)
     uGeneIds <- unique(unlist(geneIds, use.names = FALSE))
 
     # Compare the percentatge of uniques of each one

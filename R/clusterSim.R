@@ -50,12 +50,8 @@ clusterSim <- function(cluster1, cluster2, info, method = "max", ...){
     }
 
     # Extract all pathways for each gene
-    pathways1 <- sapply(cluster1, function(x) {
-            info[[x]]
-        }, simplify = FALSE)
-    pathways2 <- sapply(cluster2, function(x) {
-        info[[x]]
-    }, simplify = FALSE)
+    pathways1 <- lapply(cluster1, getElement, object = info)
+    pathways2 <- lapply(cluster2, getElement, object = info)
 
     # Remove duplicated and NA
     pathways1 <- unique(unlist(pathways1, use.names = FALSE))
