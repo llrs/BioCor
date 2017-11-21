@@ -193,7 +193,7 @@ combineScoresPar <- function(scores, method, subSets = NULL, BPPARAM = NULL, ...
                     dimnames = list(names(subSets), names(subSets)))
 
         cond1 <- !all(subId %in% unlist(dimnames(scores), use.names = FALSE))
-        cond2 <- unique(unlist(subSets, use.names = FALSE)) > subId
+        cond2 <- length(unique(unlist(subSets, use.names = FALSE))) > length(subId)
         if (cond1 || cond2) {
             keep <- sapply(subSets, function(x) {
                 if (all(is.na(x) || is.null(x))) {
