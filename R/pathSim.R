@@ -83,6 +83,7 @@ vpathSim <- Vectorize(pathSim, vectorize.args = c("pathway1", "pathway2"))
 #' @export
 mpathSim <- function(pathways, info, method = NULL, ...) {
 
+
     if (length(unique(pathways)) == 1 ) {
         stop("Introduce several unique pathways!\n",
              "If you want to calculate one similarity ",
@@ -129,6 +130,7 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
         # Calculate similarities
         sim <- outer(g1, g2, vdiceSim)
     }
+
     if (!is.null(nam)) {
         if (length(nam) != nrow(sim)) {
             warning("Omitting pathway names: duplicated names")
@@ -145,11 +147,11 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
     }
 }
 
-# pathSims_matrix ####
-# Uses linear algebra to speed the caluclations
-# x is a list of genes to pathways
-# Omits pathways with no gene
-pathSims_matrix <- function(x) {
+incidence <- function(x) UseMethod("incidence")
+
+# Remove genes to create the incidence matrix
+# x is a list of genes as info
+incidence.list <- function(x){
     # Remove empty genes
     nas <- sapply(x, function(y){all(is.na(y))})
     lge2 <- x[!nas]
@@ -161,6 +163,19 @@ pathSims_matrix <- function(x) {
     }
     ))
     rownames(mat) <- pathways
+    mat
+}
+
+# pathSims_matrix ####
+# Uses linear algebra to speed the caluclations
+# x is a list of genes to pathways or a GeneSetCollection
+# Omits pathways with no gene
+pathSims_matrix <- function(x) {
+    if (class(x) == "GeneSetCollection") {
+        mat <- GSEABase::incidence(x)
+    } else if(class(x) == "list") {
+        mat <- incidence(x)
+    }
     # Calculate genes in common between pathways
     overPath <- tcrossprod(mat)
     # Extract the genes per pathway
@@ -169,3 +184,47 @@ pathSims_matrix <- function(x) {
     # Calculate the dice similarity
     2*overPath/(t(genesPerPathway) + genesPerPathway)
 }
+
+
+
+setGeneric("mpathSim")
+
+
+setMethod("mpathSim",
+          c(info = "GeneSetCollection", pathways = "character"),
+          function(pathways, info, method = NULL, ...) {
+              if (length(unique(pathways)) == 1 ) {
+                  stop("Introduce several unique pathways!\n",
+                       "If you want to calculate one similarity ",
+                       "between pathways use pathSim")
+              }
+
+              if (!all(is.character(pathways))) {
+                  stop("The input pathways should be characters")
+              }
+              nam <- names(pathways)
+              pathways <- unique(pathways)
+
+
+              if (any(!pathways %in% names(info))) {
+                  warning("Some pathways are not in the GeneSetCollection provided.")
+                  m <- matrix(nrow = length(pathways), ncol = length(pathways),
+                              dimnames = list(pathways, pathways))
+                  pathways <- pathways[pathways %in% names(info)]
+
+                  sim <- pathSims_matrix(info[pathways])
+
+                  sim <- AintoB(sim, m)
+              } else {
+                  sim <- pathSims_matrix(info[pathways])
+              }
+
+
+
+              if (is.null(method)) {
+                  return(sim)
+              } else {
+                  combineScoresPar(sim, method, ... = ...)
+              }
+          }
+)

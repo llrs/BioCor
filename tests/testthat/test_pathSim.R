@@ -33,3 +33,18 @@ test_that("pathSims_matrix", {
     eq <- pathSim("1430728", "156580", info)
     expect_equal(test["1430728", "156580"], eq)
 })
+
+
+test_that("mpathSim for GeneSetCollections", {
+    fl <- system.file("extdata", "Broad.xml", package="GSEABase")
+    gss <- getBroadSets(fl) # GeneSetCollection of 2 sets
+
+    a <- mpathSim(names(gss), info = gss)
+    expect_true(all(diag(a) == 1))
+    expect_equal(colnames(a), rownames(a))
+
+    a <- expect_warning(mpathSim(c(names(gss), "A"), info = gss),
+                   "not in the GeneSetCollection")
+    expect_true(is.na(all(diag(a) == 1)))
+    expect_equal(colnames(a), rownames(a))
+})
