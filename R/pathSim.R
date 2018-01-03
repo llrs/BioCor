@@ -170,6 +170,7 @@ incidence.list <- function(x){
 # Uses linear algebra to speed the caluclations
 # x is a list of genes to pathways or a GeneSetCollection
 # Omits pathways with no gene
+#' @importMethodsFrom GSEBase incidence
 pathSims_matrix <- function(x) {
     if (class(x) == "GeneSetCollection") {
         mat <- GSEABase::incidence(x)
@@ -179,7 +180,7 @@ pathSims_matrix <- function(x) {
     # Calculate genes in common between pathways
     overPath <- tcrossprod(mat)
     # Extract the genes per pathway
-    genesPerPathway <- diag(overPath)
+    genesPerPathway <- GenesPerPathway(mat)
     genesPerPathway <- matrix(genesPerPathway, ncol(overPath), ncol(overPath))
     # Calculate the dice similarity
     2*overPath/(t(genesPerPathway) + genesPerPathway)
