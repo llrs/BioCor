@@ -185,11 +185,11 @@ pathSims_matrix <- function(x) {
     2*overPath/(t(genesPerPathway) + genesPerPathway)
 }
 
-
-
+#' @importClassesFrom GSEABase GeneSetCollection
+#' @exportMethod mpathSim
 setGeneric("mpathSim")
 
-
+#' @exportMethod mpathSim
 setMethod("mpathSim",
           c(info = "GeneSetCollection", pathways = "character"),
           function(pathways, info, method = NULL, ...) {
