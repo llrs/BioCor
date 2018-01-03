@@ -22,19 +22,19 @@ reciprocal method.}
 
 \item{subSets}{List of combinations as info in other functions.}
 
-\item{BPPARAM}{Determining the parallel back-end. By default a for loop is
-used.}
+\item{BPPARAM}{BiocParallel back-end parameters.
+By default (\code{NULL}) a \code{for} loop is used.}
 
-\item{...}{Other arguments passed to \code{\link{combineScoresPar}}}
+\item{...}{Other arguments passed to \code{combineScores}}
 }
 \value{
 A numeric value as described in details.
 }
 \description{
-Combine several values into one by several methods.
+Combine several similarities into one using several methods.
 
-\code{cobmineScoresPar} performs multiple (parallel) combineScores based on
-a list of elements to combine into one.
+\code{cobmineScoresPar} performs multiple \code{combineScores}. It allows
+parallel computing using BiocParallel back-end.
 }
 \details{
 The input matrix can be a base matrix or a matrix from package Matrix.

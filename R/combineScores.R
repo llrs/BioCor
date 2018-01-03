@@ -1,7 +1,7 @@
 # combineScores ####
 #' Combining values
 #'
-#' Combine several values into one by several methods.
+#' Combine several similarities into one using several methods.
 #'
 #' The input matrix can be a base matrix or a matrix from package Matrix.
 #' The methods return:
@@ -161,12 +161,12 @@ reciprocal <- function(scores, t) {
     }
 }
 
-#' \code{cobmineScoresPar} performs multiple (parallel) combineScores based on
-#' a list of elements to combine into one.
+#' \code{cobmineScoresPar} performs multiple \code{combineScores}. It allows
+#' parallel computing using BiocParallel back-end.
 #' @param subSets List of combinations as info in other functions.
-#' @param BPPARAM Determining the parallel back-end. By default a for loop is
-#' used.
-#' @param ... Other arguments passed to \code{\link{combineScoresPar}}
+#' @param BPPARAM BiocParallel back-end parameters.
+#' By default (\code{NULL}) a \code{for} loop is used.
+#' @param ... Other arguments passed to \code{combineScores}
 #' @seealso \code{\link[BiocParallel]{bpparam}}
 #' @rdname combineScores
 #' @export
