@@ -4,10 +4,7 @@
 ^README\.Rmd$       # An Rmarkdown file used to generate README.md
 ^NEWS\.md$          # A news file written in Markdown
 ^\.travis\.yml$     # Used for continuous integration testing with travis
-# Ignore bioCor
-R/bioCor.R
-man/bioCor.Rd
-tests/testthat/test_bioCor.R
+
 # Setting for the github repository
 ^\.github$
 ^\.BACKUP\.$
@@ -18,4 +15,4 @@ tests/testthat/test_bioCor.R
 ^\.out$
 ^\.RData$
 ^BioCor.Rproj$
-^,travis.yml
+^.travis.yml
