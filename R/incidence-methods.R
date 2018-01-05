@@ -10,13 +10,13 @@ NULL
 #' @param incidence Incidence matrix
 #' @return The number of pathways each gene has
 #' @keywords internal
-PathwayPerGene <- function(incidence){
+PathwaysPerGene <- function(incidence){
     colSums(incidence)
 }
 
-#' @exportMethod PathwayPerGene
-setGeneric("PathwayPerGene", function(object) {
-    standardGeneric("PathwayPerGene")
+#' @exportMethod PathwaysPerGene
+setGeneric("PathwaysPerGene", function(object) {
+    standardGeneric("PathwaysPerGene")
 })
 
 #' Invert a list
@@ -33,8 +33,8 @@ inverseList <- function(x){
 }
 
 
-#' @exportMethod PathwayPerGene
-setMethod("PathwayPerGene",
+#' @exportMethod PathwaysPerGene
+setMethod("PathwaysPerGene",
           "GeneSetCollection",
           function(object) {
               pathways2genes <- GSEABase::geneIds(object)
