@@ -11,6 +11,7 @@ setGeneric("gene", function(object, gene) {
 setMethod("gene",
           signature(object = "GeneSetCollection", gene = "character"),
           function(object, gene) {
+              check_gsc(object)
               ppg <- PathwaysPerGene(object)
 
               paths2genes <- GSEABase::geneIds(object)
