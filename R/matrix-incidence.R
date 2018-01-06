@@ -24,7 +24,7 @@ setMethod("distribution",
                           dimnames = list("GenesPerPathway" = names(table(gpp)),
                                           "PathwaysPerGene" = names(table(ppg))))
 
-              paths2genes <- GSEABase::geneIds(c2BroadSets)
+              paths2genes <- GSEABase::geneIds(object)
               genes2paths <- inverseList(paths2genes)
 
               for (pp in colnames(m)) {
