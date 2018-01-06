@@ -116,9 +116,7 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
 
     } else {
         # Invert the list
-        rId <- unlist(info, use.names = FALSE)
-        lId <- rep(names(info), sapply(info, length))
-        pathways2genes <- split(lId, rId)
+        pathways2genes <- inverseList(info)
 
         # Extract the gene ids for each pathway
         g1 <- lapply(pathways, function(x) {
@@ -147,24 +145,27 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
     }
 }
 
-incidence <- function(x) UseMethod("incidence")
 
 # Remove genes to create the incidence matrix
 # x is a list of genes as info
-incidence.list <- function(x){
-    # Remove empty genes
-    nas <- sapply(x, function(y){all(is.na(y))})
-    lge2 <- x[!nas]
-    # Extract all pathways
-    pathways <- unique(unlist(lge2, use.names = FALSE))
-    # Create the incidence matrix
-    mat <- as.matrix(sapply(names(lge2), function(y){
-        ifelse(pathways %in% lge2[[y]], TRUE, FALSE)
-    }
-    ))
-    rownames(mat) <- pathways
-    mat
-}
+#' @exportMethod incidence
+setMethod("incidence",
+          signature(x = "list"),
+          function(x) {
+              # Remove empty genes
+              nas <- sapply(x, function(y){all(is.na(y))})
+              lge2 <- x[!nas]
+              # Extract all pathways
+              pathways <- unique(unlist(lge2, use.names = FALSE))
+              # Create the incidence matrix
+              mat <- as.matrix(sapply(names(lge2), function(y){
+                  ifelse(pathways %in% lge2[[y]], TRUE, FALSE)
+              }
+              ))
+              rownames(mat) <- pathways
+              mat
+          }
+)
 
 # pathSims_matrix ####
 # Uses linear algebra to speed the caluclations
@@ -173,6 +174,7 @@ incidence.list <- function(x){
 #' @importMethodsFrom GSEABase incidence
 pathSims_matrix <- function(x) {
     if (class(x) == "GeneSetCollection") {
+        check_gsc(x)
         mat <- GSEABase::incidence(x)
     } else if(class(x) == "list") {
         mat <- incidence(x)
