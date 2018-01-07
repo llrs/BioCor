@@ -26,6 +26,7 @@ setMethod("gene",
           function(object, gene) {
               check_gsc(object)
               ppg <- PathwaysPerGene(object)
+              gpp <- GenesPerPathway(object)
 
               paths2genes <- GSEABase::geneIds(object)
               genes2paths <- inverseList(paths2genes)
@@ -33,6 +34,7 @@ setMethod("gene",
               totalGenes <- length(genes2paths)
               totalPathways <- length(paths2genes)
 
+              Tgpp <- prop.table(table(gpp))
               Tppg <- prop.table(table(ppg))
 
 
@@ -40,16 +42,20 @@ setMethod("gene",
                   stop("Gene provided is not in the GeneSetCollection.")
               }
 
-              pathways <- unlist(genes2paths[gene], use.names = FALSE)
+              pathways <- unique(unlist(genes2paths[gene], use.names = FALSE))
               Pathways_length <- lengths(paths2genes[pathways])
+
               ic <- IC(Pathways_length)
-              out <- c(ICppg = ic,
-                       prop = ic/maxIC(Pathways_length),
-                       pathways = length(pathways),
-                       Prob = Tppg[length(pathways)]
-              , use.names = FALSE)
-              names(out) <- c("ICppg", "Proportion", "pathways", "Prob")
-              # cat("Genes ", out["genes"], "\n")
+              maxIC <- maxIC(ppg)
+
+              out <- c(ic, # Information content
+                       maxIC(Pathways_length), # Relative to its possibilities
+                       length(pathways), # Number of pathways per gene
+                       Tppg[as.character(length(pathways))], # Probability to find a gene with those pathways
+                       prod(Tgpp[as.character(Pathways_length)], na.rm = TRUE)) # Probability to find a gene with pathways of these length
+              names(out) <- c("IC", "maxIC", "pathways", "Prob_#_pathways", "Prob_genes_#_pathways")
+
+                            # cat("Genes ", out["genes"], "\n")
               # cat("Pathways ", out["pathways"], "\n")
               # cat("IC(GenesPerPathway) ", round(out["ICgpp"], 2), "\n")
               cat("IC(PathwaysPerGene) ", round(out["ICppg"], 2), "\n")
@@ -66,6 +72,7 @@ setMethod("gene",
           signature(object = "GeneSetCollection", gene = "missing"),
           function(object, gene) {
               ppg <- PathwaysPerGene(object)
+              gpp <- GenesPerPathway(object)
 
               paths2genes <- GSEABase::geneIds(object)
               genes2paths <- inverseList(paths2genes)
@@ -73,11 +80,12 @@ setMethod("gene",
               totalGenes <- length(genes2paths)
               totalPathways <- length(paths2genes)
 
+              Tgpp <- prop.table(table(gpp))
               Tppg <- prop.table(table(ppg))
 
               maxIC <- maxIC(ppg)
               out <- sapply(names(genes2paths), function(gene) {
-                  pathways <- unlist(genes2paths[gene], use.names = FALSE)
+                  pathways <- unique(unlist(genes2paths[gene], use.names = FALSE))
                   Pathways_length <- lengths(paths2genes[pathways])
 
                   if (length(pathways) == 1) {
@@ -86,12 +94,11 @@ setMethod("gene",
                       ic <- IC(Pathways_length)
                   }
                   out <- c(ic, # Information content
-                           ic/maxIC(Pathways_length), # Relative to its possibilities
-                           ic/maxIC, # Relative to the underlying possibilities
+                           maxIC(Pathways_length), # Relative to its possibilities
                            length(pathways), # Number of pathways per gene
-                           Tppg[length(pathways)], # Probability to find a gene with those pathways
-                           prod(Tppg[Pathways_length])) # Probability to find a gene with pathways of these length
-                  names(out) <- c("ICppg", "Proportion", "Proportion_2", "pathways", "Prob", "Prob_2")
+                           Tppg[as.character(length(pathways))], # Probability to find a gene with those pathways
+                           prod(Tgpp[as.character(Pathways_length)], na.rm = TRUE)) # Probability to find a gene with pathways of these length
+                  names(out) <- c("IC", "maxIC", "pathways", "Prob_#_pathways", "Prob_genes_#_pathways")
                   out
               })
               out <- t(out)
