@@ -39,3 +39,8 @@ setMethod("as.GeneSetCollection",
               GeneSetCollection(gsl)
           }
 )
+
+setAs("list", "GeneSetCollection",
+      function(from)
+          as.GeneSetCollection(from)
+)
