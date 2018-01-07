@@ -9,13 +9,14 @@ NULL
 #' @param object A GeneSetCollection object
 #' @return a list of pathways per genes
 #' @author Lluís Revilla
-#' @rdname PathwaysPerGene-GeneSetCollection-method
 #' @aliases PathwaysPerGene
 #' @exportMethod PathwaysPerGene
+#' @seealso \code{\link{GenesPerPathway}}
 setGeneric("PathwaysPerGene", function(object) {
     standardGeneric("PathwaysPerGene")
 })
 
+#' @describeIn PathwaysPerGene Pathways per gene in the GeneSetCollection
 #' @exportMethod PathwaysPerGene
 setMethod("PathwaysPerGene",
           "GeneSetCollection",
@@ -30,15 +31,17 @@ setMethod("PathwaysPerGene",
 #'
 #' Calculates the genes per pathway of a GeneSetCollection
 #' @param object A GeneSetCollection object
-#' @return a list of genes per pathway
+#' @return A list of genes per pathway.
 #' @author Lluís Revilla
-#' @rdname GenesPerPathway-GeneSetCollection-method
 #' @aliases GenesPerPathway
 #' @exportMethod GenesPerPathway
+#' @seealso \code{\link{PathwaysPerGene}}
 setGeneric("GenesPerPathway", function(object) {
     standardGeneric("GenesPerPathway")
 })
 
+#' @describeIn GenesPerPathway Calculates genes per pathway of the
+#' GeneSetCollection
 #' @exportMethod GenesPerPathway
 setMethod("GenesPerPathway",
           "GeneSetCollection",

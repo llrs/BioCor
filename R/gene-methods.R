@@ -19,6 +19,7 @@ setGeneric("gene", function(object, gene) {
     standardGeneric("gene")
 })
 
+#' @describeIn gene Calculates statistics for a single gene
 #' @exportMethod gene
 setMethod("gene",
           signature(object = "GeneSetCollection", gene = "character"),
@@ -59,7 +60,7 @@ setMethod("gene",
           }
 )
 
-
+#' @describeIn gene Calculates statistics for all genes
 #' @exportMethod gene
 setMethod("gene",
           signature(object = "GeneSetCollection", gene = "missing"),

@@ -13,7 +13,7 @@ setGeneric("as.GeneSetCollection", function(object) {
     standardGeneric("as.GeneSetCollection")
 })
 
-
+#' @describeIn as.GeneSetCollection Convert list to GeneSetCollections
 #' @exportMethod as.GeneSetCollection
 setMethod("as.GeneSetCollection",
           signature(object = "list"),
@@ -26,6 +26,7 @@ setMethod("as.GeneSetCollection",
           }
 )
 
+#' @describeIn as.GeneSetCollection Convert AnnDbBimap to GeneSetCollections
 #' @exportMethod as.GeneSetCollection
 setMethod("as.GeneSetCollection",
           signature(object = "AnnDbBimap"),
