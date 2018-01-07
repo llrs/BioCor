@@ -146,8 +146,12 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
 }
 
 
-# Remove genes to create the incidence matrix
-# x is a list of genes as info
+#' Creates the incidence matrix
+#'
+#' Given a list of pathways and its genes creates an incidence matrix
+#' @param x A list
+#' @return A matrix with pathways as rows and genes in columns.
+#' @author Lluís Revilla
 #' @exportMethod incidence
 setMethod("incidence",
           signature(x = "list"),

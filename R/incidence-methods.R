@@ -5,15 +5,12 @@ NULL
 
 #' Pathways per gene
 #'
-#' Calculate the pathways per gene of an incidence matrix
-#'
-#' @param incidence Incidence matrix
-#' @return The number of pathways each gene has
-#' @keywords internal
-PathwaysPerGene <- function(incidence){
-    colSums(incidence)
-}
-
+#' Calculates the pathways per gene of a GeneSetCollection
+#' @param object A GeneSetCollection object
+#' @return a list of pathways per genes
+#' @author Lluís Revilla
+#' @rdname PathwaysPerGene-GeneSetCollection-method
+#' @aliases PathwaysPerGene
 #' @exportMethod PathwaysPerGene
 setGeneric("PathwaysPerGene", function(object) {
     standardGeneric("PathwaysPerGene")
@@ -29,19 +26,14 @@ setMethod("PathwaysPerGene",
           }
 )
 
-
 #' Genes per pathway
 #'
-#' Calculate the genes per pathway of an incidence matrix
-#'
-#' @param incidence Incidence matrix
-#' @return The number of genes each pathway has
-#' @keywords internal
-GenesPerPathway <- function(incidence){
-    rowSums(incidence)
-}
-
-
+#' Calculates the genes per pathway of a GeneSetCollection
+#' @param object A GeneSetCollection object
+#' @return a list of genes per pathway
+#' @author Lluís Revilla
+#' @rdname GenesPerPathway-GeneSetCollection-method
+#' @aliases GenesPerPathway
 #' @exportMethod GenesPerPathway
 setGeneric("GenesPerPathway", function(object) {
     standardGeneric("GenesPerPathway")

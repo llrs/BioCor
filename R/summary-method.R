@@ -1,6 +1,15 @@
 #' @importClassesFrom GSEABase GeneSetCollection
 NULL
 
+#' Calculates some statistics of the GeneSetCollection
+#'
+#' These statistics include the biggest pathway, the gene in more pathways,
+#' h-index and entropy or information content for the genes per pathway and
+#' pathways for genes and they percentage  of the maximum.
+#' @param object A GeneSetCollection object
+#' @return invisible a list of statistics
+#' @author Lluís Revilla
+#' @seealso \code{\link{GenesPerPathway}}, \code{\link{PathwaysPerGene}}
 #' @exportMethod summary
 setMethod("summary",
           "GeneSetCollection",

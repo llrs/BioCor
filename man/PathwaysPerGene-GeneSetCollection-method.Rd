@@ -7,12 +7,14 @@
 PathwaysPerGene(object)
 }
 \arguments{
-\item{incidence}{Incidence matrix}
+\item{object}{A GeneSetCollection object}
 }
 \value{
-The number of pathways each gene has
+a list of pathways per genes
 }
 \description{
-Calculate the pathways per gene of an incidence matrix
+Calculates the pathways per gene of a GeneSetCollection
 }
-\keyword{internal}
+\author{
+Lluís Revilla
+}

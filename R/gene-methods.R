@@ -1,7 +1,19 @@
 #' @importClassesFrom GSEABase GeneSetCollection
 NULL
 
-
+#' Statistics about genes
+#'
+#' Calculates some statistics of the genes, like the biggest
+#' pathway, the gene in more pathways, h-index and entropy or information
+#' content for the genes per pathway and pathways for genes and they percentage
+#' of the maximum.
+#' @param object A GeneSetCollection object
+#' @param gene A character of the gene to analyze. If missing it will analyze
+#' all genes
+#' @return If a single gene is provided invisible a list of statistics (the
+#' statistics will be printed on the screen), otherwise the data.frame of
+#' statistics.
+#' @author Lluís Revilla
 #' @exportMethod gene
 setGeneric("gene", function(object, gene) {
     standardGeneric("gene")

@@ -1,14 +1,18 @@
 #' @importClassesFrom GSEABase GeneSetCollection
 NULL
 
-
+# Table of Length pathways vs Number of pathways a gene is in
+#' Distribution of genes per pathway in pathways
+#'
+#' Calculates how many pathways per gene are distributed in genes per pathways.
+#' @param object A GeneSetCollection.
+#' @return A matrix with the number of pathways per genes as columns and the
+#' genes per pathways as rows.
+#' @author Lluís Revilla
 #' @exportMethod distribution
 setGeneric("distribution", function(object) {
     standardGeneric("distribution")
 })
-
-
-# Table of Length pathways vs Number of pathways a gene is in
 
 #' @exportMethod distribution
 setMethod("distribution",
