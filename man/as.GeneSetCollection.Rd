@@ -14,7 +14,7 @@ as.GeneSetCollection(object)
 \S4method{as.GeneSetCollection}{AnnDbBimap}(object)
 }
 \arguments{
-\item{object}{A list of pathways, genes or an AnnDbBimap.}
+\item{object}{A list of genes and their pathways or an AnnDbBimap.}
 }
 \value{
 A GeneSetCollection
@@ -29,6 +29,9 @@ Convert a list or a Bimap interface into GeneSetCollections
 \item \code{AnnDbBimap}: Convert AnnDbBimap to GeneSetCollections
 }}
 
+\seealso{
+\code{\link{GeneSetCollection}}
+}
 \author{
 Lluís Revilla
 }

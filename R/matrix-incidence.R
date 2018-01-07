@@ -14,7 +14,10 @@ setGeneric("distribution", function(object) {
     standardGeneric("distribution")
 })
 
+#' @describeIn distribution Returns the distribution of genes by size of the
+#' pathways
 #' @exportMethod distribution
+#' @seealso \code{\link{GenesPerPathway}}, \code{\link{PathwaysPerGene}}
 setMethod("distribution",
           signature(object = "GeneSetCollection"),
           function(object) {

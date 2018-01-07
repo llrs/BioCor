@@ -41,7 +41,6 @@
 #' } else {
 #'     warning('You need reactome.db package for this example')
 #' }
-
 pathSim <- function(pathway1, pathway2, info) {
     if (length(pathway1) != 1 | length(pathway2) != 1) {
         stop("Introduce just one pathway!\n",
@@ -74,8 +73,6 @@ pathSim <- function(pathway1, pathway2, info) {
     diceSim(g1, g2)
 }
 
-vpathSim <- Vectorize(pathSim, vectorize.args = c("pathway1", "pathway2"))
-
 #' @rdname pathSim
 #' @param pathways Pathways to calculate the similarity for
 #' @note pathways accept named characters, and then the output will have
@@ -107,11 +104,12 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
     # If the number of pathways is quite big uses matrix properties
     # Calculate just the pathways needed
     if (length(pathways) >= 150) {
-        # Keep genes with those pathways
-        keep <- sapply(info, function(x){any(x %in% pathways)})
-        info <- info[keep]
+
         # Keep only the pathways of interest
-        info <- sapply(info, function(x){x[x %in% pathways]})
+        pathways2genes <- inverseList(info)
+        keep <- pathways %in% unique(unlist(info, use.names = FALSE))
+        info <- inverseList(pathways2genes[pathways[keep]])
+
         sim <- pathSims_matrix(info)
 
     } else {
@@ -176,13 +174,15 @@ setMethod("incidence",
 # x is a list of genes to pathways or a GeneSetCollection
 # Omits pathways with no gene
 #' @importMethodsFrom GSEABase incidence
+#' @import GSEABase
 pathSims_matrix <- function(x) {
     if (class(x) == "GeneSetCollection") {
         check_gsc(x)
         mat <- GSEABase::incidence(x)
-    } else if(class(x) == "list") {
+    } else if (class(x) == "list"){
         mat <- incidence(x)
     }
+
     # Calculate genes in common between pathways
     overPath <- tcrossprod(mat)
     # Extract the genes per pathway
@@ -192,13 +192,12 @@ pathSims_matrix <- function(x) {
     2*overPath/(t(genesPerPathway) + genesPerPathway)
 }
 
-#' @importClassesFrom GSEABase GeneSetCollection
 #' @exportMethod mpathSim
 setGeneric("mpathSim")
 
 #' @exportMethod mpathSim
 setMethod("mpathSim",
-          c(info = "GeneSetCollection", pathways = "character"),
+          c(info = "GeneSetCollection", pathways = "character", method = "ANY"),
           function(pathways, info, method = NULL, ...) {
               if (length(unique(pathways)) == 1 ) {
                   stop("Introduce several unique pathways!\n",
@@ -233,5 +232,47 @@ setMethod("mpathSim",
               } else {
                   combineScoresPar(sim, method, ... = ...)
               }
+          }
+)
+
+
+#' @exportMethod mpathSim
+setMethod("mpathSim",
+          c(info = "GeneSetCollection", pathways = "missing"),
+          function(pathways, info, method = NULL, ...) {
+
+              sim <- pathSims_matrix(info)
+
+              if (is.null(method)) {
+                  return(sim)
+              } else {
+                  combineScoresPar(sim, method, ... = ...)
+              }
+          }
+)
+
+#' @exportMethod mpathSim
+setMethod("mpathSim",
+          c(info = "list", pathways = "missing"),
+          function(pathways, info, method = NULL, ...) {
+
+              sim <- pathSims_matrix(info)
+
+              if (is.null(method)) {
+                  return(sim)
+              } else {
+                  combineScoresPar(sim, method, ... = ...)
+              }
+          }
+)
+
+#' @exportMethod mpathSim
+setMethod("mpathSim",
+          c(info = "list", pathways = "missing", method = "missing"),
+          function(pathways, info, method = NULL, ...) {
+
+              sim <- pathSims_matrix(info)
+
+              return(sim)
           }
 )

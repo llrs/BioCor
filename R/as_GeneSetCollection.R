@@ -5,10 +5,11 @@ NULL
 
 #' Convert a list or a Bimap interface into GeneSetCollections
 #'
-#' @param object A list of pathways, genes or an AnnDbBimap.
+#' @param object A list of genes and their pathways or an AnnDbBimap.
 #' @return A GeneSetCollection
 #' @author Lluís Revilla
 #' @exportMethod as.GeneSetCollection
+#' @seealso \code{\link{GeneSetCollection}}
 setGeneric("as.GeneSetCollection", function(object) {
     standardGeneric("as.GeneSetCollection")
 })

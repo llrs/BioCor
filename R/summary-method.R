@@ -36,8 +36,8 @@ setMethod("summary",
               cat("Pathways:", out["pathways"], "\n")
               cat("\tBiggest pathway:", out["maxGPP"], "genes\n")
               cat("\th-index:", h_ppg, "pathways with at least", h_ppg, "genes.\n")
-              cat("IC(GenesPerPathway):", round(out["ICgpp"], 2), "(", round(out["ICgpp"]/out["maxICgpp"], 2), "% of the maximum)\n")
-              cat("IC(PathwaysPerGene)", round(out["ICppg"], 2), "(", round(out["ICppg"]/out["maxICppg"], 2), "% of the maximum)\n")
+              cat("IC(GenesPerPathway):", round(out["ICgpp"], 2), "(", round(out["ICgpp"]/out["maxICgpp"], 2), "of the maximum)\n")
+              cat("IC(PathwaysPerGene)", round(out["ICppg"], 2), "(", round(out["ICppg"]/out["maxICppg"], 2), "of the maximum)\n")
 
             invisible(out)
           }

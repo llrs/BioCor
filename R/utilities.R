@@ -70,6 +70,6 @@ h_index <- function(x) {
     }
     position <- x - as.numeric(names(x))
 
-    return(max(as.numeric(names(x)[position >= 0])))
+    return(max(0, as.numeric(names(x)[position >= 0])))
 
 }
