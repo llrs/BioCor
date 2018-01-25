@@ -21,7 +21,7 @@
 #' between 0 and 1 (both included) is returned. Note that there isn't a
 #' negative value of similarity.
 #' @export
-#' @author Lluis Revilla
+#' @author Lluís Revilla
 #' @seealso \code{\link{conversions}} help page to transform Dice
 #' score to Jaccard score. For the method to combine the scores see
 #' \code{\link{combineScoresPar}}.

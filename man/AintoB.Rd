@@ -15,7 +15,7 @@ AintoB(A, B)
 A matrix with the values of A in the matrix B.
 }
 \description{
-Insert values from a matrix into another matrix baded on the rownames and
+Insert values from a matrix into another matrix based on the rownames and
 colnames replacing the values.
 }
 \details{

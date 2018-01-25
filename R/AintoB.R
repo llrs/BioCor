@@ -1,6 +1,6 @@
 #' Insert a matrix into another
 #'
-#' Insert values from a matrix into another matrix baded on the rownames and
+#' Insert values from a matrix into another matrix based on the rownames and
 #' colnames replacing the values.
 #'
 #' If all the genes with pathway information are already calculated but you

@@ -35,7 +35,7 @@ its weight, otherwise it will throw an error.
 This functions are thought to be used with \code{similarities}. As some
 similarities might be positive and others negative the argument \code{abs}
 is provided for \code{weighted.sum}, assuming that only one similarity will
-be negative (usually the one comming from exprresion correlation).
+be negative (usually the one coming from expression correlation).
 }
 \examples{
 expr <- c(-0.2, 0.3, 0.5, 0.8, 0.1)

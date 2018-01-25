@@ -76,5 +76,5 @@ score to Jaccard score. For the method to combine the scores see
 \code{\link{combineScoresPar}}.
 }
 \author{
-Lluis Revilla
+Lluís Revilla
 }

@@ -9,7 +9,7 @@ removeDup(cor_mat, dupli)
 \arguments{
 \item{cor_mat}{List of matrices}
 
-\item{dupli}{List of indicies with duplicated entries}
+\item{dupli}{List of indices with duplicated entries}
 }
 \value{
 A matrix with only one of the columns and rows duplicated
@@ -29,7 +29,7 @@ remat <- removeDup(mat, dupli)
 remat
 }
 \seealso{
-\code{\link{duplicateIndices}} to obtain the list of indicies with
+\code{\link{duplicateIndices}} to obtain the list of indices with
 duplicated entries.
 }
 \author{

@@ -6,7 +6,7 @@
 #'
 #' It requires a vector of characters otherwise will return an \code{NA}.
 #' @param g1,g2 A character list with the names of the proteins in each pathway.
-#' @return A score between 0 and 1 calculated as the doble of the proteins
+#' @return A score between 0 and 1 calculated as the double of the proteins
 #' shared by g1 and g2 divided by the number of genes in both groups.
 #' @export
 #' @author Lluís Revilla

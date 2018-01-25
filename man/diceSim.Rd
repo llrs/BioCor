@@ -10,7 +10,7 @@ diceSim(g1, g2)
 \item{g1, g2}{A character list with the names of the proteins in each pathway.}
 }
 \value{
-A score between 0 and 1 calculated as the doble of the proteins
+A score between 0 and 1 calculated as the double of the proteins
 shared by g1 and g2 divided by the number of genes in both groups.
 }
 \description{

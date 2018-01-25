@@ -7,7 +7,7 @@
 #' This functions are thought to be used with \code{similarities}. As some
 #' similarities might be positive and others negative the argument \code{abs}
 #' is provided for \code{weighted.sum}, assuming that only one similarity will
-#' be negative (usually the one comming from exprresion correlation).
+#' be negative (usually the one coming from expression correlation).
 #' @inheritParams stats::weighted.mean
 #' @param x an object containing the values whose weighted operations is to be
 #' computed

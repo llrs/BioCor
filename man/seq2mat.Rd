@@ -16,7 +16,7 @@ A square matrix with the diagonal set to 1 and \code{dat} on the
 upper and lower triangle with the columns ids and row ids from x.
 }
 \description{
-Fils a matrix of \code{ncol = length(x)} and \code{nrow = length(x)} with
+Fills a matrix of \code{ncol = length(x)} and \code{nrow = length(x)} with
 the values in \code{dat} and setting the diagonal to 1.
 }
 \details{

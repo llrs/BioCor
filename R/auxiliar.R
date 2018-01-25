@@ -51,7 +51,7 @@ combinadic <- function(n, r, i) {
 # seq2mat ####
 #' Transforms a vector to a symmetric matrix
 #'
-#' Fils a matrix of \code{ncol = length(x)} and \code{nrow = length(x)} with
+#' Fills a matrix of \code{ncol = length(x)} and \code{nrow = length(x)} with
 #' the values in \code{dat} and setting the diagonal to 1.
 #'
 #' \code{dat} should be at least \code{choose(length(x), 2)} of length. It
@@ -112,11 +112,11 @@ duplicateIndices <- function(vec) {
 #' mean value.
 #'
 #' @param cor_mat List of matrices
-#' @param dupli List of indicies with duplicated entries
+#' @param dupli List of indices with duplicated entries
 #' @return A matrix with only one of the columns and rows duplicated
 #' @export
 #' @author Lluís Revilla
-#' @seealso \code{\link{duplicateIndices}} to obtain the list of indicies with
+#' @seealso \code{\link{duplicateIndices}} to obtain the list of indices with
 #' duplicated entries.
 #' @examples
 #' a <- seq2mat(c("52", "52", "53", "55"), runif(choose(4, 2)))
