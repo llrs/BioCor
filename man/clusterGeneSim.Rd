@@ -51,8 +51,8 @@ if (require("org.Hs.eg.db")) {
                    c("avg", "avg"))
     clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
                    c("avg", "rcmax.avg"))
-    (clus <- clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-                            "avg"))
+    (clus <- clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"),
+                            genes.kegg, "avg"))
     combineScores(clus, "rcmax.avg")
 } else {
     warning('You need org.Hs.eg.db package for this example')

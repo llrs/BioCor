@@ -177,12 +177,17 @@ reciprocal <- function(scores, t) {
 #' colnames(e) <- rownames(e)
 #' combineScoresPar(e, list(a= c("a", "b"), b = c("b", "c")),
 #'                  method = "max")
-combineScoresPar <- function(scores, method, subSets = NULL, BPPARAM = NULL, ...){
+combineScoresPar <- function(scores,
+                             method,
+                             subSets = NULL,
+                             BPPARAM = NULL,
+                             ...){
 
     # Check scores
     if (is.null(subSets) | sum(dim(scores)) == 0) {
         return(combineScores(scores, method = method, ...))
-    } else if (length(subSets) == 1) { # To handle cases when it is already simplified
+        # To handle cases when it is already simplified
+    } else if (length(subSets) == 1) {
         return(combineScores(scores, method = method, ...))
     } else { # To handle cases where subSets are not present in scores
         # Check the ids
@@ -193,7 +198,9 @@ combineScoresPar <- function(scores, method, subSets = NULL, BPPARAM = NULL, ...
                     dimnames = list(names(subSets), names(subSets)))
 
         cond1 <- !all(subId %in% unlist(dimnames(scores), use.names = FALSE))
-        cond2 <- length(unique(unlist(subSets, use.names = FALSE))) > length(subId)
+        cond2 <- length(unique(unlist(subSets, use.names = FALSE)))
+        cond2 <- cond2 > length(subId)
+
         if (cond1 || cond2) {
             keep <- sapply(subSets, function(x) {
                 if (all(is.na(x) || is.null(x))) {

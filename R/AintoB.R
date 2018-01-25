@@ -36,7 +36,7 @@ AintoB <- function(A, B) {
         mr <- match(rownames(A), rownames(B))
     } else {
         stop("Impossible to insert matrix A into matrix B\n",
-             "Matrix A is bigger than matrix B.")
+            "Matrix A is bigger than matrix B.")
     }
     # Omit those with NA
     nar <- is.na(mr)

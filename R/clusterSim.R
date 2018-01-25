@@ -42,10 +42,12 @@ clusterSim <- function(cluster1, cluster2, info, method = "max", ...){
     if (!is.list(info)) {
         stop("info should be a list. See documentation.")
     }
-    if (all(!cluster1 %in% names(info)) & all(!cluster2 %in% names(info))) {
+    clust1_logic <- !cluster1 %in% names(info)
+    clust2_logic <- !cluster2 %in% names(info)
+    if (all(clust1_logic) & all(clust2_logic)) {
         warning("At least one gene should be in the list provided")
         return(NA)
-    } else if (any(!cluster1 %in% names(info)) | any(!cluster2 %in% names(info))) {
+    } else if (any(clust1_logic) | any(clust2_logic)) {
         warning("Some genes are not in the list provided.")
     }
 

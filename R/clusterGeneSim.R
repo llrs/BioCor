@@ -33,8 +33,8 @@
 #'                    c("avg", "avg"))
 #'     clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
 #'                    c("avg", "rcmax.avg"))
-#'     (clus <- clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-#'                             "avg"))
+#'     (clus <- clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"),
+#'                             genes.kegg, "avg"))
 #'     combineScores(clus, "rcmax.avg")
 #' } else {
 #'     warning('You need org.Hs.eg.db package for this example')
@@ -150,7 +150,8 @@ mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"),
     pathSims <- mpathSim(pathwaysl, info, NULL)
 
     # Calculate similarities between genes
-    names(pathways) <- unlist(clusters, use.names = FALSE) # give the name of the genes
+    # give the name of the genes
+    names(pathways) <- unlist(clusters, use.names = FALSE)
     genesSims <- combineScoresPar(pathSims, method[1L], pathways, ... = ...)
 
     # Calculate similarities between clusters of genes
