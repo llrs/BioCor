@@ -10,9 +10,9 @@ NULL
 #' @author Lluís Revilla
 #' @exportMethod as.GeneSetCollection
 #' @seealso \code{\link{GeneSetCollection}}
-setGeneric("as.GeneSetCollection", function(object) {
+setGeneric("as.GeneSetCollection", function(object)
     standardGeneric("as.GeneSetCollection")
-})
+)
 
 #' @describeIn as.GeneSetCollection Convert list to GeneSetCollections
 #' @exportMethod as.GeneSetCollection
