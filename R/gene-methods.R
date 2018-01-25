@@ -15,9 +15,7 @@ NULL
 #' statistics.
 #' @author Lluís Revilla
 #' @exportMethod gene
-setGeneric("gene", function(object, gene) {
-    standardGeneric("gene")
-})
+setGeneric("gene", function(object, gene) standardGeneric("gene") )
 
 #' @describeIn gene Calculates statistics for a single gene
 #' @exportMethod gene
