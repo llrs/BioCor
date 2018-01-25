@@ -136,7 +136,7 @@ removeDup <- function(cor_mat, dupli) {
             mean.column <- apply(m[, y], 2L, mean, na.rm = TRUE)
             i <- which.max(abs(mean.column))
             # Select those who don't bring more information
-            rem.colum <- setdiff(y, y[i])
+            setdiff(y, y[i])
         }, m = mat)
 
         mat[-rem.colum, -rem.colum]

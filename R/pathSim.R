@@ -178,10 +178,8 @@ setMethod("incidence",
 pathSims_matrix <- function(x) {
     if (class(x) == "GeneSetCollection") {
         check_gsc(x)
-        mat <- GSEABase::incidence(x)
-    } else if (class(x) == "list"){
-        mat <- incidence(x)
     }
+    mat <- incidence(x)
 
     # Calculate genes in common between pathways
     overPath <- tcrossprod(mat)
