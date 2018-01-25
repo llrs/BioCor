@@ -15,9 +15,9 @@ NULL
 #' statistics.
 #' @author Lluís Revilla
 #' @exportMethod pathway
-setGeneric("pathway", function(object, pathway) {
+setGeneric("pathway", function(object, pathway)
     standardGeneric("pathway")
-})
+)
 
 #' @export
 setGeneric("pathway",
