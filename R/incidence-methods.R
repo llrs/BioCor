@@ -40,6 +40,10 @@ setGeneric("GenesPerPathway", function(object) {
     standardGeneric("GenesPerPathway")
 })
 
+GenesPerPathway <- function(object) {
+    warning("Did you want to use it in a GeneSetCollection?")
+}
+
 #' @describeIn GenesPerPathway Calculates genes per pathway of the
 #' GeneSetCollection
 #' @exportMethod GenesPerPathway
