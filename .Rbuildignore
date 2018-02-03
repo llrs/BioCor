@@ -16,3 +16,4 @@
 ^\.RData$
 ^BioCor.Rproj$
 ^.travis.yml
+^appveyor\.yml$
