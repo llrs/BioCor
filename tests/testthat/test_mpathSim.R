@@ -26,6 +26,8 @@ test_that("pathSims_matrix", {
     expect_equal(test["1430728", "156580"], eq)
 })
 
+fl <- system.file("extdata", "Broad.xml", package="GSEABase")
+gss <- getBroadSets(fl) # GeneSetCollection of 2 sets
 
 test_that("mpathSim for GeneSetCollections and list is equal", {
 
@@ -70,8 +72,7 @@ test_that("mpathSim for GeneSetCollections and list is equal", {
 })
 
 test_that("mpathSim for GeneSetCollections", {
-    fl <- system.file("extdata", "Broad.xml", package="GSEABase")
-    gss <- getBroadSets(fl) # GeneSetCollection of 2 sets
+
     a <- mpathSim(info = gss)
     expect_true(all(diag(a) == 1))
     expect_equal(colnames(a), rownames(a))
