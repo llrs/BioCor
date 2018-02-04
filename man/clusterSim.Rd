@@ -12,13 +12,13 @@ mclusterSim(clusters, info, method = "max", ...)
 \arguments{
 \item{cluster1, cluster2}{A vector with genes.}
 
-\item{info}{A list of genes and the pathways they are involved.}
+\item{info}{A list or a GeneSetCollection of genes and the pathways they are
+involved.}
 
-\item{method}{To combine the scores of each pathway, one of \code{c("avg",
-"max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
-similarities.}
+\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA",
+"reciprocal")}, see Details.}
 
-\item{...}{Other arguments passed to \code{\link{combineScoresPar}}}
+\item{...}{Other arguments passed to \code{combineScores}}
 
 \item{clusters}{A list of clusters of genes to be found in \code{id}.}
 }

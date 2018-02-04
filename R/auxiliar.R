@@ -144,3 +144,19 @@ removeDup <- function(cor_mat, dupli) {
     return(cor_mat)
 }
 
+#' Invert a list
+#'
+#' Calculate the pathways per gene of list
+#'
+#' @param x A list with genes as names and names of pathways as values of the
+#' list
+#' @return The number of pathways each gene has.
+#' @author Lluís Revilla
+#' @keywords internal
+inverseList <- function(x) {
+    stopifnot(length(names(x)) == length(x))
+    stopifnot(all(sapply(x, is.character)))
+    genes <- unlist(x, use.names = FALSE)
+    pathways <- rep(names(x), lengths(x))
+    split(pathways, genes)
+}

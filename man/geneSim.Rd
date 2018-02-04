@@ -13,13 +13,13 @@ mgeneSim(genes, info, method = "max", ...)
 \item{gene1, gene2}{Ids of the genes to calculate the similarity, to be found
 in genes.}
 
-\item{info}{A list of genes and the pathways they are involved.}
+\item{info}{A list or a GeneSetCollection of genes and the pathways they are
+involved.}
 
-\item{method}{To combine the scores of each pathway, one of \code{c("avg",
-"max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
-similarities.}
+\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA",
+"reciprocal")}, see Details.}
 
-\item{...}{Other arguments passed to \code{\link{combineScoresPar}}}
+\item{...}{Other arguments passed to \code{combineScores}}
 
 \item{genes}{A vector of genes.}
 }

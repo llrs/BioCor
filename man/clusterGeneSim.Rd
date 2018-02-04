@@ -14,13 +14,14 @@ mclusterGeneSim(clusters, info, method = c("max", "rcmax.avg"), ...)
 
 \item{cluster2}{A vector with genes.}
 
-\item{info}{A list of genes and the pathways they are involved.}
+\item{info}{A list or a GeneSetCollection of genes and the pathways they are
+involved.}
 
 \item{method}{A vector with two  or one argument to be passed to
 combineScores the first one is used to summarize the similarities of genes,
 the second one for clusters.}
 
-\item{...}{Other arguments passed to \code{\link{combineScoresPar}}}
+\item{...}{Other arguments passed to \code{combineScores}}
 
 \item{clusters}{A list of clusters of genes to be found in \code{id}.}
 }
