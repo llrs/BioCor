@@ -8,14 +8,14 @@ NULL
 #' @param object A list of genes and their pathways or an AnnDbBimap.
 #' @return A GeneSetCollection
 #' @author Lluís Revilla
-#' @exportMethod as.GeneSetCollection
+#' @export as.GeneSetCollection
 #' @seealso \code{\link{GeneSetCollection}}
 setGeneric("as.GeneSetCollection", function(object)
     standardGeneric("as.GeneSetCollection")
 )
 
 #' @describeIn as.GeneSetCollection Convert list to GeneSetCollections
-#' @exportMethod as.GeneSetCollection
+#' @export as.GeneSetCollection
 setMethod("as.GeneSetCollection",
           signature(object = "list"),
           function(object) {
@@ -28,7 +28,7 @@ setMethod("as.GeneSetCollection",
 )
 
 #' @describeIn as.GeneSetCollection Convert AnnDbBimap to GeneSetCollections
-#' @exportMethod as.GeneSetCollection
+#' @export as.GeneSetCollection
 setMethod("as.GeneSetCollection",
           signature(object = "AnnDbBimap"),
           function(object) {

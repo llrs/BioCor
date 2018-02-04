@@ -150,7 +150,7 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
 #' @param x A list
 #' @return A matrix with pathways as rows and genes in columns.
 #' @author Lluís Revilla
-#' @exportMethod incidence
+#' @export incidence
 setMethod("incidence",
           signature(x = "list"),
           function(x) {
@@ -176,9 +176,7 @@ setMethod("incidence",
 #' @importMethodsFrom GSEABase incidence
 #' @import GSEABase
 pathSims_matrix <- function(x) {
-    if (class(x) == "GeneSetCollection") {
-        check_gsc(x)
-    }
+
     mat <- incidence(x)
 
     # Calculate genes in common between pathways
@@ -190,10 +188,10 @@ pathSims_matrix <- function(x) {
     2*overPath/(t(genesPerPathway) + genesPerPathway)
 }
 
-#' @exportMethod mpathSim
+#' @export mpathSim
 setGeneric("mpathSim")
 
-#' @exportMethod mpathSim
+#' @export mpathSim
 setMethod("mpathSim",
           c(info = "GeneSetCollection", pathways = "character", method = "ANY"),
           function(pathways, info, method = NULL, ...) {
@@ -234,7 +232,7 @@ setMethod("mpathSim",
 )
 
 
-#' @exportMethod mpathSim
+#' @export mpathSim
 setMethod("mpathSim",
           c(info = "GeneSetCollection", pathways = "missing"),
           function(pathways, info, method = NULL, ...) {
@@ -249,7 +247,7 @@ setMethod("mpathSim",
           }
 )
 
-#' @exportMethod mpathSim
+#' @export mpathSim
 setMethod("mpathSim",
           c(info = "list", pathways = "missing"),
           function(pathways, info, method = NULL, ...) {
@@ -264,7 +262,7 @@ setMethod("mpathSim",
           }
 )
 
-#' @exportMethod mpathSim
+#' @export mpathSim
 setMethod("mpathSim",
           c(info = "list", pathways = "missing", method = "missing"),
           function(pathways, info, method = NULL, ...) {
