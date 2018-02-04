@@ -133,7 +133,7 @@ sapply(methodsCombineScores, combineScores, scores = sim)
 
 We can also specify the method to combine the similarities in `mpathSim`, `geneSim`, `mgeneSim`, `clusterSim`, `mclusterSim`, `clusterGeneSim` and `mclusterGeneSim`, argument method. By default the method is set to "max" to combine pathways (except in mpathSim where the default is to show all the pathway similarities) and "BMA" to combine similarities of genes or for cluster analysis. This function is adapted from `r Biocpkg("GOSemSim")` package.
 
-The function `combineScoresPar` allows to use a parallel background (using `r Biocpkg("BiocParallel")`) to combine the scores. It is recommended to use a parallel background if you calculate more than 300 gene similarities. It also have an argument in case you want to calculate the similarity scores of severeal sets.
+The function `combineScoresPar` allows to use a parallel background (using `r Biocpkg("BiocParallel")`) to combine the scores. It is recommended to use a parallel background if you calculate more than 300 gene similarities. It also have an argument in case you want to calculate the similarity scores of several sets.
 
 ## Gene similarities {#geneSim}
 To compare the function of two genes there is the `geneSim` function and `mgeneSim` function for several comparisons. In this example we compare the genes BRCA1 and BRCA2 and NAT2, which are the genes 672, 675 and 10 respectively in ENTREZID:
@@ -259,7 +259,7 @@ suppressPackageStartupMessages(library("GOSemSim"))
 hsGO <- godata('org.Hs.eg.db', ont = "BP", computeIC = FALSE)
 ```
 
-I will compare the functions geneSim from section [geneSim and mgeneSim from GOSemSim](http://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#genesim-and-mgenesim) with both data sets from Kegg and Reactome:
+I will compare the functions geneSim from section [geneSim and mgeneSim from GOSemSim](http://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#genesim-and-mgenesim) with both data sets from KEGG and Reactome:
 ```{r geneSimGOSemSim}
 goSemSim <- GOSemSim::geneSim("241", "251", semData = hsGO, 
                               measure = "Wang", combine="BMA")$geneSim
@@ -273,7 +273,7 @@ goSemSim <- GOSemSim::mgeneSim(genes, semData = hsGO,
 BioCor::mgeneSim(genes, genesKegg, "BMA", round = TRUE) - goSemSim
 BioCor::mgeneSim(genes, genesReact, "BMA", round = TRUE) - goSemSim
 ```
-We can observe that for the first genes there isn't information on the pathways of those genes in the Kegg data set.
+We can observe that for the first genes there isn't information on the pathways of those genes in the KEGG data set.
 See FAQ [question 8](#conflict) about the use of `BioCor::` and `GOSemSim::`.
 
 If named characters are passed they are used to name the resulting matrix:
@@ -382,10 +382,10 @@ Although the recommend method is the "max" method, (set as default), there are i
 [^1]: See the [Combining values section](#combining) and the help page of `combineScores`.
 
 ## Why do you recommend using the max method to combine similarities scores for pathways?
-The purpose of combining the scores is usually to find the relationships between genes through their pathways. The higher the similarity is between two pathway of two genes, the higher functionalities do the genes share, even if those genes have other non-related functions. 
+The purpose of combining the scores is usually to find the relationships between genes through their pathways. The higher the similarity is between two pathway of two genes, the higher functionality do the genes share, even if those genes have other non-related functions. 
 
 ## How to detect which functional relationship is more important between two genes?
-If two genes are involved in the same pathways usually they have (to some extent, maybe indirect) interactions. To detect which relationship is more important between two genes one could measure other similarities scores and check the stechiometric of the pathways and measure the expression changes and correlation between them or use dynamic simulations of the pathways.
+If two genes are involved in the same pathways usually they have (to some extent, maybe indirect) interactions. To detect which relationship is more important between two genes one could measure other similarities scores and check the stoichiometry of the pathways and measure the expression changes and correlation between them or use dynamic simulations of the pathways.
 
 ## How to detect with which genes is my gene of interest related?
 You can measure the [gene similarity](#geneSim) between those genes and also measure the expression correlation of your gene of interest with other genes. 
