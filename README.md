@@ -34,7 +34,7 @@ It is intended for bioinformaticians, both people interested in *knowing* the fu
 
 # How to use BioCor?
 
-See the [vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor.html) in Bioconductor site and the [advanced vignette](https://llrs.github.io/vignette2.html).
+See the [vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor.html) in Bioconductor site and the [advanced vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/vignette2.html).
 
 # What is the goal of this project?
 
@@ -59,7 +59,7 @@ The goal of this project is to provide methods to calculate functional similarit
  - Evaluate pathways databases:  
   By comparing scores of the same entities
 
-See [advanced vignette](https://llrs.github.io/vignette2.html)
+See [advanced vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/vignette2.html)
 
 # Contributing
 
