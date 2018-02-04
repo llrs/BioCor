@@ -57,3 +57,8 @@ test_that("removeDup", {
 })
 
 
+test_that("inverseList", {
+    l <- list("a" = NA, "b" = letters[1:4])
+    expect_equal(inverseList(l), list(a = "b", b = "b", c = "b", d = "b"),
+                 .Names = c("a", "b", "c", "d"))
+})

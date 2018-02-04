@@ -155,7 +155,7 @@ removeDup <- function(cor_mat, dupli) {
 #' @keywords internal
 inverseList <- function(x) {
     stopifnot(length(names(x)) == length(x))
-    stopifnot(all(sapply(x, is.character)))
+    stopifnot(all(sapply(x, function(x){is.character(x) || is.na(x)})))
     genes <- unlist(x, use.names = FALSE)
     pathways <- rep(names(x), lengths(x))
     split(pathways, genes)
