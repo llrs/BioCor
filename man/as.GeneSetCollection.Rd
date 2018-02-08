@@ -7,7 +7,7 @@
 \alias{as.GeneSetCollection,AnnDbBimap-method}
 \title{Convert a list or a Bimap interface into GeneSetCollections}
 \usage{
-as.GeneSetCollection(object)
+as.GeneSetCollection(object, ...)
 
 \S4method{as.GeneSetCollection}{list}(object)
 
@@ -15,12 +15,15 @@ as.GeneSetCollection(object)
 }
 \arguments{
 \item{object}{A list of genes and their pathways or an AnnDbBimap.}
+
+\item{...}{Other unused parameters passed down.}
 }
 \value{
 A GeneSetCollection
 }
 \description{
-Convert a list or a Bimap interface into GeneSetCollections
+Transform the list or Bimap structure into a GeneSetCollection with unique
+gene identifiers an pathnames.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -30,7 +33,7 @@ Convert a list or a Bimap interface into GeneSetCollections
 }}
 
 \seealso{
-\code{\link{GeneSetCollection}}
+\code{\link[GSEABase]{GeneSetCollection}}
 }
 \author{
 Lluís Revilla
