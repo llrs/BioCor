@@ -27,8 +27,8 @@ Calculates the similarity between pathways using dice similarity score.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{pathway1 = character,pathway2 = character,info = GeneSetCollection}: Calculates all the similarities of the list and
-combine them using \code{combineScoresPar}
+\item \code{pathway1 = character,pathway2 = character,info = GeneSetCollection}: Calculates all the similarities of a GeneSetCollection
+and combine them using \code{combineScoresPar}
 }}
 
 \examples{

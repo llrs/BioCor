@@ -56,9 +56,9 @@ pathSim <- function(pathway1, pathway2, info) {
     diceSim(g1, g2)
 }
 
-#' @describeIn pathSim Calculates all the similarities of the list and
-#' combine them using \code{combineScoresPar}
-#' @export pathSim
+#' @describeIn pathSim Calculates all the similarities of a GeneSetCollection
+#' and combine them using \code{combineScoresPar}
+#' @export
 setMethod("pathSim",
           c(info = "GeneSetCollection", pathway1 = "character",
             pathway2 = "character"),
