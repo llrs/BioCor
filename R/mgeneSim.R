@@ -108,9 +108,10 @@ setMethod("mgeneSim",
               })
               gscGenes <- info[names(keep[keep])]
 
+              ids <- geneIds(gscGenes)
               # Search for the paths of each gene
-              paths <- sapply(genes, function(x){
-                  keepPaths <- sapply(geneIds(gscGenes), function(y) {
+              paths <- lapply(genes, function(x){
+                  keepPaths <- sapply(ids, function(y) {
                       any(x %in% y)
                   })
                   names(keepPaths[keepPaths])
