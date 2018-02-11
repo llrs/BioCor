@@ -82,3 +82,62 @@ mgeneSim <- function(genes, info, method = "max", ...) {
 
 
 }
+
+#' @describeIn mgeneSim Calculates all the similarities of the list and
+#' combine them using \code{\link{combineScoresPar}}
+#' @export
+setMethod("mgeneSim",
+          c(info = "GeneSetCollection", genes = "character"),
+          function(genes, info, method, ...) {
+              if (length(genes) < 2 ) {
+                  stop("Introduce several genes!\n",
+                       "If you want to calculate one similarities ",
+                       "between genes use geneSim")
+              }
+
+              # Extract the ids
+              origGenes <- geneIds(info)
+              # Check that the genes are in the GeneSetCollection
+              genesU <- unique(unlist(origGenes, use.names = FALSE))
+              if (any(!genes %in% genesU)) {
+                  return(NA)
+              }
+              # Simplify the GeneSetCollection
+              keep <- sapply(origGenes, function(x) {
+                  any(genes %in% x)
+              })
+              gscGenes <- info[names(keep[keep])]
+
+              # Search for the paths of each gene
+              paths <- sapply(genes, function(x){
+                  keepPaths <- sapply(geneIds(gscGenes), function(y) {
+                      any(x %in% y)
+                  })
+                  names(keepPaths[keepPaths])
+              })
+
+              # Calculate the pathSim of all the implied pathways
+              pathsSim <- mpathSim(info = gscGenes, method = NULL)
+              # Summarize the information
+              combineScoresPar(pathsSim, method, subSets = paths, ...)
+          }
+)
+
+
+#' @describeIn mgeneSim Calculates all the similarities of the list and
+#' combine them using \code{\link{combineScoresPar}}
+#' @export
+setMethod("mgeneSim",
+          c(info = "GeneSetCollection", genes = "missing"),
+          function(info, method, ...) {
+
+              # Extract the name of the pathways per gene
+              paths <- inverseList(GSEABase::geneIds(info))
+
+              # Calculate the pathSim of all the implied pathways
+              pathsSim <- mpathSim(info = info, method = NULL)
+
+              # Summarize the information
+              combineScoresPar(pathsSim, method, subSets = paths, ...)
+          }
+)
