@@ -90,7 +90,9 @@ library("reactome.db")
 genesKegg <- as.list(org.Hs.egPATH)
 genesReact <- as.list(reactomeEXTID2PATHID)
 # Remove genes and pathways which are not from human pathways 
-genesReact <- sapply(genesReact, function(x){grep("R-HSA-", x, value = TRUE)}) 
+genesReact <- sapply(genesReact, function(x){
+    unique(grep("R-HSA-", x, value = TRUE))
+    })
 genesReact <- genesReact[lengths(genesReact) >= 1] 
 ```
 
