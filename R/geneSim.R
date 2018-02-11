@@ -93,8 +93,8 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
 }
 
 
-#' @describeIn geneSim Calculates all the similarities of the list and
-#' combine them using \code{combineScoresPar}
+#' @describeIn geneSim Calculates all the similarities of the GeneSetCollection
+#' and combine them using \code{\link{combineScoresPar}}
 #' @export
 setMethod("geneSim",
           c(info = "GeneSetCollection", gene1 = "character",
@@ -103,7 +103,7 @@ setMethod("geneSim",
               if (length(gene1) != 1 | length(gene2) != 1) {
                   stop("Introduce just one gene!\n",
                        "If you want to calculate several similarities ",
-                       "between pathways use mgeneSim")
+                       "between genes use mgeneSim")
               }
               # Extract the ids
               origGenes <- geneIds(info)

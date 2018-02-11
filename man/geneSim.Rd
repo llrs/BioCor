@@ -44,8 +44,8 @@ between the genes. Later this similarities are combined using
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{gene1 = character,gene2 = character,info = GeneSetCollection}: Calculates all the similarities of the list and
-combine them using \code{combineScoresPar}
+\item \code{gene1 = character,gene2 = character,info = GeneSetCollection}: Calculates all the similarities of the GeneSetCollection
+and combine them using \code{\link{combineScoresPar}}
 }}
 
 \examples{
