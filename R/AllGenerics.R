@@ -21,3 +21,11 @@ setGeneric("clusterSim", function(cluster1, cluster2, info, method, ...)
 #' @export mclusterSim
 setGeneric("mclusterSim", function(clusters, info, method, ....)
     standardGeneric("mclusterSim"))
+
+#' @export clusterGeneSim
+setGeneric("clusterGeneSim", function(cluster1, cluster2, info, method, ...)
+    standardGeneric("clusterGeneSim"))
+
+#' @export mclusterGeneSim
+setGeneric("mclusterGeneSim", function(clusters, info, method, ....)
+    standardGeneric("mclusterGeneSim"))
