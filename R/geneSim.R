@@ -129,7 +129,7 @@ setMethod("geneSim",
               # Calculate the pathSim of all the implied pathways
               pathsSim <- mpathSim(info = gscGenes, method = NULL)
               # Summarize the information
-              out <- combineScoresPar(pathsSim, method, subSets = paths)
+              out <- combineScoresPar(pathsSim, method, subSets = paths, ...)
               out[gene1, gene2]
           }
 )
