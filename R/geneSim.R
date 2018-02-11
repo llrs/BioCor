@@ -22,7 +22,7 @@
 #' negative value of similarity.
 #' @export
 #' @author Lluís Revilla
-#' @seealso \code{\link{conversions}} help page to transform Dice
+#' @seealso \code{\link{mgeneSim}}, \code{\link{conversions}} help page to transform Dice
 #' score to Jaccard score. For the method to combine the scores see
 #' \code{\link{combineScoresPar}}.
 #' @examples
@@ -92,69 +92,44 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
     }
 }
 
-vgeneSim <- Vectorize(geneSim, vectorize.args = c("gene1", "gene2"))
 
-#' @rdname geneSim
+#' @describeIn geneSim Calculates all the similarities of the list and
+#' combine them using \code{combineScoresPar}
 #' @export
-#' @param genes A vector of genes.
-#' @return \code{mgeneSim} returns the matrix of similarities between the genes
-#' in the vector
-#' @note genes accept named characters and the output will use the names of the
-#' genes.
-#' @examples
-#'
-#' mgeneSim(c("81", "18", "10"), genes.react)
-#' mgeneSim(c("81", "18", "10"), genes.react, "avg")
-#' named_genes <- structure(c("81", "18", "10"),
-#' .Names = c("ACTN4", "ABAT", "NAT2"))
-#' mgeneSim(named_genes, genes.react, "max")
-mgeneSim <- function(genes, info, method = "max", ...) {
+setMethod("geneSim",
+          c(info = "GeneSetCollection", gene1 = "character",
+            gene2 = "character"),
+          function(gene1, gene2, info, method, ...) {
+              if (length(gene1) != 1 | length(gene2) != 1) {
+                  stop("Introduce just one gene!\n",
+                       "If you want to calculate several similarities ",
+                       "between pathways use mgeneSim")
+              }
+              # Extract the ids
+              origGenes <- geneIds(info)
+              # Check that the genes are in the GeneSetCollection
+              genes <- unique(unlist(origGenes, use.names = FALSE))
+              if (any(!c(gene1, gene2) %in% genes)) {
+                  return(NA)
+              }
+              # Simplify the GeneSetCollection
+              keep <- sapply(origGenes, function(x) {
+                  any(c(gene1, gene2) %in% x)
+              })
+              gscGenes <- info[names(keep[keep])]
 
-    if (length(unique(genes)) == 1) {
-        stop("Introduce several unique genes!\n",
-             "If you want to calculate one similarity ",
-             "between pathways use geneSim")
-    }
-    if (!all(is.character(genes))) {
-        stop("The input genes should be characters")
-    }
-    namgenes <- names(genes)
-    genes <- unique(genes)
+              # Search for the paths of each gene
+              paths <- sapply(c(gene1, gene2), function(x){
+                  keepPaths <- sapply(geneIds(gscGenes), function(y) {
+                      any(x %in% y)
+                  })
+                  names(keepPaths[keepPaths])
+              })
 
-    if (!is.list(info)) {
-        stop("info should be a list. See documentation.")
-    }
-
-    if (all(!genes %in% names(info))) {
-        stop("Check genes are in the list provided.")
-    } else if (any(!genes %in% names(info))) {
-        warning("Some genes are not in the list provided.")
-    }
-
-    if (is.null(method)) {
-        method <- "max"
-        warning("Method to combine pathways can't be null, set to 'max'")
-    }
-
-    pathways <- info[names(info) %in% genes]
-    pathwaysl <- unique(unlist(pathways, use.names = FALSE))
-    pathwaysl <- pathwaysl[!is.na(pathwaysl)]
-
-    pathsSims <- mpathSim(pathwaysl, info, NULL)
-    sim <- combineScoresPar(pathsSims, method, pathways, ... = ...)
-
-    sim_all <- matrix(NA, ncol = length(genes), nrow = length(genes),
-           dimnames = list(genes, genes))
-    sim <- AintoB(as.matrix(sim), sim_all)
-    if (!is.null(namgenes)) {
-        if (length(namgenes) != nrow(sim)) {
-            warning("Omitting gene names: duplicated names")
-        } else {
-            dimnames(sim) <- list(namgenes, namgenes)
-        }
-    }
-    sim
-
-
-}
-
+              # Calculate the pathSim of all the implied pathways
+              pathsSim <- mpathSim(info = gscGenes, method = NULL)
+              # Summarize the information
+              out <- combineScoresPar(pathsSim, method, subSets = paths)
+              out[gene1, gene2]
+          }
+)
