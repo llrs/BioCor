@@ -20,6 +20,10 @@ build_script:
 
 test_script:
   - travis-tool.sh run_tests
+  - travis-tool.sh install_bioc reactome.db
+  - travis-tool.sh install_bioc org.Hs.eg.db
+  - travis-tool.sh install_bioc airway
+  - travis-tool.sh install_bioc targetscan.Hs.eg.db
 
 on_failure:
   - 7z a failure.zip *.Rcheck\*
