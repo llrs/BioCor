@@ -200,7 +200,7 @@ We can compute the whole similarity of genes in KEGG or Reactome by using :
 ## Omit those genes without a pathway
 nas <- sapply(genesKegg, function(y){all(is.na(y)) | is.null(y)})
 genesKegg2 <- genesKegg[!nas]
-m <- mgeneSim(names(genesKegg2), genesKegg2, method  = NULL)
+m <- mgeneSim(names(genesKegg2), genesKegg2, method  = "max")
 ```
 It takes around 5 hours in one core but it requires high memory available.
 
