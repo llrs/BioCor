@@ -220,7 +220,7 @@ combineScoresPar <- function(scores,
     }
 
     #all combinations of indices
-    ij <- combn(seq_along(subSets), 2)
+    ij <- combn(seq_along(subSets), 2) # Use fun
 
     #add all i = j to the combination of indices
     ij <- matrix(c(ij, rep(seq_along(subSets), each = 2)), nrow = 2)
