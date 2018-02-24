@@ -260,9 +260,5 @@ combineScoresPar <- function(scores,
                       x = res, dims = rep(length(subSets), 2),
                       symmetric = TRUE, index1 = TRUE,
                       dimnames = list(names(subSets), names(subSets)))
-    if (exists("B")) {
-        return(AintoB(as.matrix(A), B))
-    } else {
-        return(A)
-    }
+    AintoB(as.matrix(A), B)
 }
