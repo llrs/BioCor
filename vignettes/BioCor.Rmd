@@ -379,7 +379,7 @@ Both Jaccard index and dice index are between 0 and 1 ($[0, 1]$). To calculate t
 We consider Dice coefficient better than Jaccard because it has higher values for the same comparisons, which reflects that including a gene in a pathway is not easily done.
 
 ## How does BioCor combine similarities between several pathways of two genes?
-Although the recommend method is the "max" method, (set as default), there are implemented other methods in `combineScores` of the `r BiocStyle::Biocpkg("GOSemSim")` package which I borrowed. [^1]
+Although the recommend method is the "max" method, (set as default), there are implemented other methods in `combineScores` of the `r BiocStyle::Biocpkg("GOSemSim")` package which I borrowed[^1]. 
 
 [^1]: See the [Combining values section](#combining) and the help page of `combineScores`.
 

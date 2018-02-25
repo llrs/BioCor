@@ -184,9 +184,9 @@ b <- boot(data = gS, R = 1000, statistic= function(x, i){
 hist(b$t, main = "Distribution of scores", xlab = "Similarity score")
 abline(v = scoreW, col = "red")
 ```
-If we selected randomly the genes from our pool we would expect a score around `r scoreW` with a probability of `r p.val`. That means that the differentially expressed genes is highly different compared to the other genes if we use a significance threshold of 0.05 [^2].
+If we selected randomly the genes from our pool we would expect a score around `r scoreW` with a probability of `r p.val`. That means that the differentially expressed genes is highly different compared to the other genes if we use a significance threshold of 0.05 [^r].
 
-[^2]: Remember that this is a small subset.
+[^r]: Remember that this is a small subset.
 
 ## Influence of the fold change in the funtionally similarity of the genes
 
