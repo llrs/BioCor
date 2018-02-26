@@ -25,14 +25,14 @@ biocViews:
     NetworkEnrichment, SystemsBiology
 Imports:
     BiocParallel,
-    GSEABase,
     Matrix,
-    methods,
 Suggests:
     reactome.db,
     org.Hs.eg.db,
     WGCNA,
+    methods,
     GOSemSim,
+    GSEABase,
     testthat,
     knitr,
     rmarkdown,
