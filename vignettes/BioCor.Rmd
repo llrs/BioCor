@@ -130,7 +130,7 @@ To combine values we provide a function with several methods:
 sim <- mpathSim(pathways, genesReact)
 methodsCombineScores <- c("avg", "max", "rcmax", "rcmax.avg", "BMA",
                           "reciprocal")
-sapply(methodsCombineScores, combineScores, scores = sim)
+sapply(methodsCombineScores, BioCor::combineScores, scores = sim)
 ```
 
 We can also specify the method to combine the similarities in `mpathSim`, `geneSim`, `mgeneSim`, `clusterSim`, `mclusterSim`, `clusterGeneSim` and `mclusterGeneSim`, argument method. By default the method is set to "max" to combine pathways (except in mpathSim where the default is to show all the pathway similarities) and "BMA" to combine similarities of genes or for cluster analysis. This function is adapted from `r Biocpkg("GOSemSim")` package.
