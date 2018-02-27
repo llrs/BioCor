@@ -26,7 +26,7 @@ biocViews:
 Imports:
     BiocParallel,
     Matrix,
-    GSEABase,
+    GSEABase
 Suggests:
     reactome.db,
     org.Hs.eg.db,
@@ -41,7 +41,7 @@ Suggests:
     DESeq2,
     boot,
     targetscan.Hs.eg.db,
-    Hmisc,
+    Hmisc
 BugReports: https://github.com/llrs/BioCor/issues
 URL: https://github.com/llrs/BioCor/
 VignetteBuilder: knitr
