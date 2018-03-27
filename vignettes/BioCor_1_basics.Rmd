@@ -11,9 +11,12 @@ package: "`r BiocStyle::pkg_ver('BioCor')`"
 output:
   BiocStyle::html_document:
     fig_caption: true
+    code_folding: show
+    self_contained: yes
     toc_float:
       collapsed: true
       toc_depth: 3
+      
 author:
 - name: Lluís Revilla
   affiliation: 
