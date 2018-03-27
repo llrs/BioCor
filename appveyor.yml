@@ -17,17 +17,31 @@ cache:
 
 build_script:
   - travis-tool.sh install_deps
+  - travis-tool.sh install_bioc reactome.db org.Hs.eg.db airway targetscan.Hs.eg.db
+  - travis-tool.sh install_bioc_deps
 
 test_script:
   - travis-tool.sh run_tests
-  - travis-tool.sh install_bioc reactome.db
-  - travis-tool.sh install_bioc org.Hs.eg.db
-  - travis-tool.sh install_bioc airway
-  - travis-tool.sh install_bioc targetscan.Hs.eg.db
+
+after_test:
+  - 7z a all-Rout.zip *.Rcheck\**\*.Rout *.Rcheck\**\*.fail
 
 on_failure:
   - 7z a failure.zip *.Rcheck\*
   - appveyor PushArtifact failure.zip
+
+on_success:
+- Rscript -e 'covr::codecov()'
+
+environment:
+  global:
+    _R_CHECK_FORCE_SUGGESTS_: false
+    USE_RTOOLS: true ## to be able to use Remotes (i.e. packages from non-CRAN sources)
+
+  matrix:
+    - R_VERSION: devel
+      R_ARCH: x64
+      GCC_PATH: mingw_64
 
 artifacts:
   - path: '*.Rcheck\**\*.log'
