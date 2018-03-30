@@ -98,10 +98,17 @@ setMethod("mclusterGeneSim",
               clusters <- lapply(clusters, unique)
 
               # Convert to a list
-              info <- inverseList(geneIds(info))
+              info_list <- inverseList(GSEABase::geneIds(info))
 
-              if (any(!unlist(clusters, use.names = FALSE) %in% names(info))) {
-                  warning("Some genes are not in the list provided.")
+              if (any(!unlist(clusters, use.names = FALSE) %in% names(info_list))) {
+                  clusters <- sapply(clusters, function(x){
+                      x[x %in% names(info_list)]
+                  })
+                  warning("Some genes are not in the GeneSetCollection provided.")
+              }
+              if (any(lengths(clusters) == 0)) {
+                  clusters <- clusters[lengths(clusters) != 0]
+                  warning("Some clusters are not present in the GeneSetCollection provided")
               }
               if (length(method) != 2) {
                   stop("Please provide two methods to combine scores")
@@ -109,13 +116,13 @@ setMethod("mclusterGeneSim",
 
               # Extract all pathways for each gene
               pathways <-lapply(unlist(clusters, use.names = FALSE), function(x) {
-                  info[[x]]
+                  info_list[[x]]
               })
               pathwaysl <- unique(unlist(pathways, use.names = FALSE))
               pathwaysl <- pathwaysl[!is.na(pathwaysl)]
 
               # Calculate similarities between pathways
-              pathSims <- mpathSim(pathwaysl, info, NULL)
+              pathSims <- mpathSim(pathwaysl, info_list, NULL)
 
               # Calculate similarities between genes
               # give the name of the genes

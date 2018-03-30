@@ -99,14 +99,7 @@ setMethod("mclusterSim",
               clusters <- lapply(clusters, unique)
 
               # Extract the ids
-              origGenes <- geneIds(info)
-
-              # Check that the genes are in the GeneSetCollection
-              genes <- unique(unlist(origGenes, use.names = FALSE))
-              if (all(!unlist(clusters, use.names = FALSE) %in% genes)) {
-                  warning("At least one gene should be in the list provided")
-                  return(NA)
-              }
+              origGenes <- GSEABase::geneIds(info)
 
               # Simplify the GeneSetCollection
               keep <- sapply(origGenes, function(x) {
@@ -118,8 +111,18 @@ setMethod("mclusterSim",
 
               gscGenes <- info[names(keep[keep])]
 
+
+              # Check that the genes are in the GeneSetCollection
+              genes <- unique(unlist(origGenes, use.names = FALSE))
+              if (all(!unlist(clusters, use.names = FALSE) %in% genes)) {
+                  warning("At least one gene should be in the list provided")
+                  return(NA)
+              }
+
               # Search for the paths of each gene
-              ids <- geneIds(gscGenes)
+              ids <- GSEABase::geneIds(gscGenes)
+
+
               paths <- lapply(clusters, function(x){
                   keepPaths <- sapply(ids, function(y) {
                       any(x %in% y)

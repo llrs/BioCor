@@ -100,12 +100,12 @@ setMethod("clusterSim",
               # Check that the genes are in the GeneSetCollection
               genes <- unique(unlist(origGenes, use.names = FALSE))
               if (all(!cluster1 %in% genes)) {
-                  warning("At least one gene should be in the list provided")
+                  warning("At least one gene should be in the GeneSetCollection provided")
                   return(NA)
               }
 
               if (all(!cluster2 %in% genes)) {
-                  warning("At least one gene should be in the list provided")
+                  warning("At least one gene should be in the GeneSetCollection provided")
                   return(NA)
               }
 
