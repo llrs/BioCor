@@ -110,22 +110,24 @@ setMethod("clusterGeneSim",
               cluster2 <- unique(cluster2)
 
               # Revert back to list
-              info <- inverseList(geneIds(info))
+              list_info <- inverseList(GSEABase::geneIds(info))
 
-              if (any(!cluster1 %in% names(info)) | any(!cluster2 %in% names(info))) {
-                  warning("Some genes are not in the list provided.")
+              if (any(!cluster1 %in% names(list_info)) | any(!cluster2 %in% names(list_info))) {
+                  cluster1 <- cluster1[cluster1 %in% names(list_info)]
+                  cluster2 <- cluster2[cluster2 %in% names(list_info)]
+                  warning("Some genes are not in the GeneSetCollection provided.")
               }
 
               if (length(method) > 2L | is.null(method)) {
-                  stop("Please provide two  or one methods to combine scores.",
+                  stop("Please provide two  or one method to combine scores.",
                        "See Details")
               }
 
               # FIXME: Should take advantage of GSC object (if any)
               # Extract all pathways for each gene
-              pathways1.a <- lapply(cluster1, getElement, object = info)
+              pathways1.a <- lapply(cluster1, getElement, object = list_info)
               names(pathways1.a) <- cluster1
-              pathways2.a <- lapply(cluster2, getElement, object = info)
+              pathways2.a <- lapply(cluster2, getElement, object = list_info)
               names(pathways2.a) <- cluster2
 
               # Remove duplicated and NA
@@ -134,11 +136,12 @@ setMethod("clusterGeneSim",
               pathways1 <- pathways1[!is.na(pathways1)]
               pathways2 <- pathways2[!is.na(pathways2)]
 
-              pathways <- unique(c(pathways1, pathways2))
               if (is.null(pathways1) || is.null(pathways2)) {
                   return(NA)
               }
-              simPaths <- mpathSim(pathways, info, method = NULL, ...)
+              pathways <- unique(c(pathways1, pathways2))
+
+              simPaths <- mpathSim(pathways, list_info, method = NULL, ...)
               genes <- combineScoresPar(simPaths, method[1L],
                                         c(pathways1.a, pathways2.a),
                                         ... = ...)
