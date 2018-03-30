@@ -117,6 +117,6 @@ test_that("mclusterSim", {
                      cluster3 = c("4", "9", "10"))
     test4 <- mclusterSim(clusters, Info, "rcmax.avg")
     expect_equal(test4["cluster1", "cluster2"], 0.4)
-    expect_warning(mclusterSim(clusters, Info, method = NULL, round = TRUE))
+    expect_true(isSymmetric(mclusterSim(clusters, Info, method = NULL, round = TRUE)))
 })
 

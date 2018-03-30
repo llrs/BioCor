@@ -103,12 +103,15 @@ setMethod("mclusterSim",
 
               # Simplify the GeneSetCollection
               keep <- sapply(origGenes, function(x) {
-                  keepPaths <- sapply(clusters, function(y){
+                  keepPaths <- vapply(clusters, function(y){
                       any(y %in% x)
-                  })
+                  }, logical(1L))
                   unique(keepPaths[keepPaths])
               })
-
+              if (all(lengths(keep) == 0)) {
+                  warning("At least one gene should be in the GeneSetCollection provided")
+                  return(NA)
+              }
               gscGenes <- info[names(keep[keep])]
 
 

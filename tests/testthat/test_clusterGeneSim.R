@@ -54,7 +54,7 @@ test_that("clusterGeneSim GeneSetCollection", {
                    "Some genes are not in the GeneSetCollection")
     expect_error(clusterGeneSim(c("2", "2"), c("4", "4"), Info), "several")
     expect_error(clusterGeneSim(c("2", "2"), c(9, 4), Info), "character")
-    expect_warning(test <- clusterGeneSim(c("13", "12"), c("9", "4"), Info), "list")
+    expect_warning(test <- clusterGeneSim(c("13", "12"), c("9", "4"), Info), "GeneSetCollection")
     expect_true(is.na(test))
     expect_warning(expect_error(clusterGeneSim(c("2", "1"), c("9", "3"), Info,
                                 method = NULL), "method"))
