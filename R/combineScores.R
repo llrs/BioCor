@@ -167,7 +167,8 @@ reciprocal <- function(scores, t) {
 #' @param BPPARAM BiocParallel back-end parameters.
 #' By default (\code{NULL}) a \code{for} loop is used.
 #' @param ... Other arguments passed to \code{combineScores}
-#' @seealso \code{\link[BiocParallel]{bpparam}}
+#' @seealso \link[BiocParallel]{register} in BiocParallel about the arguments
+#' accepted by BPPARAM
 #' @rdname combineScores
 #' @export
 #' @import Matrix

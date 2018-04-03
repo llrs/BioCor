@@ -75,7 +75,8 @@ predict novel gene function. Bioinformatics 2007; 23 (13): i529-i538.
 doi: 10.1093/bioinformatics/btm195
 }
 \seealso{
-\code{\link[BiocParallel]{bpparam}}
+\link[BiocParallel]{register} in BiocParallel about the arguments
+accepted by BPPARAM
 }
 \author{
 Lluís Revilla based on Guangchuang Yu
