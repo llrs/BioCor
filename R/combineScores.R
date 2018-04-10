@@ -41,7 +41,8 @@
 #' d[1,2] <- NA
 #' sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
 #'        combineScores, scores = d)
-combineScores <- function(scores, method, round = FALSE, t = 0) {
+combineScores <- function(scores, method = c("max", "avg", "rcmax", "rcmax.avg", "BMA",
+                                             "reciprocal"), round = FALSE, t = 0) {
     # Check input
     method <- match.arg(method,
                         c("avg", "max", "rcmax", "rcmax.avg", "BMA",
