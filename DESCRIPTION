@@ -1,6 +1,6 @@
 Package: BioCor
 Title: Functional similarities
-Version: 1.5.1
+Version: 1.5.0
 Authors@R: c(person("Lluís", "Revilla Sancho", 
             email ="lluis.revilla@gmail.com", role = c("aut", "cre"), 
             comment = c(ORCID = "0000-0001-9747-2570")), 
@@ -8,6 +8,8 @@ Authors@R: c(person("Lluís", "Revilla Sancho",
             comment = c(ORCID = "0000-0001-5569-9259")),
             person("Juan José", "Lozano", role = "ths", 
             comment = c(ORCID = "0000-0001-7613-3908")))
+Author: Lluís Revilla Sancho <lluis.revilla@gmail.com>
+Maintainer: Lluís Revilla Sancho <lluis.revilla@gmail.com>
 Description: Calculates functional similarities based on the pathways
         described on KEGG and REACTOME or in gene sets. These
         similarities can be calculated for pathways or gene sets,
