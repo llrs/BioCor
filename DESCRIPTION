@@ -6,7 +6,7 @@ Authors@R: c(person("Lluís", "Revilla Sancho",
             comment = c(ORCID = "0000-0001-9747-2570")), 
             person("Pau", "Sancho-Bru", role = "ths", 
             comment = c(ORCID = "0000-0001-5569-9259")),
-            person("Juan José", "Lozano", role = "ths", 
+            person("Juan José Salvatella", "Lozano", role = "ths", 
             comment = c(ORCID = "0000-0001-7613-3908")))
 Description: Calculates functional similarities based on the pathways
         described on KEGG and REACTOME or in gene sets. These
