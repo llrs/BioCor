@@ -49,7 +49,7 @@ Methods to find similarities have been developed for several purposes, being Jac
 
 However, there is another resource of similarities between genes: metabolic pathways. Metabolic pathways describe the relationship between genes, proteins, lipids and other elements of the cells. A pathway describes, to some extent, the function in which it is involved in the cell. There exists several databases about which gene belong to which pathway. Together with pathways, gene sets related to a function or to a phenotype are a source of information of the genes function. With this package we provide the methods to calculate functional similarities based on this information.
 
-Here we provides functions to calculate functional similarities for pathways, gene sets, genes and clusters of genes. The name BioCor stands from biological correlation, shortened to BioCor, because as said we look if some genes are in the same pathways or gene sets as other genes. 
+Here we provides functions to calculate *functional similarities distances* for pathways, gene sets, genes and clusters of genes. The name BioCor stands from biological correlation, shortened to BioCor, because as said we look if some genes are in the same pathways or gene sets as other genes. 
 
 As it development started aiming to improve clustering of genes by functionality in weighted gene co-expression networks using `r BiocStyle::CRANpkg("WGCNA")`. The package has some functions to combine similarities in order to integrate with `WGCNA`. 
 
@@ -62,10 +62,10 @@ citation("BioCor")
 
 
 # Installation
-The BioCor package is available at [Bioconductor](https://bioconductor.org) and can be downloaded and installed via biocLite:
+The BioCor package is available at [Bioconductor](https://bioconductor.org) and can be downloaded and installed via BiocManager:
 ```{r install, eval=FALSE}
-source("http://bioconductor.org/biocLite.R")
-biocLite("BioCor")
+install.packages("BiocManager")
+BiocManager::install("BioCor")
 ```
 
 You can install the latest version of `r BiocStyle::Githubpkg("llrs/BioCor")` from Github with:
