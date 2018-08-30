@@ -19,8 +19,9 @@ It is an R package you can install it from the Bioconductor project with:
 
 ```r
 ## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("BioCor")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("BioCor")
 ```
 You can install this version of *BioCor* with:
 ```r
