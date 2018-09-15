@@ -4,7 +4,7 @@
 #' Calculates the similarity between pathways using dice similarity score.
 #' \code{diceSim} is used to calculate similarities between the two pathways.
 #' @param pathway1,pathway2 A single pathway to calculate the similarity
-#' @param info A list or a GeneSetCollection of genes and the pathways they are
+#' @param info A GeneSetCollection or a list of genes and the pathways they are
 #' involved.
 #' @return The similarity between those pathways or all the similarities
 #' between each comparison.
