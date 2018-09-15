@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Build Status](https://travis-ci.org/llrs/BioCor.svg?branch=master)](https://travis-ci.org/llrs/BioCor) [![Build Status](http://www.bioconductor.org/shields/build/devel/bioc/BioCor.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/BioCor/) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github//llrs/BioCor/?branch=master&svg=true)](https://ci.appveyor.com/llrs/BioCor) [![Bioc](http://www.bioconductor.org/shields/years-in-bioc/BioCor.svg)](https://www.bioconductor.org/packages/devel/bioc/html/BioCor.html#since) [![commit](http://www.bioconductor.org/shields/commits/bioc/BioCor.svg)](https://www.bioconductor.org/packages/devel/bioc/html/BioCor.html#svn_source) [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) [![codecov](https://codecov.io/gh/llrs/BioCor/branch/master/graph/badge.svg)](https://codecov.io/gh/llrs/BioCor/)
+[![Build Status](https://travis-ci.org/llrs/BioCor.svg?branch=master)](https://travis-ci.org/llrs/BioCor) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github//llrs/BioCor/?branch=master&svg=true)](https://ci.appveyor.com/llrs/BioCor) [![codecov](https://codecov.io/gh/llrs/BioCor/branch/master/graph/badge.svg)](https://codecov.io/gh/llrs/BioCor/) [![Build Status](http://www.bioconductor.org/shields/build/devel/bioc/BioCor.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/BioCor/) [![Bioc](http://www.bioconductor.org/shields/years-in-bioc/BioCor.svg)](https://www.bioconductor.org/packages/devel/bioc/html/BioCor.html#since) [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
 BioCor package
 ==============
@@ -35,22 +35,22 @@ See the [vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCo
 # The data must be provided, see the vignette for more details.
 # Get some pathways from the pathway data
 (pathways <- sample(unlist(genesReact, use.names = FALSE), 5))
-#> [1] "R-HSA-5693616" "R-HSA-392499"  "R-HSA-597592"  "R-HSA-168255" 
-#> [5] "R-HSA-69186"
+#> [1] "R-HSA-168271"  "R-HSA-375165"  "R-HSA-109704"  "R-HSA-112310" 
+#> [5] "R-HSA-1430728"
 # Calculate the pathway similarity of them
 mpathSim(pathways, genesReact, NULL)
-#>               R-HSA-5693616 R-HSA-392499 R-HSA-597592 R-HSA-168255
-#> R-HSA-5693616   1.000000000  0.004699248  0.007047216   0.00000000
-#> R-HSA-392499    0.004699248  1.000000000  0.795618334   0.10606061
-#> R-HSA-597592    0.007047216  0.795618334  1.000000000   0.04429967
-#> R-HSA-168255    0.000000000  0.106060606  0.044299674   1.00000000
-#> R-HSA-69186     0.271186441  0.001896633  0.002857143   0.00000000
-#>               R-HSA-69186
-#> R-HSA-5693616 0.271186441
-#> R-HSA-392499  0.001896633
-#> R-HSA-597592  0.002857143
-#> R-HSA-168255  0.000000000
-#> R-HSA-69186   1.000000000
+#>               R-HSA-168271 R-HSA-375165 R-HSA-109704 R-HSA-112310
+#> R-HSA-168271    1.00000000  0.000000000   0.00000000   0.00000000
+#> R-HSA-375165    0.00000000  1.000000000   0.03846154   0.00000000
+#> R-HSA-109704    0.00000000  0.038461538   1.00000000   0.00000000
+#> R-HSA-112310    0.00000000  0.000000000   0.00000000   1.00000000
+#> R-HSA-1430728   0.02721727  0.005555556   0.00748363   0.01210428
+#>               R-HSA-1430728
+#> R-HSA-168271    0.027217269
+#> R-HSA-375165    0.005555556
+#> R-HSA-109704    0.007483630
+#> R-HSA-112310    0.012104283
+#> R-HSA-1430728   1.000000000
 ```
 
 Who might use this package?
