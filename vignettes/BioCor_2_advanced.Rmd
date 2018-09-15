@@ -131,11 +131,11 @@ abline(h = 0, v = 0)
 legend("top", legend = c("Up-regulated", "Down-regulated"), fill = c("black", "red"))
 ```
 
-This plot illustrate that some differentially expressed genes are quite similar according to their pathways. Suggesting that there might be a relationship between them. Furthermore, somre up-regulated genes seem functionally related to down-regulated genes indicating a precise regulation of the pathways where they are involved.
+This plot illustrate that some differentially expressed genes are quite similar according to their pathways. Suggesting that there might be a relationship between them. Furthermore, some up-regulated genes seem functionally related to down-regulated genes indicating a precise regulation of the pathways where they are involved.
 
 Note that here we are only using `r nrow(MDSs)` genes from the original `r nrow(fc)`.
 
-## Are differentially expressed genes selected by their functionallity?
+## Are differentially expressed genes selected by their functionality?
 
 In the previous section we have seen that some differentially expressed genes are functionally related and that they have a high logFC value. Are genes differentially expressed more functional related than those which aren't differential expressed?
 
@@ -173,7 +173,7 @@ Comparing the genes differentially expressed and those who aren't doesn't show t
 
 ## Are functionally related the selected differentially expressed genes?
 
-We have seen that the genes differentially expressed aren't selected by their functionallity. However they could be more functionally related than the other genes. Are the differentially expressed genes more functionally similar than it would be expected ?
+We have seen that the genes differentially expressed aren't selected by their functionality. However they could be more functionally related than the other genes. Are the differentially expressed genes more functionally similar than it would be expected ?
 
 ```{r pval2, fig.cap="Distribution of the similarity within differentially expressed genes. The line indicates the mean funtional similarity whitin them.", fig.wide = TRUE}
 (scoreW <- combineScores(gS[keep, keep], "avg"))
@@ -255,7 +255,7 @@ genesReact2[diffGenes] <- sapply(genesReact[diffGenes], function(x){c(x, "deg")}
 plot(ecdf(mgeneSim(names(genesReact), genesReact)))
 curve(ecdf(mgeneSim(names(genesReact2), genesReact2)), color = "red")
 ```
-This would take lot of time, for a ilustration purpose we reduce to some genes:
+This would take lot of time, for a illustration purpose we reduce to some genes:
 
 ```{r newPathway2, fig.wide=TRUE, fig.cap="The effect of adding a new pathway to a functional similarity. In red the same network as in black but with the added pathway.", warning=FALSE, message=FALSE}
 library("Hmisc")
@@ -345,7 +345,7 @@ hist(as.dist(gS[keep, keep]-gsGO),
      main = "Difference between functional similarity and biological process", 
      xlab = "Functional similarity - biological process similarity")
 ```
-On this graphic we can observe that some genes have a large functional similarity and few biological similarity. They are present together in several pathways while they share few biological process, indicating that they might be key elements of the pathways they are in. On the other hand some other pairs of genes show higher biological process similarity than functional similarity, indicating specialization or compartimentalization of said genes. 
+On this graphic we can observe that some genes have a large functional similarity and few biological similarity. They are present together in several pathways while they share few biological process, indicating that they might be key elements of the pathways they are in. On the other hand some other pairs of genes show higher biological process similarity than functional similarity, indicating specialization or compartmentalization of said genes. 
 
 # Session Info {.unnumbered}
 

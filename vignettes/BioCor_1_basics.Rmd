@@ -356,7 +356,7 @@ An important aspect in this process is deciding how to combine the similarities 
 For these reasons it is better to use weights between `0.5` and `1` for expression if you use `weighted.sum` or similar functions.
 
 There are several things to take into account when choosing a way to combine:
- - The size of the grey or 0 modules (those who don't show a specific pattern)
+ - The size of the gray or 0 modules (those who don't show a specific pattern)
  - The number and size of the modules created.
  - The way the similarities are combined
 
