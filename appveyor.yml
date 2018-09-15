@@ -63,4 +63,5 @@ artifacts:
     name: Bits
 
 notifications:
-  on_build_status_changed: true
+  - provider: Email
+    on_build_status_changed: true
