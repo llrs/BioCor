@@ -61,3 +61,6 @@ artifacts:
 
   - path: '\*_*.zip'
     name: Bits
+
+notifications:
+  on_build_status_changed: true
