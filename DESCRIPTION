@@ -1,26 +1,30 @@
 Package: BioCor
 Title: Functional similarities
 Version: 1.5.1
-Authors@R: c(person("Lluís", "Revilla Sancho", 
-            email ="lluis.revilla@gmail.com", role = c("aut", "cre"), 
-            comment = c(ORCID = "0000-0001-9747-2570")), 
-            person("Pau", "Sancho-Bru", role = "ths", 
-            comment = c(ORCID = "0000-0001-5569-9259")),
-            person("Juan José Salvatella", "Lozano", role = "ths", 
-            comment = c(ORCID = "0000-0001-7613-3908")))
-Description: Calculates functional similarities based on the pathways
-        described on KEGG and REACTOME or in gene sets. These
-        similarities can be calculated for pathways or gene sets,
-        genes, or clusters and combined with other similarities. They
-        can be used to improve networks, gene selection, testing
-        relationships...
-Depends: R (>= 3.4.0)
+Authors@R: 
+    c(person(given = "Lluís",
+             family = "Revilla Sancho",
+             role = c("aut", "cre"),
+             email = "lluis.revilla@gmail.com",
+             comment = c(ORCID = "0000-0001-9747-2570")),
+      person(given = "Pau",
+             family = "Sancho-Bru",
+             role = "ths",
+             comment = c(ORCID = "0000-0001-5569-9259")),
+      person(given = "Juan José Salvatella",
+             family = "Lozano",
+             role = "ths",
+             comment = c(ORCID = "0000-0001-7613-3908")))
+Description: Calculates functional similarities based on the
+    pathways described on KEGG and REACTOME or in gene sets. These
+    similarities can be calculated for pathways or gene sets, genes, or
+    clusters and combined with other similarities. They can be used to
+    improve networks, gene selection, testing relationships...
 License: GPL-3 + file LICENSE
-Encoding: UTF-8
-LazyData: true
-biocViews:
-    StatisticalMethod, Clustering, GeneExpression, Network, Pathways, 
-    NetworkEnrichment, SystemsBiology
+URL: https://github.com/llrs/BioCor/
+BugReports: https://github.com/llrs/BioCor/issues
+Depends: 
+    R (>= 3.4.0)
 Imports:
     BiocParallel,
     Matrix,
@@ -41,8 +45,11 @@ Suggests:
     targetscan.Hs.eg.db,
     Hmisc,
     spelling
-BugReports: https://github.com/llrs/BioCor/issues
-URL: https://github.com/llrs/BioCor/
-VignetteBuilder: knitr
-RoxygenNote: 6.1.0
+VignetteBuilder: 
+    knitr
+biocViews:StatisticalMethod, Clustering, GeneExpression,
+    Network, Pathways, NetworkEnrichment, SystemsBiology
+Encoding: UTF-8
 Language: en-US
+LazyData: true
+RoxygenNote: 6.1.0
