@@ -52,11 +52,7 @@ combineScores <- function(scores, method = c("max", "avg", "rcmax", "rcmax.avg",
     if (is.list(scores) && length(scores) == 1) {
         scores <- scores[[1]]
     }
-    # Check Matrix classes and matrix
-    is.Matrix <- function(m){
-        is.matrix(m) | grepl("Matrix", as.character(class(m)),
-                                   ignore.case = FALSE)
-    }
+
     if (!is.Matrix(scores)) {
         stop("scores argument should be a matrix")
     }
@@ -72,17 +68,7 @@ combineScores <- function(scores, method = c("max", "avg", "rcmax", "rcmax.avg",
         stop("t is for the reciprocal method, and should be between 0 and 1")
     }
 
-    # Remove NA
-    if (any(is.na(scores)) && is.Matrix(scores)) {
-        row.na.idx <- apply(scores, 1, function(i){all(is.na(i))})
-        col.na.idx <- apply(scores, 2, function(i){all(is.na(i))})
-        if (any(row.na.idx)) {
-            scores <- scores[-which(row.na.idx), ]
-        }
-        if (any(col.na.idx)) {
-            scores <- scores[, -which(col.na.idx)]
-        }
-    }
+    scores <- removeNA(scores)
 
     # Apply the methods
     if (method == "avg") {
@@ -104,12 +90,35 @@ combineScores <- function(scores, method = c("max", "avg", "rcmax", "rcmax.avg",
     }
 
     # Return the value
+    rounder(result, round)
+}
+
+rounder <- function(result, round) {
     if (round) {
         return(round(result, digits = 3))
     } else {
         return(result)
     }
+}
+removeNA <- function(m){
+    # Remove NA
+    if (any(is.na(m)) && is.Matrix(m)) {
+        row.na.idx <- apply(m, 1, function(i){all(is.na(i))})
+        col.na.idx <- apply(m, 2, function(i){all(is.na(i))})
+        if (any(row.na.idx)) {
+            m <- m[-which(row.na.idx), , drop = FALSE]
+        }
+        if (any(col.na.idx)) {
+            m <- m[, -which(col.na.idx)]
+        }
+    }
+    m
+}
 
+# Check Matrix classes and matrix
+is.Matrix <- function(m){
+    is.matrix(m) | grepl("Matrix", as.character(class(m)),
+                         ignore.case = FALSE)
 }
 
 BMA <- function(scores) {
@@ -188,30 +197,11 @@ combineScoresPar <- function(scores,
         # To handle cases when it is already simplified
     } else if (length(subSets) == 1) {
         return(combineScores(scores, method = method, ...))
-    } else { # To handle cases where subSets are not present in scores
-        # Check the ids
-        subId <- unique(unlist(subSets, use.names = FALSE))
-        subId <- subId[!is.na(subId)]
-
+    } else {
+        # To handle cases where subSets are not present in scores
         B <- matrix(NA, ncol = length(subSets), nrow = length(subSets),
                     dimnames = list(names(subSets), names(subSets)))
-
-        cond1 <- !all(subId %in% unlist(dimnames(scores), use.names = FALSE))
-        cond2 <- length(unique(unlist(subSets, use.names = FALSE)))
-        cond2 <- cond2 > length(subId)
-
-        if (cond1 || cond2) {
-            keep <- sapply(subSets, function(x) {
-                if (all(is.na(x) || is.null(x))) {
-                    FALSE
-                } else {
-                    all(x %in% unlist(dimnames(scores), use.names = FALSE))
-                }
-            })
-        } else {
-            keep <- rep(TRUE, length(subSets))
-        }
-        subSets <- subSets[keep]
+        subSets <- keepSubSet(subSets, scores)
         if (length(subSets) == 0) {
             return(B)
         }
@@ -260,4 +250,29 @@ combineScoresPar <- function(scores,
                       symmetric = TRUE, index1 = TRUE,
                       dimnames = list(names(subSets), names(subSets)))
     AintoB(as.matrix(A), B)
+}
+
+
+keepSubSet <- function(subSets, scores){
+    # Check the ids
+    subId <- unique(unlist(subSets, use.names = FALSE))
+    subId <- subId[!is.na(subId)]
+    namesDim <- dimnames(scores)
+
+    cond1 <- !all(subId %in% unlist(namesDim, use.names = FALSE))
+    cond2 <- length(unique(unlist(subSets, use.names = FALSE)))
+    cond2 <- cond2 > length(subId)
+
+    if (cond1 || cond2) {
+        keep <- sapply(subSets, function(x) {
+            if (all(is.na(x) || is.null(x))) {
+                FALSE
+            } else {
+                all(x %in% unlist(namesDim, use.names = FALSE))
+            }
+        })
+    } else {
+        keep <- rep(TRUE, length(subSets))
+    }
+    subSets[keep]
 }
