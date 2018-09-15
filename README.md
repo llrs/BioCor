@@ -13,15 +13,17 @@ Installation
 It is an R package you can install it from the Bioconductor project with:
 
 ``` r
-install.packages("BiocManager")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
 BiocManager::install("BioCor")
 ```
 
 You can install this version of *BioCor* with:
 
 ``` r
-library("devtools")
-install_github("llrs/BioCor")
+if (!requireNamespace("devtools", quietly=TRUE))
+    install.packages("devtools")
+devtools::install_github("llrs/BioCor")
 ```
 
 How to use BioCor?
@@ -33,22 +35,22 @@ See the [vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCo
 # The data must be provided, see the vignette for more details.
 # Get some pathways from the pathway data
 (pathways <- sample(unlist(genesReact, use.names = FALSE), 5))
-#> [1] "R-HSA-8953854" "R-HSA-8854518" "R-HSA-5688426" "R-HSA-162582" 
-#> [5] "R-HSA-5250913"
+#> [1] "R-HSA-5693616" "R-HSA-392499"  "R-HSA-597592"  "R-HSA-168255" 
+#> [5] "R-HSA-69186"
 # Calculate the pathway similarity of them
 mpathSim(pathways, genesReact, NULL)
-#>               R-HSA-8953854 R-HSA-8854518 R-HSA-5688426 R-HSA-162582
-#> R-HSA-8953854    1.00000000    0.01066667    0.10061602   0.06123662
-#> R-HSA-8854518    0.01066667    1.00000000    0.01081081   0.01739130
-#> R-HSA-5688426    0.10061602    0.01081081    1.00000000   0.09718499
-#> R-HSA-162582     0.06123662    0.01739130    0.09718499   1.00000000
-#> R-HSA-5250913    0.01785714    0.00000000    0.14356436   0.05941303
-#>               R-HSA-5250913
-#> R-HSA-8953854    0.01785714
-#> R-HSA-8854518    0.00000000
-#> R-HSA-5688426    0.14356436
-#> R-HSA-162582     0.05941303
-#> R-HSA-5250913    1.00000000
+#>               R-HSA-5693616 R-HSA-392499 R-HSA-597592 R-HSA-168255
+#> R-HSA-5693616   1.000000000  0.004699248  0.007047216   0.00000000
+#> R-HSA-392499    0.004699248  1.000000000  0.795618334   0.10606061
+#> R-HSA-597592    0.007047216  0.795618334  1.000000000   0.04429967
+#> R-HSA-168255    0.000000000  0.106060606  0.044299674   1.00000000
+#> R-HSA-69186     0.271186441  0.001896633  0.002857143   0.00000000
+#>               R-HSA-69186
+#> R-HSA-5693616 0.271186441
+#> R-HSA-392499  0.001896633
+#> R-HSA-597592  0.002857143
+#> R-HSA-168255  0.000000000
+#> R-HSA-69186   1.000000000
 ```
 
 Who might use this package?
