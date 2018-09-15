@@ -1,6 +1,6 @@
 Package: BioCor
 Title: Functional similarities
-Version: 1.5.1
+Version: 1.5.2
 Authors@R: 
     c(person(given = "Lluís",
              family = "Revilla Sancho",
@@ -47,7 +47,7 @@ Suggests:
     spelling
 VignetteBuilder: 
     knitr
-biocViews:StatisticalMethod, Clustering, GeneExpression,
+biocViews: StatisticalMethod, Clustering, GeneExpression,
     Network, Pathways, NetworkEnrichment, SystemsBiology
 Encoding: UTF-8
 Language: en-US
