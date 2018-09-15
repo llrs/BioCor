@@ -17,3 +17,6 @@
 ^BioCor.Rproj$
 ^.travis.yml
 ^appveyor\.yml$
+^\.Rprofile
+^README\.Rmd$
+^README-.*\.png$
