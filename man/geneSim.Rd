@@ -8,8 +8,8 @@
 \usage{
 geneSim(gene1, gene2, info, method = "max", ...)
 
-\S4method{geneSim}{character,character,GeneSetCollection}(gene1, gene2, info,
-  method = "max", ...)
+\S4method{geneSim}{character,character,GeneSetCollection}(gene1, gene2,
+  info, method = "max", ...)
 }
 \arguments{
 \item{gene1, gene2}{Ids of the genes to calculate the similarity, to be found

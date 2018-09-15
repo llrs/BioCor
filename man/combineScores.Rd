@@ -5,8 +5,8 @@
 \alias{combineScoresPar}
 \title{Combining values}
 \usage{
-combineScores(scores, method = c("max", "avg", "rcmax", "rcmax.avg", "BMA",
-  "reciprocal"), round = FALSE, t = 0)
+combineScores(scores, method = c("max", "avg", "rcmax", "rcmax.avg",
+  "BMA", "reciprocal"), round = FALSE, t = 0)
 
 combineScoresPar(scores, method, subSets = NULL, BPPARAM = NULL, ...)
 }
@@ -33,9 +33,6 @@ A numeric value as described in details.
 }
 \description{
 Combine several similarities into one using several methods.
-
-\code{cobmineScoresPar} performs multiple \code{combineScores}. It allows
-parallel computing using BiocParallel back-end.
 }
 \details{
 The input matrix can be a base matrix or a matrix from package Matrix.

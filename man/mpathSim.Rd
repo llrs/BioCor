@@ -19,7 +19,8 @@ mpathSim(pathways, info, method = NULL, ...)
 
 \S4method{mpathSim}{missing,list,ANY}(pathways, info, method = NULL, ...)
 
-\S4method{mpathSim}{missing,list,missing}(pathways, info, method = NULL, ...)
+\S4method{mpathSim}{missing,list,missing}(pathways, info, method = NULL,
+  ...)
 }
 \arguments{
 \item{pathways}{Pathways to calculate the similarity for}

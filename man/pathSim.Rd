@@ -8,8 +8,8 @@
 \usage{
 pathSim(pathway1, pathway2, info)
 
-\S4method{pathSim}{character,character,GeneSetCollection}(pathway1, pathway2,
-  info)
+\S4method{pathSim}{character,character,GeneSetCollection}(pathway1,
+  pathway2, info)
 }
 \arguments{
 \item{pathway1, pathway2}{A single pathway to calculate the similarity}

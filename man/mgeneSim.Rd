@@ -9,11 +9,11 @@
 \usage{
 mgeneSim(genes, info, method = "max", ...)
 
-\S4method{mgeneSim}{character,GeneSetCollection}(genes, info, method = "max",
-  ...)
+\S4method{mgeneSim}{character,GeneSetCollection}(genes, info,
+  method = "max", ...)
 
-\S4method{mgeneSim}{missing,GeneSetCollection}(genes, info, method = "max",
-  ...)
+\S4method{mgeneSim}{missing,GeneSetCollection}(genes, info,
+  method = "max", ...)
 }
 \arguments{
 \item{genes}{A vector of genes.}

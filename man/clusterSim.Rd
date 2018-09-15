@@ -8,8 +8,8 @@
 \usage{
 clusterSim(cluster1, cluster2, info, method = "max", ...)
 
-\S4method{clusterSim}{character,character,GeneSetCollection}(cluster1, cluster2,
-  info, method = "max", ...)
+\S4method{clusterSim}{character,character,GeneSetCollection}(cluster1,
+  cluster2, info, method = "max", ...)
 }
 \arguments{
 \item{cluster1, cluster2}{A vector with genes.}

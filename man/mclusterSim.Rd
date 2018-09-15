@@ -8,8 +8,8 @@
 \usage{
 mclusterSim(clusters, info, method = "max", ...)
 
-\S4method{mclusterSim}{list,GeneSetCollection}(clusters, info, method = "max",
-  ...)
+\S4method{mclusterSim}{list,GeneSetCollection}(clusters, info,
+  method = "max", ...)
 }
 \arguments{
 \item{clusters}{A list of clusters of genes to be found in \code{id}.}

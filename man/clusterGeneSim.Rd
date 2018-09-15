@@ -6,7 +6,8 @@
 \alias{clusterGeneSim,character,character,GeneSetCollection-method}
 \title{Similarity score between clusters of genes based on genes similarity}
 \usage{
-clusterGeneSim(cluster1, cluster2, info, method = c("max", "rcmax.avg"), ...)
+clusterGeneSim(cluster1, cluster2, info, method = c("max", "rcmax.avg"),
+  ...)
 
 \S4method{clusterGeneSim}{character,character,GeneSetCollection}(cluster1,
   cluster2, info, method = c("max", "rcmax.avg"), ...)
