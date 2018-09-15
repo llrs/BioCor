@@ -1,6 +1,9 @@
 # BioCor 1.5.3
 
 * Improved spelling
+* Reduced the complexity fo combineScoresPar and combineScores.
+* Improve efficiency of code in vignettes.
+* Adding a section about GeneOverlap package.
 
 # BioCor 1.3.3
 
