@@ -14,7 +14,7 @@ pathSim(pathway1, pathway2, info)
 \arguments{
 \item{pathway1, pathway2}{A single pathway to calculate the similarity}
 
-\item{info}{A list or a GeneSetCollection of genes and the pathways they are
+\item{info}{A GeneSetCollection or a list of genes and the pathways they are
 involved.}
 }
 \value{

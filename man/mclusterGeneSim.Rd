@@ -14,7 +14,7 @@ mclusterGeneSim(clusters, info, method = c("max", "rcmax.avg"), ...)
 \arguments{
 \item{clusters}{A list of clusters of genes to be found in \code{id}.}
 
-\item{info}{A list or a GeneSetCollection of genes and the pathways they are
+\item{info}{A GeneSetCollection or a list of genes and the pathways they are
 involved.}
 
 \item{method}{A vector with two  or one argument to be passed to

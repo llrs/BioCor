@@ -15,7 +15,7 @@ geneSim(gene1, gene2, info, method = "max", ...)
 \item{gene1, gene2}{Ids of the genes to calculate the similarity, to be found
 in genes.}
 
-\item{info}{A list or a GeneSetCollection of genes and the pathways they are
+\item{info}{A GeneSetCollection or a list of genes and the pathways they are
 involved.}
 
 \item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA",

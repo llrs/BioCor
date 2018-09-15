@@ -17,7 +17,7 @@ clusterGeneSim(cluster1, cluster2, info, method = c("max", "rcmax.avg"),
 
 \item{cluster2}{A vector with genes.}
 
-\item{info}{A list or a GeneSetCollection of genes and the pathways they are
+\item{info}{A GeneSetCollection or a list of genes and the pathways they are
 involved.}
 
 \item{method}{A vector with two  or one argument to be passed to
