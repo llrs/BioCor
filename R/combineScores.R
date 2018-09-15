@@ -75,13 +75,10 @@ combineScores <- function(scores, method = c("max", "avg", "rcmax", "rcmax.avg",
     # Remove NA
     if (any(is.na(scores)) && is.Matrix(scores)) {
         row.na.idx <- apply(scores, 1, function(i){all(is.na(i))})
+        col.na.idx <- apply(scores, 2, function(i){all(is.na(i))})
         if (any(row.na.idx)) {
             scores <- scores[-which(row.na.idx), ]
         }
-
-    }
-    if (any(is.na(scores)) && is.Matrix(scores)) {
-        col.na.idx <- apply(scores, 2, function(i){all(is.na(i))})
         if (any(col.na.idx)) {
             scores <- scores[, -which(col.na.idx)]
         }
