@@ -1,137 +1,89 @@
-BioCor v1.3.3
-============
+# BioCor 1.5.3
 
-Changes
+* Improved spelling
+
+# BioCor 1.3.3
 
 * Add methods for GeneSetCollections
 
-BioCor v1.1.12
-============
-
-Changes
+# BioCor 1.1.12
 
 * Improve speed on geneSim and clusterSim
 * Add a vignette describing more uses of BioCor
 * Adding more tests
-
-Bug fix
-
 * Calculating similarities correctly when non-existent genes are provided.
 
-BioCor v1.1.4 (Release date: 2017-06-26)
-============
-
-Bug fix
+# BioCor 1.1.4
 
 * Correct incorrect implementation of rcmax method
 
-BioCor v1.1.3 (Release date: 2017-05-23)
-============
+# BioCor 1.1.3 
 
-Changes
 
 * Improving reciprocal method
 * Increased testind of combineScores
 
-BioCor v1.1.0 (Release date: 2017-05-16)
-============
-
-Changes
+# BioCor 1.1.0 
 
 * Adding combineScoresPar for high number of comparisons
 * Improving the speed of mpathSim
 * Removing the dependency of graph
 
-BioCor v0.99.33 (Release date: 2017-04-10)
-============
-
-Changes
+# BioCor 0.99.33 
 
 * Add more test to increase coverage
 * Document better the BiocViews.
 
-BioCor v0.99.32 (Release date: 2017-03-31)
-============
-
-Changes
+# BioCor 0.99.32
 
 * Accept named pathways in mpathSim
 * Accept named genes in mgeneSim
 * diceSim returns NA when not able to calculate similarities
 * Increase test coverage
 
-BioCor v0.99.31 (Release date: 2017-03-20)
-============
-
-Changes
+# BioCor 0.99.31
 
 * Refer to weighted.mean in weighted help page
 * Change the default behaviour of mpathSim: now methods is NULL
 * Correct the misleading use of geneSetsCollection.
 * Add test for when large number of pathways are needed (pathSims_matrix)
 
-BioCor v0.99.30 (Release date: 2017-03-14)
-=============
-
-Changes
+# BioCor0.99.30
 
 * Add reciprocal method to combineScores
 
-
-BioCor v0.99.30 (Release date: 2017-03-14)
-=============
-
-Changes
+# BioCor 0.99.30
 
 * Update documentation of combineScores
 
-BioCor v0.99.29 (Release date: 2017-03-14)
-=============
-
-Changes
+# BioCor 0.99.29
 
 * Update documentation of combineScores
 
-BioCor v0.99.28 (Release date: 2017-03-14)
-=============
-
-Changes
+# BioCor 0.99.28
 
 * Update documentation of combineScores
 
-BioCor v0.99.27 (Release date: 2017-03-14)
-=============
-
-Changes
+# BioCor 0.99.27
 
 * Correct a test for clusterSim
 
-BioCor v0.99.26 (Release date: 2017-03-14)
-==============
-
-Changes:
+# BioCor 0.99.26
 
 * Update the required R version from 3.3 to 3.4's
 * Adding more tests to increase the coverage
 * Using mpathSim to calculate path similarities
 
-BioCor v0.99.25 (Release date: 2017-03-13)
-==============
-
-Changes:
+# BioCor 0.99.25
 
 * Update Vignette to just output html
 
-BioCor v0.99.24 (Release date: 2017-03-10)
-==============
-
-Changes:
+# BioCor 0.99.24
 
 * Submit the package to the Bioconductor project
 
-BioCor v0.99.23 (Release date: 2017-03-10)
-==============
-
-Changes:
+# BioCor 0.99.23
 
 * Add the Bioconductor webhook
+
+
