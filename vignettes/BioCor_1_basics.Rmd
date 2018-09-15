@@ -51,10 +51,12 @@ However, there is another resource of similarities between genes: metabolic path
 
 Here we provides functions to calculate *functional similarities distances* for pathways, gene sets, genes and clusters of genes. The name BioCor stands from biological correlation, shortened to BioCor, because as said we look if some genes are in the same pathways or gene sets as other genes. 
 
-As it development started aiming to improve clustering of genes by functionality in weighted gene co-expression networks using `r BiocStyle::CRANpkg("WGCNA")`. The package has some functions to combine similarities in order to integrate with `WGCNA`. 
+BioCor is different from `r BiocStyle::Biocpkg("GeneOverlap")` because here we use the Dice index instead of the Jaccard index (althoguh we provide a function to change from one to the other, see [this section](#D2J))and that package only allows to compare pathways but not genes or groups of genes. But `r BiocStyle::Biocpkg("GeneOverlap")` provides some functionalities to plot the similarity scores and provides the associated p-value to the comparison of pathways.
+
+The development of this package aimed initally to improve clustering of genes by functionality in weighted gene co-expression networks using `r BiocStyle::CRANpkg("WGCNA")`. The package has some functions to combine similarities in order to integrate with `WGCNA`. 
 
 # Citation
-The main article describing the software and its usefulness is currently under writing. However you can cite as said in:
+You can cite the package as:
 
 ```{r eval = FALSE}
 citation("BioCor")
@@ -187,7 +189,7 @@ mclusterGeneSim(clusters, genesKegg, c("max", "max"))
 Note the differences between `mclusterGeneSim` and `mclusterSim` in the similarity values of the clusters. If we set `method = c("max", "max")` in `mclusterGeneSim` then the similarity between the clusters is the same as `clusterSim`.
 
 
-## Converting similarities
+## Converting similarities {#D2J}
 If needed, Jaccard similarity can be calculated from Dice similarity using `D2J`:
 
 ```{r sims}
