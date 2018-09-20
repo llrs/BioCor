@@ -3,6 +3,7 @@
 * Improved spelling
 * Reduced the complexity fo combineScoresPar and combineScores.
 * Improve efficiency of code in vignettes.
+* Change the news section
 * Adding a section about GeneOverlap package.
 
 # BioCor 1.3.3
