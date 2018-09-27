@@ -20,3 +20,4 @@
 ^\.Rprofile
 ^README\.Rmd$
 ^README-.*\.png$
+^.lintr$

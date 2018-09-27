@@ -1,17 +1,13 @@
 language: R
-cache: packages
-r_packages:
-  - devtools
-  - covr
-  - roxygen2
-bioc_packages:
-  - org.Hs.eg.db
-  - reactome.db
-  - BiocCheck
-  - BiocStyle
-before_install:
-  Rscript -e 'update.packages(ask = FALSE)'
 sudo: false
+cache: packages
+
+r_github_packages:
+- jimhester/lintr
+
+after_script:
+    - R CMD INSTALL $PKG_TARBALL
+    - Rscript -e 'lintr::lint_package()'
 after_success:
   - Rscript -e 'library(covr); codecov()'
 #  - R CMD BiocCheck .
