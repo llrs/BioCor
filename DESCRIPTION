@@ -1,7 +1,7 @@
 Package: BioCor
 Title: Functional similarities
 Version: 1.5.4
-Authors@R: 
+Authors@R:
     c(person(given = "Lluís",
              family = "Revilla Sancho",
              role = c("aut", "cre"),
@@ -20,10 +20,10 @@ Description: Calculates functional similarities based on the
     similarities can be calculated for pathways or gene sets, genes, or
     clusters and combined with other similarities. They can be used to
     improve networks, gene selection, testing relationships...
-License: GPL-3 + file LICENSE
+License: MIT + file LICENSE
 URL: https://github.com/llrs/BioCor/
 BugReports: https://github.com/llrs/BioCor/issues
-Depends: 
+Depends:
     R (>= 3.4.0)
 Imports:
     BiocParallel,
@@ -45,7 +45,7 @@ Suggests:
     targetscan.Hs.eg.db,
     Hmisc,
     spelling
-VignetteBuilder: 
+VignetteBuilder:
     knitr
 biocViews: StatisticalMethod, Clustering, GeneExpression,
     Network, Pathways, NetworkEnrichment, SystemsBiology
