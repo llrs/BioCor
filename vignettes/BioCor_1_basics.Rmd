@@ -269,18 +269,18 @@ hsGO <- godata('org.Hs.eg.db', ont = "BP", computeIC = FALSE)
 I will compare the functions geneSim from section [geneSim and mgeneSim from GOSemSim](http://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#genesim-and-mgenesim) with both data sets from KEGG and Reactome:
 ```{r geneSimGOSemSim}
 goSemSim <- GOSemSim::geneSim("241", "251", semData = hsGO, 
-                              measure = "Wang", combine="BMA")$geneSim
-BioCor::geneSim("241", "251", genesKegg, "BMA") - goSemSim
-BioCor::geneSim("241", "251", genesReact, "BMA") - goSemSim
+                              measure = "Wang", combine="BMA")
+# In case it is null
+sim <- ifelse(is.na(goSemSim), 0, getElement(goSemSim, "geneSim"))
+BioCor::geneSim("241", "251", genesReact, "BMA") - sim
 
 genes <- c("835", "5261","241", "994")
 goSemSim <- GOSemSim::mgeneSim(genes, semData = hsGO, 
                    measure = "Wang", combine = "BMA",
                    verbose = FALSE, drop = NULL)
-BioCor::mgeneSim(genes, genesKegg, "BMA", round = TRUE) - goSemSim
 BioCor::mgeneSim(genes, genesReact, "BMA", round = TRUE) - goSemSim
 ```
-We can observe that for the first genes there isn't information on the pathways of those genes in the KEGG data set.
+We can observe there is more similarity according to the gene ontology than according to the pathways. 
 See FAQ [question 8](#conflict) about the use of `BioCor::` and `GOSemSim::`.
 
 If named characters are passed they are used to name the resulting matrix:
