@@ -45,7 +45,7 @@ genesReact <- genesReact[lengths(genesReact) >= 1]
 
 # Introduction
 
-In this vignette we assume that the reader is already familiarized with the other vignette. But want to know how can it help to answer other questions in other situations
+In this vignette we assume that the reader is already familiarized with the `r BiocStyle::Biocpkg("BioCor", "BioCor_1_basics.html, "introduction vignette")`, but wants to know how can it help to answer other questions in other situations
 
 We follow the same convention about names of the objects used `genesReact` and `genesKegg` are the list with information about the pathways the genes are involved in. 
 

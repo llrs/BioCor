@@ -53,7 +53,7 @@ Here we provides functions to calculate *functional similarities distances* for 
 
 BioCor is different from `r BiocStyle::Biocpkg("GeneOverlap")` because here we use the Dice index instead of the Jaccard index (althoguh we provide a function to change from one to the other, see [this section](#D2J))and that package only allows to compare pathways but not genes or groups of genes. But `r BiocStyle::Biocpkg("GeneOverlap")` provides some functionalities to plot the similarity scores and provides the associated p-value to the comparison of pathways.
 
-The development of this package aimed initally to improve clustering of genes by functionality in weighted gene co-expression networks using `r BiocStyle::CRANpkg("WGCNA")`. The package has some functions to combine similarities in order to integrate with `WGCNA`. 
+The development of this package aimed initally to improve clustering of genes by functionality in weighted gene co-expression networks using `r BiocStyle::CRANpkg("WGCNA")`. The package has some functions to combine similarities in order to integrate with `WGCNA`. For other uses you can check the `r BiocStyle::Biocpkg("BioCor", "BioCor_2_advanced.html", label = "advanced vignette.")`.
 
 # Citation
 You can cite the package as:
