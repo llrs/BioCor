@@ -220,7 +220,7 @@ combineScoresPar <- function(scores,
         for (k in seq_len(ncol(ij))) {
             rowIds <- subSets[[ij[1, k]]]
             colIds <- subSets[[ij[2, k]]]
-            if (is.na(rowIds) || is.na(colIds)) {
+            if (anyNA(c(rowIds, colIds)) || is.null(colIds) || is.null(rowIds)) {
                 res[k] <- NA
             } else {
                 res[k] <- combineScores(scores[rowIds, colIds, drop = FALSE],
@@ -235,7 +235,7 @@ combineScoresPar <- function(scores,
             }
             rowIds <- subSets[[ij[1, x]]]
             colIds <- subSets[[ij[2, x]]]
-            if (is.na(rowIds) || is.na(colIds)) {
+            if (anyNA(c(rowIds, colIds)) || is.null(rowIds) || is.null(colIds)) {
                 NA
             } else {
                 combineScores(scores[rowIds, colIds, drop = FALSE],

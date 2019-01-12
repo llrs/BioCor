@@ -148,3 +148,26 @@ test_that("BMA", {
 test_that("rcmax", {
     expect_error(rcmax(as.vector(d)), "matrix")
 })
+
+test_that("rowIds  &colIds are not null in combineScorePar",  {
+    set.seed(456)
+    library("reactome.db")
+    genes2Pathways <- as.list(reactomeEXTID2PATHID)
+    pathways <- unlist(genes2Pathways, use.names = FALSE)
+    genes <- rep(names(genes2Pathways), lengths(genes2Pathways))
+    paths2genes <- split(genes, pathways)
+    human <- grep("R-HSA-", names(paths2genes))
+    paths2genes <- paths2genes[human]
+    paths2genes <- lapply(paths2genes, unique)
+    paths2genes <- paths2genes[lengths(paths2genes) >= 2]
+
+    a <- unlist(paths2genes, use.names = FALSE)
+    b <- rep(names(paths2genes), lengths(paths2genes))
+    genes2paths <- split(b, a)
+
+    # clusters
+    clusters <- list(a=sample(genes, 50), b = sample(genes, 25))
+    expect_warning(mclusterGeneSim(clusters, info = genes2paths,
+                                   method = c("max", "BMA")),
+                   "Some genes are not in the list provided.")
+})
