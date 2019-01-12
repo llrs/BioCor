@@ -106,7 +106,7 @@ setMethod("mclusterSim",
                   keepPaths <- vapply(clusters, function(y){
                       any(y %in% x)
                   }, logical(1L))
-                  unique(keepPaths[keepPaths])
+                  any(keepPaths)
               })
               if (all(lengths(keep) == 0)) {
                   warning("At least one gene should be in the GeneSetCollection provided")
