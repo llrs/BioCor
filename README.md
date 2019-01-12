@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Build Status](https://travis-ci.org/llrs/BioCor.svg?branch=master)](https://travis-ci.org/llrs/BioCor) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github//llrs/BioCor/?branch=master&svg=true)](https://ci.appveyor.com/llrs/BioCor) [![codecov](https://codecov.io/gh/llrs/BioCor/branch/master/graph/badge.svg)](https://codecov.io/gh/llrs/BioCor/) [![Build Status](http://www.bioconductor.org/shields/build/devel/bioc/BioCor.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/BioCor/) [![Bioc](http://www.bioconductor.org/shields/years-in-bioc/BioCor.svg)](https://www.bioconductor.org/packages/devel/bioc/html/BioCor.html#since) [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Build Status](https://travis-ci.org/llrs/BioCor.svg?branch=master)](https://travis-ci.org/llrs/BioCor) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github//llrs/BioCor/?branch=master&svg=true)](https://ci.appveyor.com/llrs/BioCor) [![codecov](https://codecov.io/gh/llrs/BioCor/branch/master/graph/badge.svg)](https://codecov.io/gh/llrs/BioCor/) [![Build Status](http://www.bioconductor.org/shields/build/devel/bioc/BioCor.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/BioCor/) [![Bioc](http://www.bioconductor.org/shields/years-in-bioc/BioCor.svg)](https://www.bioconductor.org/packages/devel/bioc/html/BioCor.html#since) [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1913/badge)](https://bestpractices.coreinfrastructure.org/projects/1913)
 
 BioCor package
 ==============
@@ -29,28 +29,29 @@ devtools::install_github("llrs/BioCor")
 How to use BioCor?
 ==================
 
-See the [vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor.html) in Bioconductor site and the [advanced vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/vignette2.html). Here is a minimum example:
+See the [vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_1_basics.html) in Bioconductor site and the [advanced vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_2_advanced.html).
+Here is a minimum example:
 
 ``` r
 # The data must be provided, see the vignette for more details.
 # Get some pathways from the pathway data
 (pathways <- sample(unlist(genesReact, use.names = FALSE), 5))
-#> [1] "R-HSA-168271"  "R-HSA-375165"  "R-HSA-109704"  "R-HSA-112310" 
-#> [5] "R-HSA-1430728"
+#> [1] "R-HSA-1483255" "R-HSA-6806667" "R-HSA-597592"  "R-HSA-977443" 
+#> [5] "R-HSA-1852241"
 # Calculate the pathway similarity of them
 mpathSim(pathways, genesReact, NULL)
-#>               R-HSA-168271 R-HSA-375165 R-HSA-109704 R-HSA-112310
-#> R-HSA-168271    1.00000000  0.000000000   0.00000000   0.00000000
-#> R-HSA-375165    0.00000000  1.000000000   0.03846154   0.00000000
-#> R-HSA-109704    0.00000000  0.038461538   1.00000000   0.00000000
-#> R-HSA-112310    0.00000000  0.000000000   0.00000000   1.00000000
-#> R-HSA-1430728   0.02721727  0.005555556   0.00748363   0.01210428
-#>               R-HSA-1430728
-#> R-HSA-168271    0.027217269
-#> R-HSA-375165    0.005555556
-#> R-HSA-109704    0.007483630
-#> R-HSA-112310    0.012104283
-#> R-HSA-1430728   1.000000000
+#>               R-HSA-1483255 R-HSA-6806667 R-HSA-597592 R-HSA-977443
+#> R-HSA-1483255   1.000000000    0.00000000  0.007952286            0
+#> R-HSA-6806667   0.000000000    1.00000000  0.009510870            0
+#> R-HSA-597592    0.007952286    0.00951087  1.000000000            0
+#> R-HSA-977443    0.000000000    0.00000000  0.000000000            1
+#> R-HSA-1852241   0.005291005    0.00000000  0.047702152            0
+#>               R-HSA-1852241
+#> R-HSA-1483255   0.005291005
+#> R-HSA-6806667   0.000000000
+#> R-HSA-597592    0.047702152
+#> R-HSA-977443    0.000000000
+#> R-HSA-1852241   1.000000000
 ```
 
 Who might use this package?
@@ -66,17 +67,26 @@ The goal of this project is to provide methods to calculate functional similarit
 What can be BioCor used for?
 ============================
 
-Here is a non-comprehensive list: - Diseases or drug:
-By observing which genes with the same pathways are more affected - Gene/protein functional analysis:
-By testing how new pathways are similar to existing pathways - Protein-protein interaction:
-By testing if they are involved in the same pathways - miRNA-mRNA interaction:
-By comparing clusters they affect - sRNA regulation:
-By observing the relationship between sRNA and genes - Evolution:
-By comparing similarities of genes between species - Networks improvement:
-By adding information about the known relationship between genes - Evaluate pathways databases:
-By comparing scores of the same entities
+Here is a non-comprehensive list:
 
-See [advanced vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/vignette2.html)
+-   Diseases or drug:
+    By observing which genes with the same pathways are more affected
+-   Gene/protein functional analysis:
+    By testing how new pathways are similar to existing pathways
+-   Protein-protein interaction:
+    By testing if they are involved in the same pathways
+-   miRNA-mRNA interaction:
+    By comparing clusters they affect
+-   sRNA regulation:
+    By observing the relationship between sRNA and genes
+-   Evolution:
+    By comparing similarities of genes between species
+-   Networks improvement:
+    By adding information about the known relationship between genes
+-   Evaluate pathways databases:
+    By comparing scores of the same entities
+
+See the [advanced vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_2_advanced.html)
 
 Contributing
 ============
@@ -86,4 +96,4 @@ Please read [how to contribute](.github/CONTRIBUTING.md) for details on the code
 Acknowledgments
 ===============
 
-Anyone that has contributed to make this package be as is, including, my advisor.
+Anyone that has contributed to make this package be as is, specially my advisor.

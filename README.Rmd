@@ -20,6 +20,7 @@ library("BioCor")
 [![Bioc](http://www.bioconductor.org/shields/years-in-bioc/BioCor.svg)](https://www.bioconductor.org/packages/devel/bioc/html/BioCor.html#since)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1913/badge)](https://bestpractices.coreinfrastructure.org/projects/1913)
 
 # BioCor package
 
@@ -44,7 +45,8 @@ devtools::install_github("llrs/BioCor")
 
 # How to use BioCor?
 
-See the [vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor.html) in Bioconductor site and the [advanced vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/vignette2.html). Here is a minimum example:
+See the [vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_1_basics.html) in Bioconductor site and the [advanced vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_2_advanced.html).  
+Here is a minimum example:
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 library("reactome.db")
 genesReact <- as.list(reactomeEXTID2PATHID)
@@ -75,6 +77,7 @@ The goal of this project is to provide methods to calculate functional similarit
 # What can be BioCor used for?
 
 Here is a non-comprehensive list:
+
  - Diseases or drug:  
   By observing which genes with the same pathways are more affected
  - Gene/protein functional analysis:  
@@ -92,7 +95,7 @@ Here is a non-comprehensive list:
  - Evaluate pathways databases:  
   By comparing scores of the same entities
 
-See [advanced vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/vignette2.html)
+See the [advanced vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_2_advanced.html)
 
 # Contributing
 
@@ -100,4 +103,4 @@ Please read [how to contribute](.github/CONTRIBUTING.md) for details on the code
 
 # Acknowledgments
 
-Anyone that has contributed to make this package be as is, including, my advisor.
+Anyone that has contributed to make this package be as is, specially my advisor.
