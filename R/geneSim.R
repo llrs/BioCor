@@ -65,7 +65,7 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
         return(NA)
     }
 
-    # Extract all pathways for each gene
+        # Extract all pathways for each gene
     pathways <- lapply(comb, function(x) {
         y <- info[[x]]
         y[!is.na(y)]
@@ -128,8 +128,13 @@ setMethod("geneSim",
 
               # Calculate the pathSim of all the implied pathways
               pathsSim <- mpathSim(info = gscGenes, method = NULL)
+
               # Summarize the information
-              out <- combineScoresPar(pathsSim, method, subSets = paths, ...)
-              out[gene1, gene2]
+              if (is.null(method)) {
+                  pathsSim[paths[[1]], paths[[2]], drop = FALSE]
+              } else {
+                  out <- combineScoresPar(pathsSim, method, subSets = paths, ...)
+                  out[gene1, gene2]
+              }
           }
 )

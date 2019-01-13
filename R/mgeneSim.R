@@ -95,10 +95,17 @@ setMethod("mgeneSim",
                        "between genes use geneSim")
               }
 
+              if (length(unique(genes)) == 1) {
+                  stop("Introduce several unique genes!\n",
+                       "If you want to calculate one similarity ",
+                       "between pathways use geneSim")
+              }
+
               # Extract the ids
               origGenes <- geneIds(info)
               # Check that the genes are in the GeneSetCollection
               genesU <- unique(unlist(origGenes, use.names = FALSE))
+
               if (any(!genes %in% genesU)) {
                   return(NA)
               }
@@ -108,7 +115,7 @@ setMethod("mgeneSim",
               })
               gscGenes <- info[names(keep[keep])]
 
-              ids <- geneIds(gscGenes)
+              ids <- origGenes[keep]
               # Search for the paths of each gene
               paths <- lapply(genes, function(x){
                   keepPaths <- sapply(ids, function(y) {
@@ -116,7 +123,11 @@ setMethod("mgeneSim",
                   })
                   names(keepPaths[keepPaths])
               })
-
+              if (is.null(names(genes))) {
+                  names(paths) <- genes
+              } else {
+                  names(paths) <- names(genes)
+              }
               # Calculate the pathSim of all the implied pathways
               pathsSim <- mpathSim(info = gscGenes, method = NULL)
               # Summarize the information
