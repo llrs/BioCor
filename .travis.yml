@@ -12,7 +12,6 @@ after_success:
   - Rscript -e 'library(covr); codecov()'
 #  - R CMD BiocCheck .
 os:
-  - windows
   - linux
   - osx
 r:
