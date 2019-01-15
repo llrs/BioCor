@@ -23,8 +23,6 @@ Description: Calculates functional similarities based on the
 License: MIT + file LICENSE
 URL: https://github.com/llrs/BioCor/
 BugReports: https://github.com/llrs/BioCor/issues
-Depends:
-    R (>= 3.4.0)
 Imports:
     BiocParallel,
     Matrix,
