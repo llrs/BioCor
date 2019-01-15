@@ -13,7 +13,6 @@ after_success:
 #  - R CMD BiocCheck .
 os:
   - linux
-  - osx
 r:
  - bioc-devel
 notifications:
