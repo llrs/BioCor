@@ -8,6 +8,8 @@ package: "`r BiocStyle::pkg_ver('BioCor')`"
 output:
   BiocStyle::html_document:
     fig_caption: true
+    code_folding: show
+    self_contained: yes
     toc_float:
       collapsed: true
       toc_depth: 3
@@ -82,9 +84,9 @@ weighted.prod(c(1, 0.5, NA), w = c(0.5, 0.25, 0.25))
 In this example we will use the functional similarities in a classical differential study.
 
 ## Obtaining data
-We start using data from the [RNAseq workflow](http://bioconductor.org/help/workflows/rnaseqGene/#differential-expression-analysis) and following the analysis:
+We start using data from the [RNAseq workflow](http://bioconductor.org/help/workflows/rnaseqGene/#differential-expression-analysis) and following the analysis comparing treated and untreated:
 
-```{r simulate, fig.cap="Volcano plot. The airway data", fig.wide = TRUE}
+```{r simulate, fig.cap="Volcano plot. The airway data", fig.wide = TRUE, code_folding = "hide"}
 suppressPackageStartupMessages(library("airway"))
 data("airway")
 library("DESeq2")
@@ -139,19 +141,19 @@ Note that here we are only using `r nrow(MDSs)` genes from the original `r nrow(
 
 In the previous section we have seen that some differentially expressed genes are functionally related and that they have a high logFC value. Are genes differentially expressed more functional related than those which aren't differential expressed?
 
-Here we will use a subset of genes represented again in a volcano plot and we will look for the functional similarities between those genes
-```{r setting, fig.cap="Volcano plot of the subset of 400 genes. This subset will be used in the following sections"} 
+For simplicity we will use a subset of 400 genes represented again in a volcano plot and we will look for the functional similarities between those genes:
+```{r setting, fig.cap="Volcano plot of the subset of 400 genes. This subset will be used in the following sections", code_folding = "hide"} 
 set.seed(250)
 subRes <- res[!is.na(res$log2FoldChange), ]
 subs <- sample.int(nrow(subRes), size = 400)
 subRes <- subRes[subs, ]
-plot(subRes$log2FoldChange, -log10(subRes$padj), pch = 16, xlab = "log2FC", 
-     ylab = "-log10(p.ajd)", main = "Untreated vs treated")
-abline(v=c(-logFC, logFC), h = -log10(0.05), col = "red")
 g <- genes[genes$ENSEMBL %in% rownames(subRes), "ENTREZID"]
 gS <- mgeneSim(g[g %in% names(genesReact)], genesReact, "BMA")
 deg <- rownames(subRes[subRes$padj < 0.05 & !is.na(subRes$padj), ])
 keep <- rownames(gS) %in% genes[genes$ENSEMBL %in% deg, "ENTREZID"]
+plot(subRes$log2FoldChange, -log10(subRes$padj), pch = 16, xlab = "log2FC", 
+     ylab = "-log10(p.ajd)", main = "Untreated vs treated")
+abline(v=c(-logFC, logFC), h = -log10(0.05), col = "red")
 ```
 
 We can answer this by testing it empirically:
@@ -193,7 +195,7 @@ If we selected randomly the genes from our pool we would expect a score around `
 We have seen that the genes differentially expressed are not selected by functional similarity but they are functionally related. Now we would like to know if selecting a fold change threshold affects the functional similarity between them. 
 
 To know the relationship between the fold change and the similarity between genes we have several methods:
-```{r logfc1, fig.cap="Similarity of genes along abs(logFC). Assessing the similarity of genes according to their absolute log2 fold change.", fig.wide = TRUE}
+```{r logfc1, fig.cap="Similarity of genes along abs(logFC). Assessing the similarity of genes according to their absolute log2 fold change.", fig.wide = TRUE, code_folding = "hide"}
 s <- seq(0, max(abs(subRes$log2FoldChange))+0.05, by = 0.05)
 l <- sapply(s, function(x){
     deg <- rownames(subRes[abs(subRes$log2FoldChange) >= x, ])
@@ -219,7 +221,7 @@ legend("topleft",
 
 The functional similarity of the genes above the threshold increases with a more restrictive threshold, indicating that a logFC threshold selects genes by their functionality, or in other words that genes differentially expressed tend to be of related pathways. The similarity between those genes above the threshold and below remains constant as well as within genes below the threshold.
 
-```{r logfc2, fig.cap = "Functional similarity between the up-regulated and down-regulated genes."}
+```{r logfc2, fig.cap = "Functional similarity between the up-regulated and down-regulated genes.", code_folding = "hide"}
 l <- sapply(s, function(x){
     # Names of genes up and down regulated
     degUp <- rownames(subRes[subRes$log2FoldChange >= x, ])
@@ -349,7 +351,7 @@ On this graphic we can observe that some genes have a large functional similarit
 
 # Session Info {.unnumbered}
 
-```{r session}
+```{r session, code_folding = "hide"}
 sessionInfo()
 ```
 

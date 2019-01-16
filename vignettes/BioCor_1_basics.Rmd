@@ -414,6 +414,6 @@ My apologies if you found a bug or an inconsistency between what `BioCor` should
 
 # Session Info {.unnumbered}
 
-```{r session}
+```{r session, code_folding = FALSE}
 sessionInfo()
 ```
