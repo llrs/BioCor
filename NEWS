@@ -1,3 +1,10 @@
+Changes in version 1.6.1
+
+* Corrected an empty condition in mclusterGeneSim
+* Corrected a logical check in mclusterSim
+* Improved coherence in the output between lists and GeneSetCollections
+* Added links between vignettes
+
 Changes in version 1.5.4
 
 * Improved spelling
