@@ -80,7 +80,7 @@ weighted.prod(c(1, NA), w = c(0.5, 0.5))
 weighted.prod(c(1, 0.5, NA), w = c(0.5, 0.25, 0.25))
 ```
 
-# Assesing a differential study
+# Assessing a differential study
 In this example we will use the functional similarities in a classical differential study.
 
 ## Obtaining data
@@ -190,7 +190,7 @@ If we selected randomly the genes from our pool we would expect a score around `
 
 [^r]: Remember that this is a small subset.
 
-## Influence of the fold change in the funtionally similarity of the genes
+## Influence of the fold change in the functionally similarity of the genes
 
 We have seen that the genes differentially expressed are not selected by functional similarity but they are functionally related. Now we would like to know if selecting a fold change threshold affects the functional similarity between them. 
 
@@ -245,7 +245,7 @@ legend("topright", legend = "Up vs down regulated genes",
 
 The maximal functional similarity between genes up-regulated and down-regulated are at `r L[which.max(L$UpVsDown), "logfc"]` log2 fold change. 
 
-# Assesing a new pathway
+# Assessing a new pathway
 
 Sometimes the top differentially expressed genes or some other key genes are selected as a signature or a potential new group of related genes. In those cases we can test how does the network of genes change if we add them. Here we create a new pathway named `deg`, and we see the effect on the functional similarity score for all the genes:
 
