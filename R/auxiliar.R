@@ -152,7 +152,7 @@ removeDup <- function(cor_mat, dupli) {
 #' list
 #' @return The number of pathways each gene has.
 #' @author Lluís Revilla
-#' @keywords internal
+#' @export
 inverseList <- function(x) {
     stopifnot(length(names(x)) == length(x))
     stopifnot(all(sapply(x, function(x){is.character(x) || is.na(x)})))

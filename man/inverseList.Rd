@@ -19,4 +19,3 @@ Calculate the pathways per gene of list
 \author{
 Lluís Revilla
 }
-\keyword{internal}
