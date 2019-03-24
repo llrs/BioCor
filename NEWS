@@ -1,3 +1,8 @@
+Changes in version 1.8.0
+
+* Exported inverseList function
+* Improved spelling
+
 Changes in version 1.6.1
 
 * Corrected an empty condition in mclusterGeneSim
