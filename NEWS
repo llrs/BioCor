@@ -2,6 +2,7 @@ Changes in version 1.8.1
 
 * Exported inverseList function
 * Improved spelling
+* Corrected a bug related to logical coercion of length greater than 1.
 
 Changes in version 1.6.1
 
