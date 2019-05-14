@@ -253,26 +253,25 @@ combineScoresPar <- function(scores,
 }
 
 
-keepSubSet <- function(subSets, scores){
+keepSubSet <- function(subSets, scores) {
     # Check the ids
     subId <- unique(unlist(subSets, use.names = FALSE))
-    subId <- subId[!is.na(subId)]
-    namesDim <- dimnames(scores)
+    values <- unlist(dimnames(scores), use.names = FALSE)
 
-    cond1 <- !all(subId %in% unlist(namesDim, use.names = FALSE))
-    cond2 <- length(unique(unlist(subSets, use.names = FALSE)))
-    cond2 <- cond2 > length(subId)
-
-    if (cond1 || cond2) {
-        keep <- sapply(subSets, function(x) {
-            if (all(is.na(x) || is.null(x))) {
-                FALSE
-            } else {
-                all(x %in% unlist(namesDim, use.names = FALSE))
-            }
-        })
+        # browser()
+    if (anyNA(subId)) {
+        keep <- sapply(subSets, check_in, values = values)
+        subSets[keep]
     } else {
-        keep <- rep(TRUE, length(subSets))
+        subSets
     }
-    subSets[keep]
 }
+
+check_in <- function(x, values) {
+    if (all(is.na(x) | is.null(x))) {
+        FALSE
+    } else {
+        all(x %in% values)
+    }
+}
+
