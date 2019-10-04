@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BioCor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.2</span>
       </span>
     </div>
 
@@ -161,48 +161,48 @@
 <a href="#pathway-similarities" class="anchor"></a>Pathway similarities</h2>
 <p>We can compute similarities (Dice similarity, see <a href="#FAQ1">question 1</a> of FAQ) between two pathways or between several pathways and combine them, or not:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">(paths &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(genesReact)), <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">## [1] "R-HSA-5619079" "R-HSA-5250981"</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">## [1] "R-HSA-1483257" "R-HSA-5660883"</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="../reference/pathSim.html">pathSim</a></span>(paths[<span class="dv">1</span>], paths[<span class="dv">2</span>], genesReact)</a>
 <a class="sourceLine" id="cb6-4" data-line-number="4">## [1] 0</a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb6-6" data-line-number="6">(pathways &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(genesReact)), <span class="dv">10</span>))</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">##  [1] "R-HSA-112308"  "R-HSA-9027283" "R-HSA-210993"  "R-HSA-5576892"</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8">##  [5] "R-HSA-2514859" "R-HSA-3359454" "R-HSA-5619048" "R-HSA-211000" </a>
-<a class="sourceLine" id="cb6-9" data-line-number="9">##  [9] "R-HSA-388479"  "R-HSA-9006927"</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">##  [1] "R-HSA-532668"  "R-HSA-5654726" "R-HSA-5545483" "R-HSA-1643713"</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">##  [5] "R-HSA-5693571" "R-HSA-68884"   "R-HSA-9013973" "R-HSA-6791462"</a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">##  [9] "R-HSA-6803529" "R-HSA-379398"</a>
 <a class="sourceLine" id="cb6-10" data-line-number="10"><span class="kw"><a href="../reference/mpathSim.html">mpathSim</a></span>(pathways, genesReact)</a>
-<a class="sourceLine" id="cb6-11" data-line-number="11">##               R-HSA-112308 R-HSA-9027283 R-HSA-210993 R-HSA-5576892</a>
-<a class="sourceLine" id="cb6-12" data-line-number="12">## R-HSA-112308     1.0000000             0   0.00000000    0.30508475</a>
-<a class="sourceLine" id="cb6-13" data-line-number="13">## R-HSA-9027283    0.0000000             1   0.00000000    0.00000000</a>
-<a class="sourceLine" id="cb6-14" data-line-number="14">## R-HSA-210993     0.0000000             0   1.00000000    0.00000000</a>
-<a class="sourceLine" id="cb6-15" data-line-number="15">## R-HSA-5576892    0.3050847             0   0.00000000    1.00000000</a>
-<a class="sourceLine" id="cb6-16" data-line-number="16">## R-HSA-2514859    0.0000000             0   0.00000000    0.07317073</a>
-<a class="sourceLine" id="cb6-17" data-line-number="17">## R-HSA-3359454    0.0000000             0   0.00000000    0.00000000</a>
-<a class="sourceLine" id="cb6-18" data-line-number="18">## R-HSA-5619048    0.0000000             0   0.00000000    0.00000000</a>
-<a class="sourceLine" id="cb6-19" data-line-number="19">## R-HSA-211000     0.0000000             0   0.00000000    0.00000000</a>
-<a class="sourceLine" id="cb6-20" data-line-number="20">## R-HSA-388479     0.0000000             0   0.00000000    0.00000000</a>
-<a class="sourceLine" id="cb6-21" data-line-number="21">## R-HSA-9006927    0.0000000             0   0.08333333    0.00000000</a>
-<a class="sourceLine" id="cb6-22" data-line-number="22">##               R-HSA-2514859 R-HSA-3359454 R-HSA-5619048 R-HSA-211000</a>
-<a class="sourceLine" id="cb6-23" data-line-number="23">## R-HSA-112308     0.00000000             0             0            0</a>
-<a class="sourceLine" id="cb6-24" data-line-number="24">## R-HSA-9027283    0.00000000             0             0            0</a>
-<a class="sourceLine" id="cb6-25" data-line-number="25">## R-HSA-210993     0.00000000             0             0            0</a>
-<a class="sourceLine" id="cb6-26" data-line-number="26">## R-HSA-5576892    0.07317073             0             0            0</a>
-<a class="sourceLine" id="cb6-27" data-line-number="27">## R-HSA-2514859    1.00000000             0             0            0</a>
-<a class="sourceLine" id="cb6-28" data-line-number="28">## R-HSA-3359454    0.00000000             1             0            0</a>
-<a class="sourceLine" id="cb6-29" data-line-number="29">## R-HSA-5619048    0.00000000             0             1            0</a>
-<a class="sourceLine" id="cb6-30" data-line-number="30">## R-HSA-211000     0.00000000             0             0            1</a>
-<a class="sourceLine" id="cb6-31" data-line-number="31">## R-HSA-388479     0.00000000             0             0            0</a>
-<a class="sourceLine" id="cb6-32" data-line-number="32">## R-HSA-9006927    0.00000000             0             0            0</a>
-<a class="sourceLine" id="cb6-33" data-line-number="33">##               R-HSA-388479 R-HSA-9006927</a>
-<a class="sourceLine" id="cb6-34" data-line-number="34">## R-HSA-112308             0    0.00000000</a>
-<a class="sourceLine" id="cb6-35" data-line-number="35">## R-HSA-9027283            0    0.00000000</a>
-<a class="sourceLine" id="cb6-36" data-line-number="36">## R-HSA-210993             0    0.08333333</a>
-<a class="sourceLine" id="cb6-37" data-line-number="37">## R-HSA-5576892            0    0.00000000</a>
-<a class="sourceLine" id="cb6-38" data-line-number="38">## R-HSA-2514859            0    0.00000000</a>
-<a class="sourceLine" id="cb6-39" data-line-number="39">## R-HSA-3359454            0    0.00000000</a>
-<a class="sourceLine" id="cb6-40" data-line-number="40">## R-HSA-5619048            0    0.00000000</a>
-<a class="sourceLine" id="cb6-41" data-line-number="41">## R-HSA-211000             0    0.00000000</a>
-<a class="sourceLine" id="cb6-42" data-line-number="42">## R-HSA-388479             1    0.00000000</a>
-<a class="sourceLine" id="cb6-43" data-line-number="43">## R-HSA-9006927            0    1.00000000</a></code></pre></div>
+<a class="sourceLine" id="cb6-11" data-line-number="11">##               R-HSA-532668 R-HSA-5654726 R-HSA-5545483 R-HSA-1643713</a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">## R-HSA-532668     1.0000000     0.1176471             0     0.1333333</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13">## R-HSA-5654726    0.1176471     1.0000000             0     0.2068966</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">## R-HSA-5545483    0.0000000     0.0000000             1     0.0000000</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">## R-HSA-1643713    0.1333333     0.2068966             0     1.0000000</a>
+<a class="sourceLine" id="cb6-16" data-line-number="16">## R-HSA-5693571    0.0000000     0.0000000             0     0.0000000</a>
+<a class="sourceLine" id="cb6-17" data-line-number="17">## R-HSA-68884      0.0000000     0.0000000             0     0.0000000</a>
+<a class="sourceLine" id="cb6-18" data-line-number="18">## R-HSA-9013973    0.1702128     0.1777778             0     0.2162162</a>
+<a class="sourceLine" id="cb6-19" data-line-number="19">## R-HSA-6791462    0.0000000     0.0000000             0     0.0000000</a>
+<a class="sourceLine" id="cb6-20" data-line-number="20">## R-HSA-6803529    0.0000000     0.0000000             0     0.0000000</a>
+<a class="sourceLine" id="cb6-21" data-line-number="21">## R-HSA-379398     0.0000000     0.0000000             0     0.0000000</a>
+<a class="sourceLine" id="cb6-22" data-line-number="22">##               R-HSA-5693571 R-HSA-68884 R-HSA-9013973 R-HSA-6791462</a>
+<a class="sourceLine" id="cb6-23" data-line-number="23">## R-HSA-532668              0           0     0.1702128             0</a>
+<a class="sourceLine" id="cb6-24" data-line-number="24">## R-HSA-5654726             0           0     0.1777778             0</a>
+<a class="sourceLine" id="cb6-25" data-line-number="25">## R-HSA-5545483             0           0     0.0000000             0</a>
+<a class="sourceLine" id="cb6-26" data-line-number="26">## R-HSA-1643713             0           0     0.2162162             0</a>
+<a class="sourceLine" id="cb6-27" data-line-number="27">## R-HSA-5693571             1           0     0.0000000             0</a>
+<a class="sourceLine" id="cb6-28" data-line-number="28">## R-HSA-68884               0           1     0.0000000             0</a>
+<a class="sourceLine" id="cb6-29" data-line-number="29">## R-HSA-9013973             0           0     1.0000000             0</a>
+<a class="sourceLine" id="cb6-30" data-line-number="30">## R-HSA-6791462             0           0     0.0000000             1</a>
+<a class="sourceLine" id="cb6-31" data-line-number="31">## R-HSA-6803529             0           0     0.0000000             0</a>
+<a class="sourceLine" id="cb6-32" data-line-number="32">## R-HSA-379398              0           0     0.0000000             0</a>
+<a class="sourceLine" id="cb6-33" data-line-number="33">##               R-HSA-6803529 R-HSA-379398</a>
+<a class="sourceLine" id="cb6-34" data-line-number="34">## R-HSA-532668              0            0</a>
+<a class="sourceLine" id="cb6-35" data-line-number="35">## R-HSA-5654726             0            0</a>
+<a class="sourceLine" id="cb6-36" data-line-number="36">## R-HSA-5545483             0            0</a>
+<a class="sourceLine" id="cb6-37" data-line-number="37">## R-HSA-1643713             0            0</a>
+<a class="sourceLine" id="cb6-38" data-line-number="38">## R-HSA-5693571             0            0</a>
+<a class="sourceLine" id="cb6-39" data-line-number="39">## R-HSA-68884               0            0</a>
+<a class="sourceLine" id="cb6-40" data-line-number="40">## R-HSA-9013973             0            0</a>
+<a class="sourceLine" id="cb6-41" data-line-number="41">## R-HSA-6791462             0            0</a>
+<a class="sourceLine" id="cb6-42" data-line-number="42">## R-HSA-6803529             1            0</a>
+<a class="sourceLine" id="cb6-43" data-line-number="43">## R-HSA-379398              0            1</a></code></pre></div>
 <p>When the method to combine the similarities is set to <code>NULL</code> mpathSim returns a matrix of pathway similarities, otherwise it combines the values. In the next section we can see the methods to combine pathway similarities.</p>
 <div id="combining" class="section level3">
 <h3 class="hasAnchor">
@@ -213,7 +213,7 @@
 <a class="sourceLine" id="cb7-3" data-line-number="3">                          <span class="st">"reciprocal"</span>)</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(methodsCombineScores, BioCor<span class="op">::</span>combineScores, <span class="dt">scores =</span> sim)</a>
 <a class="sourceLine" id="cb7-5" data-line-number="5">##        avg        max      rcmax  rcmax.avg        BMA reciprocal </a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">##  0.1092318  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000</a></code></pre></div>
+<a class="sourceLine" id="cb7-6" data-line-number="6">##  0.1204417  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000</a></code></pre></div>
 <p>We can also specify the method to combine the similarities in <code>mpathSim</code>, <code>geneSim</code>, <code>mgeneSim</code>, <code>clusterSim</code>, <code>mclusterSim</code>, <code>clusterGeneSim</code> and <code>mclusterGeneSim</code>, argument method. By default the method is set to “max” to combine pathways (except in mpathSim where the default is to show all the pathway similarities) and “BMA” to combine similarities of genes or for cluster analysis. This function is adapted from <em><a href="https://bioconductor.org/packages/3.10/GOSemSim">GOSemSim</a></em> package.</p>
 <p>The function <code>combineScoresPar</code> allows to use a parallel background (using <em><a href="https://bioconductor.org/packages/3.10/BiocParallel">BiocParallel</a></em>) to combine the scores. It is recommended to use a parallel background if you calculate more than 300 gene similarities. It also have an argument in case you want to calculate the similarity scores of several sets.</p>
 </div>
@@ -303,39 +303,39 @@
 <a href="#D2J" class="anchor"></a>Converting similarities</h2>
 <p>If needed, Jaccard similarity can be calculated from Dice similarity using <code>D2J</code>:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../reference/conversions.html">D2J</a></span>(sim)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">##               R-HSA-112308 R-HSA-9027283 R-HSA-210993 R-HSA-5576892</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">## R-HSA-112308          1.00             0   0.00000000    0.18000000</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">## R-HSA-9027283         0.00             1   0.00000000    0.00000000</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">## R-HSA-210993          0.00             0   1.00000000    0.00000000</a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">## R-HSA-5576892         0.18             0   0.00000000    1.00000000</a>
-<a class="sourceLine" id="cb11-7" data-line-number="7">## R-HSA-2514859         0.00             0   0.00000000    0.03797468</a>
-<a class="sourceLine" id="cb11-8" data-line-number="8">## R-HSA-3359454         0.00             0   0.00000000    0.00000000</a>
-<a class="sourceLine" id="cb11-9" data-line-number="9">## R-HSA-5619048         0.00             0   0.00000000    0.00000000</a>
-<a class="sourceLine" id="cb11-10" data-line-number="10">## R-HSA-211000          0.00             0   0.00000000    0.00000000</a>
-<a class="sourceLine" id="cb11-11" data-line-number="11">## R-HSA-388479          0.00             0   0.00000000    0.00000000</a>
-<a class="sourceLine" id="cb11-12" data-line-number="12">## R-HSA-9006927         0.00             0   0.04347826    0.00000000</a>
-<a class="sourceLine" id="cb11-13" data-line-number="13">##               R-HSA-2514859 R-HSA-3359454 R-HSA-5619048 R-HSA-211000</a>
-<a class="sourceLine" id="cb11-14" data-line-number="14">## R-HSA-112308     0.00000000             0             0            0</a>
-<a class="sourceLine" id="cb11-15" data-line-number="15">## R-HSA-9027283    0.00000000             0             0            0</a>
-<a class="sourceLine" id="cb11-16" data-line-number="16">## R-HSA-210993     0.00000000             0             0            0</a>
-<a class="sourceLine" id="cb11-17" data-line-number="17">## R-HSA-5576892    0.03797468             0             0            0</a>
-<a class="sourceLine" id="cb11-18" data-line-number="18">## R-HSA-2514859    1.00000000             0             0            0</a>
-<a class="sourceLine" id="cb11-19" data-line-number="19">## R-HSA-3359454    0.00000000             1             0            0</a>
-<a class="sourceLine" id="cb11-20" data-line-number="20">## R-HSA-5619048    0.00000000             0             1            0</a>
-<a class="sourceLine" id="cb11-21" data-line-number="21">## R-HSA-211000     0.00000000             0             0            1</a>
-<a class="sourceLine" id="cb11-22" data-line-number="22">## R-HSA-388479     0.00000000             0             0            0</a>
-<a class="sourceLine" id="cb11-23" data-line-number="23">## R-HSA-9006927    0.00000000             0             0            0</a>
-<a class="sourceLine" id="cb11-24" data-line-number="24">##               R-HSA-388479 R-HSA-9006927</a>
-<a class="sourceLine" id="cb11-25" data-line-number="25">## R-HSA-112308             0    0.00000000</a>
-<a class="sourceLine" id="cb11-26" data-line-number="26">## R-HSA-9027283            0    0.00000000</a>
-<a class="sourceLine" id="cb11-27" data-line-number="27">## R-HSA-210993             0    0.04347826</a>
-<a class="sourceLine" id="cb11-28" data-line-number="28">## R-HSA-5576892            0    0.00000000</a>
-<a class="sourceLine" id="cb11-29" data-line-number="29">## R-HSA-2514859            0    0.00000000</a>
-<a class="sourceLine" id="cb11-30" data-line-number="30">## R-HSA-3359454            0    0.00000000</a>
-<a class="sourceLine" id="cb11-31" data-line-number="31">## R-HSA-5619048            0    0.00000000</a>
-<a class="sourceLine" id="cb11-32" data-line-number="32">## R-HSA-211000             0    0.00000000</a>
-<a class="sourceLine" id="cb11-33" data-line-number="33">## R-HSA-388479             1    0.00000000</a>
-<a class="sourceLine" id="cb11-34" data-line-number="34">## R-HSA-9006927            0    1.00000000</a></code></pre></div>
+<a class="sourceLine" id="cb11-2" data-line-number="2">##               R-HSA-532668 R-HSA-5654726 R-HSA-5545483 R-HSA-1643713</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">## R-HSA-532668    1.00000000    0.06250000             0    0.07142857</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">## R-HSA-5654726   0.06250000    1.00000000             0    0.11538462</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">## R-HSA-5545483   0.00000000    0.00000000             1    0.00000000</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">## R-HSA-1643713   0.07142857    0.11538462             0    1.00000000</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">## R-HSA-5693571   0.00000000    0.00000000             0    0.00000000</a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">## R-HSA-68884     0.00000000    0.00000000             0    0.00000000</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9">## R-HSA-9013973   0.09302326    0.09756098             0    0.12121212</a>
+<a class="sourceLine" id="cb11-10" data-line-number="10">## R-HSA-6791462   0.00000000    0.00000000             0    0.00000000</a>
+<a class="sourceLine" id="cb11-11" data-line-number="11">## R-HSA-6803529   0.00000000    0.00000000             0    0.00000000</a>
+<a class="sourceLine" id="cb11-12" data-line-number="12">## R-HSA-379398    0.00000000    0.00000000             0    0.00000000</a>
+<a class="sourceLine" id="cb11-13" data-line-number="13">##               R-HSA-5693571 R-HSA-68884 R-HSA-9013973 R-HSA-6791462</a>
+<a class="sourceLine" id="cb11-14" data-line-number="14">## R-HSA-532668              0           0    0.09302326             0</a>
+<a class="sourceLine" id="cb11-15" data-line-number="15">## R-HSA-5654726             0           0    0.09756098             0</a>
+<a class="sourceLine" id="cb11-16" data-line-number="16">## R-HSA-5545483             0           0    0.00000000             0</a>
+<a class="sourceLine" id="cb11-17" data-line-number="17">## R-HSA-1643713             0           0    0.12121212             0</a>
+<a class="sourceLine" id="cb11-18" data-line-number="18">## R-HSA-5693571             1           0    0.00000000             0</a>
+<a class="sourceLine" id="cb11-19" data-line-number="19">## R-HSA-68884               0           1    0.00000000             0</a>
+<a class="sourceLine" id="cb11-20" data-line-number="20">## R-HSA-9013973             0           0    1.00000000             0</a>
+<a class="sourceLine" id="cb11-21" data-line-number="21">## R-HSA-6791462             0           0    0.00000000             1</a>
+<a class="sourceLine" id="cb11-22" data-line-number="22">## R-HSA-6803529             0           0    0.00000000             0</a>
+<a class="sourceLine" id="cb11-23" data-line-number="23">## R-HSA-379398              0           0    0.00000000             0</a>
+<a class="sourceLine" id="cb11-24" data-line-number="24">##               R-HSA-6803529 R-HSA-379398</a>
+<a class="sourceLine" id="cb11-25" data-line-number="25">## R-HSA-532668              0            0</a>
+<a class="sourceLine" id="cb11-26" data-line-number="26">## R-HSA-5654726             0            0</a>
+<a class="sourceLine" id="cb11-27" data-line-number="27">## R-HSA-5545483             0            0</a>
+<a class="sourceLine" id="cb11-28" data-line-number="28">## R-HSA-1643713             0            0</a>
+<a class="sourceLine" id="cb11-29" data-line-number="29">## R-HSA-5693571             0            0</a>
+<a class="sourceLine" id="cb11-30" data-line-number="30">## R-HSA-68884               0            0</a>
+<a class="sourceLine" id="cb11-31" data-line-number="31">## R-HSA-9013973             0            0</a>
+<a class="sourceLine" id="cb11-32" data-line-number="32">## R-HSA-6791462             0            0</a>
+<a class="sourceLine" id="cb11-33" data-line-number="33">## R-HSA-6803529             1            0</a>
+<a class="sourceLine" id="cb11-34" data-line-number="34">## R-HSA-379398              0            1</a></code></pre></div>
 <p>Also if one has a Jaccard similarity and wants a Dice similarity, can use the <code>J2D</code> function.</p>
 </div>
 </div>
@@ -621,7 +621,7 @@ Clustering using clusterGeneSim
 <a class="sourceLine" id="cb23-22" data-line-number="22">## other attached packages:</a>
 <a class="sourceLine" id="cb23-23" data-line-number="23">##  [1] GOSemSim_2.11.0      reactome.db_1.68.0   org.Hs.eg.db_3.8.2  </a>
 <a class="sourceLine" id="cb23-24" data-line-number="24">##  [4] AnnotationDbi_1.47.1 IRanges_2.19.16      S4Vectors_0.23.25   </a>
-<a class="sourceLine" id="cb23-25" data-line-number="25">##  [7] Biobase_2.45.1       BiocGenerics_0.31.6  BioCor_1.9.1        </a>
+<a class="sourceLine" id="cb23-25" data-line-number="25">##  [7] Biobase_2.45.1       BiocGenerics_0.31.6  BioCor_1.9.2        </a>
 <a class="sourceLine" id="cb23-26" data-line-number="26">## [10] BiocStyle_2.13.2    </a>
 <a class="sourceLine" id="cb23-27" data-line-number="27">## </a>
 <a class="sourceLine" id="cb23-28" data-line-number="28">## loaded via a namespace (and not attached):</a>
