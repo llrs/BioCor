@@ -99,12 +99,7 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/llrs/BioCor">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -132,35 +127,65 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-general-introduction" class="hasAnchor"><a href="#section-general-introduction" class="anchor"></a>General introduction</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="AintoB.html">AintoB()</a></code> </p>
-        </td>
-        <td><p>Insert a matrix into another</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="BioCor-package.html">BioCor-package</a></code> </p>
         </td>
         <td><p>BioCor: A package to calculate functional similarities</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-similarity-of-pathways" class="hasAnchor"><a href="#section-similarity-of-pathways" class="anchor"></a>Similarity of pathways</h2>
+          <p class="section-desc"><p>Compare pairs of pathways, just one (pathSim) or as many as you want (mpathSim)</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="pathSim.html">pathSim()</a></code> </p>
+        </td>
+        <td><p>Calculates the Dice similarity between pathways</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="addSimilarities.html">addSimilarities()</a></code> </p>
+          <p><code><a href="mpathSim.html">mpathSim()</a></code> </p>
         </td>
-        <td><p>Additive integration of similarities</p></td>
+        <td><p>Calculates the Dice similarity between pathways</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-similarity-of-genes" class="hasAnchor"><a href="#section-similarity-of-genes" class="anchor"></a>Similarity of genes</h2>
+          <p class="section-desc"><p>Compare pairs of genes, just one (geneSim) or as many as you want (mgeneSim)</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="geneSim.html">geneSim()</a></code> </p>
+        </td>
+        <td><p>Similarity score genes based on pathways similarity</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="clusterGeneSim.html">clusterGeneSim()</a></code> </p>
+          <p><code><a href="mgeneSim.html">mgeneSim()</a></code> </p>
         </td>
-        <td><p>Similarity score between clusters of genes based on genes similarity</p></td>
-      </tr><tr>
+        <td><p>Similarity score genes based on pathways similarity</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-pooling-similarity-of-groups-of-genes" class="hasAnchor"><a href="#section-pooling-similarity-of-groups-of-genes" class="anchor"></a>Pooling similarity of groups of genes</h2>
+          <p class="section-desc"><p>Compare groups of genes by pooling all the pathways they are in</p></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="clusterSim.html">clusterSim()</a></code> </p>
@@ -169,16 +194,66 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="combinadic.html">combinadic()</a></code> </p>
+          <p><code><a href="mclusterSim.html">mclusterSim()</a></code> </p>
         </td>
-        <td><p>i-th combination of n elements taken from r</p></td>
+        <td><p>Similarity score between clusters of genes based on pathways similarity</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-similarity-of-groups-of-genes" class="hasAnchor"><a href="#section-similarity-of-groups-of-genes" class="anchor"></a>Similarity of groups of genes</h2>
+          <p class="section-desc"><p>Compare groups of genes by comparing the similarity of the genes in each group</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="clusterGeneSim.html">clusterGeneSim()</a></code> </p>
+        </td>
+        <td><p>Similarity score between clusters of genes based on genes similarity</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="mclusterGeneSim.html">mclusterGeneSim()</a></code> </p>
+        </td>
+        <td><p>Similarity score between clusters of genes based on genes similarity</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-convert-between-similarities" class="hasAnchor"><a href="#section-convert-between-similarities" class="anchor"></a>Convert between similarities</h2>
+          <p class="section-desc"><p>Convert from Jaccard to Dice or vice versa</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="conversions.html">D2J()</a></code> <code><a href="conversions.html">J2D()</a></code> </p>
+        </td>
+        <td><p>Convert the similarities formats</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-combine-similarities" class="hasAnchor"><a href="#section-combine-similarities" class="anchor"></a>Combine similarities</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="combineScores.html">combineScores()</a></code> <code><a href="combineScores.html">combineScoresPar()</a></code> </p>
         </td>
         <td><p>Combining values</p></td>
-      </tr><tr>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-helper-functions" class="hasAnchor"><a href="#section-helper-functions" class="anchor"></a>Helper functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="combineSources.html">combineSources()</a></code> </p>
@@ -187,9 +262,21 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="conversions.html">D2J()</a></code> <code><a href="conversions.html">J2D()</a></code> </p>
+          <p><code><a href="AintoB.html">AintoB()</a></code> </p>
         </td>
-        <td><p>Convert the similarities formats</p></td>
+        <td><p>Insert a matrix into another</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="seq2mat.html">seq2mat()</a></code> </p>
+        </td>
+        <td><p>Transforms a vector to a symmetric matrix</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="combinadic.html">combinadic()</a></code> </p>
+        </td>
+        <td><p>i-th combination of n elements taken from r</p></td>
       </tr><tr>
         
         <td>
@@ -205,9 +292,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="geneSim.html">geneSim()</a></code> </p>
+          <p><code><a href="removeDup.html">removeDup()</a></code> </p>
         </td>
-        <td><p>Similarity score genes based on pathways similarity</p></td>
+        <td><p>Remove duplicated rows and columns</p></td>
       </tr><tr>
         
         <td>
@@ -217,51 +304,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="mclusterGeneSim.html">mclusterGeneSim()</a></code> </p>
-        </td>
-        <td><p>Similarity score between clusters of genes based on genes similarity</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mclusterSim.html">mclusterSim()</a></code> </p>
-        </td>
-        <td><p>Similarity score between clusters of genes based on pathways similarity</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mgeneSim.html">mgeneSim()</a></code> </p>
-        </td>
-        <td><p>Similarity score genes based on pathways similarity</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mpathSim.html">mpathSim()</a></code> </p>
-        </td>
-        <td><p>Calculates the Dice similarity between pathways</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pathSim.html">pathSim()</a></code> </p>
-        </td>
-        <td><p>Calculates the Dice similarity between pathways</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="removeDup.html">removeDup()</a></code> </p>
-        </td>
-        <td><p>Remove duplicated rows and columns</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="seq2mat.html">seq2mat()</a></code> </p>
-        </td>
-        <td><p>Transforms a vector to a symmetric matrix</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="similarities.html">similarities()</a></code> </p>
         </td>
         <td><p>Apply a function to a list of similarities</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="addSimilarities.html">addSimilarities()</a></code> </p>
+        </td>
+        <td><p>Additive integration of similarities</p></td>
       </tr><tr>
         
         <td>
@@ -276,7 +327,14 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-general-introduction">General introduction</a></li>
+      <li><a href="#section-similarity-of-pathways">Similarity of pathways</a></li>
+      <li><a href="#section-similarity-of-genes">Similarity of genes</a></li>
+      <li><a href="#section-pooling-similarity-of-groups-of-genes">Pooling similarity of groups of genes</a></li>
+      <li><a href="#section-similarity-of-groups-of-genes">Similarity of groups of genes</a></li>
+      <li><a href="#section-convert-between-similarities">Convert between similarities</a></li>
+      <li><a href="#section-combine-similarities">Combine similarities</a></li>
+      <li><a href="#section-helper-functions">Helper functions</a></li>
     </ul>
   </div>
 </div>
