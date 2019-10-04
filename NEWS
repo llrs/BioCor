@@ -1,3 +1,7 @@
+Changes in version 1.10.1
+
+* Added a pkgdown website
+
 Changes in version 1.8.1
 
 * Exported inverseList function
