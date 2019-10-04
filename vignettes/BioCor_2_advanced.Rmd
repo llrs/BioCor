@@ -291,7 +291,8 @@ Ecdf(c(gS, gSK, gSMix),
                rep("Mix", length(gSMix))), 
      col = c("black", "red", "blue"), xlab = "Functional similarities", main = "ecdf")
 ```
-When mixed, there is a huge increase in the genes that share a pathway using the `max` method. Observe in next figure (\@ref(fig:combineSource2)) how does the method affects to the results:
+When mixed, there is a huge increase in the genes that share a pathway using the `max` method. 
+Observe in next figure (\@ref(fig:combineSource2)) how does the method affects to the results:
 
 ```{r combineSource2, fig.cap = "Comparison of functional similarity in different gene sets."}
 gSK2 <- mgeneSim(rownames(gS), genesKegg, method = "BMA")

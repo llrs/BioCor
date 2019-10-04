@@ -21,7 +21,7 @@ Description: Calculates functional similarities based on the
     clusters and combined with other similarities. They can be used to
     improve networks, gene selection, testing relationships...
 License: MIT + file LICENSE
-URL: https://github.com/llrs/BioCor/
+URL: https://llrs.github.io/BioCor/
 BugReports: https://github.com/llrs/BioCor/issues
 Depends:
     R (>= 3.4.0)

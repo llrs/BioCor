@@ -1,1 +1,48 @@
 destination: docs
+reference:
+  - title: General introduction
+    contents:
+    - BioCor-package
+  - title: Similarity of pathways
+    desc:  Compare pairs of pathways, just one (pathSim) or as many as you want (mpathSim)
+    contents:
+    - pathSim
+    - mpathSim
+  - title: Similarity of genes
+    desc:  Compare pairs of genes, just one (geneSim) or as many as you want (mgeneSim)
+    contents:
+    - geneSim
+    - mgeneSim
+  - title: Pooling similarity of groups of genes
+    desc:  Compare groups of genes by pooling all the pathways they are in
+    contents:
+    - clusterSim
+    - mclusterSim
+  - title: Similarity of groups of genes
+    desc:  Compare groups of genes by comparing the similarity of the genes in each group
+    contents:
+    - clusterGeneSim
+    - mclusterGeneSim
+  - title: Convert between similarities
+    desc: Convert from Jaccard to Dice or vice versa
+    contents:
+    - D2J
+    - J2D
+  - title: Combine similarities
+    contents:
+    - combineScores
+    - combineScoresPar
+  - title: Helper functions
+    contents:
+    - combineSources
+    - AintoB
+    - seq2mat
+    - combinadic
+    - diceSim
+    - duplicateIndices
+    - removeDup
+    - inverseList
+    - similarities
+    - addSimilarities
+    - weighted.sum
+    - weighted
