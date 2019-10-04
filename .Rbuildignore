@@ -21,3 +21,6 @@
 ^README\.Rmd$
 ^README-.*\.png$
 ^.lintr$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
