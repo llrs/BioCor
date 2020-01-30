@@ -5,8 +5,12 @@
 \alias{combineScoresPar}
 \title{Combining values}
 \usage{
-combineScores(scores, method = c("max", "avg", "rcmax", "rcmax.avg",
-  "BMA", "reciprocal"), round = FALSE, t = 0)
+combineScores(
+  scores,
+  method = c("max", "avg", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
+  round = FALSE,
+  t = 0
+)
 
 combineScoresPar(scores, method, subSets = NULL, BPPARAM = NULL, ...)
 }

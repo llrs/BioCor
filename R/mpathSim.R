@@ -29,6 +29,8 @@
 #'                    "Neuronal System",
 #'                    "Transmission across Chemical Synapses"))
 #'     mpathSim(named_paths, genes.react, NULL)
+#'     many_pathways <- sample(unique(unlist(genes.react)), 152)
+#'     mpathSim(many_pathways, genes.react, "avg")
 #' } else {
 #'     warning('You need reactome.db package for this example')
 #' }

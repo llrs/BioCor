@@ -1,8 +1,9 @@
 # Changes in version 1.12
 
-* Move to NEWS.md
-* Corrected "value of length: 2 type: logical"
-* Avoid cropping the images 
+* Move to NEWS.md.
+* Corrected "value of length: 2 type: logical".
+* Avoid cropping the images.
+* Updated documentation.
 
 # Changes in version 1.10.1
 
