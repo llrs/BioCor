@@ -64,7 +64,7 @@ combineScores <- function(scores, method = c("max", "avg", "rcmax", "rcmax.avg",
         return(NA)
     }
 
-    if (!is.numeric(t) | t < 0 | t > 1) {
+    if (!is.numeric(t) || t < 0 || t > 1) {
         stop("t is for the reciprocal method, and should be between 0 and 1")
     }
 
