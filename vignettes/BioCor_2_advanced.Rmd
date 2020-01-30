@@ -31,15 +31,16 @@ vignette: >
 ---
 ```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_knit$set(root.dir = ".")
-knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, fig.wide = TRUE, cache = TRUE)
+knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, fig.wide = TRUE, 
+                      cache = TRUE, crop = FALSE)
 BiocStyle::markdown()
 library("BiocStyle")
 library("BioCor")
 library("org.Hs.eg.db")
 library("reactome.db")
-unloadNamespace("GOSemSim")
-genesKegg <- as.list(org.Hs.egPATH)
-genesReact <- as.list(reactomeEXTID2PATHID)
+unloadNamespace(ns = "GOSemSim")
+genesKegg <- base::as.list(org.Hs.egPATH)
+genesReact <- base::as.list(reactomeEXTID2PATHID)
 # Remove genes and pathways which are not from human pathways 
 genesReact <- lapply(genesReact, function(x){grep("R-HSA-", x, value = TRUE)}) 
 genesReact <- genesReact[lengths(genesReact) >= 1] 

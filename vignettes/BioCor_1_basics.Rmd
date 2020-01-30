@@ -35,7 +35,7 @@ vignette: >
 ---
 ```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_knit$set(root.dir = ".")
-knitr::opts_chunk$set(collapse = TRUE, warning = TRUE)
+knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, crop = FALSE)
 BiocStyle::markdown()
 library("BiocStyle")
 ```
