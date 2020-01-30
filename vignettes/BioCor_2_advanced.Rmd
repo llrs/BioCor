@@ -34,11 +34,12 @@ editor_options:
 ```{r setup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, fig.wide = TRUE, 
                       cache = FALSE, crop = FALSE)
-genesKegg <- base::as.list(org.Hs.egPATH)
-genesReact <- base::as.list(reactomeEXTID2PATHID)
+genesKegg <- base::as.list(org.Hs.eg.db::org.Hs.egPATH)
+genesReact <- base::as.list(reactome.db::reactomeEXTID2PATHID)
 # Remove genes and pathways which are not from human pathways 
 genesReact <- lapply(genesReact, function(x){grep("R-HSA-", x, value = TRUE)}) 
 genesReact <- genesReact[lengths(genesReact) >= 1] 
+library("BioCor")
 ```
 
 # Introduction
