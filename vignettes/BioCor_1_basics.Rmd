@@ -14,9 +14,9 @@ output:
     code_folding: show
     self_contained: yes
     toc_float:
+      
       collapsed: true
       toc_depth: 3
-      
 author:
 - name: Lluís Revilla
   affiliation: 
@@ -30,13 +30,13 @@ author:
    - August Pi i Sunyer Biomedical Research Institute (IDIBAPS); Liver Unit, Hospital Clinic
 vignette: >
   %\VignetteIndexEntry{About BioCor}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}  
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 ```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
-knitr::opts_knit$set(root.dir = ".")
 knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, crop = FALSE)
-BiocStyle::markdown()
 library("BiocStyle")
 ```
 
@@ -262,8 +262,7 @@ Each method results in a different dendrogram as we can see  on Figure \@ref(fig
 In this section I will compare the functional similarity of BioCor with the closely related package `r Biocpkg("GOSemSim")`. The genes and gene clusters used were extracted from GOSemSim's vignette, we only change the ontology, instead of the molecular function, the biological process will be used:
 
 ```{r GOSemSim}
-suppressPackageStartupMessages(library("GOSemSim"))
-hsGO <- godata('org.Hs.eg.db', ont = "BP", computeIC = FALSE)
+hsGO <- GOSemSim::godata('org.Hs.eg.db', ont = "BP", computeIC = FALSE)
 ```
 
 I will compare the functions geneSim from section [geneSim and mgeneSim from GOSemSim](http://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#genesim-and-mgenesim) with both data sets from KEGG and Reactome:

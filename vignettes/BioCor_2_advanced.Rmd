@@ -26,19 +26,14 @@ author:
    - August Pi i Sunyer Biomedical Research Institute (IDIBAPS); Liver Unit, Hospital Clinic
 vignette: >
   %\VignetteIndexEntry{Advanced usage of BioCor}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}  
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
-```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
-knitr::opts_knit$set(root.dir = ".")
+```{r setup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, fig.wide = TRUE, 
-                      cache = TRUE, crop = FALSE)
-BiocStyle::markdown()
-library("BiocStyle")
-library("BioCor")
-library("org.Hs.eg.db")
-library("reactome.db")
-unloadNamespace(ns = "GOSemSim")
+                      cache = FALSE, crop = FALSE)
 genesKegg <- base::as.list(org.Hs.egPATH)
 genesReact <- base::as.list(reactomeEXTID2PATHID)
 # Remove genes and pathways which are not from human pathways 
@@ -238,7 +233,9 @@ l <- sapply(s, function(x){
     c("UpVsDown" = between)
 })
 L <- as.data.frame(cbind("logfc" = s, "UpVsDown" = l))
-plot(L$logfc, L$UpVsDown, type = "l", xlab = "abs(log2) fold change threshold", ylab = "Similarity score", 
+plot(L$logfc, L$UpVsDown, type = "l", 
+     xlab = "abs(log2) fold change threshold", 
+     ylab = "Similarity score", 
      main = "Similarity scores along logFC")
 legend("topright", legend = "Up vs down regulated genes",
        fill = "black")
