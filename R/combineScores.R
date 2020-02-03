@@ -117,8 +117,7 @@ removeNA <- function(m){
 
 # Check Matrix classes and matrix
 is.Matrix <- function(m){
-    is.matrix(m) | grepl("Matrix", as.character(class(m)),
-                         ignore.case = FALSE)
+    is.matrix(m) || is(m, "Matrix")
 }
 
 BMA <- function(scores) {
