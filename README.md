@@ -19,7 +19,7 @@ developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repo
 Practices](https://bestpractices.coreinfrastructure.org/projects/1913/badge)](https://bestpractices.coreinfrastructure.org/projects/1913)
 <!-- badges: end -->
 
-# BioCor
+# BioCor <img src='man/figures/logo.png' align="right" height="138.5" />
 
 This project wants to allow the user to calculate functional
 similarities (or biological correlation as it was named originally hence
