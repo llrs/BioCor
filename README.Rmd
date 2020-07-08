@@ -6,9 +6,9 @@ output: github_document
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
+    collapse = TRUE,
+    comment = "#>",
+    fig.path = "README-"
 )
 library("BioCor")
 ```
@@ -34,14 +34,16 @@ use them for network building or other purposes.
 It is an R package you can install it from the Bioconductor project with:
 
 ```{r eval = FALSE}
-if (!requireNamespace("BiocManager", quietly=TRUE))
-    install.packages("BiocManager")
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+      install.packages("BiocManager")
+  }
 BiocManager::install("BioCor")
 ```
 You can install this version of *BioCor* with:
 ```{r eval=FALSE}
-if (!requireNamespace("devtools", quietly=TRUE))
-    install.packages("devtools")
+if (!requireNamespace("devtools", quietly = TRUE)) {
+      install.packages("devtools")
+  }
 devtools::install_github("llrs/BioCor")
 ```
 
@@ -52,11 +54,11 @@ Here is a minimum example:
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 library("reactome.db")
 genesReact <- as.list(reactomeEXTID2PATHID)
-# Remove genes and pathways which are not from human pathways 
-genesReact <- sapply(genesReact, function(x){
+# Remove genes and pathways which are not from human pathways
+genesReact <- sapply(genesReact, function(x) {
     unique(grep("R-HSA-", x, value = TRUE))
-    })
-genesReact <- genesReact[lengths(genesReact) >= 1] 
+})
+genesReact <- genesReact[lengths(genesReact) >= 1]
 ```
 
 ```{r}

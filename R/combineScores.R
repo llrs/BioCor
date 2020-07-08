@@ -32,21 +32,35 @@
 #' predict novel gene function. Bioinformatics 2007; 23 (13): i529-i538.
 #' doi: 10.1093/bioinformatics/btm195
 #' @examples
-#' (d <- structure(c(0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
-#'                   0.285714285714286), .Dim = c(3L, 3L),
-#'                 .Dimnames = list(c("a", "b", "c"), c("d", "e", "f"))))
+#' (d <- structure(c(
+#'     0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
+#'     0.285714285714286
+#' ),
+#' .Dim = c(3L, 3L),
+#' .Dimnames = list(c("a", "b", "c"), c("d", "e", "f"))
+#' ))
 #' e <- d
 #' sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
-#'        combineScores, scores = d)
-#' d[1,2] <- NA
+#'     combineScores,
+#'     scores = d
+#' )
+#' d[1, 2] <- NA
 #' sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
-#'        combineScores, scores = d)
-combineScores <- function(scores, method = c("max", "avg", "rcmax", "rcmax.avg", "BMA",
-                                             "reciprocal"), round = FALSE, t = 0) {
+#'     combineScores,
+#'     scores = d
+#' )
+combineScores <- function(scores, method = c(
+        "max", "avg", "rcmax", "rcmax.avg", "BMA",
+        "reciprocal"
+    ), round = FALSE, t = 0) {
     # Check input
-    method <- match.arg(method,
-                        c("avg", "max", "rcmax", "rcmax.avg", "BMA",
-                          "reciprocal"))
+    method <- match.arg(
+        method,
+        c(
+            "avg", "max", "rcmax", "rcmax.avg", "BMA",
+            "reciprocal"
+        )
+    )
 
 
     if (is.list(scores) && length(scores) == 1) {
@@ -84,8 +98,10 @@ combineScores <- function(scores, method = c("max", "avg", "rcmax", "rcmax.avg",
             result <- reciprocal(scores, t)
         }
     } else {
-        warning("Using max method because after removing NAs ",
-                "there isn't a matrix to use.")
+        warning(
+            "Using max method because after removing NAs ",
+            "there isn't a matrix to use."
+        )
         result <- max(scores, na.rm = TRUE)
     }
 
@@ -100,11 +116,15 @@ rounder <- function(result, round) {
         return(result)
     }
 }
-removeNA <- function(m){
+removeNA <- function(m) {
     # Remove NA
     if (any(is.na(m)) && is.Matrix(m)) {
-        row.na.idx <- apply(m, 1, function(i){all(is.na(i))})
-        col.na.idx <- apply(m, 2, function(i){all(is.na(i))})
+        row.na.idx <- apply(m, 1, function(i) {
+            all(is.na(i))
+        })
+        col.na.idx <- apply(m, 2, function(i) {
+            all(is.na(i))
+        })
         if (any(row.na.idx)) {
             m <- m[-which(row.na.idx), , drop = FALSE]
         }
@@ -117,7 +137,7 @@ removeNA <- function(m){
 
 # Check Matrix classes and matrix
 #' @importFrom methods is
-is.Matrix <- function(m){
+is.Matrix <- function(m) {
     is.matrix(m) || is(m, "Matrix")
 }
 
@@ -125,9 +145,12 @@ BMA <- function(scores) {
     if (length(dim(scores)) != 2) {
         stop("scores must be a matrix.")
     }
-    sum(apply(scores, 1, max, na.rm = TRUE),
-                  apply(scores, 2, max, na.rm = TRUE)) / sum(
-                      dim(scores))
+    sum(
+        apply(scores, 1, max, na.rm = TRUE),
+        apply(scores, 2, max, na.rm = TRUE)
+    ) / sum(
+        dim(scores)
+    )
 }
 rcmax <- function(scores) {
     if (length(dim(scores)) != 2) {
@@ -139,7 +162,6 @@ rcmax <- function(scores) {
 }
 
 reciprocal <- function(scores, t) {
-
     if (t < 0 | t > 1) {
         stop("t must be between 1 and 0")
     }
@@ -147,7 +169,7 @@ reciprocal <- function(scores, t) {
         stop("scores must be a matrix.")
     }
     # Find the ones that max row is also the max col
-    fmax <- function(x){
+    fmax <- function(x) {
         x == max(x, na.rm = TRUE)
     }
     # Max in rows
@@ -164,7 +186,7 @@ reciprocal <- function(scores, t) {
     if (all(rScores < t)) {
         NA
     } else {
-        2*sum(rScores[rScores >= t])/(sum(dim(scores)))
+        2 * sum(rScores[rScores >= t]) / (sum(dim(scores)))
     }
 }
 
@@ -183,13 +205,14 @@ reciprocal <- function(scores, t) {
 #' @importFrom utils combn
 #' @examples
 #' colnames(e) <- rownames(e)
-#' combineScoresPar(e, list(a= c("a", "b"), b = c("b", "c")),
-#'                  method = "max")
+#' combineScoresPar(e, list(a = c("a", "b"), b = c("b", "c")),
+#'     method = "max"
+#' )
 combineScoresPar <- function(scores,
-                             method,
-                             subSets = NULL,
-                             BPPARAM = NULL,
-                             ...){
+    method,
+    subSets = NULL,
+    BPPARAM = NULL,
+    ...) {
 
     # Check scores
     if (is.null(subSets) | sum(dim(scores)) == 0) {
@@ -199,19 +222,20 @@ combineScoresPar <- function(scores,
         return(combineScores(scores, method = method, ...))
     } else {
         # To handle cases where subSets are not present in scores
-        B <- matrix(NA, ncol = length(subSets), nrow = length(subSets),
-                    dimnames = list(names(subSets), names(subSets)))
+        B <- matrix(NA,
+            ncol = length(subSets), nrow = length(subSets),
+            dimnames = list(names(subSets), names(subSets))
+        )
         subSets <- keepSubSet(subSets, scores)
         if (length(subSets) == 0) {
             return(B)
         }
-
     }
 
-    #all combinations of indices
+    # all combinations of indices
     ij <- combn(seq_along(subSets), 2) # Use fun
 
-    #add all i = j to the combination of indices
+    # add all i = j to the combination of indices
     ij <- matrix(c(ij, rep(seq_along(subSets), each = 2)), nrow = 2)
 
     if (is.null(BPPARAM)) { # If not a parallel background is provided
@@ -224,12 +248,14 @@ combineScoresPar <- function(scores,
                 res[k] <- NA
             } else {
                 res[k] <- combineScores(scores[rowIds, colIds, drop = FALSE],
-                                        method, ... = ...)
+                    method,
+                    ... = ...
+                )
             }
         }
     } else {
         # Use the parallel background provided
-        res <- bplapply(seq_len(ncol(ij)), function(x){
+        res <- bplapply(seq_len(ncol(ij)), function(x) {
             if (ncol(ij) < x) {
                 message(print(ij))
             }
@@ -239,16 +265,20 @@ combineScoresPar <- function(scores,
                 NA
             } else {
                 combineScores(scores[rowIds, colIds, drop = FALSE],
-                                        method, ... = ...)
+                    method,
+                    ... = ...
+                )
             }
         }, BPPARAM = BPPARAM)
         res <- as.numeric(res)
     }
 
-    A <- sparseMatrix(i = ij[1,], j = ij[2,],
-                      x = res, dims = rep(length(subSets), 2),
-                      symmetric = TRUE, index1 = TRUE,
-                      dimnames = list(names(subSets), names(subSets)))
+    A <- sparseMatrix(
+        i = ij[1, ], j = ij[2, ],
+        x = res, dims = rep(length(subSets), 2),
+        symmetric = TRUE, index1 = TRUE,
+        dimnames = list(names(subSets), names(subSets))
+    )
     AintoB(as.matrix(A), B)
 }
 
@@ -258,7 +288,6 @@ keepSubSet <- function(subSets, scores) {
     subId <- unique(unlist(subSets, use.names = FALSE))
     values <- unlist(dimnames(scores), use.names = FALSE)
 
-        # browser()
     if (anyNA(subId)) {
         keep <- sapply(subSets, check_in, values = values)
         subSets[keep]
@@ -274,4 +303,3 @@ check_in <- function(x, values) {
         all(x %in% values)
     }
 }
-

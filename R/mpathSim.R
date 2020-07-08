@@ -19,28 +19,31 @@
 #' \code{\link{conversions}} To convert the Dice similarity to Jaccard similarity
 #' @export
 #' @examples
-#' if (require("reactome.db")){
+#' if (require("reactome.db")) {
 #'     genes.react <- as.list(reactomeEXTID2PATHID)
 #'     (pathways <- sample(unique(unlist(genes.react)), 10))
 #'     mpathSim(pathways, genes.react, NULL)
 #'     named_paths <- structure(
 #'         c("R-HSA-112310", "R-HSA-112316", "R-HSA-112315"),
-#'         .Names = c("Neurotransmitter Release Cycle",
-#'                    "Neuronal System",
-#'                    "Transmission across Chemical Synapses"))
+#'         .Names = c(
+#'             "Neurotransmitter Release Cycle",
+#'             "Neuronal System",
+#'             "Transmission across Chemical Synapses"
+#'         )
+#'     )
 #'     mpathSim(named_paths, genes.react, NULL)
 #'     many_pathways <- sample(unique(unlist(genes.react)), 152)
 #'     mpathSim(many_pathways, genes.react, "avg")
 #' } else {
-#'     warning('You need reactome.db package for this example')
+#'     warning("You need reactome.db package for this example")
 #' }
 mpathSim <- function(pathways, info, method = NULL, ...) {
-
-
-    if (length(unique(pathways)) == 1 ) {
-        stop("Introduce several unique pathways!\n",
-             "If you want to calculate one similarity ",
-             "between pathways use pathSim")
+    if (length(unique(pathways)) == 1) {
+        stop(
+            "Introduce several unique pathways!\n",
+            "If you want to calculate one similarity ",
+            "between pathways use pathSim"
+        )
     }
 
     if (!all(is.character(pathways))) {
@@ -67,7 +70,6 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
         info <- inverseList(pathways2genes[pathways[keep]])
 
         sim <- pathSims_matrix(info)
-
     } else {
         # Invert the list
         pathways2genes <- inverseList(info)
@@ -108,22 +110,24 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
 #' @return A matrix with pathways as rows and genes in columns.
 #' @author Lluís Revilla
 #' @keywords internal
-setMethod("incidence",
-          signature(x = "list"),
-          function(x) {
-              # Remove empty genes
-              nas <- sapply(x, function(y){all(is.na(y))})
-              lge2 <- x[!nas]
-              # Extract all pathways
-              pathways <- unique(unlist(lge2, use.names = FALSE))
-              # Create the incidence matrix
-              mat <- as.matrix(sapply(names(lge2), function(y){
-                  ifelse(pathways %in% lge2[[y]], TRUE, FALSE)
-              }
-              ))
-              rownames(mat) <- pathways
-              mat
-          }
+setMethod(
+    "incidence",
+    signature(x = "list"),
+    function(x) {
+        # Remove empty genes
+        nas <- sapply(x, function(y) {
+            all(is.na(y))
+        })
+        lge2 <- x[!nas]
+        # Extract all pathways
+        pathways <- unique(unlist(lge2, use.names = FALSE))
+        # Create the incidence matrix
+        mat <- as.matrix(sapply(names(lge2), function(y) {
+            ifelse(pathways %in% lge2[[y]], TRUE, FALSE)
+        }))
+        rownames(mat) <- pathways
+        mat
+    }
 )
 
 # pathSims_matrix ####
@@ -134,7 +138,6 @@ setMethod("incidence",
 #' @import GSEABase
 #' @keywords internal
 pathSims_matrix <- function(x) {
-
     mat <- incidence(x)
 
     # Calculate genes in common between pathways
@@ -143,93 +146,98 @@ pathSims_matrix <- function(x) {
     genesPerPathway <- rowSums(mat)
     genesPerPathway <- matrix(genesPerPathway, ncol(overPath), ncol(overPath))
     # Calculate the dice similarity
-    2*overPath/(t(genesPerPathway) + genesPerPathway)
+    2 * overPath / (t(genesPerPathway) + genesPerPathway)
 }
 
 #' @describeIn mpathSim Calculates the similarity between the provided pathways
 #' of the GeneSetCollection using \code{combineScoresPar}
 #' @export mpathSim
-setMethod("mpathSim",
-          c(info = "GeneSetCollection", pathways = "character", method = "ANY"),
-          function(pathways, info, method = NULL, ...) {
-              if (length(unique(pathways)) == 1 ) {
-                  stop("Introduce several unique pathways!\n",
-                       "If you want to calculate one similarity ",
-                       "between pathways use pathSim")
-              }
+setMethod(
+    "mpathSim",
+    c(info = "GeneSetCollection", pathways = "character", method = "ANY"),
+    function(pathways, info, method = NULL, ...) {
+        if (length(unique(pathways)) == 1) {
+            stop(
+                "Introduce several unique pathways!\n",
+                "If you want to calculate one similarity ",
+                "between pathways use pathSim"
+            )
+        }
 
-              if (!all(is.character(pathways))) {
-                  stop("The input pathways should be characters")
-              }
-              nam <- names(pathways)
-              pathways <- unique(pathways)
-
-
-              if (any(!pathways %in% names(info))) {
-                  warning("Some pathways are not in the GeneSetCollection provided.")
-                  m <- matrix(nrow = length(pathways), ncol = length(pathways),
-                              dimnames = list(pathways, pathways))
-                  pathways <- pathways[pathways %in% names(info)]
-
-                  sim <- pathSims_matrix(info[pathways])
-
-                  sim <- AintoB(sim, m)
-              } else {
-                  sim <- pathSims_matrix(info[pathways])
-              }
+        if (!all(is.character(pathways))) {
+            stop("The input pathways should be characters")
+        }
+        nam <- names(pathways)
+        pathways <- unique(pathways)
 
 
+        if (any(!pathways %in% names(info))) {
+            warning("Some pathways are not in the GeneSetCollection provided.")
+            m <- matrix(
+                nrow = length(pathways), ncol = length(pathways),
+                dimnames = list(pathways, pathways)
+            )
+            pathways <- pathways[pathways %in% names(info)]
 
-              if (is.null(method)) {
-                  return(sim)
-              } else {
-                  combineScoresPar(sim, method, ... = ...)
-              }
-          }
+            sim <- pathSims_matrix(info[pathways])
+
+            sim <- AintoB(sim, m)
+        } else {
+            sim <- pathSims_matrix(info[pathways])
+        }
+
+
+
+        if (is.null(method)) {
+            return(sim)
+        } else {
+            combineScoresPar(sim, method, ... = ...)
+        }
+    }
 )
 
 #' @describeIn mpathSim Calculates all the similarities of the
 #' GeneSetCollection and combine them using \code{combineScoresPar}
 #' @export mpathSim
-setMethod("mpathSim",
-          c(info = "GeneSetCollection", pathways = "missing"),
-          function(pathways, info, method = NULL, ...) {
+setMethod(
+    "mpathSim",
+    c(info = "GeneSetCollection", pathways = "missing"),
+    function(pathways, info, method = NULL, ...) {
+        sim <- pathSims_matrix(info)
 
-              sim <- pathSims_matrix(info)
-
-              if (is.null(method)) {
-                  return(sim)
-              } else {
-                  combineScoresPar(sim, method, ... = ...)
-              }
-          }
+        if (is.null(method)) {
+            return(sim)
+        } else {
+            combineScoresPar(sim, method, ... = ...)
+        }
+    }
 )
 
 #' @describeIn mpathSim Calculates all the similarities of the list and
 #' combine them using \code{combineScoresPar}
 #' @export mpathSim
-setMethod("mpathSim",
-          c(info = "list", pathways = "missing"),
-          function(pathways, info, method = NULL, ...) {
+setMethod(
+    "mpathSim",
+    c(info = "list", pathways = "missing"),
+    function(pathways, info, method = NULL, ...) {
+        sim <- pathSims_matrix(info)
 
-              sim <- pathSims_matrix(info)
-
-              if (is.null(method)) {
-                  return(sim)
-              } else {
-                  combineScoresPar(sim, method, ... = ...)
-              }
-          }
+        if (is.null(method)) {
+            return(sim)
+        } else {
+            combineScoresPar(sim, method, ... = ...)
+        }
+    }
 )
 
 #' @describeIn mpathSim Calculates all the similarities of the list
 #' @export mpathSim
-setMethod("mpathSim",
-          c(info = "list", pathways = "missing", method = "missing"),
-          function(pathways, info, method = NULL, ...) {
+setMethod(
+    "mpathSim",
+    c(info = "list", pathways = "missing", method = "missing"),
+    function(pathways, info, method = NULL, ...) {
+        sim <- pathSims_matrix(info)
 
-              sim <- pathSims_matrix(info)
-
-              return(sim)
-          }
+        return(sim)
+    }
 )

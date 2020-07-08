@@ -6,7 +6,7 @@ test_that("mpathSim", {
     expect_equal(test, 1L)
     test <- mpathSim(c("194840", "156580"), info, NULL)
     expect_equal(test[2L, 1L], 0.4)
-    test <- mpathSim(c("a" = "194840","b" = "156580"), info, method = NULL)
+    test <- mpathSim(c("a" = "194840", "b" = "156580"), info, method = NULL)
     expect_equal(test["a", "b"], 0.4)
     expect_error(mpathSim("156580", info), "Introduce several")
     expect_error(mpathSim(c(1, 156580), info), "character")
@@ -26,7 +26,7 @@ test_that("pathSims_matrix", {
     expect_equal(test["1430728", "156580"], eq)
 })
 
-fl <- system.file("extdata", "Broad.xml", package="GSEABase")
+fl <- system.file("extdata", "Broad.xml", package = "GSEABase")
 gss <- getBroadSets(fl) # GeneSetCollection of 2 sets
 
 test_that("mpathSim for GeneSetCollections and list is equal", {
@@ -44,11 +44,16 @@ test_that("mpathSim for GeneSetCollections and list is equal", {
 
 
     # Without missing pathways
-    a <- expect_warning(mpathSim(c(pathways, "A"),
-                                 info = inverseList(geneIds(gss))),
-                        "not in the list")
-    b <- expect_warning(mpathSim(c(pathways, "A"), info = gss),
-                        "not in the GeneSetCollection")
+    a <- expect_warning(
+        mpathSim(c(pathways, "A"),
+            info = inverseList(geneIds(gss))
+        ),
+        "not in the list"
+    )
+    b <- expect_warning(
+        mpathSim(c(pathways, "A"), info = gss),
+        "not in the GeneSetCollection"
+    )
     expect_equal(a, b)
 
     # Without missing method
@@ -57,27 +62,35 @@ test_that("mpathSim for GeneSetCollections and list is equal", {
     expect_equal(a, b)
 
     # Without missing pathways and method
-    a <- mpathSim(names(geneIds(gss)), info = inverseList(geneIds(gss)),
-                  method = "avg")
+    a <- mpathSim(names(geneIds(gss)),
+        info = inverseList(geneIds(gss)),
+        method = "avg"
+    )
     b <- mpathSim(names(geneIds(gss)), info = gss, method = "avg")
     expect_equal(a, b)
 
     # Without missing pathways and methods
-    a <- expect_warning(mpathSim(c(pathways, "A"),
-                                 info = inverseList(geneIds(gss))),
-                        "not in the list")
-    b <- expect_warning(mpathSim(c(pathways, "A"), info = gss),
-                        "not in the GeneSetCollection")
+    a <- expect_warning(
+        mpathSim(c(pathways, "A"),
+            info = inverseList(geneIds(gss))
+        ),
+        "not in the list"
+    )
+    b <- expect_warning(
+        mpathSim(c(pathways, "A"), info = gss),
+        "not in the GeneSetCollection"
+    )
     expect_equal(a, b)
 })
 
 test_that("mpathSim for GeneSetCollections", {
-
     a <- mpathSim(info = gss)
     expect_true(all(diag(a) == 1))
     expect_equal(colnames(a), rownames(a))
-    a <- expect_warning(mpathSim(c(colnames(a), "A"), info = gss),
-                        "not in the GeneSetCollection")
+    a <- expect_warning(
+        mpathSim(c(colnames(a), "A"), info = gss),
+        "not in the GeneSetCollection"
+    )
     expect_true(is.na(all(diag(a) == 1)))
     expect_equal(colnames(a), rownames(a))
 })

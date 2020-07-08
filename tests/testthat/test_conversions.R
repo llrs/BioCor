@@ -9,6 +9,6 @@ test_that("Conversions", {
 
     expect_equal(J2D(D2J(0.5)), 0.5)
 
-    expect_equal(D2J(0.5), 1/3)
-    expect_equal(J2D(0.5), 2/3)
+    expect_equal(D2J(0.5), 1 / 3)
+    expect_equal(J2D(0.5), 2 / 3)
 })

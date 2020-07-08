@@ -11,7 +11,9 @@ test_that("seq2mat puts a combination to the right place", {
     expect_error(seq2mat(LETTERS[1:5], 1:9))
 
     com <- combn(as.character(1:5), 2)
-    dat <- apply(com, 2, function(x){sum(as.numeric(x))})
+    dat <- apply(com, 2, function(x) {
+        sum(as.numeric(x))
+    })
 
     expect_equal(seq2mat(as.character(1:5), dat)["3", "5"], 8L)
     expect_equal(seq2mat(as.character(1:5), dat)["5", "3"], 8L)
@@ -25,7 +27,6 @@ test_that("combinadic", {
     .combin <- combinadic(LETTERS[1:5], 2, 2)
     expect_true(all.equal(bcombin[, 2], rev(.combin)))
     expect_error(combinadic(LETTERS[1:5], 0, 2), "must be")
-
 })
 
 # duplicateIndices ####
@@ -60,5 +61,6 @@ test_that("removeDup", {
 test_that("inverseList", {
     l <- list("a" = NA, "b" = letters[1:4])
     expect_equal(inverseList(l), list(a = "b", b = "b", c = "b", d = "b"),
-                 .Names = c("a", "b", "c", "d"))
+        .Names = c("a", "b", "c", "d")
+    )
 })
