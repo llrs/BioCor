@@ -28,12 +28,12 @@ Depends:
 Imports:
     BiocParallel,
     Matrix,
+    methods,
     GSEABase
 Suggests:
     reactome.db,
     org.Hs.eg.db,
     WGCNA,
-    methods,
     GOSemSim,
     testthat,
     knitr,
