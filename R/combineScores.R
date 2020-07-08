@@ -116,6 +116,7 @@ removeNA <- function(m){
 }
 
 # Check Matrix classes and matrix
+#' @importFrom methods is
 is.Matrix <- function(m){
     is.matrix(m) || is(m, "Matrix")
 }
