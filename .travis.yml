@@ -4,7 +4,7 @@ cache: packages
 
 r_github_packages:
 - jimhester/lintr
-install:
+before_script:
     - sudo apt install -y libmagick++-dev
     - Rscript -e 'install.packages("magick")'
 after_script:
