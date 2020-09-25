@@ -13,6 +13,8 @@ knitr::opts_chunk$set(
 library("BioCor")
 ```
 
+# BioCor <img src='man/figures/logo.png' align="right" height="138.5" />
+
 <!-- badges: start -->
 [![R build status](https://github.com/llrs/BioCor/workflows/R-CMD-check/badge.svg)](https://github.com/llrs/BioCor/actions)
 [![Build Status](https://travis-ci.org/llrs/BioCor.svg?branch=master)](https://travis-ci.org/llrs/BioCor)
@@ -25,7 +27,6 @@ library("BioCor")
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1913/badge)](https://bestpractices.coreinfrastructure.org/projects/1913)
 <!-- badges: end -->
 
-# BioCor <img src='man/figures/logo.png' align="right" height="138.5" />
 
 This project wants to allow the user to calculate functional similarities (or biological correlation as it was named originally hence the name) and 
 use them for network building or other purposes.

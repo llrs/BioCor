@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+# BioCor <img src='man/figures/logo.png' align="right" height="138.5" />
+
 <!-- badges: start -->
 
 [![R build
@@ -20,8 +22,6 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![CII Best
 Practices](https://bestpractices.coreinfrastructure.org/projects/1913/badge)](https://bestpractices.coreinfrastructure.org/projects/1913)
 <!-- badges: end -->
-
-# BioCor <img src='man/figures/logo.png' align="right" height="138.5" />
 
 This project wants to allow the user to calculate functional
 similarities (or biological correlation as it was named originally hence
@@ -60,15 +60,15 @@ Here is a minimum example:
 # The data must be provided, see the vignette for more details.
 # Get some pathways from the pathway data
 (pathways <- sample(unlist(genesReact, use.names = FALSE), 5))
-#> [1] "R-HSA-373752"  "R-HSA-72165"   "R-HSA-1643685" "R-HSA-69278"  
-#> [5] "R-HSA-1643685"
+#> [1] "R-HSA-372790" "R-HSA-168188" "R-HSA-450294" "R-HSA-109582" "R-HSA-194840"
 # Calculate the pathway similarity of them
 mpathSim(pathways, genesReact, NULL)
-#>               R-HSA-373752 R-HSA-72165 R-HSA-1643685 R-HSA-69278
-#> R-HSA-373752   1.000000000  0.00000000   0.008467401 0.003401361
-#> R-HSA-72165    0.000000000  1.00000000   0.027049873 0.000000000
-#> R-HSA-1643685  0.008467401  0.02704987   1.000000000 0.155781905
-#> R-HSA-69278    0.003401361  0.00000000   0.155781905 1.000000000
+#>              R-HSA-372790 R-HSA-168188 R-HSA-450294 R-HSA-109582 R-HSA-194840
+#> R-HSA-372790   1.00000000   0.02341920   0.01924619   0.14301552   0.08478425
+#> R-HSA-168188   0.02341920   1.00000000   0.79012346   0.02781641   0.00000000
+#> R-HSA-450294   0.01924619   0.79012346   1.00000000   0.02335766   0.00000000
+#> R-HSA-109582   0.14301552   0.02781641   0.02335766   1.00000000   0.03689065
+#> R-HSA-194840   0.08478425   0.00000000   0.00000000   0.03689065   1.00000000
 ```
 
 # Who might use this package?
