@@ -3,17 +3,19 @@
 
 <!-- badges: start -->
 
+[![R build
+status](https://github.com/llrs/BioCor/workflows/R-CMD-check/badge.svg)](https://github.com/llrs/BioCor/actions)
 [![Build
 Status](https://travis-ci.org/llrs/BioCor.svg?branch=master)](https://travis-ci.org/llrs/BioCor)
 [![AppVeyor Build
 Status](https://ci.appveyor.com/api/projects/status/github//llrs/BioCor?branch=master&svg=true)](https://ci.appveyor.com/projects/llrs/BioCor)
 [![codecov](https://codecov.io/gh/llrs/BioCor/branch/master/graph/badge.svg)](https://codecov.io/gh/llrs/BioCor/)
 [![Build
-Status](http://www.bioconductor.org/shields/build/devel/bioc/BioCor.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/BioCor/)
-[![Bioc](http://www.bioconductor.org/shields/years-in-bioc/BioCor.svg)](https://www.bioconductor.org/packages/devel/bioc/html/BioCor.html#since)
+Status](https://www.bioconductor.org/shields/build/devel/bioc/BioCor.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/BioCor/)
+[![Bioc](https://www.bioconductor.org/shields/years-in-bioc/BioCor.svg)](https://www.bioconductor.org/packages/devel/bioc/html/BioCor.html#since)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
-developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![CII Best
 Practices](https://bestpractices.coreinfrastructure.org/projects/1913/badge)](https://bestpractices.coreinfrastructure.org/projects/1913)
@@ -31,41 +33,42 @@ It is an R package you can install it from the Bioconductor project
 with:
 
 ``` r
-if (!requireNamespace("BiocManager", quietly=TRUE))
-    install.packages("BiocManager")
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+      install.packages("BiocManager")
+  }
 BiocManager::install("BioCor")
 ```
 
 You can install this version of *BioCor* with:
 
 ``` r
-if (!requireNamespace("devtools", quietly=TRUE))
-    install.packages("devtools")
+if (!requireNamespace("devtools", quietly = TRUE)) {
+      install.packages("devtools")
+  }
 devtools::install_github("llrs/BioCor")
 ```
 
 # How to use BioCor?
 
 See the
-[vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_1_basics.html)
+[vignette](https://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_1_basics.html)
 in Bioconductor site and the [advanced
-vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_2_advanced.html).  
+vignette](https://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_2_advanced.html).  
 Here is a minimum example:
 
 ``` r
 # The data must be provided, see the vignette for more details.
 # Get some pathways from the pathway data
 (pathways <- sample(unlist(genesReact, use.names = FALSE), 5))
-#> [1] "R-HSA-168276"  "R-HSA-201688"  "R-HSA-418594"  "R-HSA-5668541"
-#> [5] "R-HSA-388396"
+#> [1] "R-HSA-373752"  "R-HSA-72165"   "R-HSA-1643685" "R-HSA-69278"  
+#> [5] "R-HSA-1643685"
 # Calculate the pathway similarity of them
 mpathSim(pathways, genesReact, NULL)
-#>               R-HSA-168276 R-HSA-201688 R-HSA-418594 R-HSA-5668541 R-HSA-388396
-#> R-HSA-168276   1.000000000            0  0.004474273             0  0.001736111
-#> R-HSA-201688   0.000000000            1  0.000000000             0  0.000000000
-#> R-HSA-418594   0.004474273            0  1.000000000             0  0.535266974
-#> R-HSA-5668541  0.000000000            0  0.000000000             1  0.000000000
-#> R-HSA-388396   0.001736111            0  0.535266974             0  1.000000000
+#>               R-HSA-373752 R-HSA-72165 R-HSA-1643685 R-HSA-69278
+#> R-HSA-373752   1.000000000  0.00000000   0.008467401 0.003401361
+#> R-HSA-72165    0.000000000  1.00000000   0.027049873 0.000000000
+#> R-HSA-1643685  0.008467401  0.02704987   1.000000000 0.155781905
+#> R-HSA-69278    0.003401361  0.00000000   0.155781905 1.000000000
 ```
 
 # Who might use this package?
@@ -101,7 +104,7 @@ Here is a non-comprehensive list:
     By comparing scores of the same entities
 
 See the [advanced
-vignette](http://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_2_advanced.html)
+vignette](https://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_2_advanced.html)
 
 # Contributing
 

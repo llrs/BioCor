@@ -43,7 +43,7 @@ library("BiocStyle")
 
 # Introduction
 
-Methods to find similarities have been developed for several purposes, being Jaccard and Dice similarities the most known. In bioinformatics much of the research on the topic is centered around [Gene Ontologies](http://www.geneontology.org/) because they provide controlled vocabularies, as part of their mission:
+Methods to find similarities have been developed for several purposes, being Jaccard and Dice similarities the most known. In bioinformatics much of the research on the topic is centered around [Gene Ontologies](https://www.geneontology.org/) because they provide controlled vocabularies, as part of their mission:
 
 > The mission of the GO Consortium is to develop an up-to-date, comprehensive, computational model of biological systems, from the molecular level to larger pathways, cellular and organism-level systems.
 
@@ -265,7 +265,7 @@ In this section I will compare the functional similarity of BioCor with the clos
 hsGO <- GOSemSim::godata('org.Hs.eg.db', ont = "BP", computeIC = FALSE)
 ```
 
-I will compare the functions geneSim from section [geneSim and mgeneSim from GOSemSim](http://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#genesim-and-mgenesim) with both data sets from KEGG and Reactome:
+I will compare the functions geneSim from section [geneSim and mgeneSim from GOSemSim](https://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#genesim-and-mgenesim) with both data sets from KEGG and Reactome:
 ```{r geneSimGOSemSim}
 goSemSim <- GOSemSim::geneSim("241", "251", semData = hsGO, 
                               measure = "Wang", combine="BMA")
@@ -290,7 +290,7 @@ genese <- mapIds(org.Hs.eg.db, keys = genes, column = "ENTREZID",
 BioCor::mgeneSim(genese, genesReact, "BMA")
 ```
 
-We can further compare the cluster similarities from the [next section of the vignette](http://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#clustersim-and-mclustersim):
+We can further compare the cluster similarities from the [next section of the vignette](https://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#clustersim-and-mclustersim):
 ```{r clusterSimGOSemSim}
 gs1 <- c("835", "5261","241", "994", "514", "533")
 gs2 <- c("578","582", "400", "409", "411")
