@@ -1,16 +1,15 @@
-language: R
-sudo: false
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: r
 cache: packages
+os: linux
+dist: xenial
+r:
+ - bioc-devel
 
-r_github_packages:
-- jimhester/lintr
-
-after_script:
-    - R CMD INSTALL $PKG_TARBALL
-    - Rscript -e 'lintr::lint_package()'
-after_success:
-  - Rscript -e 'library(covr); codecov()'
-#  - R CMD BiocCheck .
+before_script:
+    - sudo apt install -y libmagick++-dev
+    - Rscript -e 'install.packages("magick")'
 
 before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
 deploy:
@@ -18,10 +17,9 @@ deploy:
   script: Rscript -e 'pkgdown::deploy_site_github()'
   skip_cleanup: true
 
-os:
-  - linux
-r:
- - bioc-devel
+after_success:
+  - Rscript -e 'library(covr); codecov()'
+
 notifications:
   email:
     on_success: change
