@@ -2,7 +2,6 @@ library("BioCor")
 context("Testing clusterSim")
 
 test_that("clusterSim", {
-
     test <- clusterSim(c("2", "1"), c("9", "4"), info)
     test2 <- clusterSim(c("9", "4"), c("2", "1"), info)
     expect_equal(test, 0.4)
@@ -24,8 +23,10 @@ test_that("clusterSim", {
 })
 
 test_that("mclusterSim", {
-    clusters <- list(cluster1 = c("10", "2", "3"),
-                     cluster2 = c("10", "2", "9"))
+    clusters <- list(
+        cluster1 = c("10", "2", "3"),
+        cluster2 = c("10", "2", "9")
+    )
     test <- mclusterSim(clusters, info)
     expect_equal(test[1L, 1L], 1L)
     expect_equal(colnames(test), names(clusters))
@@ -36,28 +37,38 @@ test_that("mclusterSim", {
     test <- mclusterSim(list(a = c("4", "5"), b = c("6", "7")), info)
     expect_true(all(is.na(unlist(test))))
     expect_true(isSymmetric(test))
-    clusters <- list(cluster1 = c("10", "3"),
-                     cluster2 = c("10", "2", "9"),
-                     cluster3 = c("2", "9", "3", "4"))
+    clusters <- list(
+        cluster1 = c("10", "3"),
+        cluster2 = c("10", "2", "9"),
+        cluster3 = c("2", "9", "3", "4")
+    )
     test <- mclusterSim(clusters, info)
     expect_equal(test[1L, 1L], 1L)
     expect_equal(colnames(test), names(clusters))
     expect_equal(rownames(test), names(clusters))
     test <- mclusterSim(clusters, info, "avg", round = TRUE)
     expect_equal(test[1L, 1L], 0.7) # 0.664
-    clusters3 <- list(cluster1 = c("10", "2", "3"),
-                     cluster2 = c(10, 2, 9))
+    clusters3 <- list(
+        cluster1 = c("10", "2", "3"),
+        cluster2 = c(10, 2, 9)
+    )
     expect_error(mclusterSim(clusters3, info))
     clusters2 <- list(cluster1 = c("10", "2", "3"))
     expect_error(mclusterSim(clusters2, info), "several")
     expect_error(mclusterSim(clusters, as.environment(info)), "list")
-    expect_warning(mclusterSim(list(cluster1 = c("10", "2", "3"),
-                                  cluster2 = c("13", "2", "9")), info),
-                   "in the list")
+    expect_warning(
+        mclusterSim(list(
+            cluster1 = c("10", "2", "3"),
+            cluster2 = c("13", "2", "9")
+        ), info),
+        "in the list"
+    )
 
-    clusters <- list(cluster1 = c("4", "2"),
-                     cluster2 = c("10", "2", "9"),
-                     cluster3 = c("4", "9", "10"))
+    clusters <- list(
+        cluster1 = c("4", "2"),
+        cluster2 = c("10", "2", "9"),
+        cluster3 = c("4", "9", "10")
+    )
     test4 <- mclusterSim(clusters, info, "rcmax.avg")
     expect_equal(test4["cluster1", "cluster2"], 0.76)
     expect_warning(mclusterSim(clusters, info, method = NULL, round = TRUE))
@@ -66,7 +77,6 @@ test_that("mclusterSim", {
 
 
 test_that("clusterSim", {
-
     test <- clusterSim(c("2", "1"), c("9", "4"), Info)
     test2 <- clusterSim(c("9", "4"), c("2", "1"), Info)
     expect_equal(test, 0.4)
@@ -86,8 +96,10 @@ test_that("clusterSim", {
 })
 
 test_that("mclusterSim", {
-    clusters <- list(cluster1 = c("10", "2", "3"),
-                     cluster2 = c("10", "2", "9"))
+    clusters <- list(
+        cluster1 = c("10", "2", "3"),
+        cluster2 = c("10", "2", "9")
+    )
     test <- mclusterSim(clusters, Info)
     expect_equal(test[1L, 1L], 1L)
     expect_equal(colnames(test), names(clusters))
@@ -98,25 +110,30 @@ test_that("mclusterSim", {
     expect_warning(test <- mclusterSim(list(a = c("4", "5"), b = c("6", "7")), Info))
     expect_true(all(is.na(unlist(test))))
     expect_true(is.na(test))
-    clusters <- list(cluster1 = c("10", "3"),
-                     cluster2 = c("10", "2", "9"),
-                     cluster3 = c("2", "9", "3", "4"))
+    clusters <- list(
+        cluster1 = c("10", "3"),
+        cluster2 = c("10", "2", "9"),
+        cluster3 = c("2", "9", "3", "4")
+    )
     test <- mclusterSim(clusters, Info)
     expect_equal(test[1L, 1L], 1L)
     expect_equal(colnames(test), names(clusters))
     expect_equal(rownames(test), names(clusters))
     test <- mclusterSim(clusters, Info, "avg", round = TRUE)
     expect_equal(test[1L, 1L], 0.664)
-    clusters3 <- list(cluster1 = c("10", "2", "3"),
-                      cluster2 = c(10, 2, 9))
+    clusters3 <- list(
+        cluster1 = c("10", "2", "3"),
+        cluster2 = c(10, 2, 9)
+    )
     expect_true(isSymmetric.matrix(mclusterSim(clusters3, Info)))
     clusters2 <- list(cluster1 = c("10", "2", "3"))
 
-    clusters <- list(cluster1 = c("4", "2"),
-                     cluster2 = c("10", "2", "9"),
-                     cluster3 = c("4", "9", "10"))
+    clusters <- list(
+        cluster1 = c("4", "2"),
+        cluster2 = c("10", "2", "9"),
+        cluster3 = c("4", "9", "10")
+    )
     test4 <- mclusterSim(clusters, Info, "rcmax.avg")
     expect_equal(test4["cluster1", "cluster2"], 0.4)
     expect_true(isSymmetric(mclusterSim(clusters, Info, method = NULL, round = TRUE)))
 })
-

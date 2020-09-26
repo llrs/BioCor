@@ -9,7 +9,6 @@ test_that("pathSim", {
     expect_error(pathSim("1", "156580", "a"), "list")
     expect_true(is.na(pathSim("1", "156580", info)))
     expect_equal(pathSim("109582", "114608", info), 1)
-
 })
 
 test_that("pathSim with GSC", {
@@ -20,5 +19,4 @@ test_that("pathSim with GSC", {
     expect_error(pathSim("1", "156580", "a"), "list")
     expect_true(is.na(pathSim("1", "156580", Info)))
     expect_true(is.na(pathSim("109582", "114608", Info)))
-
 })

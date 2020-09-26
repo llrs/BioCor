@@ -34,8 +34,10 @@
 #' weighted.sum(expr, c(0.5, 0.2, 0, 0.2, 0.1))
 weighted.sum <- function(x, w, abs = TRUE) {
     if (length(x) != length(w)) {
-        stop("Weights and data don't match the length: ", length(x), " != ",
-             length(w))
+        stop(
+            "Weights and data don't match the length: ", length(x), " != ",
+            length(w)
+        )
     }
 
     if (!is.numeric(x) | !is.numeric(w)) {
@@ -49,12 +51,12 @@ weighted.sum <- function(x, w, abs = TRUE) {
     }
     if (abs) {
         if (any(sign(x[!is.na(x)]) < 0)) {
-            -sum(abs(x)*w, na.rm = TRUE)
+            -sum(abs(x) * w, na.rm = TRUE)
         } else {
-            sum(x*w, na.rm = TRUE)
+            sum(x * w, na.rm = TRUE)
         }
     } else {
-        sum(x*w, na.rm = TRUE)
+        sum(x * w, na.rm = TRUE)
     }
 }
 
@@ -70,8 +72,10 @@ weighted.sum <- function(x, w, abs = TRUE) {
 #' weighted.prod(expr, c(0.5, 0.2, 0, 0.2, 0.1))
 weighted.prod <- function(x, w) {
     if (length(x) != length(w)) {
-        stop("Weights and data don't match the length: ", length(x), " != ",
-             length(w))
+        stop(
+            "Weights and data don't match the length: ", length(x), " != ",
+            length(w)
+        )
     }
 
     if (!is.numeric(x) | !is.numeric(w)) {
@@ -82,5 +86,5 @@ weighted.prod <- function(x, w) {
         warning("The sum of the weights is above 1")
     }
 
-    prod(x*w, na.rm = TRUE)
+    prod(x * w, na.rm = TRUE)
 }

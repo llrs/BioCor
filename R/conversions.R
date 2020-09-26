@@ -22,7 +22,7 @@ D2J <- function(D) {
     } else if (all(D < 0)) {
         stop("Dice index can't be below 0")
     }
-    D/(2 - D)
+    D / (2 - D)
 }
 
 #' @export
@@ -33,5 +33,5 @@ J2D <- function(J) {
     } else if (all(J < 0)) {
         stop("Jaccard index can't be below 0")
     }
-    2*J/(1 + J)
+    2 * J / (1 + J)
 }

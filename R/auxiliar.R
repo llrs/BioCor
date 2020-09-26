@@ -12,7 +12,7 @@
 #' @seealso \code{\link{combn}}
 #' @export
 #' @examples
-#' #Output of all combinations
+#' # Output of all combinations
 #' combn(LETTERS[1:5], 2)
 #' # Otuput of the second combination
 #' combinadic(LETTERS[1:5], 2, 2)
@@ -30,13 +30,13 @@ combinadic <- function(n, r, i) {
     }
     largestV <- function(n, r, i) {
         v <- n # Adjusted for one-based indexing
-        while (choose(v,r) >= i) { # Adjusted for one-based indexing
+        while (choose(v, r) >= i) { # Adjusted for one-based indexing
             v <- v - 1L
         }
         return(v)
     }
 
-    res <- rep(NA,r)
+    res <- rep(NA, r)
     for (j in 1L:r) {
         res[j] <- largestV(n0, r, i)
         i <- i - choose(res[j], r)
@@ -99,9 +99,10 @@ duplicateIndices <- function(vec) {
     if (!is.character(vec)) {
         stop("Expected a list of characters to find duplicates on it")
     }
-    sapply(unique(vec[duplicated(vec)]), function(x){
+    sapply(unique(vec[duplicated(vec)]), function(x) {
         b <- 1:length(vec)
-        b[vec == x]}, simplify = FALSE)
+        b[vec == x]
+    }, simplify = FALSE)
 }
 
 # removeDup ####
@@ -128,8 +129,10 @@ duplicateIndices <- function(vec) {
 #' remat
 removeDup <- function(cor_mat, dupli) {
     if (!all(sapply(cor_mat, isSymmetric))) {
-        stop("All the matrices of mat should be symmetric and with the same ",
-             "column names and rownames")
+        stop(
+            "All the matrices of mat should be symmetric and with the same ",
+            "column names and rownames"
+        )
     }
     cor_mat <- Map(function(mat, x = dupli) {
         rem.colum <- sapply(x, function(y, m) {
@@ -155,7 +158,9 @@ removeDup <- function(cor_mat, dupli) {
 #' @export
 inverseList <- function(x) {
     stopifnot(length(names(x)) == length(x))
-    stopifnot(all(sapply(x, function(x){is.character(x) || is.na(x)})))
+    stopifnot(all(sapply(x, function(x) {
+        is.character(x) || is.na(x)
+    })))
     genes <- unlist(x, use.names = FALSE)
     pathways <- rep(names(x), lengths(x))
     split(pathways, genes)

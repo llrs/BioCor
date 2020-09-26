@@ -1,4 +1,21 @@
 destination: docs
+
+home:
+  title: Calculate functional similarities between genes
+  description: Calculates functional similarities based on the
+    pathways or gene sets. These similarities can be calculated for pathways or
+    gene sets, genes, or clusters and combined with other similarities. They
+    can be used to improve networks, gene selection, testing relationships...
+
+template:
+  opengraph:
+    image:
+      src: "man/figures/logo.png"
+      alt: "BioCor logo"
+    twitter:
+      creator: "@Lluis_Rev"
+      card: summary_large_image
+
 reference:
   - title: General introduction
     contents:

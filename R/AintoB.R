@@ -11,10 +11,14 @@
 #' @return A matrix with the values of A in the matrix B.
 #' @author Lluís Revilla
 #' @examples
-#' B <- matrix(ncol = 10, nrow = 10,
-#'     dimnames = list(letters[1:10], letters[1:10]))
-#' A <- matrix(c(1:15), byrow=TRUE, nrow=5,
-#'     dimnames = list(letters[1:5], letters[1:3]))
+#' B <- matrix(
+#'     ncol = 10, nrow = 10,
+#'     dimnames = list(letters[1:10], letters[1:10])
+#' )
+#' A <- matrix(c(1:15),
+#'     byrow = TRUE, nrow = 5,
+#'     dimnames = list(letters[1:5], letters[1:3])
+#' )
 #' AintoB(A, B)
 #'
 #' # Mixed orders
@@ -35,8 +39,10 @@ AintoB <- function(A, B) {
         mc <- match(colnames(A), colnames(B))
         mr <- match(rownames(A), rownames(B))
     } else {
-        stop("Impossible to insert matrix A into matrix B\n",
-            "Matrix A is bigger than matrix B.")
+        stop(
+            "Impossible to insert matrix A into matrix B\n",
+            "Matrix A is bigger than matrix B."
+        )
     }
     # Omit those with NA
     nar <- is.na(mr)

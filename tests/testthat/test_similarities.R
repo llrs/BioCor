@@ -5,7 +5,7 @@ set.seed(1)
 a <- seq2mat(LETTERS[1:5], runif(10))
 b <- seq2mat(LETTERS[1:5], runif(10))
 x <- seq2mat(LETTERS[1:5], runif(10))
-mat <- list("kegg" = a , "react" = b)
+mat <- list("kegg" = a, "react" = b)
 
 test_that("addSimilarities", {
     weights <- c(0.1, 0.2, 0.8)
@@ -27,19 +27,28 @@ test_that("addSimilarities", {
 })
 
 test_that("similarities", {
-
     test <- similarities(mat, mean)
     expect_error(similarities(matrix(ncol = 2), mean), "introduce")
-    expect_error(similarities(list(mat = matrix(ncol = 2, nrow = 2),
-                                   met = NA), mean), "differ")
-    expect_error(similarities(list(mat = matrix(ncol = 2, nrow = 2),
-                                   met = matrix(ncol = 2, nrow = 3)), mean),
-                 "dimensions")
-    expect_error(similarities(list(mat = matrix(ncol = 3, nrow = 2),
-                                   met = matrix(ncol = 2, nrow = 3)), mean),
-                 "dimensions")
+    expect_error(similarities(list(
+        mat = matrix(ncol = 2, nrow = 2),
+        met = NA
+    ), mean), "differ")
+    expect_error(
+        similarities(list(
+            mat = matrix(ncol = 2, nrow = 2),
+            met = matrix(ncol = 2, nrow = 3)
+        ), mean),
+        "dimensions"
+    )
+    expect_error(
+        similarities(list(
+            mat = matrix(ncol = 3, nrow = 2),
+            met = matrix(ncol = 2, nrow = 3)
+        ), mean),
+        "dimensions"
+    )
 
-    expect_equal(test["A", "B"], (b["A", "B"] + a["A", "B"])/2)
+    expect_equal(test["A", "B"], (b["A", "B"] + a["A", "B"]) / 2)
     expect_equal(test["A", "B"], 0.2357416190207)
 
     test <- similarities(mat, weighted.sum, w = c(0.8, 0.1))

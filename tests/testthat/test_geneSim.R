@@ -3,7 +3,6 @@ context("Testing geneSim")
 
 
 test_that("geneSim", {
-
     test <- geneSim("2", "9", info)
     test2 <- geneSim("9", "2", info)
     expect_error(geneSim(2, "9", info), "character")
@@ -21,8 +20,10 @@ test_that("geneSim", {
 })
 
 test_that("mgeneSim", {
-    test <- mgeneSim(c("1", "10", "2", "3", "4", "5", "6", "7", "8", "9"),
-                     info)
+    test <- mgeneSim(
+        c("1", "10", "2", "3", "4", "5", "6", "7", "8", "9"),
+        info
+    )
     expect_true(is.na(test["1", "1"]))
     expect_true(isSymmetric(test))
     expect_equal(test["2", "10"], 0.4)
@@ -41,7 +42,6 @@ test_that("mgeneSim", {
 })
 
 test_that("geneSim with GSC", {
-
     test <- geneSim("2", "9", Info)
     test2 <- geneSim("9", "2", Info)
     expect_error(geneSim(2, "9", Info), "character")
