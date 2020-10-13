@@ -1,6 +1,6 @@
 Package: BioCor
 Title: Functional similarities
-Version: 1.13.0
+Version: 1.13.1
 Authors@R:
     c(person(given = "Lluís",
              family = "Revilla Sancho",
