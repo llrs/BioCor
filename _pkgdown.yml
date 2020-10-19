@@ -10,12 +10,12 @@ home:
 template:
   opengraph:
     image:
-      src: "man/figures/logo.png"
+      src: man/figures/logo.png
       alt: "BioCor logo"
     twitter:
       creator: "@Lluis_Rev"
       card: summary_large_image
-
+twitterImg: man/figures/logo.png
 reference:
   - title: General introduction
     contents:
