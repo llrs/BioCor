@@ -393,7 +393,7 @@ So for instance `r m <- which(cluster1 == max(as.dist(cluster1)), arr.ind = TRUE
 
 As suggested in the main vignette functional similarities can be compared to semantic similarities such as those based on GO. Here a comparison using the biological process from the gene ontologies is done:
 
-```{r GOSemSim, fig.wide = TRUE, fig.cap = "Comparison of similarities. Functional similarities compared to biological process semantic similarity."}
+```{r GOSemSim, eval=FALSE,fig.cap="Comparison of similarities. Functional similarities compared to biological process semantic similarity.",fig.wide=TRUE,include=TRUE}
 library("GOSemSim")
 BP <- godata("org.Hs.eg.db", ont = "BP", computeIC = TRUE)
 gsGO <- GOSemSim::mgeneSim(rownames(gS), semData = BP, measure = "Resnik", verbose = FALSE)
