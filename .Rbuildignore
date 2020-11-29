@@ -25,3 +25,4 @@
 ^docs$
 ^pkgdown$
 ^\.travis\.yml$
+^codemeta\.json$

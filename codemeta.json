@@ -1,0 +1,255 @@
+{
+  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@type": "SoftwareSourceCode",
+  "identifier": "BioCor",
+  "description": "Calculates functional similarities based on the\n    pathways described on KEGG and REACTOME or in gene sets. These\n    similarities can be calculated for pathways or gene sets, genes, or\n    clusters and combined with other similarities. They can be used to\n    improve networks, gene selection, testing relationships...",
+  "name": "BioCor: Functional similarities",
+  "codeRepository": "https://github.com/llrs/BioCor",
+  "issueTracker": "https://github.com/llrs/BioCor/issues",
+  "license": "https://spdx.org/licenses/MIT",
+  "version": "1.15.0",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 4.0.1 (2020-06-06)",
+  "provider": {
+    "@id": "https://www.bioconductor.org",
+    "@type": "Organization",
+    "name": "BioConductor",
+    "url": "https://www.bioconductor.org"
+  },
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Lluís",
+      "familyName": "Revilla Sancho",
+      "email": "lluis.revilla@gmail.com",
+      "@id": "https://orcid.org/0000-0001-9747-2570"
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Pau",
+      "familyName": "Sancho-Bru",
+      "@id": "https://orcid.org/0000-0001-5569-9259"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Juan José Salvatella",
+      "familyName": "Lozano",
+      "@id": "https://orcid.org/0000-0001-7613-3908"
+    }
+  ],
+  "copyrightHolder": {},
+  "funder": {},
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Lluís",
+      "familyName": "Revilla Sancho",
+      "email": "lluis.revilla@gmail.com",
+      "@id": "https://orcid.org/0000-0001-9747-2570"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "reactome.db",
+      "name": "reactome.db"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "org.Hs.eg.db",
+      "name": "org.Hs.eg.db"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "WGCNA",
+      "name": "WGCNA",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=WGCNA"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "GOSemSim",
+      "name": "GOSemSim",
+      "provider": {
+        "@id": "https://www.bioconductor.org",
+        "@type": "Organization",
+        "name": "BioConductor",
+        "url": "https://www.bioconductor.org"
+      },
+      "sameAs": "https://bioconductor.org/packages/release/bioc/html/GOSemSim.html"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "BiocStyle",
+      "name": "BiocStyle",
+      "provider": {
+        "@id": "https://www.bioconductor.org",
+        "@type": "Organization",
+        "name": "BioConductor",
+        "url": "https://www.bioconductor.org"
+      },
+      "sameAs": "https://bioconductor.org/packages/release/bioc/html/BiocStyle.html"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "airway",
+      "name": "airway"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "DESeq2",
+      "name": "DESeq2",
+      "provider": {
+        "@id": "https://www.bioconductor.org",
+        "@type": "Organization",
+        "name": "BioConductor",
+        "url": "https://www.bioconductor.org"
+      },
+      "sameAs": "https://bioconductor.org/packages/release/bioc/html/DESeq2.html"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "boot",
+      "name": "boot",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=boot"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "targetscan.Hs.eg.db",
+      "name": "targetscan.Hs.eg.db"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "Hmisc",
+      "name": "Hmisc",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=Hmisc"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "spelling",
+      "name": "spelling",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=spelling"
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 3.4.0"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "BiocParallel",
+      "name": "BiocParallel",
+      "provider": {
+        "@id": "https://www.bioconductor.org",
+        "@type": "Organization",
+        "name": "BioConductor",
+        "url": "https://www.bioconductor.org"
+      },
+      "sameAs": "https://bioconductor.org/packages/release/bioc/html/BiocParallel.html"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "Matrix",
+      "name": "Matrix",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=Matrix"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "methods",
+      "name": "methods"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "GSEABase",
+      "name": "GSEABase",
+      "provider": {
+        "@id": "https://www.bioconductor.org",
+        "@type": "Organization",
+        "name": "BioConductor",
+        "url": "https://www.bioconductor.org"
+      },
+      "sameAs": "https://bioconductor.org/packages/release/bioc/html/GSEABase.html"
+    }
+  ],
+  "relatedLink": ["https://llrs.github.io/BioCor/", "https://bioconductor.org/packages/release/bioc/html/BioCor.html"],
+  "releaseNotes": "https://github.com/llrs/BioCor/blob/master/NEWS.md",
+  "readme": "https://github.com/llrs/BioCor/blob/master/README.md",
+  "fileSize": "0KB",
+  "contIntegration": ["https://travis-ci.org/llrs/BioCor", "https://ci.appveyor.com/projects/llrs/BioCor", "https://codecov.io/gh/llrs/BioCor/"],
+  "developmentStatus": ["https://www.repostatus.org/#active", "https://www.tidyverse.org/lifecycle/#stable"],
+  "keywords": ["similarity-measurement", "similarity", "functional-similarity", "bioinformatics", "pathway-analysis", "gene-sets", "bioconductor-packages", "gene", "pathways"]
+}
