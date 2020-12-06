@@ -28,6 +28,13 @@ vignette: >
   %\VignetteIndexEntry{Advanced usage of BioCor}
   %\VignetteEncoding{UTF-8}  
   %\VignetteEngine{knitr::rmarkdown}
+opengraph:
+  image:
+    src: man/figures/logo.png
+    alt: "BioCor logo"
+  twitter:
+    creator: "@Lluis_Revilla"
+    card: summary
 editor_options: 
   chunk_output_type: console
 ---

@@ -1,3 +1,4 @@
+url: https://biocor.llrs.dev
 destination: docs
 
 home:
@@ -13,7 +14,7 @@ template:
       src: man/figures/logo.png
       alt: "BioCor logo"
     twitter:
-      creator: "@Lluis_Rev"
+      creator: "@Lluis_Revilla"
       card: summary_large_image
 twitterImg: man/figures/logo.png
 reference:

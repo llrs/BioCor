@@ -28,6 +28,13 @@ author:
 - name: Pau Sancho-Bru
   affiliation:
    - August Pi i Sunyer Biomedical Research Institute (IDIBAPS); Liver Unit, Hospital Clinic
+opengraph:
+  image:
+    src: man/figures/logo.png
+    alt: "BioCor logo"
+  twitter:
+    creator: "@Lluis_Revilla"
+    card: summary
 vignette: >
   %\VignetteIndexEntry{About BioCor}
   %\VignetteEncoding{UTF-8}  
