@@ -5,22 +5,13 @@
 
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/llrs/BioCor/workflows/R-CMD-check/badge.svg)](https://github.com/llrs/BioCor/actions)
-[![Build
-Status](https://travis-ci.org/llrs/BioCor.svg?branch=master)](https://travis-ci.org/llrs/BioCor)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github//llrs/BioCor?branch=master&svg=true)](https://ci.appveyor.com/projects/llrs/BioCor)
+[![R build status](https://github.com/llrs/BioCor/workflows/R-CMD-check/badge.svg)](https://github.com/llrs/BioCor/actions)
 [![codecov](https://codecov.io/gh/llrs/BioCor/branch/master/graph/badge.svg)](https://codecov.io/gh/llrs/BioCor/)
-[![Build
-Status](https://www.bioconductor.org/shields/build/devel/bioc/BioCor.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/BioCor/)
+[![Build Status](https://www.bioconductor.org/shields/build/devel/bioc/BioCor.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/BioCor/)
 [![Bioc](https://www.bioconductor.org/shields/years-in-bioc/BioCor.svg)](https://www.bioconductor.org/packages/devel/bioc/html/BioCor.html#since)
-[![Project Status: Active - The project has reached a stable, usable
-state and is being actively
-developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
-[![CII Best
-Practices](https://bestpractices.coreinfrastructure.org/projects/1913/badge)](https://bestpractices.coreinfrastructure.org/projects/1913)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1913/badge)](https://bestpractices.coreinfrastructure.org/projects/1913)
 <!-- badges: end -->
 
 This project wants to allow the user to calculate functional
