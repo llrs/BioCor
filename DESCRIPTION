@@ -1,6 +1,6 @@
 Package: BioCor
 Title: Functional similarities
-Version: 1.15.0
+Version: 1.15.1
 Authors@R:
     c(person(given = "Lluís",
              family = "Revilla Sancho",
@@ -51,5 +51,4 @@ biocViews: StatisticalMethod, Clustering, GeneExpression,
     Network, Pathways, NetworkEnrichment, SystemsBiology
 Encoding: UTF-8
 Language: en-US
-LazyData: true
 RoxygenNote: 7.1.1
