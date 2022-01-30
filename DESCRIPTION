@@ -21,34 +21,34 @@ Description: Calculates functional similarities based on the
     clusters and combined with other similarities. They can be used to
     improve networks, gene selection, testing relationships...
 License: MIT + file LICENSE
-URL: https://llrs.github.io/BioCor/
+URL: https://bioconductor.org/packages/BioCor, https://llrs.github.io/BioCor/
 BugReports: https://github.com/llrs/BioCor/issues
 Depends:
     R (>= 3.4.0)
 Imports:
     BiocParallel,
+    GSEABase,
     Matrix,
-    methods,
-    GSEABase
+    methods
 Suggests:
-    reactome.db,
-    org.Hs.eg.db,
-    WGCNA,
-    GOSemSim,
-    testthat,
-    knitr,
-    rmarkdown,
-    BiocStyle,
     airway,
-    DESeq2,
+    BiocStyle,
     boot,
-    targetscan.Hs.eg.db,
+    DESeq2,
+    GOSemSim,
     Hmisc,
-    spelling
+    knitr,
+    org.Hs.eg.db,
+    reactome.db,
+    rmarkdown,
+    spelling,
+    targetscan.Hs.eg.db,
+    testthat,
+    WGCNA
 VignetteBuilder:
     knitr
-biocViews: StatisticalMethod, Clustering, GeneExpression,
-    Network, Pathways, NetworkEnrichment, SystemsBiology
+biocViews: StatisticalMethod, Clustering, GeneExpression, Network,
+    Pathways, NetworkEnrichment, SystemsBiology
 Encoding: UTF-8
 Language: en-US
 RoxygenNote: 7.1.1
