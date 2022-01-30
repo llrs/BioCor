@@ -8,7 +8,7 @@ message: 'To cite package "BioCor" in publications use:'
 type: software
 license: MIT
 title: 'BioCor: Functional similarities'
-version: 1.15.1
+version: 1.15.2
 abstract: Calculates functional similarities based on the pathways described on KEGG
   and REACTOME or in gene sets. These similarities can be calculated for pathways
   or gene sets, genes, or clusters and combined with other similarities. They can
@@ -26,14 +26,17 @@ preferred-citation:
     given-names: Lluís
     email: lluis.revilla@gmail.com
     orcid: https://orcid.org/0000-0001-9747-2570
-  version: 1.15.1
+  version: 1.15.2
   abstract: Calculates functional similarities based on the pathways described on
     KEGG and REACTOME or in gene sets. These similarities can be calculated for pathways
     or gene sets, genes, or clusters and combined with other similarities. They can
     be used to improve networks, gene selection, testing relationships...
   repository: https://bioconductor.org/
   repository-code: https://github.com/llrs/BioCor
-  url: https://llrs.github.io/BioCor/
+  url: https://bioconductor.org/packages/BioCor
+  identifiers:
+  - type: url
+    value: https://llrs.github.io/BioCor/
   contact:
   - family-names: Revilla Sancho
     given-names: Lluís
@@ -53,7 +56,7 @@ preferred-citation:
   year: '2022'
 repository: https://bioconductor.org/
 repository-code: https://github.com/llrs/BioCor
-url: https://llrs.github.io/BioCor/
+url: https://bioconductor.org/packages/BioCor
 contact:
 - family-names: Revilla Sancho
   given-names: Lluís
@@ -104,6 +107,18 @@ references:
   year: '2022'
   url: https://github.com/Bioconductor/BiocParallel
 - type: software
+  title: GSEABase
+  abstract: 'GSEABase: Gene set enrichment data structures and methods'
+  notes: Imports
+  authors:
+  - family-names: Morgan
+    given-names: Martin
+  - family-names: Falcon
+    given-names: Seth
+  - family-names: Gentleman
+    given-names: Robert
+  year: '2022'
+- type: software
   title: Matrix
   abstract: 'Matrix: Sparse and Dense Matrix Classes and Methods'
   notes: Imports
@@ -129,17 +144,52 @@ references:
   institution:
     name: R Foundation for Statistical Computing
 - type: software
-  title: GSEABase
-  abstract: 'GSEABase: Gene set enrichment data structures and methods'
-  notes: Imports
+  title: airway
+  abstract: 'airway: RangedSummarizedExperiment for RNA-Seq in airway smooth muscle
+    cells, by Himes et al PLoS One 2014'
+  notes: Suggests
   authors:
-  - family-names: Morgan
-    given-names: Martin
-  - family-names: Falcon
-    given-names: Seth
-  - family-names: Gentleman
-    given-names: Robert
+  - family-names: Love
+    given-names: Michael
   year: '2022'
+- type: software
+  title: BiocStyle
+  abstract: 'BiocStyle: Standard styles for vignettes and other Bioconductor documents'
+  notes: Suggests
+  authors:
+  - family-names: Oleś
+    given-names: Andrzej
+    orcid: https://orcid.org/0000-0003-0285-2787
+  year: '2022'
+  url: https://github.com/Bioconductor/BiocStyle
+- type: software
+  title: boot
+  abstract: 'boot: Bootstrap Functions (Originally by Angelo Canty for S)'
+  notes: Suggests
+  authors:
+  - family-names: Canty
+    given-names: Angelo
+    email: cantya@mcmaster.ca
+  - family-names: Ripley
+    given-names: Brian
+    email: ripley@stats.ox.ac.uk
+  year: '2022'
+  url: https://CRAN.R-project.org/package=boot
+- type: software
+  title: DESeq2
+  abstract: 'DESeq2: Differential gene expression analysis based on the negative binomial
+    distribution'
+  notes: Suggests
+  authors:
+  - family-names: Love
+    given-names: Michael
+    email: michaelisaiahlove@gmail.com
+  - family-names: Anders
+    given-names: Simon
+  - family-names: Huber
+    given-names: Wolfgang
+  year: '2022'
+  url: https://github.com/mikelove/DESeq2
 - type: software
   title: GOSemSim
   abstract: 'GOSemSim: GO-terms Semantic Similarity Measures'
@@ -151,15 +201,16 @@ references:
   year: '2022'
   url: https://yulab-smu.top/biomedical-knowledge-mining-book/
 - type: software
-  title: testthat
-  abstract: 'testthat: Unit Testing for R'
+  title: Hmisc
+  abstract: 'Hmisc: Harrell Miscellaneous'
   notes: Suggests
   authors:
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@rstudio.com
+  - family-names: Harrell Jr
+    given-names: Frank E
+    email: fh@fharrell.com
+    orcid: https://orcid.org/0000-0002-8271-5493
   year: '2022'
-  url: https://CRAN.R-project.org/package=testthat
+  url: https://CRAN.R-project.org/package=Hmisc
 - type: software
   title: knitr
   abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
@@ -171,6 +222,22 @@ references:
     orcid: https://orcid.org/0000-0003-0645-5666
   year: '2022'
   url: https://CRAN.R-project.org/package=knitr
+- type: software
+  title: org.Hs.eg.db
+  abstract: 'org.Hs.eg.db: Genome wide annotation for Human'
+  notes: Suggests
+  authors:
+  - family-names: Carlson
+    given-names: Marc
+  year: '2022'
+- type: software
+  title: reactome.db
+  abstract: 'reactome.db: A set of annotation maps for reactome'
+  notes: Suggests
+  authors:
+  - family-names: Ligtenberg
+    given-names: Willem
+  year: '2022'
 - type: software
   title: rmarkdown
   abstract: 'rmarkdown: Dynamic Documents for R'
@@ -211,30 +278,6 @@ references:
   year: '2022'
   url: https://CRAN.R-project.org/package=rmarkdown
 - type: software
-  title: boot
-  abstract: 'boot: Bootstrap Functions (Originally by Angelo Canty for S)'
-  notes: Suggests
-  authors:
-  - family-names: Canty
-    given-names: Angelo
-    email: cantya@mcmaster.ca
-  - family-names: Ripley
-    given-names: Brian
-    email: ripley@stats.ox.ac.uk
-  year: '2022'
-  url: https://CRAN.R-project.org/package=boot
-- type: software
-  title: Hmisc
-  abstract: 'Hmisc: Harrell Miscellaneous'
-  notes: Suggests
-  authors:
-  - family-names: Harrell Jr
-    given-names: Frank E
-    email: fh@fharrell.com
-    orcid: https://orcid.org/0000-0002-8271-5493
-  year: '2022'
-  url: https://CRAN.R-project.org/package=Hmisc
-- type: software
   title: spelling
   abstract: 'spelling: Tools for Spell Checking in R'
   notes: Suggests
@@ -248,3 +291,48 @@ references:
     email: james.hester@rstudio.com
   year: '2022'
   url: https://CRAN.R-project.org/package=spelling
+- type: software
+  title: targetscan.Hs.eg.db
+  abstract: 'targetscan.Hs.eg.db: TargetScan miRNA target predictions for human'
+  notes: Suggests
+  authors:
+  - family-names: Csardi
+    given-names: Gabor
+    email: Gabor.Csardi@unil.ch
+  year: '2022'
+- type: software
+  title: testthat
+  abstract: 'testthat: Unit Testing for R'
+  notes: Suggests
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+  year: '2022'
+  url: https://CRAN.R-project.org/package=testthat
+- type: software
+  title: WGCNA
+  abstract: 'WGCNA: Weighted Correlation Network Analysis'
+  notes: Suggests
+  authors:
+  - family-names: Langfelder
+    given-names: Peter
+    email: Peter.Langfelder@gmail.com
+  - family-names: Cai
+    given-names: Steve Horvath with contributions by Chaochao
+    email: SHorvath@mednet.ucla.edu
+  - family-names: Dong
+    given-names: Jun
+  - family-names: Miller
+    given-names: Jeremy
+  - family-names: Song
+    given-names: Lin
+  - family-names: Yip
+    given-names: Andy
+  - family-names: Zhang
+    given-names: Bin
+  year: '2022'
+  url: https://CRAN.R-project.org/package=WGCNA
+identifiers:
+- type: url
+  value: https://llrs.github.io/BioCor/
