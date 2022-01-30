@@ -247,6 +247,7 @@ In this example I show how to use BioCor to analyse a list of genes by functiona
 With a list of genes we are going to see how similar are those genes:
 
 ```{r hclust1, fig.cap="Gene clustering by similarities", fig.wide = TRUE}
+#| fig.alt = "Dendrogram of the similarities of genes according to Reactome."
 genes.id <- c("10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644", 
               "81327", "9128", "2073", "2893", "5142", "60", "210", "81", 
               "1352", "88", "672", "675")
@@ -265,6 +266,7 @@ plot(hc, main = "Similarities between genes")
 Now we can see the relationship between the genes. We can group them for a cluster analysis to visualize the relationship between the clusters:
 
 ```{r hclust3, fig.cap="Clustering using clusterSim", fig.wide = TRUE}
+#| fig.alt = "Dendrogram of clusters of genes according to Reactome."
 mycl <- cutree(hc, h = 0.2)
 clusters <- split(genes[nan], as.factor(mycl))
 # Removing clusters of just one gene
@@ -276,7 +278,8 @@ plot(hclust(as.dist(1 - sim_clus1)),
      main = "Similarities between clusters by pathways")
 ```
 
-```{r hclust3b, fig.cap="Clustering using clusterGeneSim", fig.wide = TRUE}
+```{r hclust3b, fig.cap="Clustering using clusterGeneSim", fig.wide=TRUE}
+#| fig.alt = "Dendrogram of clusters according to similarities between genes from Reactome pathways."
 sim_clus2 <- mclusterGeneSim(clusters, genesReact)
 plot(hclust(as.dist(1 - sim_clus2)), 
      main ="Similarities between clusters by genes")
