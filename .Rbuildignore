@@ -26,3 +26,4 @@
 ^pkgdown$
 ^\.travis\.yml$
 ^codemeta\.json$
+^CITATION\.cff$
