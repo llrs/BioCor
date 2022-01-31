@@ -8,7 +8,7 @@ message: 'To cite package "BioCor" in publications use:'
 type: software
 license: MIT
 title: 'BioCor: Functional similarities'
-version: 1.19.0
+version: 1.19.1
 abstract: Calculates functional similarities based on the pathways described on KEGG
   and REACTOME or in gene sets. These similarities can be calculated for pathways
   or gene sets, genes, or clusters and combined with other similarities. They can
@@ -26,7 +26,7 @@ preferred-citation:
     given-names: Lluís
     email: lluis.revilla@gmail.com
     orcid: https://orcid.org/0000-0001-9747-2570
-  version: 1.19.0
+  version: 1.19.1
   abstract: Calculates functional similarities based on the pathways described on
     KEGG and REACTOME or in gene sets. These similarities can be calculated for pathways
     or gene sets, genes, or clusters and combined with other similarities. They can
@@ -222,6 +222,7 @@ references:
     orcid: https://orcid.org/0000-0003-0645-5666
   year: '2022'
   url: https://CRAN.R-project.org/package=knitr
+  version: '>= 1.35'
 - type: software
   title: org.Hs.eg.db
   abstract: 'org.Hs.eg.db: Genome wide annotation for Human'
