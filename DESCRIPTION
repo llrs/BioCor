@@ -1,7 +1,7 @@
 Package: BioCor
 Title: Functional similarities
 Version: 1.19.1
-Authors@R:c(
+Authors@R: c(
     person("Lluís", "Revilla Sancho", , "lluis.revilla@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9747-2570")),
     person("Pau", "Sancho-Bru", role = "ths",
@@ -32,7 +32,7 @@ Suggests:
     DESeq2,
     GOSemSim,
     Hmisc,
-    knitr ( >= 1.35),
+    knitr (>= 1.35),
     org.Hs.eg.db,
     reactome.db,
     rmarkdown,
