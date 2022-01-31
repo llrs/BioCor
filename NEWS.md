@@ -1,3 +1,8 @@
+# Changes in version 1.19.1
+
+* Added alternative text to plots on vignettes.
+* Reactivated again the comparison with GOSemSim
+
 # Changes in version 1.12
 
 * Move to NEWS.md.

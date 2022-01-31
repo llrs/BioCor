@@ -1,27 +1,22 @@
 Package: BioCor
 Title: Functional similarities
-Version: 1.19.0
-Authors@R:
-    c(person(given = "Lluís",
-             family = "Revilla Sancho",
-             role = c("aut", "cre"),
-             email = "lluis.revilla@gmail.com",
-             comment = c(ORCID = "0000-0001-9747-2570")),
-      person(given = "Pau",
-             family = "Sancho-Bru",
-             role = "ths",
-             comment = c(ORCID = "0000-0001-5569-9259")),
-      person(given = "Juan José Salvatella",
-             family = "Lozano",
-             role = "ths",
-             comment = c(ORCID = "0000-0001-7613-3908")))
-Description: Calculates functional similarities based on the
-    pathways described on KEGG and REACTOME or in gene sets. These
-    similarities can be calculated for pathways or gene sets, genes, or
-    clusters and combined with other similarities. They can be used to
-    improve networks, gene selection, testing relationships...
+Version: 1.19.1
+Authors@R:c(
+    person("Lluís", "Revilla Sancho", , "lluis.revilla@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-9747-2570")),
+    person("Pau", "Sancho-Bru", role = "ths",
+           comment = c(ORCID = "0000-0001-5569-9259")),
+    person("Juan José Salvatella", "Lozano", role = "ths",
+           comment = c(ORCID = "0000-0001-7613-3908"))
+  )
+Description: Calculates functional similarities based on the pathways
+    described on KEGG and REACTOME or in gene sets. These similarities can
+    be calculated for pathways or gene sets, genes, or clusters and
+    combined with other similarities. They can be used to improve
+    networks, gene selection, testing relationships...
 License: MIT + file LICENSE
-URL: https://bioconductor.org/packages/BioCor, https://llrs.github.io/BioCor/
+URL: https://bioconductor.org/packages/BioCor,
+    https://llrs.github.io/BioCor/
 BugReports: https://github.com/llrs/BioCor/issues
 Depends:
     R (>= 3.4.0)
@@ -37,7 +32,7 @@ Suggests:
     DESeq2,
     GOSemSim,
     Hmisc,
-    knitr,
+    knitr ( >= 1.35),
     org.Hs.eg.db,
     reactome.db,
     rmarkdown,
