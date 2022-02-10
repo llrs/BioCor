@@ -10,6 +10,7 @@ home:
     can be used to improve networks, gene selection, testing relationships...
 
 template:
+  bootstrap: 5
   opengraph:
     image:
       src: man/figures/logo.png
