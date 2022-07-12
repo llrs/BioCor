@@ -1,5 +1,5 @@
 # -----------------------------------------------------------
-# CITATION file created with {cffr} R package, v0.2.1
+# CITATION file created with {cffr} R package, v0.2.2
 # See also: https://docs.ropensci.org/cffr/
 # -----------------------------------------------------------
  
@@ -8,7 +8,7 @@ message: 'To cite package "BioCor" in publications use:'
 type: software
 license: MIT
 title: 'BioCor: Functional similarities'
-version: 1.19.2
+version: 1.21.1
 abstract: Calculates functional similarities based on the pathways described on KEGG
   and REACTOME or in gene sets. These similarities can be calculated for pathways
   or gene sets, genes, or clusters and combined with other similarities. They can
@@ -26,7 +26,7 @@ preferred-citation:
     given-names: Lluís
     email: lluis.revilla@gmail.com
     orcid: https://orcid.org/0000-0001-9747-2570
-  version: 1.19.2
+  version: 1.21.1
   abstract: Calculates functional similarities based on the pathways described on
     KEGG and REACTOME or in gene sets. These similarities can be calculated for pathways
     or gene sets, genes, or clusters and combined with other similarities. They can
@@ -92,6 +92,7 @@ references:
   authors:
   - family-names: Morgan
     given-names: Martin
+    email: mtmorgan.bioc@gmail.com
   - family-names: Wang
     given-names: Jiefei
   - family-names: Obenchain
@@ -129,6 +130,8 @@ references:
     given-names: Martin
     email: mmaechler+Matrix@gmail.com
     orcid: https://orcid.org/0000-0002-8685-9910
+  - family-names: Jagan
+    given-names: Mikael
   year: '2022'
   url: https://CRAN.R-project.org/package=Matrix
 - type: software
