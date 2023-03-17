@@ -142,7 +142,7 @@ pathSim(paths[1], paths[2], genesReact)
 mpathSim(pathways, genesReact)
 ```
 
-When the method to combine the similarities is set to `NULL` mpathSim returns a matrix of pathway similarities, otherwise it combines the values. In the next section we can see the methods to combine pathway similarities.
+When the method to combine the similarities is set to `NULL` `mpathSim()` returns a matrix of pathway similarities, otherwise it combines the values. In the next section we can see the methods to combine pathway similarities.
 
 ### Combining values {#combining}
 
@@ -155,9 +155,9 @@ methodsCombineScores <- c("avg", "max", "rcmax", "rcmax.avg", "BMA",
 sapply(methodsCombineScores, BioCor::combineScores, scores = sim)
 ```
 
-We can also specify the method to combine the similarities in `mpathSim`, `geneSim`, `mgeneSim`, `clusterSim`, `mclusterSim`, `clusterGeneSim` and `mclusterGeneSim`, argument method. By default the method is set to "max" to combine pathways (except in mpathSim where the default is to show all the pathway similarities) and "BMA" to combine similarities of genes or for cluster analysis. This function is adapted from `r Biocpkg("GOSemSim")` package.
+We can also specify the method to combine the similarities in `mpathSim()`, `geneSim()`, `mgeneSim()`, `clusterSim()`, `mclusterSim()`, `clusterGeneSim()` and `mclusterGeneSim()`, argument method. By default the method is set to "max" to combine pathways (except in mpathSim where the default is to show all the pathway similarities) and "BMA" to combine similarities of genes or for cluster analysis. This function is adapted from `r Biocpkg("GOSemSim")` package.
 
-The function `combineScoresPar` allows to use a parallel background (using `r Biocpkg("BiocParallel")`) to combine the scores. It is recommended to use a parallel background if you calculate more than 300 gene similarities. It also have an argument in case you want to calculate the similarity scores of several sets.
+The function `combineScoresPar()` allows to use a parallel background (using `r Biocpkg("BiocParallel")`) to combine the scores. It is recommended to use a parallel background if you calculate more than 300 gene similarities. It also have an argument in case you want to calculate the similarity scores of several sets.
 
 ## Gene similarities {#geneSim}
 
@@ -207,18 +207,18 @@ mclusterGeneSim(clusters, genesKegg, c("max", "rcmax.avg"))
 mclusterGeneSim(clusters, genesKegg, c("max", "max"))
 ```
 
-Note the differences between `mclusterGeneSim` and `mclusterSim` in the similarity values of the clusters. If we set `method = c("max", "max")` in `mclusterGeneSim` then the similarity between the clusters is the same as `clusterSim`.
+Note the differences between `mclusterGeneSim()` and `mclusterSim()` in the similarity values of the clusters. If we set `method = c("max", "max")` in `mclusterGeneSim()` then the similarity between the clusters is the same as `clusterSim()`.
 
 
 ## Converting similarities {#D2J}
 
-If needed, Jaccard similarity can be calculated from Dice similarity using `D2J`:
+If needed, Jaccard similarity can be calculated from Dice similarity using `D2J()`:
 
 ```{r sims}
 D2J(sim)
 ```
 
-Also if one has a Jaccard similarity and wants a Dice similarity, can use the `J2D` function.
+Also if one has a Jaccard similarity and wants a Dice similarity, can use the `J2D()` function.
 
 # High volumes of gene similarities
 
@@ -239,7 +239,7 @@ If one doesn't have such a memory available can compute the similarities by piec
 sim <- AintoB(m, B)
 ```
 
-Usually B is a matrix of size `length(genes)`, see `?AintoB`.
+Usually B is a matrix of size `length(genes)`, see `?AintoB()`.
 
 # An example of usage
 

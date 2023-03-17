@@ -8,7 +8,7 @@
 #' @param func function to perform on those similarities: \code{prod},
 #' \code{sum}... It should accept as many arguments as similarities matrices
 #' are provided, and should use numbers.
-#' @param ... Other arguments passed to the function \code{func}. Usually na.rm
+#' @param ... Other arguments passed to the function \code{func}. Usually `na.rm`
 #' or similar.
 #' @return A matrix of the size of the similarities
 #' @note It doesn't check that the columns and rows of the matrices are in the

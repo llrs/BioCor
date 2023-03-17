@@ -15,7 +15,7 @@ matrices.}
 \code{sum}... It should accept as many arguments as similarities matrices
 are provided, and should use numbers.}
 
-\item{...}{Other arguments passed to the function \code{func}. Usually na.rm
+\item{...}{Other arguments passed to the function \code{func}. Usually `na.rm`
 or similar.}
 }
 \value{
