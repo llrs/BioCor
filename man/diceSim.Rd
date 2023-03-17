@@ -22,8 +22,10 @@ It requires a vector of characters otherwise will return an \code{NA}.
 }
 \examples{
 genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")
-genes.id1 <- c("52", "11342", "80895", "57654", "58493", "1164", "1163",
-"4150", "2130", "159")
+genes.id1 <- c(
+    "52", "11342", "80895", "57654", "58493", "1164", "1163",
+    "4150", "2130", "159"
+)
 diceSim(genes.id1, genes.id2)
 diceSim(genes.id2, genes.id2)
 }

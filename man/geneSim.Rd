@@ -42,10 +42,10 @@ between the genes. Later this similarities are combined using
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{gene1 = character,gene2 = character,info = GeneSetCollection}: Calculates all the similarities of the GeneSetCollection
+\item \code{geneSim(gene1 = character, gene2 = character, info = GeneSetCollection)}: Calculates all the similarities of the GeneSetCollection
 and combine them using \code{\link{combineScoresPar}}
-}}
 
+}}
 \examples{
 if (require("org.Hs.eg.db") & require("reactome.db")) {
     # Extract the paths of all genes of org.Hs.eg.db from KEGG
@@ -58,7 +58,7 @@ if (require("org.Hs.eg.db") & require("reactome.db")) {
     geneSim("81", "18", genes.react, NULL)
     geneSim("81", "18", genes.kegg, NULL)
 } else {
-    warning('You need reactome.db and org.Hs.eg.db package for this example')
+    warning("You need reactome.db and org.Hs.eg.db package for this example")
 }
 }
 \seealso{

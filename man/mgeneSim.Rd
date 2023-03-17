@@ -39,31 +39,32 @@ between the genes. Later this similarities are combined using
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{genes = character,info = GeneSetCollection}: Calculates all the similarities of the list and
+\item \code{mgeneSim(genes = character, info = GeneSetCollection)}: Calculates all the similarities of the list and
 combine them using \code{\link{combineScoresPar}}
 
-\item \code{genes = missing,info = GeneSetCollection}: Calculates all the similarities of the list and
+\item \code{mgeneSim(genes = missing, info = GeneSetCollection)}: Calculates all the similarities of the list and
 combine them using \code{\link{combineScoresPar}}
+
 }}
-
 \note{
 genes accept named characters and the output will use the names of the
 genes.
 }
 \examples{
 if (require("org.Hs.eg.db") & require("reactome.db")) {
-   # Extract the paths of all genes of org.Hs.eg.db from KEGG
-   # (last update in data of June 31st 2011)
-   genes.kegg <- as.list(org.Hs.egPATH)
-   # Extracts the paths of all genes of org.Hs.eg.db from reactome
-   genes.react <- as.list(reactomeEXTID2PATHID)
-   mgeneSim(c("81", "18", "10"), genes.react)
-   mgeneSim(c("81", "18", "10"), genes.react, "avg")
-   named_genes <- structure(c("81", "18", "10"),
-                            .Names = c("ACTN4", "ABAT", "NAT2"))
-   mgeneSim(named_genes, genes.react, "max")
+    # Extract the paths of all genes of org.Hs.eg.db from KEGG
+    # (last update in data of June 31st 2011)
+    genes.kegg <- as.list(org.Hs.egPATH)
+    # Extracts the paths of all genes of org.Hs.eg.db from reactome
+    genes.react <- as.list(reactomeEXTID2PATHID)
+    mgeneSim(c("81", "18", "10"), genes.react)
+    mgeneSim(c("81", "18", "10"), genes.react, "avg")
+    named_genes <- structure(c("81", "18", "10"),
+        .Names = c("ACTN4", "ABAT", "NAT2")
+    )
+    mgeneSim(named_genes, genes.react, "max")
 } else {
-    warning('You need reactome.db and org.Hs.eg.db package for this example')
+    warning("You need reactome.db and org.Hs.eg.db package for this example")
 }
 }
 \seealso{

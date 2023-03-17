@@ -41,37 +41,40 @@ methods to \code{NULL}.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{pathways = character,info = GeneSetCollection,method = ANY}: Calculates the similarity between the provided pathways
+\item \code{mpathSim(pathways = character, info = GeneSetCollection, method = ANY)}: Calculates the similarity between the provided pathways
 of the GeneSetCollection using \code{combineScoresPar}
 
-\item \code{pathways = missing,info = GeneSetCollection,method = ANY}: Calculates all the similarities of the
+\item \code{mpathSim(pathways = missing, info = GeneSetCollection, method = ANY)}: Calculates all the similarities of the
 GeneSetCollection and combine them using \code{combineScoresPar}
 
-\item \code{pathways = missing,info = list,method = ANY}: Calculates all the similarities of the list and
+\item \code{mpathSim(pathways = missing, info = list, method = ANY)}: Calculates all the similarities of the list and
 combine them using \code{combineScoresPar}
 
-\item \code{pathways = missing,info = list,method = missing}: Calculates all the similarities of the list
-}}
+\item \code{mpathSim(pathways = missing, info = list, method = missing)}: Calculates all the similarities of the list
 
+}}
 \note{
 \code{pathways} accept named characters, and then the output will have
 the names
 }
 \examples{
-if (require("reactome.db")){
+if (require("reactome.db")) {
     genes.react <- as.list(reactomeEXTID2PATHID)
     (pathways <- sample(unique(unlist(genes.react)), 10))
     mpathSim(pathways, genes.react, NULL)
     named_paths <- structure(
         c("R-HSA-112310", "R-HSA-112316", "R-HSA-112315"),
-        .Names = c("Neurotransmitter Release Cycle",
-                   "Neuronal System",
-                   "Transmission across Chemical Synapses"))
+        .Names = c(
+            "Neurotransmitter Release Cycle",
+            "Neuronal System",
+            "Transmission across Chemical Synapses"
+        )
+    )
     mpathSim(named_paths, genes.react, NULL)
     many_pathways <- sample(unique(unlist(genes.react)), 152)
     mpathSim(many_pathways, genes.react, "avg")
 } else {
-    warning('You need reactome.db package for this example')
+    warning("You need reactome.db package for this example")
 }
 }
 \seealso{

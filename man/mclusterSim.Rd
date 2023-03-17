@@ -30,23 +30,25 @@ cluster are found they are combined using code{\link{combineScores}}.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{clusters = list,info = GeneSetCollection}: Calculates all the similarities of the GeneSetCollection
+\item \code{mclusterSim(clusters = list, info = GeneSetCollection)}: Calculates all the similarities of the GeneSetCollection
 and combine them using \code{\link{combineScoresPar}}
-}}
 
+}}
 \examples{
 if (require("org.Hs.eg.db")) {
-    #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
+    # Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
     # data of June 31st 2011)
     genes.kegg <- as.list(org.Hs.egPATH)
 
-    clusters <- list(cluster1 = c("18", "81", "10"),
-                     cluster2 = c("100", "10", "1"),
-                     cluster3 = c("18", "10", "83"))
+    clusters <- list(
+        cluster1 = c("18", "81", "10"),
+        cluster2 = c("100", "10", "1"),
+        cluster3 = c("18", "10", "83")
+    )
     mclusterSim(clusters, genes.kegg)
     mclusterSim(clusters, genes.kegg, "avg")
 } else {
-    warning('You need org.Hs.eg.db package for this example')
+    warning("You need org.Hs.eg.db package for this example")
 }
 }
 \seealso{

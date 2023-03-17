@@ -25,18 +25,18 @@ Calculates the similarity between pathways using dice similarity score.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{pathway1 = character,pathway2 = character,info = GeneSetCollection}: Calculates all the similarities of a GeneSetCollection
+\item \code{pathSim(pathway1 = character, pathway2 = character, info = GeneSetCollection)}: Calculates all the similarities of a GeneSetCollection
 and combine them using \code{combineScoresPar}
-}}
 
+}}
 \examples{
-if (require("reactome.db")){
+if (require("reactome.db")) {
     # Extracts the paths of all genes of org.Hs.eg.db from reactome
     genes.react <- as.list(reactomeEXTID2PATHID)
     (paths <- sample(unique(unlist(genes.react)), 2))
     pathSim(paths[1], paths[2], genes.react)
 } else {
-    warning('You need reactome.db package for this example')
+    warning("You need reactome.db package for this example")
 }
 }
 \seealso{

@@ -31,21 +31,23 @@ group's genes.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{clusters = list,info = GeneSetCollection}: Calculates all the similarities of the
+\item \code{mclusterGeneSim(clusters = list, info = GeneSetCollection)}: Calculates all the similarities of the
 GeneSetCollection and combine them using \code{\link{combineScoresPar}}
-}}
 
+}}
 \examples{
 if (require("org.Hs.eg.db")) {
     genes.kegg <- as.list(org.Hs.egPATH)
-    clusters <- list(cluster1 = c("18", "81", "10"),
-                     cluster2 = c("100", "594", "836"),
-                     cluster3 = c("18", "10", "83"))
+    clusters <- list(
+        cluster1 = c("18", "81", "10"),
+        cluster2 = c("100", "594", "836"),
+        cluster3 = c("18", "10", "83")
+    )
     mclusterGeneSim(clusters, genes.kegg)
     mclusterGeneSim(clusters, genes.kegg, c("max", "avg"))
     mclusterGeneSim(clusters, genes.kegg, c("max", "BMA"))
 } else {
-    warning('You need org.Hs.eg.db package for this example')
+    warning("You need org.Hs.eg.db package for this example")
 }
 }
 \seealso{

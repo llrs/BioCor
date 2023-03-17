@@ -10,9 +10,7 @@ clusterGeneSim(cluster1, cluster2, info, method = c("max", "rcmax.avg"), ...)
 \S4method{clusterGeneSim}{character,character,GeneSetCollection}(cluster1, cluster2, info, method = c("max", "rcmax.avg"), ...)
 }
 \arguments{
-\item{cluster1}{A vector with genes.}
-
-\item{cluster2}{A vector with genes.}
+\item{cluster1, cluster2}{A vector with genes.}
 
 \item{info}{A GeneSetCollection or a list of genes and the pathways they are
 involved.}
@@ -38,25 +36,35 @@ another one at cluster level.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{cluster1 = character,cluster2 = character,info = GeneSetCollection}: Calculates the gene similarities in a
+\item \code{clusterGeneSim(
+  cluster1 = character,
+  cluster2 = character,
+  info = GeneSetCollection
+)}: Calculates the gene similarities in a
 GeneSetCollection and combine them using \code{\link{combineScoresPar}}
-}}
 
+}}
 \examples{
 if (require("org.Hs.eg.db")) {
-    #Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
+    # Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
     # data of June 31st 2011)
     genes.kegg <- as.list(org.Hs.egPATH)
     clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg)
-    clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-                   c("avg", "avg"))
-    clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
-                   c("avg", "rcmax.avg"))
-    (clus <- clusterGeneSim(c("18", "81", "10"), c("100", "10", "1"),
-                            genes.kegg, "avg"))
+    clusterGeneSim(
+        c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+        c("avg", "avg")
+    )
+    clusterGeneSim(
+        c("18", "81", "10"), c("100", "10", "1"), genes.kegg,
+        c("avg", "rcmax.avg")
+    )
+    (clus <- clusterGeneSim(
+        c("18", "81", "10"), c("100", "10", "1"),
+        genes.kegg, "avg"
+    ))
     combineScores(clus, "rcmax.avg")
 } else {
-    warning('You need org.Hs.eg.db package for this example')
+    warning("You need org.Hs.eg.db package for this example")
 }
 }
 \seealso{

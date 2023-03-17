@@ -23,11 +23,15 @@ identifiers are returned.
 }
 \examples{
 DB1 <- list(g1 = letters[6:8], g2 = letters[1:5], g3 = letters[4:7])
-DB2 <- list(g1 = c("one", "two"), g2 = c("three", "four"),
-         g3 = c("another", "two"))
+DB2 <- list(
+    g1 = c("one", "two"), g2 = c("three", "four"),
+    g3 = c("another", "two")
+)
 combineSources(DB1, DB2)
 combineSources(DB1, DB1)
-DB3 <- list(g1 = c("one", "two"), g2 = c("three", "four"),
-         g4 = c("five", "six", "seven"), g5 = c("another", "two"))
+DB3 <- list(
+    g1 = c("one", "two"), g2 = c("three", "four"),
+    g4 = c("five", "six", "seven"), g5 = c("another", "two")
+)
 combineSources(DB1, DB3) # A warning is expected
 }

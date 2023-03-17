@@ -22,7 +22,7 @@ vector with all the combinations each one can be computed with this
 function.
 }
 \examples{
-#Output of all combinations
+# Output of all combinations
 combn(LETTERS[1:5], 2)
 # Otuput of the second combination
 combinadic(LETTERS[1:5], 2, 2)
