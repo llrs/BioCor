@@ -1,3 +1,7 @@
+# BioCor 1.21.2
+
+* Added support for plots of similarities
+
 # Changes in version 1.19.1
 
 * Added alternative text to plots on vignettes.
