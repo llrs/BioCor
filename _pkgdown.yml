@@ -54,6 +54,7 @@ reference:
     - combineScoresPar
   - title: Helper functions
     contents:
+    - plot_data
     - combineSources
     - AintoB
     - seq2mat
