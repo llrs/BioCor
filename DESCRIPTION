@@ -30,6 +30,7 @@ Suggests:
     BiocStyle,
     boot,
     DESeq2,
+    ggplot2 (>= 3.4.1),
     GOSemSim,
     Hmisc,
     knitr (>= 1.35),
@@ -47,3 +48,4 @@ biocViews: StatisticalMethod, Clustering, GeneExpression, Network,
 Encoding: UTF-8
 Language: en-US
 RoxygenNote: 7.2.3
+Roxygen: list(markdown = TRUE)
