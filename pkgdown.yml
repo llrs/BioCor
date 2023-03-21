@@ -1,10 +1,10 @@
-pandoc: 2.14.2
-pkgdown: 2.0.2
+pandoc: 2.19.2
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   BioCor_1_basics: BioCor_1_basics.html
   BioCor_2_advanced: BioCor_2_advanced.html
-last_built: 2022-02-13T12:58Z
+last_built: 2023-03-21T16:55Z
 urls:
   reference: https://biocor.llrs.dev/reference
   article: https://biocor.llrs.dev/articles
