@@ -16,8 +16,8 @@
 #' the second one for clusters.
 #' @export
 #' @author Lluís Revilla
-#' @seealso \code{\link{mclusterGeneSim}}, \code{\link{combineScores}} and
-#' \code{\link{clusterSim}}
+#' @seealso [mclusterGeneSim()], [combineScores()] and
+#' [clusterSim()]
 #' @return Returns a similarity score between the genes of the two clusters.
 #' @examples
 #' if (require("org.Hs.eg.db")) {
@@ -102,7 +102,7 @@ clusterGeneSim <- function(cluster1, cluster2, info,
 }
 
 #' @describeIn clusterGeneSim Calculates the gene similarities in a
-#' GeneSetCollection and combine them using \code{\link{combineScoresPar}}
+#' GeneSetCollection and combine them using [combineScoresPar()]
 #' @export
 setMethod(
     "clusterGeneSim",

@@ -1,16 +1,16 @@
 #' Similarity score between clusters of genes based on pathways similarity
 #'
 #' Looks for the similarity between genes in groups. Once the pathways for each
-#' cluster are found they are combined using code{\link{combineScores}}.
-#' @param clusters A list of clusters of genes to be found in \code{id}.
+#' cluster are found they are combined using code{[combineScores]}.
+#' @param clusters A list of clusters of genes to be found in `id`.
 #' @inheritParams geneSim
 #' @inheritParams combineScores
 #' @inheritParams pathSim
 #' @export
 #' @author Lluís Revilla
-#' @seealso For a different approach see \code{\link{clusterGeneSim}},
-#' \code{\link{combineScores}} and \code{\link{conversions}}
-#' @return \code{mclusterSim} returns a matrix with the similarity scores for
+#' @seealso For a different approach see [clusterGeneSim()],
+#' [combineScores()] and [conversions()]
+#' @return `mclusterSim` returns a matrix with the similarity scores for
 #' each cluster comparison.
 #' @examples
 #' if (require("org.Hs.eg.db")) {
@@ -90,7 +90,7 @@ mclusterSim <- function(clusters, info, method = "max", ...) {
 
 
 #' @describeIn mclusterSim Calculates all the similarities of the GeneSetCollection
-#' and combine them using \code{\link{combineScoresPar}}
+#' and combine them using [combineScoresPar()]
 #' @export
 setMethod(
     "mclusterSim",

@@ -10,19 +10,19 @@
 #' \item{rcmax}{The max of the column means or row means}
 #' \item{rcmax.avg}{The sum of the max values by rows and columns divided by
 #' the number of columns and rows}
-#' \item{BMA}{The same as \code{rcmax.avg}}
+#' \item{BMA}{The same as `rcmax.avg`}
 #' \item{reciprocal}{The double of the sum of the reciprocal maximal
 #' similarities (above  a threshold) divided by the number of elements.
-#' See equation 3 of the Tao \emph{et al} 2007 article}}
+#' See equation 3 of the Tao *et al* 2007 article}}
 #' @param scores Matrix of scores to be combined
-#' @param method one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA",
-#' "reciprocal")}, see Details.
+#' @param method one of `c("avg", "max", "rcmax", "rcmax.avg", "BMA",
+#' "reciprocal")`, see Details.
 #' @param round Should the resulting value be rounded to the third digit?
 #' @param t Numeric value to filter scores below this value. Only used in the
 #' reciprocal method.
 #' @return A numeric value as described in details.
-#' @note \code{combineScores} is a version of the function of the same name in
-#' package GOSemSim (\code{\link[GOSemSim]{combineScores}}) with optional
+#' @note `combineScores` is a version of the function of the same name in
+#' package GOSemSim ([GOSemSim::combineScores()]) with optional
 #' rounding and some internal differences.
 #' @export
 #' @author Lluís Revilla based on Guangchuang Yu
@@ -190,13 +190,13 @@ reciprocal <- function(scores, t) {
     }
 }
 
-#' \code{cobmineScoresPar} performs multiple \code{combineScores}. It allows
+#' `cobmineScoresPar` performs multiple `combineScores`. It allows
 #' parallel computing using BiocParallel back-end.
 #' @param subSets List of combinations as info in other functions.
 #' @param BPPARAM BiocParallel back-end parameters.
-#' By default (\code{NULL}) a \code{for} loop is used.
-#' @param ... Other arguments passed to \code{combineScores}
-#' @seealso \link[BiocParallel]{register} in BiocParallel about the arguments
+#' By default (`NULL`) a `for` loop is used.
+#' @param ... Other arguments passed to `combineScores`
+#' @seealso [register][BiocParallel::register] in BiocParallel about the arguments
 #' accepted by BPPARAM
 #' @rdname combineScores
 #' @export

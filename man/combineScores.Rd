@@ -17,8 +17,7 @@ combineScoresPar(scores, method, subSets = NULL, BPPARAM = NULL, ...)
 \arguments{
 \item{scores}{Matrix of scores to be combined}
 
-\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA",
-"reciprocal")}, see Details.}
+\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal")}, see Details.}
 
 \item{round}{Should the resulting value be rounded to the third digit?}
 
@@ -53,7 +52,7 @@ See equation 3 of the Tao \emph{et al} 2007 article}}
 }
 \note{
 \code{combineScores} is a version of the function of the same name in
-package GOSemSim (\code{\link[GOSemSim]{combineScores}}) with optional
+package GOSemSim (\code{\link[GOSemSim:combineScores]{GOSemSim::combineScores()}}) with optional
 rounding and some internal differences.
 }
 \examples{
@@ -86,7 +85,7 @@ predict novel gene function. Bioinformatics 2007; 23 (13): i529-i538.
 doi: 10.1093/bioinformatics/btm195
 }
 \seealso{
-\link[BiocParallel]{register} in BiocParallel about the arguments
+\link[BiocParallel:register]{register} in BiocParallel about the arguments
 accepted by BPPARAM
 }
 \author{

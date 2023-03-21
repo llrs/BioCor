@@ -28,11 +28,10 @@ combn(LETTERS[1:5], 2)
 combinadic(LETTERS[1:5], 2, 2)
 }
 \references{
-\href{http://stackoverflow.com/a/4494469/2886003}{StackOverflow answer
-4494469/2886003}
+\href{http://stackoverflow.com/a/4494469/2886003}{StackOverflow answer 4494469/2886003}
 }
 \seealso{
-\code{\link{combn}}
+\code{\link[=combn]{combn()}}
 }
 \author{
 Joshua Ulrich

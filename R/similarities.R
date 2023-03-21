@@ -5,17 +5,17 @@
 #' @param sim list of similarities to be joined. All similarities must have the
 #'  same dimensions. The genes are assumed to be in the same order for all the
 #'  matrices.
-#' @param func function to perform on those similarities: \code{prod},
-#' \code{sum}... It should accept as many arguments as similarities matrices
+#' @param func function to perform on those similarities: `prod`,
+#' `sum`... It should accept as many arguments as similarities matrices
 #' are provided, and should use numbers.
-#' @param ... Other arguments passed to the function \code{func}. Usually `na.rm`
+#' @param ... Other arguments passed to the function `func`. Usually `na.rm`
 #' or similar.
 #' @return A matrix of the size of the similarities
 #' @note It doesn't check that the columns and rows of the matrices are in the
 #' same order or are the same.
 #' @export
-#' @seealso \code{\link{weighted}} for functions that can be used, and
-#' \code{\link{addSimilarities}} for a wrapper to one of them
+#' @seealso [weighted()] for functions that can be used, and
+#' [addSimilarities()] for a wrapper to one of them
 #' @author Lluís Revilla
 #' @examples
 #' set.seed(100)
@@ -58,7 +58,7 @@ similarities <- function(sim, func, ...) {
 #' @param weights A numeric vector of weight to multiply each similarity
 #' @return A square matrix of the same dimensions as the input matrices.
 #' @export
-#' @seealso \code{\link{similarities}}, \code{\link{weighted}}.
+#' @seealso [similarities()], [weighted()].
 #' @author Lluís Revilla
 #' @examples
 #' set.seed(100)

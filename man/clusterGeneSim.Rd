@@ -41,7 +41,7 @@ another one at cluster level.
   cluster2 = character,
   info = GeneSetCollection
 )}: Calculates the gene similarities in a
-GeneSetCollection and combine them using \code{\link{combineScoresPar}}
+GeneSetCollection and combine them using \code{\link[=combineScoresPar]{combineScoresPar()}}
 
 }}
 \examples{
@@ -68,8 +68,8 @@ if (require("org.Hs.eg.db")) {
 }
 }
 \seealso{
-\code{\link{mclusterGeneSim}}, \code{\link{combineScores}} and
-\code{\link{clusterSim}}
+\code{\link[=mclusterGeneSim]{mclusterGeneSim()}}, \code{\link[=combineScores]{combineScores()}} and
+\code{\link[=clusterSim]{clusterSim()}}
 }
 \author{
 Lluís Revilla

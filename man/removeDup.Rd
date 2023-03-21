@@ -29,7 +29,7 @@ remat <- removeDup(mat, dupli)
 remat
 }
 \seealso{
-\code{\link{duplicateIndices}} to obtain the list of indices with
+\code{\link[=duplicateIndices]{duplicateIndices()}} to obtain the list of indices with
 duplicated entries.
 }
 \author{

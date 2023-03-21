@@ -3,20 +3,20 @@
 #'
 #' Calculates the similarity between several pathways using dice similarity score.
 #' If one needs the matrix of similarities between pathways set the argument
-#' methods to \code{NULL}.
+#' methods to `NULL`.
 #' @param pathways Pathways to calculate the similarity for
 #' @param info A list of genes and the pathways they are involved or a
 #' GeneSetCollection object
-#' @param method To combine the scores of each pathway, one of \code{c("avg",
-#' "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
+#' @param method To combine the scores of each pathway, one of `c("avg",
+#' "max", "rcmax", "rcmax.avg", "BMA")`, if NULL returns the matrix of
 #' similarities.
-#' @param ... Other arguments passed to \code{\link{combineScoresPar}}
+#' @param ... Other arguments passed to [combineScoresPar()]
 #' @return The similarity between those pathways or all the similarities
 #' between each comparison.
-#' @note \code{pathways} accept named characters, and then the output will have
+#' @note `pathways` accept named characters, and then the output will have
 #' the names
-#' @seealso \code{\link{pathSim}} For single pairwise comparison.
-#' \code{\link{conversions}} To convert the Dice similarity to Jaccard similarity
+#' @seealso [pathSim()] For single pairwise comparison.
+#' [conversions()] To convert the Dice similarity to Jaccard similarity
 #' @export
 #' @examples
 #' if (require("reactome.db")) {
@@ -150,7 +150,7 @@ pathSims_matrix <- function(x) {
 }
 
 #' @describeIn mpathSim Calculates the similarity between the provided pathways
-#' of the GeneSetCollection using \code{combineScoresPar}
+#' of the GeneSetCollection using `combineScoresPar`
 #' @export mpathSim
 setMethod(
     "mpathSim",
@@ -197,7 +197,7 @@ setMethod(
 )
 
 #' @describeIn mpathSim Calculates all the similarities of the
-#' GeneSetCollection and combine them using \code{combineScoresPar}
+#' GeneSetCollection and combine them using `combineScoresPar`
 #' @export mpathSim
 setMethod(
     "mpathSim",
@@ -214,7 +214,7 @@ setMethod(
 )
 
 #' @describeIn mpathSim Calculates all the similarities of the list and
-#' combine them using \code{combineScoresPar}
+#' combine them using `combineScoresPar`
 #' @export mpathSim
 setMethod(
     "mpathSim",

@@ -25,7 +25,7 @@ duplicateIndices(c("52", "52", "53", "55", "55")) # Repeated elements
 duplicateIndices(c("52", "55", "53", "55", "52")) # Mixed repeated elements
 }
 \seealso{
-\code{\link{removeDup}}
+\code{\link[=removeDup]{removeDup()}}
 }
 \author{
 Lluís Revilla

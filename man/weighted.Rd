@@ -25,7 +25,7 @@ removing all \code{NA} values. See parameter \code{abs} if there are any
 negative values.
 
 \code{weighted.prod} returns the product of product of x*weights
- removing all \code{NA} values.
+removing all \code{NA} values.
 }
 \description{
 Calculates the weighted sum or product of \code{x}. Each values should have
@@ -52,8 +52,8 @@ weighted.prod(expr, c(0.4, 0.2, 0, 0.2, 0.1))
 weighted.prod(expr, c(0.5, 0.2, 0, 0.2, 0.1))
 }
 \seealso{
-\code{\link{weighted.mean}}, \code{\link{similarities}} and
-\code{\link{addSimilarities}}
+\code{\link[=weighted.mean]{weighted.mean()}}, \code{\link[=similarities]{similarities()}} and
+\code{\link[=addSimilarities]{addSimilarities()}}
 }
 \author{
 Lluís Revilla

@@ -2,16 +2,16 @@
 #' Calculates the Dice similarity between pathways
 #'
 #' Calculates the similarity between pathways using dice similarity score.
-#' \code{diceSim} is used to calculate similarities between the two pathways.
+#' `diceSim` is used to calculate similarities between the two pathways.
 #' @param pathway1,pathway2 A single pathway to calculate the similarity
 #' @param info A GeneSetCollection or a list of genes and the pathways they are
 #' involved.
 #' @return The similarity between those pathways or all the similarities
 #' between each comparison.
 #' @seealso
-#' \code{\link{conversions}} help page to transform Dice score to Jaccard
+#' [conversions()] help page to transform Dice score to Jaccard
 #' score.
-#' \code{\link{mpathSim}} for multiple pairwise comparison of pathways.
+#' [mpathSim()] for multiple pairwise comparison of pathways.
 #' @author Lluís Revilla
 #' @export
 #' @examples
@@ -59,7 +59,7 @@ pathSim <- function(pathway1, pathway2, info) {
 }
 
 #' @describeIn pathSim Calculates all the similarities of a GeneSetCollection
-#' and combine them using \code{combineScoresPar}
+#' and combine them using `combineScoresPar`
 #' @export
 setMethod(
     "pathSim",

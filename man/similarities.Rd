@@ -15,7 +15,7 @@ matrices.}
 \code{sum}... It should accept as many arguments as similarities matrices
 are provided, and should use numbers.}
 
-\item{...}{Other arguments passed to the function \code{func}. Usually `na.rm`
+\item{...}{Other arguments passed to the function \code{func}. Usually \code{na.rm}
 or similar.}
 }
 \value{
@@ -38,8 +38,8 @@ similarities(sim, weighted.prod, c(0.5, 0.5))
 similarities(sim, weighted.sum, c(0.5, 0.5))
 }
 \seealso{
-\code{\link{weighted}} for functions that can be used, and
-\code{\link{addSimilarities}} for a wrapper to one of them
+\code{\link[=weighted]{weighted()}} for functions that can be used, and
+\code{\link[=addSimilarities]{addSimilarities()}} for a wrapper to one of them
 }
 \author{
 Lluís Revilla

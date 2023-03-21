@@ -6,18 +6,18 @@
 #' Given the information about the genes and their pathways, uses the ids
 #' of the genes to find the Dice similarity score for each pathway comparison
 #' between the genes. Later this similarities are combined using
-#' \code{\link{combineScoresPar}}.
+#' [combineScoresPar()].
 #' @inheritParams pathSim
 #' @inheritParams combineScores
 #' @export
 #' @param genes A vector of genes.
-#' @return \code{mgeneSim} returns the matrix of similarities between the genes
+#' @return `mgeneSim` returns the matrix of similarities between the genes
 #' in the vector
 #' @note genes accept named characters and the output will use the names of the
 #' genes.
-#' @seealso \code{\link{geneSim}}, \code{\link{conversions}} help page to transform Dice
+#' @seealso [geneSim()], [conversions()] help page to transform Dice
 #' score to Jaccard score. For the method to combine the scores see
-#' \code{\link{combineScoresPar}}.
+#' [combineScoresPar()].
 #' @examples
 #' if (require("org.Hs.eg.db") & require("reactome.db")) {
 #'     # Extract the paths of all genes of org.Hs.eg.db from KEGG
@@ -86,7 +86,7 @@ mgeneSim <- function(genes, info, method = "max", ...) {
 }
 
 #' @describeIn mgeneSim Calculates all the similarities of the list and
-#' combine them using \code{\link{combineScoresPar}}
+#' combine them using [combineScoresPar()]
 #' @export
 setMethod(
     "mgeneSim",
@@ -144,7 +144,7 @@ setMethod(
 
 
 #' @describeIn mgeneSim Calculates all the similarities of the list and
-#' combine them using \code{\link{combineScoresPar}}
+#' combine them using [combineScoresPar()]
 #' @export
 setMethod(
     "mgeneSim",

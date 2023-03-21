@@ -40,9 +40,9 @@ if (require("reactome.db")) {
 }
 }
 \seealso{
-\code{\link{conversions}} help page to transform Dice score to Jaccard
+\code{\link[=conversions]{conversions()}} help page to transform Dice score to Jaccard
 score.
-\code{\link{mpathSim}} for multiple pairwise comparison of pathways.
+\code{\link[=mpathSim]{mpathSim()}} for multiple pairwise comparison of pathways.
 }
 \author{
 Lluís Revilla

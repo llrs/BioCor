@@ -9,7 +9,7 @@
 #' @param i ith combination
 #' @return The combination ith of the elements
 #' @rdname combinadic
-#' @seealso \code{\link{combn}}
+#' @seealso [combn()]
 #' @export
 #' @examples
 #' # Output of all combinations
@@ -18,8 +18,8 @@
 #' combinadic(LETTERS[1:5], 2, 2)
 #' @author Joshua Ulrich
 #' @references
-#' \href{http://stackoverflow.com/a/4494469/2886003}{StackOverflow answer
-#' 4494469/2886003}
+#' [StackOverflow answer
+#' 4494469/2886003](http://stackoverflow.com/a/4494469/2886003)
 combinadic <- function(n, r, i) {
 
     # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
@@ -51,21 +51,21 @@ combinadic <- function(n, r, i) {
 # seq2mat ####
 #' Transforms a vector to a symmetric matrix
 #'
-#' Fills a matrix of \code{ncol = length(x)} and \code{nrow = length(x)} with
-#' the values in \code{dat} and setting the diagonal to 1.
+#' Fills a matrix of `ncol = length(x)` and `nrow = length(x)` with
+#' the values in `dat` and setting the diagonal to 1.
 #'
-#' \code{dat} should be at least \code{choose(length(x), 2)} of length. It
+#' `dat` should be at least `choose(length(x), 2)` of length. It
 #' assumes that the data provided comes from using the row and column id to
 #' obtain it.
 #' @param x names of columns and rows, used to define the size of the matrix
 #' @param dat Data to fill with the matrix with except the diagonal.
-#' @return A square matrix with the diagonal set to 1 and \code{dat} on the
+#' @return A square matrix with the diagonal set to 1 and `dat` on the
 #' upper and lower triangle with the columns ids and row ids from x.
 #' @examples
 #' seq2mat(LETTERS[1:5], 1:10)
 #' seq2mat(LETTERS[1:5], seq(from = 0.1, to = 1, by = 0.1))
 #' @export
-#' @seealso \code{\link{upper.tri}} and \code{\link{lower.tri}}
+#' @seealso [upper.tri()] and [lower.tri()]
 #' @author Lluís Revilla
 seq2mat <- function(x, dat) {
     if (length(dat) != choose(length(x), 2L)) {
@@ -90,7 +90,7 @@ seq2mat <- function(x, dat) {
 #' @return The format is determined by the simplify2array
 #' @export
 #' @author Lluís Revilla
-#' @seealso \code{\link{removeDup}}
+#' @seealso [removeDup()]
 #' @examples
 #' duplicateIndices(c("52", "52", "53", "55")) # One repeated element
 #' duplicateIndices(c("52", "52", "53", "55", "55")) # Repeated elements
@@ -117,7 +117,7 @@ duplicateIndices <- function(vec) {
 #' @return A matrix with only one of the columns and rows duplicated
 #' @export
 #' @author Lluís Revilla
-#' @seealso \code{\link{duplicateIndices}} to obtain the list of indices with
+#' @seealso [duplicateIndices()] to obtain the list of indices with
 #' duplicated entries.
 #' @examples
 #' a <- seq2mat(c("52", "52", "53", "55"), runif(choose(4, 2)))

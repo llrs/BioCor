@@ -32,7 +32,7 @@ sim <- list(b)
 addSimilarities(a, sim, c(0.5, 0.5))
 }
 \seealso{
-\code{\link{similarities}}, \code{\link{weighted}}.
+\code{\link[=similarities]{similarities()}}, \code{\link[=weighted]{weighted()}}.
 }
 \author{
 Lluís Revilla

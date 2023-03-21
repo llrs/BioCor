@@ -15,8 +15,7 @@ clusterSim(cluster1, cluster2, info, method = "max", ...)
 \item{info}{A GeneSetCollection or a list of genes and the pathways they are
 involved.}
 
-\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA",
-"reciprocal")}, see Details.}
+\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal")}, see Details.}
 
 \item{...}{Other arguments passed to \code{combineScores}}
 }
@@ -28,7 +27,7 @@ Looks for the similarity between genes in groups
 }
 \details{
 Once the pathways for each cluster are found they are combined using
-\code{\link{combineScores}}.
+\code{\link[=combineScores]{combineScores()}}.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -37,7 +36,7 @@ Once the pathways for each cluster are found they are combined using
   cluster2 = character,
   info = GeneSetCollection
 )}: Calculates all the similarities of the
-GeneSetCollection and combine them using \code{\link{combineScoresPar}}
+GeneSetCollection and combine them using \code{\link[=combineScoresPar]{combineScoresPar()}}
 
 }}
 \examples{
@@ -53,8 +52,8 @@ if (require("org.Hs.eg.db")) {
 }
 }
 \seealso{
-For a different approach see \code{\link{clusterGeneSim}},
-\code{\link{combineScores}} and \code{\link{conversions}}
+For a different approach see \code{\link[=clusterGeneSim]{clusterGeneSim()}},
+\code{\link[=combineScores]{combineScores()}} and \code{\link[=conversions]{conversions()}}
 }
 \author{
 Lluís Revilla

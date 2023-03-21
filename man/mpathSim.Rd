@@ -24,11 +24,10 @@ mpathSim(pathways, info, method = NULL, ...)
 \item{info}{A list of genes and the pathways they are involved or a
 GeneSetCollection object}
 
-\item{method}{To combine the scores of each pathway, one of \code{c("avg",
-"max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
+\item{method}{To combine the scores of each pathway, one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA")}, if NULL returns the matrix of
 similarities.}
 
-\item{...}{Other arguments passed to \code{\link{combineScoresPar}}}
+\item{...}{Other arguments passed to \code{\link[=combineScoresPar]{combineScoresPar()}}}
 }
 \value{
 The similarity between those pathways or all the similarities
@@ -78,6 +77,6 @@ if (require("reactome.db")) {
 }
 }
 \seealso{
-\code{\link{pathSim}} For single pairwise comparison.
-\code{\link{conversions}} To convert the Dice similarity to Jaccard similarity
+\code{\link[=pathSim]{pathSim()}} For single pairwise comparison.
+\code{\link[=conversions]{conversions()}} To convert the Dice similarity to Jaccard similarity
 }

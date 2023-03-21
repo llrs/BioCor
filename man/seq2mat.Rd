@@ -29,7 +29,7 @@ seq2mat(LETTERS[1:5], 1:10)
 seq2mat(LETTERS[1:5], seq(from = 0.1, to = 1, by = 0.1))
 }
 \seealso{
-\code{\link{upper.tri}} and \code{\link{lower.tri}}
+\code{\link[=upper.tri]{upper.tri()}} and \code{\link[=lower.tri]{lower.tri()}}
 }
 \author{
 Lluís Revilla

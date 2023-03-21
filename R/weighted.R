@@ -1,19 +1,19 @@
 # weighted ####
 #' Weighted operations
 #'
-#' Calculates the weighted sum or product of \code{x}. Each values should have
+#' Calculates the weighted sum or product of `x`. Each values should have
 #' its weight, otherwise it will throw an error.
 #'
-#' This functions are thought to be used with \code{similarities}. As some
-#' similarities might be positive and others negative the argument \code{abs}
-#' is provided for \code{weighted.sum}, assuming that only one similarity will
+#' This functions are thought to be used with `similarities`. As some
+#' similarities might be positive and others negative the argument `abs`
+#' is provided for `weighted.sum`, assuming that only one similarity will
 #' be negative (usually the one coming from expression correlation).
 #' @inheritParams stats::weighted.mean
 #' @param x an object containing the values whose weighted operations is to be
 #' computed
-#' @param abs If any \code{x} is negative you want the result negative too?
-#' @return \code{weighted.sum} returns the sum of the product of x*weights
-#' removing all \code{NA} values. See parameter \code{abs} if there are any
+#' @param abs If any `x` is negative you want the result negative too?
+#' @return `weighted.sum` returns the sum of the product of x*weights
+#' removing all `NA` values. See parameter `abs` if there are any
 #' negative values.
 #' @aliases weighted
 #' @rdname weighted
@@ -21,8 +21,8 @@
 #' @aliases weighted
 #' @author Lluís Revilla
 #' @seealso
-#' \code{\link{weighted.mean}}, \code{\link{similarities}} and
-#' \code{\link{addSimilarities}}
+#' [weighted.mean()], [similarities()] and
+#' [addSimilarities()]
 #' @export
 #' @examples
 #' expr <- c(-0.2, 0.3, 0.5, 0.8, 0.1)
@@ -60,8 +60,8 @@ weighted.sum <- function(x, w, abs = TRUE) {
     }
 }
 
-#' @return \code{weighted.prod} returns the product of product of x*weights
-#'  removing all \code{NA} values.
+#' @return `weighted.prod` returns the product of product of x*weights
+#'  removing all `NA` values.
 #' @rdname weighted
 #' @export
 #' @examples

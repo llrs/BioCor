@@ -7,7 +7,7 @@
 #' Given the information about the genes and their pathways, uses the ids
 #' of the genes to find the Dice similarity score for each pathway comparison
 #' between the genes. Later this similarities are combined using
-#' \code{\link{combineScoresPar}}.
+#' [combineScoresPar()].
 #' @param gene1,gene2 Ids of the genes to calculate the similarity, to be found
 #' in genes.
 #' @inheritParams pathSim
@@ -16,15 +16,15 @@
 #' The highest Dice score of all the combinations of pathways between
 #' the two ids compared if a method to combine scores is provided or NA if
 #' there isn't information for one gene.
-#' If an \code{NA} is returned this means that there isn't information
+#' If an `NA` is returned this means that there isn't information
 #' available for any pathways for one of the genes. Otherwise a number
 #' between 0 and 1 (both included) is returned. Note that there isn't a
 #' negative value of similarity.
 #' @export
 #' @author Lluís Revilla
-#' @seealso \code{\link{mgeneSim}}, \code{\link{conversions}} help page to transform Dice
+#' @seealso [mgeneSim()], [conversions()] help page to transform Dice
 #' score to Jaccard score. For the method to combine the scores see
-#' \code{\link{combineScoresPar}}.
+#' [combineScoresPar()].
 #' @examples
 #' if (require("org.Hs.eg.db") & require("reactome.db")) {
 #'     # Extract the paths of all genes of org.Hs.eg.db from KEGG
@@ -95,7 +95,7 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
 
 
 #' @describeIn geneSim Calculates all the similarities of the GeneSetCollection
-#' and combine them using \code{\link{combineScoresPar}}
+#' and combine them using [combineScoresPar()]
 #' @export
 setMethod(
     "geneSim",

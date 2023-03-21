@@ -15,8 +15,7 @@ mclusterSim(clusters, info, method = "max", ...)
 \item{info}{A GeneSetCollection or a list of genes and the pathways they are
 involved.}
 
-\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA",
-"reciprocal")}, see Details.}
+\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal")}, see Details.}
 
 \item{...}{Other arguments passed to \code{combineScores}}
 }
@@ -31,7 +30,7 @@ cluster are found they are combined using code{\link{combineScores}}.
 \section{Methods (by class)}{
 \itemize{
 \item \code{mclusterSim(clusters = list, info = GeneSetCollection)}: Calculates all the similarities of the GeneSetCollection
-and combine them using \code{\link{combineScoresPar}}
+and combine them using \code{\link[=combineScoresPar]{combineScoresPar()}}
 
 }}
 \examples{
@@ -52,8 +51,8 @@ if (require("org.Hs.eg.db")) {
 }
 }
 \seealso{
-For a different approach see \code{\link{clusterGeneSim}},
-\code{\link{combineScores}} and \code{\link{conversions}}
+For a different approach see \code{\link[=clusterGeneSim]{clusterGeneSim()}},
+\code{\link[=combineScores]{combineScores()}} and \code{\link[=conversions]{conversions()}}
 }
 \author{
 Lluís Revilla

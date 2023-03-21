@@ -32,7 +32,7 @@ group's genes.
 \section{Methods (by class)}{
 \itemize{
 \item \code{mclusterGeneSim(clusters = list, info = GeneSetCollection)}: Calculates all the similarities of the
-GeneSetCollection and combine them using \code{\link{combineScoresPar}}
+GeneSetCollection and combine them using \code{\link[=combineScoresPar]{combineScoresPar()}}
 
 }}
 \examples{
@@ -51,8 +51,8 @@ if (require("org.Hs.eg.db")) {
 }
 }
 \seealso{
-\code{\link{clusterGeneSim}}, \code{\link{clusterSim}} and
-\code{\link{combineScores}}
+\code{\link[=clusterGeneSim]{clusterGeneSim()}}, \code{\link[=clusterSim]{clusterSim()}} and
+\code{\link[=combineScores]{combineScores()}}
 }
 \author{
 Lluís Revilla

@@ -12,9 +12,9 @@
 #' the second one for clusters.
 #' @export
 #' @author Lluís Revilla
-#' @seealso \code{\link{clusterGeneSim}}, \code{\link{clusterSim}} and
-#' \code{\link{combineScores}}
-#' @param clusters A list of clusters of genes to be found in \code{id}.
+#' @seealso [clusterGeneSim()], [clusterSim()] and
+#' [combineScores()]
+#' @param clusters A list of clusters of genes to be found in `id`.
 #' @return Returns a matrix with the similarity scores for each cluster
 #' comparison.
 #' @export
@@ -82,7 +82,7 @@ mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"),
 
 
 #' @describeIn mclusterGeneSim Calculates all the similarities of the
-#' GeneSetCollection and combine them using \code{\link{combineScoresPar}}
+#' GeneSetCollection and combine them using [combineScoresPar()]
 #' @export
 setMethod(
     "mclusterGeneSim",

@@ -4,16 +4,16 @@
 #' Looks for the similarity between genes in groups
 #'
 #' Once the pathways for each cluster are found they are combined using
-#' \code{\link{combineScores}}.
+#' [combineScores()].
 #' @param cluster1,cluster2 A vector with genes.
 #' @inheritParams geneSim
 #' @inheritParams combineScores
 #' @inheritParams pathSim
 #' @export
 #' @author Lluís Revilla
-#' @seealso For a different approach see \code{\link{clusterGeneSim}},
-#' \code{\link{combineScores}} and \code{\link{conversions}}
-#' @return \code{clusterSim} returns a similarity score of the two clusters
+#' @seealso For a different approach see [clusterGeneSim()],
+#' [combineScores()] and [conversions()]
+#' @return `clusterSim` returns a similarity score of the two clusters
 #' @examples
 #' if (require("org.Hs.eg.db")) {
 #'     # Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
@@ -80,7 +80,7 @@ clusterSim <- function(cluster1, cluster2, info, method = "max", ...) {
 
 
 #' @describeIn clusterSim Calculates all the similarities of the
-#' GeneSetCollection and combine them using \code{\link{combineScoresPar}}
+#' GeneSetCollection and combine them using [combineScoresPar()]
 #' @export
 setMethod(
     "clusterSim",

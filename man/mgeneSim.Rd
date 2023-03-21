@@ -18,8 +18,7 @@ mgeneSim(genes, info, method = "max", ...)
 \item{info}{A GeneSetCollection or a list of genes and the pathways they are
 involved.}
 
-\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA",
-"reciprocal")}, see Details.}
+\item{method}{one of \code{c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal")}, see Details.}
 
 \item{...}{Other arguments passed to \code{combineScores}}
 }
@@ -35,15 +34,15 @@ which is combined to obtain a similarity between the genes.
 Given the information about the genes and their pathways, uses the ids
 of the genes to find the Dice similarity score for each pathway comparison
 between the genes. Later this similarities are combined using
-\code{\link{combineScoresPar}}.
+\code{\link[=combineScoresPar]{combineScoresPar()}}.
 }
 \section{Methods (by class)}{
 \itemize{
 \item \code{mgeneSim(genes = character, info = GeneSetCollection)}: Calculates all the similarities of the list and
-combine them using \code{\link{combineScoresPar}}
+combine them using \code{\link[=combineScoresPar]{combineScoresPar()}}
 
 \item \code{mgeneSim(genes = missing, info = GeneSetCollection)}: Calculates all the similarities of the list and
-combine them using \code{\link{combineScoresPar}}
+combine them using \code{\link[=combineScoresPar]{combineScoresPar()}}
 
 }}
 \note{
@@ -68,7 +67,7 @@ if (require("org.Hs.eg.db") & require("reactome.db")) {
 }
 }
 \seealso{
-\code{\link{geneSim}}, \code{\link{conversions}} help page to transform Dice
+\code{\link[=geneSim]{geneSim()}}, \code{\link[=conversions]{conversions()}} help page to transform Dice
 score to Jaccard score. For the method to combine the scores see
-\code{\link{combineScoresPar}}.
+\code{\link[=combineScoresPar]{combineScoresPar()}}.
 }

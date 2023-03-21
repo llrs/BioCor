@@ -30,7 +30,7 @@ diceSim(genes.id1, genes.id2)
 diceSim(genes.id2, genes.id2)
 }
 \seealso{
-Used for \code{\link{geneSim}}, see \code{\link{conversions}} help
+Used for \code{\link[=geneSim]{geneSim()}}, see \code{\link[=conversions]{conversions()}} help
 page to transform Dice score to Jaccard score.
 }
 \author{

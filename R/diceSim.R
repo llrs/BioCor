@@ -4,13 +4,13 @@
 #' Function to estimate how much two list of genes overlap by looking
 #' how much of the nodes are shared. Calculates the Dice similarity
 #'
-#' It requires a vector of characters otherwise will return an \code{NA}.
+#' It requires a vector of characters otherwise will return an `NA`.
 #' @param g1,g2 A character list with the names of the proteins in each pathway.
 #' @return A score between 0 and 1 calculated as the double of the proteins
 #' shared by g1 and g2 divided by the number of genes in both groups.
 #' @export
 #' @author Lluís Revilla
-#' @seealso Used for \code{\link{geneSim}}, see \code{\link{conversions}} help
+#' @seealso Used for [geneSim()], see [conversions()] help
 #' page to transform Dice score to Jaccard score.
 #' @examples
 #' genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")
