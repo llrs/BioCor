@@ -173,6 +173,7 @@ test_that("rcmax", {
 
 test_that("rowIds  &colIds are not null in combineScorePar", {
     set.seed(456)
+    skip_if_not_installed(pkg = "reactome.db")
     library("reactome.db")
     genes2Pathways <- as.list(reactomeEXTID2PATHID)
     pathways <- unlist(genes2Pathways, use.names = FALSE)

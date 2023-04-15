@@ -1,4 +1,6 @@
-library(testthat)
-library(BioCor)
+library("BioCor")
 
-test_check("BioCor")
+if (requireNamespace("testthat", quietly = TRUE)) {
+  library("testthat")
+  test_check("BioCor")
+}
