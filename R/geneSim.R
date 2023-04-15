@@ -40,7 +40,7 @@
 #'     warning("You need reactome.db and org.Hs.eg.db package for this example")
 #' }
 geneSim <- function(gene1, gene2, info, method = "max", ...) {
-    if (length(unique(gene1)) != 1L | length(unique(gene2)) != 1L) {
+    if (length(unique(gene1)) != 1L || length(unique(gene2)) != 1L) {
         stop(
             "Introduce just one gene!\n",
             "If you want to calculate several similarities ",
@@ -48,7 +48,7 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
         )
     }
 
-    if (!is.character(gene1) | !is.character(gene2)) {
+    if (!is.character(gene1) || !is.character(gene2)) {
         stop("Please use character")
     }
 

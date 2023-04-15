@@ -21,10 +21,10 @@
 #' diceSim(genes.id1, genes.id2)
 #' diceSim(genes.id2, genes.id2)
 diceSim <- function(g1, g2) {
-    if (is.character(g1) & is.character(g2)) {
+    if (is.character(g1) && is.character(g2)) {
         prot1 <- g1
         prot2 <- g2
-    } else if (is.null(g1) | is.null(g2)) { # Check if length is 0
+    } else if (is.null(g1) || is.null(g2)) { # Check if length is 0
         return(NA)
     }
     else {
@@ -33,7 +33,7 @@ diceSim <- function(g1, g2) {
     }
     # If there isn't any information of a pathway for a gene then then
     # functional similarity is 0
-    if (length(prot1) == 0L | length(prot2) == 0L) {
+    if (length(prot1) == 0L || length(prot2) == 0L) {
         return(0L)
     }
     score <- (length(intersect(prot1, prot2))) * 2L / (

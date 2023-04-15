@@ -74,10 +74,10 @@ mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"),
     # Calculate similarities between genes
     # give the name of the genes
     names(pathways) <- unlist(clusters, use.names = FALSE)
-    genesSims <- combineScoresPar(pathSims, method[1L], pathways, ... = ...)
+    genesSims <- combineScoresPar(pathSims, method[[1L]], pathways, ... = ...)
 
     # Calculate similarities between clusters of genes
-    as.matrix(combineScoresPar(genesSims, method[2L], clusters, ... = ...))
+    as.matrix(combineScoresPar(genesSims, method[[2L]], clusters, ... = ...))
 }
 
 
@@ -132,9 +132,9 @@ setMethod(
         # Calculate similarities between genes
         # give the name of the genes
         names(pathways) <- unlist(clusters, use.names = FALSE)
-        genesSims <- combineScoresPar(pathSims, method[1L], pathways, ... = ...)
+        genesSims <- combineScoresPar(pathSims, method[[1L]], pathways, ... = ...)
 
         # Calculate similarities between clusters of genes
-        as.matrix(combineScoresPar(genesSims, method[2L], clusters, ... = ...))
+        as.matrix(combineScoresPar(genesSims, method[[2L]], clusters, ... = ...))
     }
 )

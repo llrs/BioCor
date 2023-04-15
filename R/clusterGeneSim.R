@@ -43,14 +43,14 @@
 #' }
 clusterGeneSim <- function(cluster1, cluster2, info,
     method = c("max", "rcmax.avg"), ...) {
-    if (length(unique(cluster1)) == 1L & length(unique(cluster2)) == 1L) {
+    if (length(unique(cluster1)) == 1L && length(unique(cluster2)) == 1L) {
         stop(
             "Introduce several genes in each cluster!\n",
             "If you want to calculate similarities ",
             "between two genes use geneSim"
         )
     }
-    if (!all(is.character(cluster1)) | !all(is.character(cluster2))) {
+    if (!all(is.character(cluster1)) || !all(is.character(cluster2))) {
         stop("The input genes should be characters")
     }
     cluster1 <- unique(cluster1)
@@ -60,11 +60,11 @@ clusterGeneSim <- function(cluster1, cluster2, info,
         stop("info should be a list. See documentation.")
     }
 
-    if (any(!cluster1 %in% names(info)) | any(!cluster2 %in% names(info))) {
+    if (any(!cluster1 %in% names(info)) || any(!cluster2 %in% names(info))) {
         warning("Some genes are not in the list provided.")
     }
 
-    if (length(method) > 2L | is.null(method)) {
+    if (length(method) > 2L || is.null(method)) {
         stop(
             "Please provide two  or one methods to combine scores.",
             "See Details"
@@ -88,14 +88,14 @@ clusterGeneSim <- function(cluster1, cluster2, info,
         return(NA)
     }
     simPaths <- mpathSim(pathways, info, method = NULL, ...)
-    genes <- combineScoresPar(simPaths, method[1L],
+    genes <- combineScoresPar(simPaths, method[[1L]],
         c(pathways1.a, pathways2.a),
         ... = ...
     )
     genes <- genes[names(pathways1.a), names(pathways2.a), drop = FALSE]
 
     if (length(method) == 2L) {
-        combineScoresPar(as.matrix(genes), method = method[2L], ... = ...)
+        combineScoresPar(as.matrix(genes), method = method[[2L]], ... = ...)
     } else {
         as.matrix(genes)
     }
@@ -159,14 +159,14 @@ setMethod(
         pathways <- unique(c(pathways1, pathways2))
 
         simPaths <- mpathSim(pathways, list_info, method = NULL, ...)
-        genes <- combineScoresPar(simPaths, method[1L],
+        genes <- combineScoresPar(simPaths, method[[1L]],
             c(pathways1.a, pathways2.a),
             ... = ...
         )
         genes <- genes[names(pathways1.a), names(pathways2.a), drop = FALSE]
 
         if (length(method) == 2L) {
-            combineScoresPar(as.matrix(genes), method = method[2L], ... = ...)
+            combineScoresPar(as.matrix(genes), method = method[[2L]], ... = ...)
         } else {
             as.matrix(genes)
         }

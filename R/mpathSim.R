@@ -167,9 +167,7 @@ setMethod(
         if (!all(is.character(pathways))) {
             stop("The input pathways should be characters")
         }
-        nam <- names(pathways)
         pathways <- unique(pathways)
-
 
         if (any(!pathways %in% names(info))) {
             warning("Some pathways are not in the GeneSetCollection provided.")

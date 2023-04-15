@@ -24,14 +24,14 @@
 #'     warning("You need reactome.db package for this example")
 #' }
 pathSim <- function(pathway1, pathway2, info) {
-    if (length(pathway1) != 1 | length(pathway2) != 1) {
+    if (length(pathway1) != 1 || length(pathway2) != 1) {
         stop(
             "Introduce just one pathway!\n",
             "If you want to calculate several similarities ",
             "between pathways use mpathSim"
         )
     }
-    if (!is.character(pathway1) | !is.character(pathway2)) {
+    if (!is.character(pathway1) || !is.character(pathway2)) {
         stop("The input pathways should be characters")
     }
     if (!is.list(info)) {

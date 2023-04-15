@@ -26,14 +26,14 @@
 #'     warning("You need org.Hs.eg.db package for this example")
 #' }
 clusterSim <- function(cluster1, cluster2, info, method = "max", ...) {
-    if (length(unique(cluster1)) == 1L & length(unique(cluster2)) == 1L) {
+    if (length(unique(cluster1)) == 1L && length(unique(cluster2)) == 1L) {
         stop(
             "Introduce several genes in each cluster!\n",
             "If you want to calculate similarities ",
             "between two genes use geneSim"
         )
     }
-    if (!all(is.character(cluster1)) | !all(is.character(cluster2))) {
+    if (!all(is.character(cluster1)) || !all(is.character(cluster2))) {
         stop("The input genes should be characters")
     }
     cluster1 <- unique(cluster1)
@@ -46,10 +46,10 @@ clusterSim <- function(cluster1, cluster2, info, method = "max", ...) {
     clust1_logic <- !cluster1 %in% names(info)
     clust2_logic <- !cluster2 %in% names(info)
 
-    if (all(clust1_logic) & all(clust2_logic)) {
+    if (all(clust1_logic) && all(clust2_logic)) {
         warning("At least one gene should be in the list provided")
         return(NA)
-    } else if (any(clust1_logic) | any(clust2_logic)) {
+    } else if (any(clust1_logic) || any(clust2_logic)) {
         warning("Some genes are not in the list provided.")
     }
 
@@ -63,7 +63,7 @@ clusterSim <- function(cluster1, cluster2, info, method = "max", ...) {
     pathways1 <- pathways1[!is.na(pathways1)]
     pathways2 <- pathways2[!is.na(pathways2)]
 
-    if (is.null(pathways1) & is.null(pathways2)) {
+    if (is.null(pathways1) && is.null(pathways2)) {
         return(NA)
     }
 

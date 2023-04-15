@@ -162,7 +162,7 @@ rcmax <- function(scores) {
 }
 
 reciprocal <- function(scores, t) {
-    if (t < 0 | t > 1) {
+    if (t < 0 || t > 1) {
         stop("t must be between 1 and 0")
     }
     if (length(dim(scores)) != 2) {
@@ -215,7 +215,7 @@ combineScoresPar <- function(scores,
     ...) {
 
     # Check scores
-    if (is.null(subSets) | sum(dim(scores)) == 0) {
+    if (is.null(subSets) || sum(dim(scores)) == 0) {
         return(combineScores(scores, method = method, ...))
         # To handle cases when it is already simplified
     } else if (length(subSets) == 1) {

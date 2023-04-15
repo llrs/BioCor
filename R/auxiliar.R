@@ -25,7 +25,7 @@ combinadic <- function(n, r, i) {
     # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
     # http://en.wikipedia.org/wiki/Combinadic
     n0 <- length(n)
-    if (i < 1L | i > choose(n0, r)) {
+    if (i < 1L || i > choose(n0, r)) {
         stop("'i' must be 0 < i <= n0!/(n0-r)!")
     }
     largestV <- function(n, r, i) {
@@ -100,7 +100,7 @@ duplicateIndices <- function(vec) {
         stop("Expected a list of characters to find duplicates on it")
     }
     sapply(unique(vec[duplicated(vec)]), function(x) {
-        b <- 1:length(vec)
+        b <- seq_len(length(vec))
         b[vec == x]
     }, simplify = FALSE)
 }

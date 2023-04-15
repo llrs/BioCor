@@ -40,7 +40,7 @@ weighted.sum <- function(x, w, abs = TRUE) {
         )
     }
 
-    if (!is.numeric(x) | !is.numeric(w)) {
+    if (!is.numeric(x) || !is.numeric(w)) {
         stop("weights and x should be numeric")
     }
     if (!all(w >= 0L)) {
@@ -78,7 +78,7 @@ weighted.prod <- function(x, w) {
         )
     }
 
-    if (!is.numeric(x) | !is.numeric(w)) {
+    if (!is.numeric(x) || !is.numeric(w)) {
         stop("weights and x should be numeric")
     }
 

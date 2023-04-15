@@ -31,11 +31,11 @@
 #' AintoB(A, B)
 #' @export
 AintoB <- function(A, B) {
-    if (!is.matrix(A) | !is.matrix(B)) {
+    if (!is.matrix(A) || !is.matrix(B)) {
         stop("Input should be matrices")
     }
     # Select the order for columns
-    if (ncol(A) <= ncol(B) & nrow(A) <= nrow(B)) {
+    if (ncol(A) <= ncol(B) && nrow(A) <= nrow(B)) {
         mc <- match(colnames(A), colnames(B))
         mr <- match(rownames(A), rownames(B))
     } else {
