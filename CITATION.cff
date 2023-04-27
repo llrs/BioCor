@@ -8,7 +8,7 @@ message: 'To cite package "BioCor" in publications use:'
 type: software
 license: MIT
 title: 'BioCor: Functional similarities'
-version: 1.21.2
+version: 1.25.1
 abstract: Calculates functional similarities based on the pathways described on KEGG
   and REACTOME or in gene sets. These similarities can be calculated for pathways
   or gene sets, genes, or clusters and combined with other similarities. They can
@@ -72,6 +72,7 @@ references:
   - family-names: Turaga
     given-names: Nitesh
   year: '2023'
+  doi: 10.18129/B9.bioc.BiocParallel
 - type: software
   title: GSEABase
   abstract: 'GSEABase: Gene set enrichment data structures and methods'
@@ -85,6 +86,7 @@ references:
   - family-names: Gentleman
     given-names: Robert
   year: '2023'
+  doi: 10.18129/B9.bioc.GSEABase
 - type: software
   title: Matrix
   abstract: 'Matrix: Sparse and Dense Matrix Classes and Methods'
@@ -123,6 +125,7 @@ references:
   - family-names: Love
     given-names: Michael
   year: '2023'
+  doi: 10.18129/B9.bioc.airway
 - type: software
   title: BiocStyle
   abstract: 'BiocStyle: Standard styles for vignettes and other Bioconductor documents'
@@ -134,6 +137,7 @@ references:
     given-names: Andrzej
     orcid: https://orcid.org/0000-0003-0285-2787
   year: '2023'
+  doi: 10.18129/B9.bioc.BiocStyle
 - type: software
   title: boot
   abstract: 'boot: Bootstrap Functions (Originally by Angelo Canty for S)'
@@ -163,6 +167,7 @@ references:
   - family-names: Huber
     given-names: Wolfgang
   year: '2023'
+  doi: 10.18129/B9.bioc.DESeq2
 - type: software
   title: ggplot2
   abstract: 'ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics'
@@ -210,6 +215,7 @@ references:
     given-names: Guangchuang
     email: guangchuangyu@gmail.com
   year: '2023'
+  doi: 10.18129/B9.bioc.GOSemSim
 - type: software
   title: Hmisc
   abstract: 'Hmisc: Harrell Miscellaneous'
@@ -262,35 +268,38 @@ references:
   authors:
   - family-names: Allaire
     given-names: JJ
-    email: jj@rstudio.com
+    email: jj@posit.co
   - family-names: Xie
     given-names: Yihui
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
+  - family-names: Dervieux
+    given-names: Christophe
+    email: cderv@posit.co
+    orcid: https://orcid.org/0000-0003-4474-2498
   - family-names: McPherson
     given-names: Jonathan
-    email: jonathan@rstudio.com
+    email: jonathan@posit.co
   - family-names: Luraschi
     given-names: Javier
-    email: javier@rstudio.com
   - family-names: Ushey
     given-names: Kevin
-    email: kevin@rstudio.com
+    email: kevin@posit.co
   - family-names: Atkins
     given-names: Aron
-    email: aron@rstudio.com
+    email: aron@posit.co
   - family-names: Wickham
     given-names: Hadley
-    email: hadley@rstudio.com
+    email: hadley@posit.co
   - family-names: Cheng
     given-names: Joe
-    email: joe@rstudio.com
+    email: joe@posit.co
   - family-names: Chang
     given-names: Winston
-    email: winston@rstudio.com
+    email: winston@posit.co
   - family-names: Iannone
     given-names: Richard
-    email: rich@rstudio.com
+    email: rich@posit.co
     orcid: https://orcid.org/0000-0003-3925-190X
   year: '2023'
 - type: software
