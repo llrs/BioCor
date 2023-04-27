@@ -1,4 +1,4 @@
-# BioCor 1.21.2
+# BioCor 1.26
 
 * Added support for plots of similarities
 
