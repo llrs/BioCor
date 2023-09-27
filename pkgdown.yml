@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   BioCor_1_basics: BioCor_1_basics.html
   BioCor_2_advanced: BioCor_2_advanced.html
-last_built: 2023-04-27T22:28Z
+last_built: 2023-09-27T22:31Z
 urls:
   reference: https://biocor.llrs.dev/reference
   article: https://biocor.llrs.dev/articles
