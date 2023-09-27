@@ -24,61 +24,61 @@
 #'     warning("You need reactome.db package for this example")
 #' }
 pathSim <- function(pathway1, pathway2, info) {
-    if (length(pathway1) != 1 || length(pathway2) != 1) {
-        stop(
-            "Introduce just one pathway!\n",
-            "If you want to calculate several similarities ",
-            "between pathways use mpathSim"
-        )
-    }
-    if (!is.character(pathway1) || !is.character(pathway2)) {
-        stop("The input pathways should be characters")
-    }
-    if (!is.list(info)) {
-        stop("info should be a list or a GeneSetCollection.\n
+  if (length(pathway1) != 1 || length(pathway2) != 1) {
+    stop(
+      "Introduce just one pathway!\n",
+      "If you want to calculate several similarities ",
+      "between pathways use mpathSim"
+    )
+  }
+  if (!is.character(pathway1) || !is.character(pathway2)) {
+    stop("The input pathways should be characters")
+  }
+  if (!is.list(info)) {
+    stop("info should be a list or a GeneSetCollection.\n
              See documentation.")
-    }
+  }
 
-    if (any(!c(pathway1, pathway2) %in% unlist(info, use.names = FALSE))) {
-        return(NA)
-    }
+  if (any(!c(pathway1, pathway2) %in% unlist(info, use.names = FALSE))) {
+    return(NA)
+  }
 
-    # Invert the list
-    rId <- unlist(info, use.names = FALSE)
-    lId <- rep(names(info), lengths(info))
-    pathways2genes <- split(lId, rId)
+  # Invert the list
+  rId <- unlist(info, use.names = FALSE)
+  lId <- rep(names(info), lengths(info))
+  pathways2genes <- split(lId, rId)
 
-    # Convert the list
-    pathways2genes <- list2env(pathways2genes)
+  # Convert the list
+  pathways2genes <- list2env(pathways2genes)
 
-    # Extract the gene ids for each pathway
-    g1 <- pathways2genes[[pathway1]]
-    g2 <- pathways2genes[[pathway2]]
+  # Extract the gene ids for each pathway
+  g1 <- pathways2genes[[pathway1]]
+  g2 <- pathways2genes[[pathway2]]
 
-    diceSim(g1, g2)
+  diceSim(g1, g2)
 }
 
 #' @describeIn pathSim Calculates all the similarities of a GeneSetCollection
 #' and combine them using `combineScoresPar`
 #' @export
 setMethod(
-    "pathSim",
-    c(
-        info = "GeneSetCollection", pathway1 = "character",
-        pathway2 = "character"
-    ),
-    function(pathway1, pathway2, info) {
-        if (length(pathway1) != 1 | length(pathway2) != 1) {
-            stop(
-                "Introduce just one pathway!\n",
-                "If you want to calculate several similarities ",
-                "between pathways use mpathSim"
-            )
-        }
-        if (any(!c(pathway1, pathway2) %in% names(info))) {
-            return(NA)
-        }
-        genes <- geneIds(info[c(pathway1, pathway2)])
-        diceSim(genes[[1]], genes[[2]])
+  "pathSim",
+  c(
+    info = "GeneSetCollection", pathway1 = "character",
+    pathway2 = "character"
+  ),
+  function(pathway1, pathway2, info) {
+    if (length(pathway1) != 1 | length(pathway2) != 1) {
+      stop(
+        "Introduce just one pathway!\n",
+        "If you want to calculate several similarities ",
+        "between pathways use mpathSim"
+      )
     }
+    if (any(!c(pathway1, pathway2) %in% names(info))) {
+      return(NA)
+    }
+    genes <- GSEABase::geneIds(info[c(pathway1, pathway2)])
+    diceSim(genes[[1]], genes[[2]])
+  }
 )

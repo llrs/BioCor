@@ -39,13 +39,14 @@ Suggests:
     rmarkdown,
     spelling,
     targetscan.Hs.eg.db,
-    testthat,
+    testthat (>= 3.0.0),
     WGCNA
 VignetteBuilder:
     knitr
 biocViews: StatisticalMethod, Clustering, GeneExpression, Network,
     Pathways, NetworkEnrichment, SystemsBiology
+Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
-RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3

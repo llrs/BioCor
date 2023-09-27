@@ -1,6 +1,10 @@
 # BioCor 1.26
 
-* Added support for plots of similarities
+* Added support for plots of similarities with `plot_data()` and 
+  `plot_similarity()`.
+* Removed internal data accidentally exposed (It was only used for testing).
+* Fix problem with documenting the package via roxygen2.
+* Remove the `\describe{}` macro used in some pages.
 
 # Changes in version 1.19.1
 

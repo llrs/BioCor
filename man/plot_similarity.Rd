@@ -37,7 +37,7 @@ if (require("org.Hs.eg.db") & require("reactome.db")) {
   genes.kegg <- as.list(org.Hs.egPATH)
   # Extracts the paths of all genes of org.Hs.eg.db from reactome
   genes.react <- as.list(reactomeEXTID2PATHID)
-  
+
   sim <- mgeneSim(c("81", "18", "10"), genes.react)
   pd <- plot_data(sim, top = 0.25)
   if (requireNamespace("ggplot2", quietly = TRUE)){

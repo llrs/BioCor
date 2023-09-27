@@ -26,23 +26,23 @@
 #' # Note the differences in the sign of some values
 #' similarities(sim, weighted.sum, c(0.5, 0.5))
 similarities <- function(sim, func, ...) {
-    if (!is.list(sim)) {
-        stop("Please introduce a list with the similarities")
-    }
-    # Check that all the matrices are of the same dimensions and squared
-    dims <- sapply(sim, dim)
-    if (is.list(dims)) {
-        stop("There are arrays with different dimensions")
-    } else if (!all(apply(dims, 2, function(x) length(unique(x)) == 1))) {
-        stop("Matrices with different dimensions.")
-    }
-    if (!all(sapply(sim, isSymmetric))) {
-        stop("Similarities are not symmetric")
-    }
+  if (!is.list(sim)) {
+    stop("Please introduce a list with the similarities")
+  }
+  # Check that all the matrices are of the same dimensions and squared
+  dims <- sapply(sim, dim)
+  if (is.list(dims)) {
+    stop("There are arrays with different dimensions")
+  } else if (!all(apply(dims, 2, function(x) length(unique(x)) == 1))) {
+    stop("Matrices with different dimensions.")
+  }
+  if (!all(sapply(sim, isSymmetric))) {
+    stop("Similarities are not symmetric")
+  }
 
-    FUN <- match.fun(func)
-    # Apply weighted to each cell position of each similarity measure
-    apply(simplify2array(sim), c(1L, 2L), FUN, ...)
+  FUN <- match.fun(func)
+  # Apply weighted to each cell position of each similarity measure
+  apply(simplify2array(sim), c(1L, 2L), FUN, ...)
 }
 
 # addSimilarities ####
@@ -67,23 +67,23 @@ similarities <- function(sim, func, ...) {
 #' sim <- list(b)
 #' addSimilarities(a, sim, c(0.5, 0.5))
 addSimilarities <- function(x, bio_mat, weights = c(0.5, 0.18, 0.10, 0.22)) {
-    if (sum(weights) > 1L) {
-        stop("Weights are too big. The sum must be equal to 1")
-    } else if (sum(weights) < 1L) {
-        warning("Weights are smaller than 1.")
-    }
+  if (sum(weights) > 1L) {
+    stop("Weights are too big. The sum must be equal to 1")
+  } else if (sum(weights) < 1L) {
+    warning("Weights are smaller than 1.")
+  }
 
-    if (!is.matrix(x)) {
-        stop(
-            "Expected a matrix, generally a similarity measure from ",
-            "expression"
-        )
-    }
-    if (!all(dim(x) == dim(bio_mat[[1L]]))) {
-        stop("Dimensions of x and bio_mat matrices is different")
-    }
-    cors <- c(list(exp = x), bio_mat)
+  if (!is.matrix(x)) {
+    stop(
+      "Expected a matrix, generally a similarity measure from ",
+      "expression"
+    )
+  }
+  if (!all(dim(x) == dim(bio_mat[[1L]]))) {
+    stop("Dimensions of x and bio_mat matrices is different")
+  }
+  cors <- c(list(exp = x), bio_mat)
 
-    # Apply weighted to each cell position of each similarity measure
-    similarities(cors, weighted.sum, w = weights)
+  # Apply weighted to each cell position of each similarity measure
+  similarities(cors, weighted.sum, w = weights)
 }

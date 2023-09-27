@@ -31,25 +31,25 @@
 #' AintoB(A, B)
 #' @export
 AintoB <- function(A, B) {
-    if (!is.matrix(A) || !is.matrix(B)) {
-        stop("Input should be matrices")
-    }
-    # Select the order for columns
-    if (ncol(A) <= ncol(B) && nrow(A) <= nrow(B)) {
-        mc <- match(colnames(A), colnames(B))
-        mr <- match(rownames(A), rownames(B))
-    } else {
-        stop(
-            "Impossible to insert matrix A into matrix B\n",
-            "Matrix A is bigger than matrix B."
-        )
-    }
-    # Omit those with NA
-    nar <- is.na(mr)
-    nac <- is.na(mc)
-    mr <- mr[!nar]
-    mc <- mc[!nac]
+  if (!is.matrix(A) || !is.matrix(B)) {
+    stop("Input should be matrices")
+  }
+  # Select the order for columns
+  if (ncol(A) <= ncol(B) && nrow(A) <= nrow(B)) {
+    mc <- match(colnames(A), colnames(B))
+    mr <- match(rownames(A), rownames(B))
+  } else {
+    stop(
+      "Impossible to insert matrix A into matrix B\n",
+      "Matrix A is bigger than matrix B."
+    )
+  }
+  # Omit those with NA
+  nar <- is.na(mr)
+  nac <- is.na(mc)
+  mr <- mr[!nar]
+  mc <- mc[!nac]
 
-    B[mr, mc] <- A[!nar, !nac]
-    B
+  B[mr, mc] <- A[!nar, !nac]
+  B
 }

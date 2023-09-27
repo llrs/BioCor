@@ -24,31 +24,31 @@
 #' combineSources(DB1, DB3) # A warning is expected
 #' @export
 combineSources <- function(...) {
-    sources <- list(...)
-    geneIds <- lapply(sources, names)
-    uGeneIds <- unique(unlist(geneIds, use.names = FALSE))
+  sources <- list(...)
+  geneIds <- lapply(sources, names)
+  uGeneIds <- unique(unlist(geneIds, use.names = FALSE))
 
-    # Compare the percentatge of uniques of each one
-    uniquess <- sapply(sources, function(x) {
-        nam <- names(x)
-        length(setdiff(uGeneIds, nam)) / length(uGeneIds)
-    })
+  # Compare the percentatge of uniques of each one
+  uniquess <- sapply(sources, function(x) {
+    nam <- names(x)
+    length(setdiff(uGeneIds, nam)) / length(uGeneIds)
+  })
 
-    if (any(uniquess >= 0.5)) {
-        warning(
-            "More than 50% of genes identifiers of a source are unique\n",
-            "Check the identifiers of the genes"
-        )
-    } else if (any(uniquess >= 0.25)) {
-        warning(
-            "More than 25% of genes identifiers of a source are unique\n",
-            "Check the identifiers of the genes"
-        )
-    }
-    # see http://stackoverflow.com/a/18539199/2886003
-    out <- setNames(do.call(mapply, c(
-        FUN = c,
-        lapply(sources, `[`, uGeneIds)
-    )), uGeneIds)
-    sapply(out, unique)
+  if (any(uniquess >= 0.5)) {
+    warning(
+      "More than 50% of genes identifiers of a source are unique\n",
+      "Check the identifiers of the genes"
+    )
+  } else if (any(uniquess >= 0.25)) {
+    warning(
+      "More than 25% of genes identifiers of a source are unique\n",
+      "Check the identifiers of the genes"
+    )
+  }
+  # see http://stackoverflow.com/a/18539199/2886003
+  out <- setNames(do.call(mapply, c(
+    FUN = c,
+    lapply(sources, `[`, uGeneIds)
+  )), uGeneIds)
+  sapply(out, unique)
 }
