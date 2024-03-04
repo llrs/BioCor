@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="About BioCor">
 <meta property="og:description" content="BioCor">
@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">BioCor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.25.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.27.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,7 +100,7 @@ Spain<br><h4 data-toc-skip class="author">Pau
 Sancho-Bru</h4>
             <address class="author_afil">
       August Pi i Sunyer Biomedical Research Institute (IDIBAPS); Liver
-Unit, Hospital Clinic<br><h4 data-toc-skip class="date">27 September 2023</h4>
+Unit, Hospital Clinic<br><h4 data-toc-skip class="date">4 March 2024</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/llrs/BioCor/blob/HEAD/vignettes/BioCor_1_basics.Rmd" class="external-link"><code>vignettes/BioCor_1_basics.Rmd</code></a></small>
       <div class="d-none name"><code>BioCor_1_basics.Rmd</code></div>
@@ -147,17 +147,17 @@ distances</em> for pathways, gene sets, genes and clusters of genes. The
 name BioCor stands from biological correlation, shortened to BioCor,
 because as said we look if some genes are in the same pathways or gene
 sets as other genes.</p>
-<p>BioCor is different from <em><a href="https://bioconductor.org/packages/3.17/GeneOverlap" class="external-link">GeneOverlap</a></em>
+<p>BioCor is different from <em><a href="https://bioconductor.org/packages/3.18/GeneOverlap" class="external-link">GeneOverlap</a></em>
 because here we use the Dice index instead of the Jaccard index
 (although we provide a function to change from one to the other, see <a href="#D2J">this section</a>)and that package only allows to compare
-pathways but not genes or groups of genes. But <em><a href="https://bioconductor.org/packages/3.17/GeneOverlap" class="external-link">GeneOverlap</a></em>
+pathways but not genes or groups of genes. But <em><a href="https://bioconductor.org/packages/3.18/GeneOverlap" class="external-link">GeneOverlap</a></em>
 provides some functionalities to plot the similarity scores and provides
 the associated p-value to the comparison of pathways.</p>
 <p>The development of this package aimed initially to improve clustering
 of genes by functionality in weighted gene co-expression networks using
 <em><a href="https://CRAN.R-project.org/package=WGCNA" class="external-link">WGCNA</a></em>.
 The package has some functions to combine similarities in order to
-integrate with <code>WGCNA</code>. For other uses you can check the <a href="https://bioconductor.org/packages/3.17/BioCor/vignettes/BioCor_2_advanced.html" class="external-link">advanced
+integrate with <code>WGCNA</code>. For other uses you can check the <a href="https://bioconductor.org/packages/3.18/BioCor/vignettes/BioCor_2_advanced.html" class="external-link">advanced
 vignette.</a>.</p>
 </div>
 <div class="section level2">
@@ -231,48 +231,48 @@ use.</p>
 several pathways and combine them, or not:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">genesReact</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">## [1] "R-HSA-71406"  "R-HSA-203615"</span></span>
+<span><span class="co">## [1] "R-HSA-2151201" "R-HSA-5654706"</span></span>
 <span><span class="fu"><a href="../reference/pathSim.html">pathSim</a></span><span class="op">(</span><span class="va">paths</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">paths</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">genesReact</span><span class="op">)</span></span>
 <span><span class="co">## [1] 0</span></span>
 <span></span>
 <span><span class="op">(</span><span class="va">pathways</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">genesReact</span><span class="op">)</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">##  [1] "R-HSA-9700649" "R-HSA-168336"  "R-HSA-6803157" "R-HSA-4724289"</span></span>
-<span><span class="co">##  [5] "R-HSA-2978092" "R-HSA-9022692" "R-HSA-194002"  "R-HSA-975576" </span></span>
-<span><span class="co">##  [9] "R-HSA-429593"  "R-HSA-9673163"</span></span>
+<span><span class="co">##  [1] "R-HSA-2894862" "R-HSA-5655302" "R-HSA-3248023" "R-HSA-8964058"</span></span>
+<span><span class="co">##  [5] "R-HSA-5682294" "R-HSA-446388"  "R-HSA-190872"  "R-HSA-5688354"</span></span>
+<span><span class="co">##  [9] "R-HSA-9748784" "R-HSA-1168372"</span></span>
 <span><span class="fu"><a href="../reference/mpathSim.html">mpathSim</a></span><span class="op">(</span><span class="va">pathways</span>, <span class="va">genesReact</span><span class="op">)</span></span>
-<span><span class="co">##               R-HSA-9700649 R-HSA-168336 R-HSA-6803157 R-HSA-4724289</span></span>
-<span><span class="co">## R-HSA-9700649             1            0             0             0</span></span>
-<span><span class="co">## R-HSA-168336              0            1             0             0</span></span>
-<span><span class="co">## R-HSA-6803157             0            0             1             0</span></span>
-<span><span class="co">## R-HSA-4724289             0            0             0             1</span></span>
-<span><span class="co">## R-HSA-2978092             0            0             0             0</span></span>
-<span><span class="co">## R-HSA-9022692             0            0             0             0</span></span>
-<span><span class="co">## R-HSA-194002              0            0             0             0</span></span>
-<span><span class="co">## R-HSA-975576              0            0             0             0</span></span>
-<span><span class="co">## R-HSA-429593              0            0             0             0</span></span>
-<span><span class="co">## R-HSA-9673163             0            0             0             0</span></span>
-<span><span class="co">##               R-HSA-2978092 R-HSA-9022692 R-HSA-194002 R-HSA-975576</span></span>
-<span><span class="co">## R-HSA-9700649             0             0            0            0</span></span>
-<span><span class="co">## R-HSA-168336              0             0            0            0</span></span>
-<span><span class="co">## R-HSA-6803157             0             0            0            0</span></span>
-<span><span class="co">## R-HSA-4724289             0             0            0            0</span></span>
-<span><span class="co">## R-HSA-2978092             1             0            0            0</span></span>
-<span><span class="co">## R-HSA-9022692             0             1            0            0</span></span>
-<span><span class="co">## R-HSA-194002              0             0            1            0</span></span>
-<span><span class="co">## R-HSA-975576              0             0            0            1</span></span>
-<span><span class="co">## R-HSA-429593              0             0            0            0</span></span>
-<span><span class="co">## R-HSA-9673163             0             0            0            0</span></span>
-<span><span class="co">##               R-HSA-429593 R-HSA-9673163</span></span>
-<span><span class="co">## R-HSA-9700649            0             0</span></span>
-<span><span class="co">## R-HSA-168336             0             0</span></span>
-<span><span class="co">## R-HSA-6803157            0             0</span></span>
-<span><span class="co">## R-HSA-4724289            0             0</span></span>
-<span><span class="co">## R-HSA-2978092            0             0</span></span>
-<span><span class="co">## R-HSA-9022692            0             0</span></span>
-<span><span class="co">## R-HSA-194002             0             0</span></span>
-<span><span class="co">## R-HSA-975576             0             0</span></span>
-<span><span class="co">## R-HSA-429593             1             0</span></span>
-<span><span class="co">## R-HSA-9673163            0             1</span></span></code></pre></div>
+<span><span class="co">##               R-HSA-2894862 R-HSA-5655302 R-HSA-3248023 R-HSA-8964058</span></span>
+<span><span class="co">## R-HSA-2894862    1.00000000    0.00000000             0    0.00000000</span></span>
+<span><span class="co">## R-HSA-5655302    0.00000000    1.00000000             0    0.00000000</span></span>
+<span><span class="co">## R-HSA-3248023    0.00000000    0.00000000             1    0.00000000</span></span>
+<span><span class="co">## R-HSA-8964058    0.00000000    0.00000000             0    1.00000000</span></span>
+<span><span class="co">## R-HSA-5682294    0.00000000    0.00000000             0    0.00000000</span></span>
+<span><span class="co">## R-HSA-446388     0.00000000    0.00000000             0    0.00000000</span></span>
+<span><span class="co">## R-HSA-190872     0.00000000    0.00000000             0    0.00000000</span></span>
+<span><span class="co">## R-HSA-5688354    0.00000000    0.00000000             0    0.00000000</span></span>
+<span><span class="co">## R-HSA-9748784    0.00000000    0.00000000             0    0.01666667</span></span>
+<span><span class="co">## R-HSA-1168372    0.08510638    0.04958678             0    0.00000000</span></span>
+<span><span class="co">##               R-HSA-5682294 R-HSA-446388 R-HSA-190872 R-HSA-5688354</span></span>
+<span><span class="co">## R-HSA-2894862             0            0            0             0</span></span>
+<span><span class="co">## R-HSA-5655302             0            0            0             0</span></span>
+<span><span class="co">## R-HSA-3248023             0            0            0             0</span></span>
+<span><span class="co">## R-HSA-8964058             0            0            0             0</span></span>
+<span><span class="co">## R-HSA-5682294             1            0            0             0</span></span>
+<span><span class="co">## R-HSA-446388              0            1            0             0</span></span>
+<span><span class="co">## R-HSA-190872              0            0            1             0</span></span>
+<span><span class="co">## R-HSA-5688354             0            0            0             1</span></span>
+<span><span class="co">## R-HSA-9748784             0            0            0             0</span></span>
+<span><span class="co">## R-HSA-1168372             0            0            0             0</span></span>
+<span><span class="co">##               R-HSA-9748784 R-HSA-1168372</span></span>
+<span><span class="co">## R-HSA-2894862    0.00000000    0.08510638</span></span>
+<span><span class="co">## R-HSA-5655302    0.00000000    0.04958678</span></span>
+<span><span class="co">## R-HSA-3248023    0.00000000    0.00000000</span></span>
+<span><span class="co">## R-HSA-8964058    0.01666667    0.00000000</span></span>
+<span><span class="co">## R-HSA-5682294    0.00000000    0.00000000</span></span>
+<span><span class="co">## R-HSA-446388     0.00000000    0.00000000</span></span>
+<span><span class="co">## R-HSA-190872     0.00000000    0.00000000</span></span>
+<span><span class="co">## R-HSA-5688354    0.00000000    0.00000000</span></span>
+<span><span class="co">## R-HSA-9748784    1.00000000    0.00000000</span></span>
+<span><span class="co">## R-HSA-1168372    0.00000000    1.00000000</span></span></code></pre></div>
 <p>When the method to combine the similarities is set to
 <code>NULL</code> <code><a href="../reference/mpathSim.html">mpathSim()</a></code> returns a matrix of pathway
 similarities, otherwise it combines the values. In the next section we
@@ -287,7 +287,7 @@ can see the methods to combine pathway similarities.</p>
 <span>                          <span class="st">"reciprocal"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">methodsCombineScores</span>, <span class="fu">BioCor</span><span class="fu">::</span><span class="va"><a href="../reference/combineScores.html">combineScores</a></span>, scores <span class="op">=</span> <span class="va">sim</span><span class="op">)</span></span>
 <span><span class="co">##        avg        max      rcmax  rcmax.avg        BMA reciprocal </span></span>
-<span><span class="co">##        0.1        1.0        1.0        1.0        1.0        1.0</span></span></code></pre></div>
+<span><span class="co">##  0.1030272  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000</span></span></code></pre></div>
 <p>We can also specify the method to combine the similarities in
 <code><a href="../reference/mpathSim.html">mpathSim()</a></code>, <code><a href="../reference/geneSim.html">geneSim()</a></code>,
 <code><a href="../reference/mgeneSim.html">mgeneSim()</a></code>, <code><a href="../reference/clusterSim.html">clusterSim()</a></code>,
@@ -296,10 +296,10 @@ can see the methods to combine pathway similarities.</p>
 is set to “max” to combine pathways (except in mpathSim where the
 default is to show all the pathway similarities) and “BMA” to combine
 similarities of genes or for cluster analysis. This function is adapted
-from <em><a href="https://bioconductor.org/packages/3.17/GOSemSim" class="external-link">GOSemSim</a></em>
+from <em><a href="https://bioconductor.org/packages/3.18/GOSemSim" class="external-link">GOSemSim</a></em>
 package.</p>
 <p>The function <code><a href="../reference/combineScores.html">combineScoresPar()</a></code> allows to use a parallel
-background (using <em><a href="https://bioconductor.org/packages/3.17/BiocParallel" class="external-link">BiocParallel</a></em>)
+background (using <em><a href="https://bioconductor.org/packages/3.18/BiocParallel" class="external-link">BiocParallel</a></em>)
 to combine the scores. It is recommended to use a parallel background if
 you calculate more than 300 gene similarities. It also have an argument
 in case you want to calculate the similarity scores of several sets.</p>
@@ -326,9 +326,9 @@ ENTREZID:</p>
 <span><span class="co">## NAT2  0.0000000 0.008241758 1.000000000</span></span>
 <span><span class="fu"><a href="../reference/mgeneSim.html">mgeneSim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BRCA1"</span> <span class="op">=</span> <span class="st">"672"</span>, <span class="st">"BRCA2"</span> <span class="op">=</span> <span class="st">"675"</span>, <span class="st">"NAT2"</span> <span class="op">=</span> <span class="st">"10"</span><span class="op">)</span>, <span class="va">genesReact</span><span class="op">)</span></span>
 <span><span class="co">##           BRCA1     BRCA2      NAT2</span></span>
-<span><span class="co">## BRCA1 1.0000000 1.0000000 0.2217927</span></span>
-<span><span class="co">## BRCA2 1.0000000 1.0000000 0.2217927</span></span>
-<span><span class="co">## NAT2  0.2217927 0.2217927 1.0000000</span></span></code></pre></div>
+<span><span class="co">## BRCA1 1.0000000 1.0000000 0.2225994</span></span>
+<span><span class="co">## BRCA2 1.0000000 1.0000000 0.2225994</span></span>
+<span><span class="co">## NAT2  0.2225994 0.2225994 1.0000000</span></span></code></pre></div>
 <p>Note that for the same genes each database or list provided has
 different annotations, which result on different similarity scores. In
 this example BRCA1 has 3 and 27 pathways in KEGG and Reactome
@@ -417,39 +417,39 @@ is the same as <code><a href="../reference/clusterSim.html">clusterSim()</a></co
 using <code><a href="../reference/conversions.html">D2J()</a></code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/conversions.html">D2J</a></span><span class="op">(</span><span class="va">sim</span><span class="op">)</span></span>
-<span><span class="co">##               R-HSA-9700649 R-HSA-168336 R-HSA-6803157 R-HSA-4724289</span></span>
-<span><span class="co">## R-HSA-9700649             1            0             0             0</span></span>
-<span><span class="co">## R-HSA-168336              0            1             0             0</span></span>
-<span><span class="co">## R-HSA-6803157             0            0             1             0</span></span>
-<span><span class="co">## R-HSA-4724289             0            0             0             1</span></span>
-<span><span class="co">## R-HSA-2978092             0            0             0             0</span></span>
-<span><span class="co">## R-HSA-9022692             0            0             0             0</span></span>
-<span><span class="co">## R-HSA-194002              0            0             0             0</span></span>
-<span><span class="co">## R-HSA-975576              0            0             0             0</span></span>
-<span><span class="co">## R-HSA-429593              0            0             0             0</span></span>
-<span><span class="co">## R-HSA-9673163             0            0             0             0</span></span>
-<span><span class="co">##               R-HSA-2978092 R-HSA-9022692 R-HSA-194002 R-HSA-975576</span></span>
-<span><span class="co">## R-HSA-9700649             0             0            0            0</span></span>
-<span><span class="co">## R-HSA-168336              0             0            0            0</span></span>
-<span><span class="co">## R-HSA-6803157             0             0            0            0</span></span>
-<span><span class="co">## R-HSA-4724289             0             0            0            0</span></span>
-<span><span class="co">## R-HSA-2978092             1             0            0            0</span></span>
-<span><span class="co">## R-HSA-9022692             0             1            0            0</span></span>
-<span><span class="co">## R-HSA-194002              0             0            1            0</span></span>
-<span><span class="co">## R-HSA-975576              0             0            0            1</span></span>
-<span><span class="co">## R-HSA-429593              0             0            0            0</span></span>
-<span><span class="co">## R-HSA-9673163             0             0            0            0</span></span>
-<span><span class="co">##               R-HSA-429593 R-HSA-9673163</span></span>
-<span><span class="co">## R-HSA-9700649            0             0</span></span>
-<span><span class="co">## R-HSA-168336             0             0</span></span>
-<span><span class="co">## R-HSA-6803157            0             0</span></span>
-<span><span class="co">## R-HSA-4724289            0             0</span></span>
-<span><span class="co">## R-HSA-2978092            0             0</span></span>
-<span><span class="co">## R-HSA-9022692            0             0</span></span>
-<span><span class="co">## R-HSA-194002             0             0</span></span>
-<span><span class="co">## R-HSA-975576             0             0</span></span>
-<span><span class="co">## R-HSA-429593             1             0</span></span>
-<span><span class="co">## R-HSA-9673163            0             1</span></span></code></pre></div>
+<span><span class="co">##               R-HSA-2894862 R-HSA-5655302 R-HSA-3248023 R-HSA-8964058</span></span>
+<span><span class="co">## R-HSA-2894862    1.00000000    0.00000000             0   0.000000000</span></span>
+<span><span class="co">## R-HSA-5655302    0.00000000    1.00000000             0   0.000000000</span></span>
+<span><span class="co">## R-HSA-3248023    0.00000000    0.00000000             1   0.000000000</span></span>
+<span><span class="co">## R-HSA-8964058    0.00000000    0.00000000             0   1.000000000</span></span>
+<span><span class="co">## R-HSA-5682294    0.00000000    0.00000000             0   0.000000000</span></span>
+<span><span class="co">## R-HSA-446388     0.00000000    0.00000000             0   0.000000000</span></span>
+<span><span class="co">## R-HSA-190872     0.00000000    0.00000000             0   0.000000000</span></span>
+<span><span class="co">## R-HSA-5688354    0.00000000    0.00000000             0   0.000000000</span></span>
+<span><span class="co">## R-HSA-9748784    0.00000000    0.00000000             0   0.008403361</span></span>
+<span><span class="co">## R-HSA-1168372    0.04444444    0.02542373             0   0.000000000</span></span>
+<span><span class="co">##               R-HSA-5682294 R-HSA-446388 R-HSA-190872 R-HSA-5688354</span></span>
+<span><span class="co">## R-HSA-2894862             0            0            0             0</span></span>
+<span><span class="co">## R-HSA-5655302             0            0            0             0</span></span>
+<span><span class="co">## R-HSA-3248023             0            0            0             0</span></span>
+<span><span class="co">## R-HSA-8964058             0            0            0             0</span></span>
+<span><span class="co">## R-HSA-5682294             1            0            0             0</span></span>
+<span><span class="co">## R-HSA-446388              0            1            0             0</span></span>
+<span><span class="co">## R-HSA-190872              0            0            1             0</span></span>
+<span><span class="co">## R-HSA-5688354             0            0            0             1</span></span>
+<span><span class="co">## R-HSA-9748784             0            0            0             0</span></span>
+<span><span class="co">## R-HSA-1168372             0            0            0             0</span></span>
+<span><span class="co">##               R-HSA-9748784 R-HSA-1168372</span></span>
+<span><span class="co">## R-HSA-2894862   0.000000000    0.04444444</span></span>
+<span><span class="co">## R-HSA-5655302   0.000000000    0.02542373</span></span>
+<span><span class="co">## R-HSA-3248023   0.000000000    0.00000000</span></span>
+<span><span class="co">## R-HSA-8964058   0.008403361    0.00000000</span></span>
+<span><span class="co">## R-HSA-5682294   0.000000000    0.00000000</span></span>
+<span><span class="co">## R-HSA-446388    0.000000000    0.00000000</span></span>
+<span><span class="co">## R-HSA-190872    0.000000000    0.00000000</span></span>
+<span><span class="co">## R-HSA-5688354   0.000000000    0.00000000</span></span>
+<span><span class="co">## R-HSA-9748784   1.000000000    0.00000000</span></span>
+<span><span class="co">## R-HSA-1168372   0.000000000    1.00000000</span></span></code></pre></div>
 <p>Also if one has a Jaccard similarity and wants a Dice similarity, can
 use the <code><a href="../reference/conversions.html">J2D()</a></code> function.</p>
 </div>
@@ -558,7 +558,7 @@ Clustering using clusterGeneSim
 <h2 id="comparing-with-gosemsim">Comparing with GOSemSim<a class="anchor" aria-label="anchor" href="#comparing-with-gosemsim"></a>
 </h2>
 <p>In this section I will compare the functional similarity of BioCor
-with the closely related package <em><a href="https://bioconductor.org/packages/3.17/GOSemSim" class="external-link">GOSemSim</a></em>.
+with the closely related package <em><a href="https://bioconductor.org/packages/3.18/GOSemSim" class="external-link">GOSemSim</a></em>.
 The genes and gene clusters used were extracted from GOSemSim’s
 vignette, we only change the ontology, instead of the molecular
 function, the biological process will be used:</p>
@@ -575,8 +575,8 @@ Reactome:</p>
 <span><span class="co"># In case it is null</span></span>
 <span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">goSemSim</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extract.html" class="external-link">getElement</a></span><span class="op">(</span><span class="va">goSemSim</span>, <span class="st">"geneSim"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">BioCor</span><span class="fu">::</span><span class="fu"><a href="../reference/geneSim.html">geneSim</a></span><span class="op">(</span><span class="st">"241"</span>, <span class="st">"251"</span>, <span class="va">genesReact</span>, <span class="st">"BMA"</span><span class="op">)</span> <span class="op">-</span> <span class="va">sim</span></span>
-<span><span class="co">##    geneSim        GO1        GO2 </span></span>
-<span><span class="co">## -0.1127552 -0.1127552 -0.1127552</span></span>
+<span><span class="co">##   geneSim       GO1       GO2 </span></span>
+<span><span class="co">## -0.112814 -0.112814 -0.112814</span></span>
 <span></span>
 <span><span class="va">genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"835"</span>, <span class="st">"5261"</span>,<span class="st">"241"</span>, <span class="st">"994"</span><span class="op">)</span></span>
 <span><span class="va">goSemSim</span> <span class="op">&lt;-</span> <span class="fu">GOSemSim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GOSemSim/man/mgeneSim.html" class="external-link">mgeneSim</a></span><span class="op">(</span><span class="va">genes</span>, semData <span class="op">=</span> <span class="va">hsGO</span>, </span>
@@ -584,10 +584,10 @@ Reactome:</p>
 <span>                   verbose <span class="op">=</span> <span class="cn">FALSE</span>, drop <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="fu">BioCor</span><span class="fu">::</span><span class="fu"><a href="../reference/mgeneSim.html">mgeneSim</a></span><span class="op">(</span><span class="va">genes</span>, <span class="va">genesReact</span>, <span class="st">"BMA"</span>, round <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">-</span> <span class="va">goSemSim</span></span>
 <span><span class="co">##         835   5261    241    994</span></span>
-<span><span class="co">## 835   0.000 -0.095 -0.126 -0.154</span></span>
-<span><span class="co">## 5261 -0.095  0.000  0.076 -0.257</span></span>
-<span><span class="co">## 241  -0.126  0.076  0.000 -0.114</span></span>
-<span><span class="co">## 994  -0.154 -0.257 -0.114  0.000</span></span></code></pre></div>
+<span><span class="co">## 835   0.000 -0.100 -0.131 -0.156</span></span>
+<span><span class="co">## 5261 -0.100  0.000  0.076 -0.220</span></span>
+<span><span class="co">## 241  -0.131  0.076  0.000 -0.116</span></span>
+<span><span class="co">## 994  -0.156 -0.220 -0.116  0.000</span></span></code></pre></div>
 <p>We can observe there is more similarity according to the gene
 ontology than according to the pathways. See FAQ <a href="#conflict">question 8</a> about the use of <code>BioCor::</code>
 and <code>GOSemSim::</code>.</p>
@@ -600,11 +600,11 @@ matrix:</p>
 <span><span class="co">## 'select()' returned 1:1 mapping between keys and columns</span></span>
 <span><span class="fu">BioCor</span><span class="fu">::</span><span class="fu"><a href="../reference/mgeneSim.html">mgeneSim</a></span><span class="op">(</span><span class="va">genese</span>, <span class="va">genesReact</span>, <span class="st">"BMA"</span><span class="op">)</span></span>
 <span><span class="co">##            CDC45      MCM10     CDC20        NMU       MMP1</span></span>
-<span><span class="co">## CDC45 1.00000000 0.90867657 0.5014884 0.05365755 0.09580326</span></span>
-<span><span class="co">## MCM10 0.90867657 1.00000000 0.4826439 0.06282488 0.10110637</span></span>
-<span><span class="co">## CDC20 0.50148838 0.48264387 1.0000000 0.16343328 0.22436255</span></span>
-<span><span class="co">## NMU   0.05365755 0.06282488 0.1634333 1.00000000 0.11609578</span></span>
-<span><span class="co">## MMP1  0.09580326 0.10110637 0.2243625 0.11609578 1.00000000</span></span></code></pre></div>
+<span><span class="co">## CDC45 1.00000000 0.90872456 0.4999379 0.05366649 0.09849448</span></span>
+<span><span class="co">## MCM10 0.90872456 1.00000000 0.4810322 0.06283436 0.10431046</span></span>
+<span><span class="co">## CDC20 0.49993794 0.48103220 1.0000000 0.16334758 0.22725011</span></span>
+<span><span class="co">## NMU   0.05366649 0.06283436 0.1633476 1.00000000 0.11659266</span></span>
+<span><span class="co">## MMP1  0.09849448 0.10431046 0.2272501 0.11659266 1.00000000</span></span></code></pre></div>
 <p>We can further compare the cluster similarities from the <a href="https://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#clustersim-and-mclustersim" class="external-link">next
 section of the vignette</a>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
@@ -612,36 +612,36 @@ section of the vignette</a>:</p>
 <span><span class="va">gs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"578"</span>,<span class="st">"582"</span>, <span class="st">"400"</span>, <span class="st">"409"</span>, <span class="st">"411"</span><span class="op">)</span></span>
 <span><span class="fu">BioCor</span><span class="fu">::</span><span class="fu"><a href="../reference/clusterSim.html">clusterSim</a></span><span class="op">(</span><span class="va">gs1</span>, <span class="va">gs2</span>, <span class="va">genesReact</span>, <span class="st">"BMA"</span><span class="op">)</span> <span class="op">-</span> </span>
 <span>    <span class="fu">GOSemSim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GOSemSim/man/clusterSim.html" class="external-link">clusterSim</a></span><span class="op">(</span><span class="va">gs1</span>, <span class="va">gs2</span>, <span class="va">hsGO</span>, measure <span class="op">=</span> <span class="st">"Wang"</span>, combine <span class="op">=</span> <span class="st">"BMA"</span><span class="op">)</span></span>
-<span><span class="co">## [1] -0.1477978</span></span>
+<span><span class="co">## [1] -0.1551663</span></span>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">org.Hs.egGO</span></span>
 <span><span class="va">hsEG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-keys.html" class="external-link">mappedkeys</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">hsEG</span>, <span class="fl">20</span><span class="op">)</span>, b<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">hsEG</span>, <span class="fl">20</span><span class="op">)</span>, c<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">hsEG</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">## $a</span></span>
-<span><span class="co">##  [1] "113523639" "124401"    "147183"    "114822"    "160365"    "55726"    </span></span>
-<span><span class="co">##  [7] "23207"     "2868"      "81853"     "140628"    "57824"     "4354"     </span></span>
-<span><span class="co">## [13] "5133"      "64763"     "1445"      "27254"     "134285"    "4851"     </span></span>
-<span><span class="co">## [19] "57570"     "337985"   </span></span>
+<span><span class="co">##  [1] "111240474" "3241"      "4528"      "2792"      "5096"      "57683"    </span></span>
+<span><span class="co">##  [7] "6983"      "10067"     "283189"    "4092"      "80013"     "28655"    </span></span>
+<span><span class="co">## [13] "54429"     "89870"     "4284"      "9328"      "9797"      "51013"    </span></span>
+<span><span class="co">## [19] "79796"     "85280"    </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $b</span></span>
-<span><span class="co">##  [1] "11221"  "8505"   "677781" "7690"   "445"    "51060"  "4209"   "7851"  </span></span>
-<span><span class="co">##  [9] "8989"   "147741" "445571" "3627"   "201973" "6442"   "388630" "8431"  </span></span>
-<span><span class="co">## [17] "54468"  "27340"  "9341"   "400797"</span></span>
+<span><span class="co">##  [1] "2326"   "389895" "115908" "151651" "28996"  "51555"  "28439"  "157506"</span></span>
+<span><span class="co">##  [9] "441061" "4585"   "149345" "23170"  "5932"   "84955"  "23729"  "345611"</span></span>
+<span><span class="co">## [17] "55556"  "9389"   "692158" "284352"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $c</span></span>
-<span><span class="co">##  [1] "83878"     "158293"    "28447"     "84520"     "390168"    "65012"    </span></span>
-<span><span class="co">##  [7] "100033448" "693121"    "3224"      "3117"      "8087"      "54828"    </span></span>
-<span><span class="co">## [13] "123591"    "286753"    "55466"     "391746"    "51106"     "51442"    </span></span>
-<span><span class="co">## [19] "57403"     "9873"</span></span>
+<span><span class="co">##  [1] "112441426" "91408"     "83446"     "353088"    "25879"     "90990"    </span></span>
+<span><span class="co">##  [7] "54"        "123904"    "10911"     "10758"     "254783"    "55816"    </span></span>
+<span><span class="co">## [13] "2588"      "10060"     "57410"     "26032"     "51642"     "54543"    </span></span>
+<span><span class="co">## [19] "79172"     "100302130"</span></span>
 <span><span class="fu">BioCor</span><span class="fu">::</span><span class="fu"><a href="../reference/mclusterSim.html">mclusterSim</a></span><span class="op">(</span><span class="va">clusters</span>, <span class="va">genesReact</span>, <span class="st">"BMA"</span><span class="op">)</span> <span class="op">-</span> </span>
 <span>    <span class="fu">GOSemSim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GOSemSim/man/mclusterSim.html" class="external-link">mclusterSim</a></span><span class="op">(</span><span class="va">clusters</span>, <span class="va">hsGO</span>, measure <span class="op">=</span> <span class="st">"Wang"</span>, combine <span class="op">=</span> <span class="st">"BMA"</span><span class="op">)</span></span>
 <span><span class="co">## Warning in BioCor::mclusterSim(clusters, genesReact, "BMA"): Some genes are not</span></span>
 <span><span class="co">## in the list provided.</span></span>
-<span><span class="co">##            a          b          c</span></span>
-<span><span class="co">## a 0.00000000 0.07396538 0.01018341</span></span>
-<span><span class="co">## b 0.07396538 0.00000000 0.01098016</span></span>
-<span><span class="co">## c 0.01018341 0.01098016 0.00000000</span></span></code></pre></div>
+<span><span class="co">##              a            b         c</span></span>
+<span><span class="co">## a  0.000000000 -0.009967841 0.1346187</span></span>
+<span><span class="co">## b -0.009967841  0.000000000 0.1217033</span></span>
+<span><span class="co">## c  0.134618689  0.121703314 0.0000000</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="wgcna-and-biocor">WGCNA and BioCor<a class="anchor" aria-label="anchor" href="#wgcna-and-biocor"></a>
@@ -745,7 +745,7 @@ genes?<a class="anchor" aria-label="anchor" href="#how-does-biocor-combine-simil
 </h3>
 <p>Although the recommend method is the “max” method, (set as default),
 there are implemented other methods in <code>combineScores</code> of the
-<em><a href="https://bioconductor.org/packages/3.17/GOSemSim" class="external-link">GOSemSim</a></em>
+<em><a href="https://bioconductor.org/packages/3.18/GOSemSim" class="external-link">GOSemSim</a></em>
 package which I borrowed<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;See the &lt;a href="#combining"&gt;Combining values
 section&lt;/a&gt; and the help page of &lt;code&gt;combineScores&lt;/code&gt;.&lt;/p&gt;'><sup>1</sup></a>.</p>
 </div>
@@ -780,7 +780,7 @@ interest with other genes.</p>
 <div class="section level3">
 <h3 id="why-isnt-available-a-method-for-calculating-go-similarities">Why isn’t available a method for calculating GO similarities?<a class="anchor" aria-label="anchor" href="#why-isnt-available-a-method-for-calculating-go-similarities"></a>
 </h3>
-<p>This is covered by the <em><a href="https://bioconductor.org/packages/3.17/GOSemSim" class="external-link">GOSemSim</a></em>
+<p>This is covered by the <em><a href="https://bioconductor.org/packages/3.18/GOSemSim" class="external-link">GOSemSim</a></em>
 package, you can use it to produce a similarity matrix (i.e. use
 <code>mgeneSim</code>). You can parallelize it with <code>foreach</code>
 package or <code>BiocParallel</code> if your list of genes is big.</p>
@@ -789,8 +789,8 @@ package or <code>BiocParallel</code> if your list of genes is big.</p>
 <h3 id="conflict">I get an error! How do I solve this?<a class="anchor" aria-label="anchor" href="#conflict"></a>
 </h3>
 <p>If the error is like this:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">in</span> <span class="fu">FUN</span>(X[[i]], ...) <span class="sc">:</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  trying to get slot <span class="st">"geneAnno"</span> from an object of a basic <span class="fu">class</span> (<span class="st">"list"</span>) with no slots</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>Error <span class="cf">in</span> <span class="fu">FUN</span>(X[[i]], ...) <span class="sc">:</span> </span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>  trying to get slot <span class="st">"geneAnno"</span> from an object of a basic <span class="fu">class</span> (<span class="st">"list"</span>) with no slots</span></code></pre></div>
 <p>And you have loaded the <code>GOSemSim</code> library, R is calling
 the GOSemSim function of the same name. Use <code>BioCor::</code> to
 call the function from <code>BioCor</code> (f.ex:
@@ -808,9 +808,9 @@ Github.</p>
 </h2>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">## R version 4.3.1 (2023-06-16)</span></span>
+<span><span class="co">## R version 4.3.3 (2024-02-29)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span><span class="co">## Running under: Ubuntu 22.04.3 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 22.04.4 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
@@ -830,33 +830,33 @@ Github.</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] reactome.db_1.84.0   org.Hs.eg.db_3.17.0  AnnotationDbi_1.62.2</span></span>
-<span><span class="co">## [4] IRanges_2.34.1       S4Vectors_0.38.2     Biobase_2.60.0      </span></span>
-<span><span class="co">## [7] BiocGenerics_0.46.0  BioCor_1.25.1        BiocStyle_2.28.1    </span></span>
+<span><span class="co">## [1] reactome.db_1.86.2   org.Hs.eg.db_3.18.0  AnnotationDbi_1.64.1</span></span>
+<span><span class="co">## [4] IRanges_2.36.0       S4Vectors_0.40.2     Biobase_2.62.0      </span></span>
+<span><span class="co">## [7] BiocGenerics_0.48.1  BioCor_1.27.1        BiocStyle_2.30.0    </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] KEGGREST_1.40.0         GOSemSim_2.26.1         xfun_0.40              </span></span>
-<span><span class="co">##  [4] bslib_0.5.1             lattice_0.21-8          vctrs_0.6.3            </span></span>
-<span><span class="co">##  [7] tools_4.3.1             bitops_1.0-7            parallel_4.3.1         </span></span>
-<span><span class="co">## [10] RSQLite_2.3.1           blob_1.2.4              pkgconfig_2.0.3        </span></span>
-<span><span class="co">## [13] Matrix_1.5-4.1          desc_1.4.2              graph_1.78.0           </span></span>
-<span><span class="co">## [16] lifecycle_1.0.3         GenomeInfoDbData_1.2.10 compiler_4.3.1         </span></span>
-<span><span class="co">## [19] stringr_1.5.0           textshaping_0.3.6       Biostrings_2.68.1      </span></span>
-<span><span class="co">## [22] codetools_0.2-19        GenomeInfoDb_1.36.3     htmltools_0.5.6        </span></span>
-<span><span class="co">## [25] sass_0.4.7              RCurl_1.98-1.12         yaml_2.3.7             </span></span>
-<span><span class="co">## [28] GO.db_3.17.0            pkgdown_2.0.7           crayon_1.5.2           </span></span>
-<span><span class="co">## [31] jquerylib_0.1.4         BiocParallel_1.34.2     cachem_1.0.8           </span></span>
-<span><span class="co">## [34] digest_0.6.33           stringi_1.7.12          purrr_1.0.2            </span></span>
-<span><span class="co">## [37] bookdown_0.35           rprojroot_2.0.3         fastmap_1.1.1          </span></span>
-<span><span class="co">## [40] grid_4.3.1              cli_3.6.1               magrittr_2.0.3         </span></span>
-<span><span class="co">## [43] XML_3.99-0.14           GSEABase_1.62.0         bit64_4.0.5            </span></span>
-<span><span class="co">## [46] rmarkdown_2.25          XVector_0.40.0          httr_1.4.7             </span></span>
-<span><span class="co">## [49] bit_4.0.5               ragg_1.2.5              png_0.1-8              </span></span>
-<span><span class="co">## [52] memoise_2.0.1           evaluate_0.21           knitr_1.44             </span></span>
-<span><span class="co">## [55] rlang_1.1.1             xtable_1.8-4            glue_1.6.2             </span></span>
-<span><span class="co">## [58] DBI_1.1.3               BiocManager_1.30.22     annotate_1.78.0        </span></span>
-<span><span class="co">## [61] jsonlite_1.8.7          R6_2.5.1                systemfonts_1.0.4      </span></span>
-<span><span class="co">## [64] fs_1.6.3                zlibbioc_1.46.0</span></span></code></pre></div>
+<span><span class="co">##  [1] KEGGREST_1.42.0         GOSemSim_2.28.1         xfun_0.42              </span></span>
+<span><span class="co">##  [4] bslib_0.6.1             lattice_0.22-5          yulab.utils_0.1.4      </span></span>
+<span><span class="co">##  [7] vctrs_0.6.5             tools_4.3.3             bitops_1.0-7           </span></span>
+<span><span class="co">## [10] parallel_4.3.3          RSQLite_2.3.5           highr_0.10             </span></span>
+<span><span class="co">## [13] blob_1.2.4              pkgconfig_2.0.3         Matrix_1.6-5           </span></span>
+<span><span class="co">## [16] desc_1.4.3              graph_1.80.0            lifecycle_1.0.4        </span></span>
+<span><span class="co">## [19] GenomeInfoDbData_1.2.11 compiler_4.3.3          stringr_1.5.1          </span></span>
+<span><span class="co">## [22] textshaping_0.3.7       Biostrings_2.70.2       codetools_0.2-19       </span></span>
+<span><span class="co">## [25] GenomeInfoDb_1.38.6     htmltools_0.5.7         sass_0.4.8             </span></span>
+<span><span class="co">## [28] RCurl_1.98-1.14         yaml_2.3.8              GO.db_3.18.0           </span></span>
+<span><span class="co">## [31] pkgdown_2.0.7           crayon_1.5.2            jquerylib_0.1.4        </span></span>
+<span><span class="co">## [34] BiocParallel_1.36.0     cachem_1.0.8            digest_0.6.34          </span></span>
+<span><span class="co">## [37] stringi_1.8.3           purrr_1.0.2             bookdown_0.37          </span></span>
+<span><span class="co">## [40] fastmap_1.1.1           grid_4.3.3              cli_3.6.2              </span></span>
+<span><span class="co">## [43] magrittr_2.0.3          XML_3.99-0.16.1         GSEABase_1.64.0        </span></span>
+<span><span class="co">## [46] bit64_4.0.5             rmarkdown_2.25          XVector_0.42.0         </span></span>
+<span><span class="co">## [49] httr_1.4.7              bit_4.0.5               ragg_1.2.7             </span></span>
+<span><span class="co">## [52] png_0.1-8               memoise_2.0.1           evaluate_0.23          </span></span>
+<span><span class="co">## [55] knitr_1.45              rlang_1.1.3             xtable_1.8-4           </span></span>
+<span><span class="co">## [58] glue_1.7.0              DBI_1.2.2               BiocManager_1.30.22    </span></span>
+<span><span class="co">## [61] annotate_1.80.0         jsonlite_1.8.8          R6_2.5.1               </span></span>
+<span><span class="co">## [64] systemfonts_1.0.5       fs_1.6.3                zlibbioc_1.48.0</span></span></code></pre></div>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
