@@ -1,6 +1,3 @@
-library("BioCor")
-context("Testing AintoB functions")
-
 test_that("AintoB", {
     B <- matrix(
         ncol = 10, nrow = 10,

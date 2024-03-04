@@ -1,6 +1,3 @@
-library("BioCor")
-context("Testing Similarities function")
-
 set.seed(1)
 a <- seq2mat(LETTERS[1:5], runif(10))
 b <- seq2mat(LETTERS[1:5], runif(10))

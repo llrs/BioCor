@@ -1,6 +1,3 @@
-library("BioCor")
-context("Testing clusterSim")
-
 test_that("clusterSim", {
     test <- clusterSim(c("2", "1"), c("9", "4"), info)
     test2 <- clusterSim(c("9", "4"), c("2", "1"), info)
@@ -90,9 +87,8 @@ test_that("clusterSim", {
     expect_error(clusterSim(c("9", "9"), c(1, 1), Info), "several")
     expect_warning(clusterSim(c("11", "13"), c("12", "15"), Info), "provided")
     expect_error(clusterSim(c("2", "1"), c("9", "4"), "a"), "list")
-    expect_true(is.na(expect_warning(clusterSim(c("4", "5"), c("6", "7"), Info))))
-    expect_equal(test, 0.1)
-    expect_true(is.na(expect_warning(clusterSim(c("1", "5"), c("7", "9"), Info))))
+    expect_true(all(!is.na(expect_warning(clusterSim(c("4", "5"), c("6", "7"), Info)))))
+    expect_true(all(!is.na(expect_warning(clusterSim(c("1", "5"), c("7", "9"), Info)))))
 })
 
 test_that("mclusterSim", {

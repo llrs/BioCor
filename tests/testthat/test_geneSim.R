@@ -1,7 +1,3 @@
-library("BioCor")
-context("Testing geneSim")
-
-
 test_that("geneSim", {
     test <- geneSim("2", "9", info)
     test2 <- geneSim("9", "2", info)

@@ -1,6 +1,3 @@
-library("BioCor")
-context("Testing combineSources")
-
 test_that("combineSources", {
     DB1 <- list(g1 = letters[6:8], g2 = letters[1:5], g3 = letters[4:7])
     DB2 <- list(

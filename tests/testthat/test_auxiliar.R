@@ -1,6 +1,3 @@
-library("BioCor")
-context("Testing auxiliar functions")
-
 # seq2mat ####
 test_that("seq2mat puts a combination to the right place", {
     test <- seq2mat(LETTERS[1:5], 1:10)

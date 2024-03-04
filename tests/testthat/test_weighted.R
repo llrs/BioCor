@@ -1,6 +1,3 @@
-library("BioCor")
-context("Testing weighted functions")
-
 test_that("weighted.sum", {
     set.seed(5)
     x <- runif(5)

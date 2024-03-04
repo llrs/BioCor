@@ -1,6 +1,3 @@
-library("BioCor")
-context("Testing diceSim")
-
 test_that("diceSim", {
     genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")
     genes.id <- c(

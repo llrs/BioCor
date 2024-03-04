@@ -1,5 +1,3 @@
-library("BioCor")
-context("Testing conversions functions")
 
 test_that("Conversions", {
     expect_error(D2J(1.1))

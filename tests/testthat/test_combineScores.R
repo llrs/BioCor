@@ -1,5 +1,3 @@
-library("BioCor")
-context("Testing combineScores")
 methods <- c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal")
 
 test_that("combineScores", {

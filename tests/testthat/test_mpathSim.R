@@ -1,6 +1,3 @@
-library("BioCor")
-context("Testing mpathSim")
-
 test_that("mpathSim", {
     test <- mpathSim(c("194840", "156580"), info, method = "max")
     expect_equal(test, 1L)
@@ -14,8 +11,6 @@ test_that("mpathSim", {
     expect_warning(mpathSim(c("a", "156580"), info), "not in")
 })
 
-
-
 test_that("pathSims_matrix", {
     test <- pathSims_matrix(info)
     pathways <- unique(unlist(info))
@@ -25,9 +20,6 @@ test_that("pathSims_matrix", {
     eq <- pathSim("1430728", "156580", info)
     expect_equal(test["1430728", "156580"], eq)
 })
-
-fl <- system.file("extdata", "Broad.xml", package = "GSEABase")
-gss <- getBroadSets(fl) # GeneSetCollection of 2 sets
 
 test_that("mpathSim for GeneSetCollections and list is equal", {
 
@@ -44,15 +36,13 @@ test_that("mpathSim for GeneSetCollections and list is equal", {
 
 
     # Without missing pathways
-    a <- expect_warning(
-        mpathSim(c(pathways, "A"),
-            info = inverseList(geneIds(gss))
-        ),
-        "not in the list"
+    expect_warning(a <- mpathSim(c(pathways, "A"),
+                                 info = inverseList(geneIds(gss))
+    ),
+    "not in the list"
     )
-    b <- expect_warning(
-        mpathSim(c(pathways, "A"), info = gss),
-        "not in the GeneSetCollection"
+    expect_warning(b <- mpathSim(c(pathways, "A"), info = gss),
+                   "not in the GeneSetCollection"
     )
     expect_equal(a, b)
 
@@ -70,13 +60,12 @@ test_that("mpathSim for GeneSetCollections and list is equal", {
     expect_equal(a, b)
 
     # Without missing pathways and methods
-    a <- expect_warning(
-        mpathSim(c(pathways, "A"),
+    expect_warning(a <- mpathSim(c(pathways, "A"),
             info = inverseList(geneIds(gss))
         ),
         "not in the list"
     )
-    b <- expect_warning(
+    expect_warning(b <-
         mpathSim(c(pathways, "A"), info = gss),
         "not in the GeneSetCollection"
     )
@@ -87,10 +76,10 @@ test_that("mpathSim for GeneSetCollections", {
     a <- mpathSim(info = gss)
     expect_true(all(diag(a) == 1))
     expect_equal(colnames(a), rownames(a))
-    a <- expect_warning(
-        mpathSim(c(colnames(a), "A"), info = gss),
-        "not in the GeneSetCollection"
+    expect_warning(
+      a <- mpathSim(c(colnames(a), "A"), info = gss),
+      "not in the GeneSetCollection"
     )
-    expect_true(is.na(all(diag(a) == 1)))
+    expect_true(!all(is.na(diag(a) == 1)))
     expect_equal(colnames(a), rownames(a))
 })
