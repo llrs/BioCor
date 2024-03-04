@@ -40,15 +40,17 @@ Combine several similarities into one using several methods.
 \details{
 The input matrix can be a base matrix or a matrix from package Matrix.
 The methods return:
-\describe{\item{avg}{The average or mean value}
-\item{max}{The max value}
-\item{rcmax}{The max of the column means or row means}
-\item{rcmax.avg}{The sum of the max values by rows and columns divided by
-the number of columns and rows}
-\item{BMA}{The same as \code{rcmax.avg}}
-\item{reciprocal}{The double of the sum of the reciprocal maximal
+\itemize{
+\item \strong{avg}: The average or mean value.
+\item \strong{max}: The max value.
+\item \strong{rcmax}: The max of the column means or row means.
+\item \strong{rcmax.avg}: The sum of the max values by rows and columns divided by
+the number of columns and rows.
+\item \strong{BMA}: The same as \code{rcmax.avg}.
+\item \strong{reciprocal}: The double of the sum of the reciprocal maximal
 similarities (above  a threshold) divided by the number of elements.
-See equation 3 of the Tao \emph{et al} 2007 article}}
+See equation 3 of the Tao \emph{et al} 2007 article.
+}
 }
 \note{
 \code{combineScores} is a version of the function of the same name in
@@ -86,8 +88,8 @@ doi: 10.1093/bioinformatics/btm195
 }
 \seealso{
 \link[BiocParallel:register]{register} in BiocParallel about the arguments
-accepted by BPPARAM
+accepted by BPPARAM.
 }
 \author{
-Lluís Revilla based on Guangchuang Yu
+Lluís Revilla based on Guangchuang Yu.
 }
