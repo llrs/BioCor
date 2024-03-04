@@ -8,7 +8,7 @@ message: 'To cite package "BioCor" in publications use:'
 type: software
 license: MIT
 title: 'BioCor: Functional similarities'
-version: 1.25.1
+version: 1.27.1
 abstract: Calculates functional similarities based on the pathways described on KEGG
   and REACTOME or in gene sets. These similarities can be calculated for pathways
   or gene sets, genes, or clusters and combined with other similarities. They can
@@ -45,7 +45,7 @@ references:
   - name: R Core Team
   location:
     name: Vienna, Austria
-  year: '2023'
+  year: '2024'
   institution:
     name: R Foundation for Statistical Computing
   version: '>= 3.4.0'
@@ -71,7 +71,7 @@ references:
     email: rct@thompsonclan.org
   - family-names: Turaga
     given-names: Nitesh
-  year: '2023'
+  year: '2024'
   doi: 10.18129/B9.bioc.BiocParallel
 - type: software
   title: GSEABase
@@ -85,7 +85,7 @@ references:
     given-names: Seth
   - family-names: Gentleman
     given-names: Robert
-  year: '2023'
+  year: '2024'
   doi: 10.18129/B9.bioc.GSEABase
 - type: software
   title: Matrix
@@ -104,7 +104,7 @@ references:
   - family-names: Jagan
     given-names: Mikael
     orcid: https://orcid.org/0000-0002-3542-2938
-  year: '2023'
+  year: '2024'
 - type: software
   title: methods
   abstract: 'R: A Language and Environment for Statistical Computing'
@@ -113,7 +113,7 @@ references:
   - name: R Core Team
   location:
     name: Vienna, Austria
-  year: '2023'
+  year: '2024'
   institution:
     name: R Foundation for Statistical Computing
 - type: software
@@ -125,7 +125,7 @@ references:
   authors:
   - family-names: Love
     given-names: Michael
-  year: '2023'
+  year: '2024'
   doi: 10.18129/B9.bioc.airway
 - type: software
   title: BiocStyle
@@ -137,7 +137,7 @@ references:
   - family-names: Oleś
     given-names: Andrzej
     orcid: https://orcid.org/0000-0003-0285-2787
-  year: '2023'
+  year: '2024'
   doi: 10.18129/B9.bioc.BiocStyle
 - type: software
   title: boot
@@ -151,13 +151,13 @@ references:
   - family-names: Ripley
     given-names: Brian
     email: ripley@stats.ox.ac.uk
-  year: '2023'
+  year: '2024'
 - type: software
   title: DESeq2
   abstract: 'DESeq2: Differential gene expression analysis based on the negative binomial
     distribution'
   notes: Suggests
-  url: https://github.com/mikelove/DESeq2
+  url: https://github.com/thelovelab/DESeq2
   repository: https://bioconductor.org/
   authors:
   - family-names: Love
@@ -167,7 +167,7 @@ references:
     given-names: Simon
   - family-names: Huber
     given-names: Wolfgang
-  year: '2023'
+  year: '2024'
   doi: 10.18129/B9.bioc.DESeq2
 - type: software
   title: ggplot2
@@ -203,7 +203,10 @@ references:
   - family-names: Dunnington
     given-names: Dewey
     orcid: https://orcid.org/0000-0002-9415-4582
-  year: '2023'
+  - family-names: van den Brand
+    given-names: Teun
+    orcid: https://orcid.org/0000-0002-9335-7468
+  year: '2024'
   version: '>= 3.4.1'
 - type: software
   title: GOSemSim
@@ -215,8 +218,7 @@ references:
   - family-names: Yu
     given-names: Guangchuang
     email: guangchuangyu@gmail.com
-  year: '2023'
-  doi: 10.18129/B9.bioc.GOSemSim
+  year: '2024'
 - type: software
   title: Hmisc
   abstract: 'Hmisc: Harrell Miscellaneous'
@@ -228,7 +230,7 @@ references:
     given-names: Frank E
     email: fh@fharrell.com
     orcid: https://orcid.org/0000-0002-8271-5493
-  year: '2023'
+  year: '2024'
 - type: software
   title: knitr
   abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
@@ -240,7 +242,7 @@ references:
     given-names: Yihui
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
-  year: '2023'
+  year: '2024'
   version: '>= 1.35'
 - type: software
   title: org.Hs.eg.db
@@ -250,16 +252,17 @@ references:
   authors:
   - family-names: Carlson
     given-names: Marc
-  year: '2023'
+  year: '2024'
 - type: software
   title: reactome.db
   abstract: 'reactome.db: A set of annotation maps for reactome'
   notes: Suggests
+  url: https://gitlab.com/42analytics1/public/reactome.db-r-package
   repository: https://bioconductor.org/
   authors:
   - family-names: Ligtenberg
     given-names: Willem
-  year: '2023'
+  year: '2024'
 - type: software
   title: rmarkdown
   abstract: 'rmarkdown: Dynamic Documents for R'
@@ -302,7 +305,7 @@ references:
     given-names: Richard
     email: rich@posit.co
     orcid: https://orcid.org/0000-0003-3925-190X
-  year: '2023'
+  year: '2024'
 - type: software
   title: spelling
   abstract: 'spelling: Tools for Spell Checking in R'
@@ -317,7 +320,7 @@ references:
   - family-names: Hester
     given-names: Jim
     email: james.hester@rstudio.com
-  year: '2023'
+  year: '2024'
 - type: software
   title: targetscan.Hs.eg.db
   abstract: 'targetscan.Hs.eg.db: TargetScan miRNA target predictions for human'
@@ -327,7 +330,7 @@ references:
   - family-names: Csardi
     given-names: Gabor
     email: Gabor.Csardi@unil.ch
-  year: '2023'
+  year: '2024'
 - type: software
   title: testthat
   abstract: 'testthat: Unit Testing for R'
@@ -338,7 +341,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2023'
+  year: '2024'
   version: '>= 3.0.0'
 - type: software
   title: WGCNA
@@ -363,7 +366,7 @@ references:
     given-names: Andy
   - family-names: Zhang
     given-names: Bin
-  year: '2023'
+  year: '2024'
 identifiers:
 - type: url
   value: https://llrs.github.io/BioCor/
