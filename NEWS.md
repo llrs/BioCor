@@ -1,3 +1,7 @@
+# BioCor 1.27.1
+
+* Update tests to latest testthat change.
+
 # BioCor 1.26
 
 * Added support for plots of similarities with `plot_data()` and 
