@@ -231,48 +231,48 @@ use.</p>
 several pathways and combine them, or not:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">genesReact</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">## [1] "R-HSA-2151201" "R-HSA-5654706"</span></span>
+<span><span class="co">## [1] "R-HSA-75205"   "R-HSA-5387390"</span></span>
 <span><span class="fu"><a href="../reference/pathSim.html">pathSim</a></span><span class="op">(</span><span class="va">paths</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">paths</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">genesReact</span><span class="op">)</span></span>
 <span><span class="co">## [1] 0</span></span>
 <span></span>
 <span><span class="op">(</span><span class="va">pathways</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">genesReact</span><span class="op">)</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">##  [1] "R-HSA-2894862" "R-HSA-5655302" "R-HSA-3248023" "R-HSA-8964058"</span></span>
-<span><span class="co">##  [5] "R-HSA-5682294" "R-HSA-446388"  "R-HSA-190872"  "R-HSA-5688354"</span></span>
-<span><span class="co">##  [9] "R-HSA-9748784" "R-HSA-1168372"</span></span>
+<span><span class="co">##  [1] "R-HSA-8949215" "R-HSA-5626978" "R-HSA-9012546" "R-HSA-6803211"</span></span>
+<span><span class="co">##  [5] "R-HSA-5467333" "R-HSA-450408"  "R-HSA-174184"  "R-HSA-982772" </span></span>
+<span><span class="co">##  [9] "R-HSA-399719"  "R-HSA-6811555"</span></span>
 <span><span class="fu"><a href="../reference/mpathSim.html">mpathSim</a></span><span class="op">(</span><span class="va">pathways</span>, <span class="va">genesReact</span><span class="op">)</span></span>
-<span><span class="co">##               R-HSA-2894862 R-HSA-5655302 R-HSA-3248023 R-HSA-8964058</span></span>
-<span><span class="co">## R-HSA-2894862    1.00000000    0.00000000             0    0.00000000</span></span>
-<span><span class="co">## R-HSA-5655302    0.00000000    1.00000000             0    0.00000000</span></span>
-<span><span class="co">## R-HSA-3248023    0.00000000    0.00000000             1    0.00000000</span></span>
-<span><span class="co">## R-HSA-8964058    0.00000000    0.00000000             0    1.00000000</span></span>
-<span><span class="co">## R-HSA-5682294    0.00000000    0.00000000             0    0.00000000</span></span>
-<span><span class="co">## R-HSA-446388     0.00000000    0.00000000             0    0.00000000</span></span>
-<span><span class="co">## R-HSA-190872     0.00000000    0.00000000             0    0.00000000</span></span>
-<span><span class="co">## R-HSA-5688354    0.00000000    0.00000000             0    0.00000000</span></span>
-<span><span class="co">## R-HSA-9748784    0.00000000    0.00000000             0    0.01666667</span></span>
-<span><span class="co">## R-HSA-1168372    0.08510638    0.04958678             0    0.00000000</span></span>
-<span><span class="co">##               R-HSA-5682294 R-HSA-446388 R-HSA-190872 R-HSA-5688354</span></span>
-<span><span class="co">## R-HSA-2894862             0            0            0             0</span></span>
-<span><span class="co">## R-HSA-5655302             0            0            0             0</span></span>
-<span><span class="co">## R-HSA-3248023             0            0            0             0</span></span>
-<span><span class="co">## R-HSA-8964058             0            0            0             0</span></span>
-<span><span class="co">## R-HSA-5682294             1            0            0             0</span></span>
-<span><span class="co">## R-HSA-446388              0            1            0             0</span></span>
-<span><span class="co">## R-HSA-190872              0            0            1             0</span></span>
-<span><span class="co">## R-HSA-5688354             0            0            0             1</span></span>
-<span><span class="co">## R-HSA-9748784             0            0            0             0</span></span>
-<span><span class="co">## R-HSA-1168372             0            0            0             0</span></span>
-<span><span class="co">##               R-HSA-9748784 R-HSA-1168372</span></span>
-<span><span class="co">## R-HSA-2894862    0.00000000    0.08510638</span></span>
-<span><span class="co">## R-HSA-5655302    0.00000000    0.04958678</span></span>
-<span><span class="co">## R-HSA-3248023    0.00000000    0.00000000</span></span>
-<span><span class="co">## R-HSA-8964058    0.01666667    0.00000000</span></span>
-<span><span class="co">## R-HSA-5682294    0.00000000    0.00000000</span></span>
-<span><span class="co">## R-HSA-446388     0.00000000    0.00000000</span></span>
-<span><span class="co">## R-HSA-190872     0.00000000    0.00000000</span></span>
-<span><span class="co">## R-HSA-5688354    0.00000000    0.00000000</span></span>
-<span><span class="co">## R-HSA-9748784    1.00000000    0.00000000</span></span>
-<span><span class="co">## R-HSA-1168372    0.00000000    1.00000000</span></span></code></pre></div>
+<span><span class="co">##               R-HSA-8949215 R-HSA-5626978 R-HSA-9012546 R-HSA-6803211</span></span>
+<span><span class="co">## R-HSA-8949215             1             0             0     0.0000000</span></span>
+<span><span class="co">## R-HSA-5626978             0             1             0     0.0000000</span></span>
+<span><span class="co">## R-HSA-9012546             0             0             1     0.0000000</span></span>
+<span><span class="co">## R-HSA-6803211             0             0             0     1.0000000</span></span>
+<span><span class="co">## R-HSA-5467333             0             0             0     0.0000000</span></span>
+<span><span class="co">## R-HSA-450408              0             0             0     0.0000000</span></span>
+<span><span class="co">## R-HSA-174184              0             0             0     0.0000000</span></span>
+<span><span class="co">## R-HSA-982772              0             0             0     0.0000000</span></span>
+<span><span class="co">## R-HSA-399719              0             0             0     0.0000000</span></span>
+<span><span class="co">## R-HSA-6811555             0             0             0     0.0952381</span></span>
+<span><span class="co">##               R-HSA-5467333 R-HSA-450408 R-HSA-174184 R-HSA-982772 R-HSA-399719</span></span>
+<span><span class="co">## R-HSA-8949215             0     0.000000     0.000000            0            0</span></span>
+<span><span class="co">## R-HSA-5626978             0     0.000000     0.000000            0            0</span></span>
+<span><span class="co">## R-HSA-9012546             0     0.000000     0.000000            0            0</span></span>
+<span><span class="co">## R-HSA-6803211             0     0.000000     0.000000            0            0</span></span>
+<span><span class="co">## R-HSA-5467333             1     0.000000     0.000000            0            0</span></span>
+<span><span class="co">## R-HSA-450408              0     1.000000     0.765625            0            0</span></span>
+<span><span class="co">## R-HSA-174184              0     0.765625     1.000000            0            0</span></span>
+<span><span class="co">## R-HSA-982772              0     0.000000     0.000000            1            0</span></span>
+<span><span class="co">## R-HSA-399719              0     0.000000     0.000000            0            1</span></span>
+<span><span class="co">## R-HSA-6811555             0     0.000000     0.000000            0            0</span></span>
+<span><span class="co">##               R-HSA-6811555</span></span>
+<span><span class="co">## R-HSA-8949215     0.0000000</span></span>
+<span><span class="co">## R-HSA-5626978     0.0000000</span></span>
+<span><span class="co">## R-HSA-9012546     0.0000000</span></span>
+<span><span class="co">## R-HSA-6803211     0.0952381</span></span>
+<span><span class="co">## R-HSA-5467333     0.0000000</span></span>
+<span><span class="co">## R-HSA-450408      0.0000000</span></span>
+<span><span class="co">## R-HSA-174184      0.0000000</span></span>
+<span><span class="co">## R-HSA-982772      0.0000000</span></span>
+<span><span class="co">## R-HSA-399719      0.0000000</span></span>
+<span><span class="co">## R-HSA-6811555     1.0000000</span></span></code></pre></div>
 <p>When the method to combine the similarities is set to
 <code>NULL</code> <code><a href="../reference/mpathSim.html">mpathSim()</a></code> returns a matrix of pathway
 similarities, otherwise it combines the values. In the next section we
@@ -287,7 +287,7 @@ can see the methods to combine pathway similarities.</p>
 <span>                          <span class="st">"reciprocal"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">methodsCombineScores</span>, <span class="fu">BioCor</span><span class="fu">::</span><span class="va"><a href="../reference/combineScores.html">combineScores</a></span>, scores <span class="op">=</span> <span class="va">sim</span><span class="op">)</span></span>
 <span><span class="co">##        avg        max      rcmax  rcmax.avg        BMA reciprocal </span></span>
-<span><span class="co">##  0.1030272  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000</span></span></code></pre></div>
+<span><span class="co">##  0.1172173  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000</span></span></code></pre></div>
 <p>We can also specify the method to combine the similarities in
 <code><a href="../reference/mpathSim.html">mpathSim()</a></code>, <code><a href="../reference/geneSim.html">geneSim()</a></code>,
 <code><a href="../reference/mgeneSim.html">mgeneSim()</a></code>, <code><a href="../reference/clusterSim.html">clusterSim()</a></code>,
@@ -417,39 +417,39 @@ is the same as <code><a href="../reference/clusterSim.html">clusterSim()</a></co
 using <code><a href="../reference/conversions.html">D2J()</a></code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/conversions.html">D2J</a></span><span class="op">(</span><span class="va">sim</span><span class="op">)</span></span>
-<span><span class="co">##               R-HSA-2894862 R-HSA-5655302 R-HSA-3248023 R-HSA-8964058</span></span>
-<span><span class="co">## R-HSA-2894862    1.00000000    0.00000000             0   0.000000000</span></span>
-<span><span class="co">## R-HSA-5655302    0.00000000    1.00000000             0   0.000000000</span></span>
-<span><span class="co">## R-HSA-3248023    0.00000000    0.00000000             1   0.000000000</span></span>
-<span><span class="co">## R-HSA-8964058    0.00000000    0.00000000             0   1.000000000</span></span>
-<span><span class="co">## R-HSA-5682294    0.00000000    0.00000000             0   0.000000000</span></span>
-<span><span class="co">## R-HSA-446388     0.00000000    0.00000000             0   0.000000000</span></span>
-<span><span class="co">## R-HSA-190872     0.00000000    0.00000000             0   0.000000000</span></span>
-<span><span class="co">## R-HSA-5688354    0.00000000    0.00000000             0   0.000000000</span></span>
-<span><span class="co">## R-HSA-9748784    0.00000000    0.00000000             0   0.008403361</span></span>
-<span><span class="co">## R-HSA-1168372    0.04444444    0.02542373             0   0.000000000</span></span>
-<span><span class="co">##               R-HSA-5682294 R-HSA-446388 R-HSA-190872 R-HSA-5688354</span></span>
-<span><span class="co">## R-HSA-2894862             0            0            0             0</span></span>
-<span><span class="co">## R-HSA-5655302             0            0            0             0</span></span>
-<span><span class="co">## R-HSA-3248023             0            0            0             0</span></span>
-<span><span class="co">## R-HSA-8964058             0            0            0             0</span></span>
-<span><span class="co">## R-HSA-5682294             1            0            0             0</span></span>
-<span><span class="co">## R-HSA-446388              0            1            0             0</span></span>
-<span><span class="co">## R-HSA-190872              0            0            1             0</span></span>
-<span><span class="co">## R-HSA-5688354             0            0            0             1</span></span>
-<span><span class="co">## R-HSA-9748784             0            0            0             0</span></span>
-<span><span class="co">## R-HSA-1168372             0            0            0             0</span></span>
-<span><span class="co">##               R-HSA-9748784 R-HSA-1168372</span></span>
-<span><span class="co">## R-HSA-2894862   0.000000000    0.04444444</span></span>
-<span><span class="co">## R-HSA-5655302   0.000000000    0.02542373</span></span>
-<span><span class="co">## R-HSA-3248023   0.000000000    0.00000000</span></span>
-<span><span class="co">## R-HSA-8964058   0.008403361    0.00000000</span></span>
-<span><span class="co">## R-HSA-5682294   0.000000000    0.00000000</span></span>
-<span><span class="co">## R-HSA-446388    0.000000000    0.00000000</span></span>
-<span><span class="co">## R-HSA-190872    0.000000000    0.00000000</span></span>
-<span><span class="co">## R-HSA-5688354   0.000000000    0.00000000</span></span>
-<span><span class="co">## R-HSA-9748784   1.000000000    0.00000000</span></span>
-<span><span class="co">## R-HSA-1168372   0.000000000    1.00000000</span></span></code></pre></div>
+<span><span class="co">##               R-HSA-8949215 R-HSA-5626978 R-HSA-9012546 R-HSA-6803211</span></span>
+<span><span class="co">## R-HSA-8949215             1             0             0          0.00</span></span>
+<span><span class="co">## R-HSA-5626978             0             1             0          0.00</span></span>
+<span><span class="co">## R-HSA-9012546             0             0             1          0.00</span></span>
+<span><span class="co">## R-HSA-6803211             0             0             0          1.00</span></span>
+<span><span class="co">## R-HSA-5467333             0             0             0          0.00</span></span>
+<span><span class="co">## R-HSA-450408              0             0             0          0.00</span></span>
+<span><span class="co">## R-HSA-174184              0             0             0          0.00</span></span>
+<span><span class="co">## R-HSA-982772              0             0             0          0.00</span></span>
+<span><span class="co">## R-HSA-399719              0             0             0          0.00</span></span>
+<span><span class="co">## R-HSA-6811555             0             0             0          0.05</span></span>
+<span><span class="co">##               R-HSA-5467333 R-HSA-450408 R-HSA-174184 R-HSA-982772 R-HSA-399719</span></span>
+<span><span class="co">## R-HSA-8949215             0    0.0000000    0.0000000            0            0</span></span>
+<span><span class="co">## R-HSA-5626978             0    0.0000000    0.0000000            0            0</span></span>
+<span><span class="co">## R-HSA-9012546             0    0.0000000    0.0000000            0            0</span></span>
+<span><span class="co">## R-HSA-6803211             0    0.0000000    0.0000000            0            0</span></span>
+<span><span class="co">## R-HSA-5467333             1    0.0000000    0.0000000            0            0</span></span>
+<span><span class="co">## R-HSA-450408              0    1.0000000    0.6202532            0            0</span></span>
+<span><span class="co">## R-HSA-174184              0    0.6202532    1.0000000            0            0</span></span>
+<span><span class="co">## R-HSA-982772              0    0.0000000    0.0000000            1            0</span></span>
+<span><span class="co">## R-HSA-399719              0    0.0000000    0.0000000            0            1</span></span>
+<span><span class="co">## R-HSA-6811555             0    0.0000000    0.0000000            0            0</span></span>
+<span><span class="co">##               R-HSA-6811555</span></span>
+<span><span class="co">## R-HSA-8949215          0.00</span></span>
+<span><span class="co">## R-HSA-5626978          0.00</span></span>
+<span><span class="co">## R-HSA-9012546          0.00</span></span>
+<span><span class="co">## R-HSA-6803211          0.05</span></span>
+<span><span class="co">## R-HSA-5467333          0.00</span></span>
+<span><span class="co">## R-HSA-450408           0.00</span></span>
+<span><span class="co">## R-HSA-174184           0.00</span></span>
+<span><span class="co">## R-HSA-982772           0.00</span></span>
+<span><span class="co">## R-HSA-399719           0.00</span></span>
+<span><span class="co">## R-HSA-6811555          1.00</span></span></code></pre></div>
 <p>Also if one has a Jaccard similarity and wants a Dice similarity, can
 use the <code><a href="../reference/conversions.html">J2D()</a></code> function.</p>
 </div>
