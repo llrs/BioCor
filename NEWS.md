@@ -1,4 +1,4 @@
-# BioCor 1.27.1
+# BioCor 1.28
 
 * Update tests to latest testthat change.
 
