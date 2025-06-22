@@ -5,13 +5,17 @@
 
 <!-- badges: start -->
 
-[![R build status](https://github.com/llrs/BioCor/workflows/R-CMD-check/badge.svg)](https://github.com/llrs/BioCor/actions)
+[![R-CMD-check](https://github.com/llrs/BioCor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/llrs/BioCor/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/llrs/BioCor/branch/master/graph/badge.svg)](https://codecov.io/gh/llrs/BioCor/)
-[![Build Status](https://www.bioconductor.org/shields/build/devel/bioc/BioCor.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/BioCor/)
+[![Build
+Status](https://www.bioconductor.org/shields/build/devel/bioc/BioCor.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/BioCor/)
 [![Bioc](https://www.bioconductor.org/shields/years-in-bioc/BioCor.svg)](https://www.bioconductor.org/packages/devel/bioc/html/BioCor.html#since)
-[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Project Status: Active - The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1913/badge)](https://bestpractices.coreinfrastructure.org/projects/1913)
+[![CII Best
+Practices](https://bestpractices.coreinfrastructure.org/projects/1913/badge)](https://bestpractices.coreinfrastructure.org/projects/1913)
 <!-- badges: end -->
 
 This project wants to allow the user to calculate functional
@@ -51,15 +55,22 @@ Here is a minimum example:
 # The data must be provided, see the vignette for more details.
 # Get some pathways from the pathway data
 (pathways <- sample(unlist(genesReact, use.names = FALSE), 5))
-#> [1] "R-HSA-372790" "R-HSA-168188" "R-HSA-450294" "R-HSA-109582" "R-HSA-194840"
+#> [1] "R-HSA-5663205" "R-HSA-1643685" "R-HSA-1266738" "R-HSA-1280215"
+#> [5] "R-HSA-5684996"
 # Calculate the pathway similarity of them
 mpathSim(pathways, genesReact, NULL)
-#>              R-HSA-372790 R-HSA-168188 R-HSA-450294 R-HSA-109582 R-HSA-194840
-#> R-HSA-372790   1.00000000   0.02341920   0.01924619   0.14301552   0.08478425
-#> R-HSA-168188   0.02341920   1.00000000   0.79012346   0.02781641   0.00000000
-#> R-HSA-450294   0.01924619   0.79012346   1.00000000   0.02335766   0.00000000
-#> R-HSA-109582   0.14301552   0.02781641   0.02335766   1.00000000   0.03689065
-#> R-HSA-194840   0.08478425   0.00000000   0.00000000   0.03689065   1.00000000
+#>               R-HSA-5663205 R-HSA-1643685 R-HSA-1266738 R-HSA-1280215
+#> R-HSA-5663205    1.00000000     0.7543335     0.2661290     0.2548828
+#> R-HSA-1643685    0.75433353     1.0000000     0.2676056     0.2362369
+#> R-HSA-1266738    0.26612903     0.2676056     1.0000000     0.1474245
+#> R-HSA-1280215    0.25488281     0.2362369     0.1474245     1.0000000
+#> R-HSA-5684996    0.09387223     0.1561969     0.1219793     0.1852552
+#>               R-HSA-5684996
+#> R-HSA-5663205    0.09387223
+#> R-HSA-1643685    0.15619694
+#> R-HSA-1266738    0.12197929
+#> R-HSA-1280215    0.18525520
+#> R-HSA-5684996    1.00000000
 ```
 
 # Who might use this package?
@@ -77,22 +88,22 @@ similarities based on pathways.
 
 Here is a non-comprehensive list:
 
-  - Diseases or drug:  
-    By observing which genes with the same pathways are more affected
-  - Gene/protein functional analysis:  
-    By testing how new pathways are similar to existing pathways
-  - Protein-protein interaction:  
-    By testing if they are involved in the same pathways
-  - miRNA-mRNA interaction:  
-    By comparing clusters they affect
-  - sRNA regulation:  
-    By observing the relationship between sRNA and genes
-  - Evolution:  
-    By comparing similarities of genes between species
-  - Networks improvement:  
-    By adding information about the known relationship between genes
-  - Evaluate pathways databases:  
-    By comparing scores of the same entities
+- Diseases or drug:  
+  By observing which genes with the same pathways are more affected
+- Gene/protein functional analysis:  
+  By testing how new pathways are similar to existing pathways
+- Protein-protein interaction:  
+  By testing if they are involved in the same pathways
+- miRNA-mRNA interaction:  
+  By comparing clusters they affect
+- sRNA regulation:  
+  By observing the relationship between sRNA and genes
+- Evolution:  
+  By comparing similarities of genes between species
+- Networks improvement:  
+  By adding information about the known relationship between genes
+- Evaluate pathways databases:  
+  By comparing scores of the same entities
 
 See the [advanced
 vignette](https://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_2_advanced.html)
