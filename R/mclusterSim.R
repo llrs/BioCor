@@ -1,7 +1,7 @@
 #' Similarity score between clusters of genes based on pathways similarity
 #'
 #' Looks for the similarity between genes in groups. Once the pathways for each
-#' cluster are found they are combined using code{[combineScores]}.
+#' cluster are found they are combined using [combineScores()].
 #' @param clusters A list of clusters of genes to be found in `id`.
 #' @inheritParams geneSim
 #' @inheritParams combineScores

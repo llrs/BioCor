@@ -25,7 +25,7 @@ each cluster comparison.
 }
 \description{
 Looks for the similarity between genes in groups. Once the pathways for each
-cluster are found they are combined using code{\link{combineScores}}.
+cluster are found they are combined using \code{\link[=combineScores]{combineScores()}}.
 }
 \section{Methods (by class)}{
 \itemize{
