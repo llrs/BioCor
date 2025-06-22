@@ -381,39 +381,6 @@ Ecdf(c(gS2, gSK2, gSMix2),
 
 Now we can appreciate that most of the functional similarity is brought by Reactome database
 
-# miRNA analysis
-
-miRNAs are RNAs that interact with many genes and transcripts and is subject to change with location and time, thus defining the effect of an miRNA is difficult. In this section we try to answer how functionally similar are miRNA between them to provide a help for potentially closely related miRNA.
-
-First we look for human miRNAs and prepare them for using them as the input for the cluster functions (Restricting to 10 miRNA with less than 150 genes).[^3]
-
-[^3]:This preparation has been adapted from a [previous discussion](https://support.bioconductor.org/p/48138/#48236).
-
-```{r miRNA1}
-library("targetscan.Hs.eg.db")
-## select human mirna
-humanMirnaIdx <- grep("hsa", mappedkeys(targetscan.Hs.egMIRNA))
-## select seed-based families for human mirna
-humanMirna <- mappedkeys(targetscan.Hs.egMIRNA)[humanMirnaIdx]
-## select targets of families
-humanMirnaFamilies <- unlist(mget(humanMirna, targetscan.Hs.egMIRBASE2FAMILY))
-humanMirnaTargets <- mget(humanMirnaFamilies, revmap(targetscan.Hs.egTARGETS))
-names(humanMirnaTargets) <- humanMirna
-# Restrict to miRNA with more than one target and less than 150
-miRNAs <- sample(humanMirnaTargets[lengths(humanMirnaTargets) > 1 &
-    lengths(humanMirnaTargets) < 150], 10)
-lengths(miRNAs)
-```
-
-Now we calculate the functional similarity of those miRNAs using a cluster approach.
-
-```{r miRNA2}
-cluster1 <- mclusterSim(miRNAs, genesReact, method = "BMA")
-knitr::kable(round(cluster1, 2), caption = "The similarity between miRNA", format = "html")
-```
-
-So for instance `r m <- which(cluster1 == max(as.dist(cluster1)), arr.ind = TRUE); unique(rownames(m)[m[, 1] != m[, 2]])` are functionally related despite being from different families. 
-
 # Comparing with GO similarities
 
 As suggested in the main vignette functional similarities can be compared to semantic similarities such as those based on GO. Here a comparison using the biological process from the gene ontologies is done:
