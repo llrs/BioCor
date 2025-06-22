@@ -92,15 +92,22 @@ Here is a minimum example:</p>
 <code class="sourceCode R"><span><span class="co"># The data must be provided, see the vignette for more details.</span></span>
 <span><span class="co"># Get some pathways from the pathway data</span></span>
 <span><span class="op">(</span><span class="va">pathways</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">genesReact</span>, use.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "R-HSA-372790" "R-HSA-168188" "R-HSA-450294" "R-HSA-109582" "R-HSA-194840"</span></span>
+<span><span class="co">#&gt; [1] "R-HSA-5663205" "R-HSA-1643685" "R-HSA-1266738" "R-HSA-1280215"</span></span>
+<span><span class="co">#&gt; [5] "R-HSA-5684996"</span></span>
 <span><span class="co"># Calculate the pathway similarity of them</span></span>
 <span><span class="fu"><a href="reference/mpathSim.html">mpathSim</a></span><span class="op">(</span><span class="va">pathways</span>, <span class="va">genesReact</span>, <span class="cn">NULL</span><span class="op">)</span></span>
-<span><span class="co">#&gt;              R-HSA-372790 R-HSA-168188 R-HSA-450294 R-HSA-109582 R-HSA-194840</span></span>
-<span><span class="co">#&gt; R-HSA-372790   1.00000000   0.02341920   0.01924619   0.14301552   0.08478425</span></span>
-<span><span class="co">#&gt; R-HSA-168188   0.02341920   1.00000000   0.79012346   0.02781641   0.00000000</span></span>
-<span><span class="co">#&gt; R-HSA-450294   0.01924619   0.79012346   1.00000000   0.02335766   0.00000000</span></span>
-<span><span class="co">#&gt; R-HSA-109582   0.14301552   0.02781641   0.02335766   1.00000000   0.03689065</span></span>
-<span><span class="co">#&gt; R-HSA-194840   0.08478425   0.00000000   0.00000000   0.03689065   1.00000000</span></span></code></pre></div>
+<span><span class="co">#&gt;               R-HSA-5663205 R-HSA-1643685 R-HSA-1266738 R-HSA-1280215</span></span>
+<span><span class="co">#&gt; R-HSA-5663205    1.00000000     0.7543335     0.2661290     0.2548828</span></span>
+<span><span class="co">#&gt; R-HSA-1643685    0.75433353     1.0000000     0.2676056     0.2362369</span></span>
+<span><span class="co">#&gt; R-HSA-1266738    0.26612903     0.2676056     1.0000000     0.1474245</span></span>
+<span><span class="co">#&gt; R-HSA-1280215    0.25488281     0.2362369     0.1474245     1.0000000</span></span>
+<span><span class="co">#&gt; R-HSA-5684996    0.09387223     0.1561969     0.1219793     0.1852552</span></span>
+<span><span class="co">#&gt;               R-HSA-5684996</span></span>
+<span><span class="co">#&gt; R-HSA-5663205    0.09387223</span></span>
+<span><span class="co">#&gt; R-HSA-1643685    0.15619694</span></span>
+<span><span class="co">#&gt; R-HSA-1266738    0.12197929</span></span>
+<span><span class="co">#&gt; R-HSA-1280215    0.18525520</span></span>
+<span><span class="co">#&gt; R-HSA-5684996    1.00000000</span></span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="who-might-use-this-package">Who might use this package?<a class="anchor" aria-label="anchor" href="#who-might-use-this-package"></a>
