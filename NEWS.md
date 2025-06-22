@@ -1,3 +1,9 @@
+# BioCor 1.34
+
+- Remove example on vignetts with deprecated pacakge targetscan.Hs.eg.db
+- Fix documentation issue
+- Fix deprecation message related to testthat 3rd edition.
+
 # BioCor 1.28
 
 * Update tests to latest testthat change.
