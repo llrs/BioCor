@@ -81,7 +81,7 @@ test_that("combineScoresPar", {
     )
     subSet <- list(a = c("a", "b"), b = c("b", "c"))
     test3 <- combineScoresPar(e, method = "max", subSet)
-    expect_that(test3, is_a("matrix"))
+    expect_true(is.matrix(test3))
 })
 
 test_that("combineScoresPar equivalent to combineScores", {
