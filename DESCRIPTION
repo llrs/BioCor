@@ -1,6 +1,6 @@
 Package: BioCor
-Title: Functional similarities
-Version: 1.33.2
+Title: Functional Similarities
+Version: 1.33.3
 Authors@R: c(
     person("Lluís", "Revilla Sancho", , "lluis.revilla@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9747-2570")),
@@ -16,7 +16,7 @@ Description: Calculates functional similarities based on the pathways
     networks, gene selection, testing relationships...
 License: MIT + file LICENSE
 URL: https://bioconductor.org/packages/BioCor,
-    https://llrs.github.io/BioCor/
+    https://biocor.llrs.dev
 BugReports: https://github.com/llrs/BioCor/issues
 Depends:
     R (>= 4.4)

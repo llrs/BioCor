@@ -19,7 +19,7 @@
 #' @author Joshua Ulrich
 #' @references
 #' [StackOverflow answer
-#' 4494469/2886003](http://stackoverflow.com/a/4494469/2886003)
+#' 4494469/2886003](https://stackoverflow.com/a/4494469/2886003)
 combinadic <- function(n, r, i) {
 
   # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
