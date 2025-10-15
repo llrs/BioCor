@@ -17,7 +17,10 @@ plot_data <- function(x, top) {
   # 3: Transform it into a data.frame
   stopifnot(isSymmetric(x))
   stopifnot(top < 1, top > 0)
-  limit <- quantile(x[upper.tri(x)], probs = 1 - top)
+  if (anyNA(x)) {
+    warning("There are NAs present on the data: omitting them")
+  }
+  limit <- quantile(x[upper.tri(x)], probs = 1 - top, na.rm = TRUE)
   positions <- which(x >= limit & upper.tri(x), arr.ind = TRUE)
   df <- data.frame(
     A = colnames(x)[positions[, 1, drop = FALSE]],
