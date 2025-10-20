@@ -31,7 +31,7 @@ measures.
 Useful links:
 \itemize{
   \item \url{https://bioconductor.org/packages/BioCor}
-  \item \url{https://llrs.github.io/BioCor/}
+  \item \url{https://biocor.llrs.dev}
   \item Report bugs at \url{https://github.com/llrs/BioCor/issues}
 }
 
