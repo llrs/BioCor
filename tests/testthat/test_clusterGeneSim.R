@@ -15,7 +15,7 @@ test_that("clusterGeneSim", {
   expect_warning(test <- clusterGeneSim(c("13", "12"), c("9", "4"), info), "list")
   expect_true(is.na(test))
   expect_error(clusterGeneSim(c("2", "1"), c("9", "3"), info,
-                              method = NULL
+    method = NULL
   ), "method")
   expect_warning(test2 <- clusterGeneSim(c("9", "4"), c("2", "1"), info))
   expect_equal(test0, 0.4)
@@ -25,7 +25,7 @@ test_that("clusterGeneSim", {
   test <- clusterGeneSim(c("2", "1"), c("9", "4"), info, c("avg", "max"))
   expect_equal(test, 0.00909090909090909)
   test <- clusterGeneSim(c("2", "1"), c("9", "4"), info, c("avg", "max"),
-                         round = TRUE
+    round = TRUE
   )
   expect_equal(test, 0.009)
 })
@@ -54,18 +54,21 @@ test_that("mclusterGeneSim", {
 })
 
 
-
 test_that("clusterGeneSim GeneSetCollection", {
-  expect_warning(test0 <- clusterGeneSim(c("2", "1"), c("9", "4"), info),
-                 "Using max method because after removing NAs")
+  expect_warning(
+    test0 <- clusterGeneSim(c("2", "1"), c("9", "4"), info),
+    "Using max method because after removing NAs"
+  )
   expect_error(clusterGeneSim(c("2", "2"), c("4", "4"), info), "several")
   expect_error(clusterGeneSim(c("2", "2"), c(9, 4), info), "character")
-  expect_warning(test <- clusterGeneSim(c("13", "12"), c("9", "4"), info),
-                                "Some genes are not in the list provided")
+  expect_warning(
+    test <- clusterGeneSim(c("13", "12"), c("9", "4"), info),
+    "Some genes are not in the list provided"
+  )
 
   expect_true(is.na(test))
   expect_error(clusterGeneSim(c("2", "1"), c("9", "3"), info,
-                                             method = NULL
+    method = NULL
   ), "method")
   expect_warning(test2 <- clusterGeneSim(c("9", "4"), c("2", "1"), info))
   expect_equal(test0, 0.4)
@@ -75,7 +78,7 @@ test_that("clusterGeneSim GeneSetCollection", {
   test <- clusterGeneSim(c("2", "1"), c("9", "4"), info, c("avg", "max"))
   expect_lte(test, 0.01)
   test <- clusterGeneSim(c("2", "1"), c("9", "4"), info, c("avg", "max"),
-                                        round = TRUE
+    round = TRUE
   )
   expect_lte(test, 0.01)
 })

@@ -15,8 +15,8 @@
 #' @examples
 #' genes.id2 <- c("52", "11342", "80895", "57654", "548953", "11586", "45985")
 #' genes.id1 <- c(
-#'     "52", "11342", "80895", "57654", "58493", "1164", "1163",
-#'     "4150", "2130", "159"
+#'   "52", "11342", "80895", "57654", "58493", "1164", "1163",
+#'   "4150", "2130", "159"
 #' )
 #' diceSim(genes.id1, genes.id2)
 #' diceSim(genes.id2, genes.id2)
@@ -26,8 +26,7 @@ diceSim <- function(g1, g2) {
     prot2 <- g2
   } else if (is.null(g1) || is.null(g2)) { # Check if length is 0
     return(NA)
-  }
-  else {
+  } else {
     warning("g1 or g2 is not character")
     return(NA)
   }

@@ -32,27 +32,28 @@
 #' predict novel gene function. Bioinformatics 2007; 23 (13): i529-i538.
 #' doi: 10.1093/bioinformatics/btm195
 #' @examples
-#' (d <- structure(c(
+#' (d <- structure(
+#'   c(
 #'     0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
 #'     0.285714285714286
-#' ),
-#' .Dim = c(3L, 3L),
-#' .Dimnames = list(c("a", "b", "c"), c("d", "e", "f"))
+#'   ),
+#'   .Dim = c(3L, 3L),
+#'   .Dimnames = list(c("a", "b", "c"), c("d", "e", "f"))
 #' ))
 #' e <- d
 #' sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
-#'     combineScores,
-#'     scores = d
+#'   combineScores,
+#'   scores = d
 #' )
 #' d[1, 2] <- NA
 #' sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
-#'     combineScores,
-#'     scores = d
+#'   combineScores,
+#'   scores = d
 #' )
 combineScores <- function(scores, method = c(
-  "max", "avg", "rcmax", "rcmax.avg", "BMA",
-  "reciprocal"
-), round = FALSE, t = 0) {
+                            "max", "avg", "rcmax", "rcmax.avg", "BMA",
+                            "reciprocal"
+                          ), round = FALSE, t = 0) {
   # Check input
   method <- match.arg(
     method,
@@ -206,14 +207,13 @@ reciprocal <- function(scores, t) {
 #' @examples
 #' colnames(e) <- rownames(e)
 #' combineScoresPar(e, list(a = c("a", "b"), b = c("b", "c")),
-#'     method = "max"
+#'   method = "max"
 #' )
 combineScoresPar <- function(scores,
                              method,
                              subSets = NULL,
                              BPPARAM = NULL,
                              ...) {
-
   # Check scores
   if (is.null(subSets) || sum(dim(scores)) == 0) {
     return(combineScores(scores, method = method, ...))
@@ -223,8 +223,8 @@ combineScoresPar <- function(scores,
   } else {
     # To handle cases where subSets are not present in scores
     B <- matrix(NA,
-                ncol = length(subSets), nrow = length(subSets),
-                dimnames = list(names(subSets), names(subSets))
+      ncol = length(subSets), nrow = length(subSets),
+      dimnames = list(names(subSets), names(subSets))
     )
     subSets <- keepSubSet(subSets, scores)
     if (length(subSets) == 0) {
@@ -248,8 +248,8 @@ combineScoresPar <- function(scores,
         res[k] <- NA
       } else {
         res[k] <- combineScores(scores[rowIds, colIds, drop = FALSE],
-                                method,
-                                ... = ...
+          method,
+          ... = ...
         )
       }
     }
@@ -265,8 +265,8 @@ combineScoresPar <- function(scores,
         NA
       } else {
         combineScores(scores[rowIds, colIds, drop = FALSE],
-                      method,
-                      ... = ...
+          method,
+          ... = ...
         )
       }
     }, BPPARAM = BPPARAM)

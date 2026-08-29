@@ -20,22 +20,22 @@
 #' @export
 #' @examples
 #' if (require("reactome.db")) {
-#'     genes.react <- as.list(reactomeEXTID2PATHID)
-#'     (pathways <- sample(unique(unlist(genes.react)), 10))
-#'     mpathSim(pathways, genes.react, NULL)
-#'     named_paths <- structure(
-#'         c("R-HSA-112310", "R-HSA-112316", "R-HSA-112315"),
-#'         .Names = c(
-#'             "Neurotransmitter Release Cycle",
-#'             "Neuronal System",
-#'             "Transmission across Chemical Synapses"
-#'         )
+#'   genes.react <- as.list(reactomeEXTID2PATHID)
+#'   (pathways <- sample(unique(unlist(genes.react)), 10))
+#'   mpathSim(pathways, genes.react, NULL)
+#'   named_paths <- structure(
+#'     c("R-HSA-112310", "R-HSA-112316", "R-HSA-112315"),
+#'     .Names = c(
+#'       "Neurotransmitter Release Cycle",
+#'       "Neuronal System",
+#'       "Transmission across Chemical Synapses"
 #'     )
-#'     mpathSim(named_paths, genes.react, NULL)
-#'     many_pathways <- sample(unique(unlist(genes.react)), 152)
-#'     mpathSim(many_pathways, genes.react, "avg")
+#'   )
+#'   mpathSim(named_paths, genes.react, NULL)
+#'   many_pathways <- sample(unique(unlist(genes.react)), 152)
+#'   mpathSim(many_pathways, genes.react, "avg")
 #' } else {
-#'     warning("You need reactome.db package for this example")
+#'   warning("You need reactome.db package for this example")
 #' }
 mpathSim <- function(pathways, info, method = NULL, ...) {
   if (length(unique(pathways)) == 1) {
@@ -63,7 +63,6 @@ mpathSim <- function(pathways, info, method = NULL, ...) {
   # If the number of pathways is quite big uses matrix properties
   # Calculate just the pathways needed
   if (length(pathways) >= 150) {
-
     # Keep only the pathways of interest
     pathways2genes <- inverseList(info)
     keep <- pathways %in% unique(unlist(info, use.names = FALSE))
@@ -183,7 +182,6 @@ setMethod(
     } else {
       sim <- pathSims_matrix(info[pathways])
     }
-
 
 
     if (is.null(method)) {

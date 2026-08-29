@@ -16,4 +16,4 @@
 #'  - **[conversions()]**: Two functions to convert similarity
 #' measures.
 #'  - **[weighted()]**: Functions provided to combine similarities.
-'_PACKAGE'
+"_PACKAGE"

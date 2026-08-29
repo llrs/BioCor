@@ -20,19 +20,19 @@
 #' [combineScoresPar()].
 #' @examples
 #' if (require("org.Hs.eg.db") & require("reactome.db")) {
-#'     # Extract the paths of all genes of org.Hs.eg.db from KEGG
-#'     # (last update in data of June 31st 2011)
-#'     genes.kegg <- as.list(org.Hs.egPATH)
-#'     # Extracts the paths of all genes of org.Hs.eg.db from reactome
-#'     genes.react <- as.list(reactomeEXTID2PATHID)
-#'     mgeneSim(c("81", "18", "10"), genes.react)
-#'     mgeneSim(c("81", "18", "10"), genes.react, "avg")
-#'     named_genes <- structure(c("81", "18", "10"),
-#'         .Names = c("ACTN4", "ABAT", "NAT2")
-#'     )
-#'     mgeneSim(named_genes, genes.react, "max")
+#'   # Extract the paths of all genes of org.Hs.eg.db from KEGG
+#'   # (last update in data of June 31st 2011)
+#'   genes.kegg <- as.list(org.Hs.egPATH)
+#'   # Extracts the paths of all genes of org.Hs.eg.db from reactome
+#'   genes.react <- as.list(reactomeEXTID2PATHID)
+#'   mgeneSim(c("81", "18", "10"), genes.react)
+#'   mgeneSim(c("81", "18", "10"), genes.react, "avg")
+#'   named_genes <- structure(c("81", "18", "10"),
+#'     .Names = c("ACTN4", "ABAT", "NAT2")
+#'   )
+#'   mgeneSim(named_genes, genes.react, "max")
 #' } else {
-#'     warning("You need reactome.db and org.Hs.eg.db package for this example")
+#'   warning("You need reactome.db and org.Hs.eg.db package for this example")
 #' }
 mgeneSim <- function(genes, info, method = "max", ...) {
   if (length(unique(genes)) == 1) {
@@ -71,8 +71,8 @@ mgeneSim <- function(genes, info, method = "max", ...) {
   sim <- combineScoresPar(pathsSims, method, pathways, ... = ...)
 
   sim_all <- matrix(NA,
-                    ncol = length(genes), nrow = length(genes),
-                    dimnames = list(genes, genes)
+    ncol = length(genes), nrow = length(genes),
+    dimnames = list(genes, genes)
   )
   sim <- AintoB(as.matrix(sim), sim_all)
   if (!is.null(namgenes)) {
@@ -150,7 +150,6 @@ setMethod(
   "mgeneSim",
   c(info = "GeneSetCollection", genes = "missing"),
   function(info, method, ...) {
-
     # Extract the name of the pathways per gene
     paths <- inverseList(GSEABase::geneIds(info))
 

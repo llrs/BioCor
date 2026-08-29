@@ -1,4 +1,3 @@
-
 # Function to make it easier to plot the data:
 #' The position of the nodes is based on the similarity between them.
 #' @param x Matrix with the similarities.
@@ -10,7 +9,6 @@
 #' @export
 #' @rdname plot_similarity
 plot_data <- function(x, top) {
-
   # Pick up the edges to show
   # 1: From a similarity matrix calculate the density of the edges.
   # 2: From there calculate the quantile to pick the top x% (parameter)
@@ -24,7 +22,8 @@ plot_data <- function(x, top) {
   positions <- which(x >= limit & upper.tri(x), arr.ind = TRUE)
   df <- data.frame(
     A = colnames(x)[positions[, 1, drop = FALSE]],
-    B = colnames(x)[positions[, 2, drop = FALSE]])
+    B = colnames(x)[positions[, 2, drop = FALSE]]
+  )
   df[["strength"]] <- x[positions]
   df[["rank"]] <- rank(x[positions])
 
@@ -64,7 +63,7 @@ plot_data <- function(x, top) {
 #'
 #'   sim <- mgeneSim(c("87", "18", "10"), genes.react)
 #'   pd <- plot_data(sim, top = 0.25)
-#'   if (requireNamespace("ggplot2", quietly = TRUE)){
+#'   if (requireNamespace("ggplot2", quietly = TRUE)) {
 #'     plot_similarity(pd)
 #'   }
 #' }
@@ -74,12 +73,18 @@ plot_similarity <- function(pd) {
   }
   .data <- NULL # Trick to avoid check notes
   p <- ggplot2::ggplot() +
-    ggplot2::geom_segment(data = pd[["edges"]],
-                          ggplot2::aes(x = .data$x.start, y = .data$y.start,
-                                       xend = .data$x.end, yend = .data$y.end,
-                                       linewidth = .data$strength)) +
-    ggplot2::geom_label(data = pd$nodes,
-                        ggplot2::aes(.data$x, .data$y, label = .data$node), fill = "white") +
+    ggplot2::geom_segment(
+      data = pd[["edges"]],
+      ggplot2::aes(
+        x = .data$x.start, y = .data$y.start,
+        xend = .data$x.end, yend = .data$y.end,
+        linewidth = .data$strength
+      )
+    ) +
+    ggplot2::geom_label(
+      data = pd$nodes,
+      ggplot2::aes(.data$x, .data$y, label = .data$node), fill = "white"
+    ) +
     ggplot2::theme_void()
   return(p)
 }
