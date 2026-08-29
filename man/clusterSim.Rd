@@ -41,14 +41,14 @@ GeneSetCollection and combine them using \code{\link[=combineScoresPar]{combineS
 }}
 \examples{
 if (require("org.Hs.eg.db")) {
-    # Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
-    # data of June 31st 2011)
-    genes.kegg <- as.list(org.Hs.egPATH)
-    clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg)
-    clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg, NULL)
-    clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg, "avg")
+  # Extract the paths of all genes of org.Hs.eg.db from KEGG (last update in
+  # data of June 31st 2011)
+  genes.kegg <- as.list(org.Hs.egPATH)
+  clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg)
+  clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg, NULL)
+  clusterSim(c("9", "15", "10"), c("33", "19", "20"), genes.kegg, "avg")
 } else {
-    warning("You need org.Hs.eg.db package for this example")
+  warning("You need org.Hs.eg.db package for this example")
 }
 }
 \seealso{

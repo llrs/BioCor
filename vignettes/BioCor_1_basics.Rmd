@@ -14,7 +14,6 @@ output:
     code_folding: show
     self_contained: yes
     toc_float:
-      
       collapsed: true
       toc_depth: 3
 author:

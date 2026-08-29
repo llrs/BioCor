@@ -58,22 +58,22 @@ the names
 }
 \examples{
 if (require("reactome.db")) {
-    genes.react <- as.list(reactomeEXTID2PATHID)
-    (pathways <- sample(unique(unlist(genes.react)), 10))
-    mpathSim(pathways, genes.react, NULL)
-    named_paths <- structure(
-        c("R-HSA-112310", "R-HSA-112316", "R-HSA-112315"),
-        .Names = c(
-            "Neurotransmitter Release Cycle",
-            "Neuronal System",
-            "Transmission across Chemical Synapses"
-        )
+  genes.react <- as.list(reactomeEXTID2PATHID)
+  (pathways <- sample(unique(unlist(genes.react)), 10))
+  mpathSim(pathways, genes.react, NULL)
+  named_paths <- structure(
+    c("R-HSA-112310", "R-HSA-112316", "R-HSA-112315"),
+    .Names = c(
+      "Neurotransmitter Release Cycle",
+      "Neuronal System",
+      "Transmission across Chemical Synapses"
     )
-    mpathSim(named_paths, genes.react, NULL)
-    many_pathways <- sample(unique(unlist(genes.react)), 152)
-    mpathSim(many_pathways, genes.react, "avg")
+  )
+  mpathSim(named_paths, genes.react, NULL)
+  many_pathways <- sample(unique(unlist(genes.react)), 152)
+  mpathSim(many_pathways, genes.react, "avg")
 } else {
-    warning("You need reactome.db package for this example")
+  warning("You need reactome.db package for this example")
 }
 }
 \seealso{
