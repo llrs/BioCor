@@ -1,0 +1,205 @@
+# BioCor
+
+This project wants to allow the user to calculate functional
+similarities (or biological correlation as it was named originally hence
+the name) and use them for network building or other purposes.
+
+# Installation
+
+It is an R package you can install it from the Bioconductor project
+with:
+
+``` r
+
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+      install.packages("BiocManager")
+  }
+BiocManager::install("BioCor")
+```
+
+You can install this version of *BioCor* with:
+
+``` r
+
+if (!requireNamespace("devtools", quietly = TRUE)) {
+      install.packages("devtools")
+  }
+devtools::install_github("llrs/BioCor")
+```
+
+# How to use BioCor?
+
+See the
+[vignette](https://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_1_basics.html)
+in Bioconductor site and the [advanced
+vignette](https://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_2_advanced.html).  
+Here is a minimum example:
+
+``` r
+
+# The data must be provided, see the vignette for more details.
+# Get some pathways from the pathway data
+(pathways <- sample(unlist(genesReact, use.names = FALSE), 5))
+#> [1] "R-HSA-5663205" "R-HSA-1643685" "R-HSA-1266738" "R-HSA-1280215"
+#> [5] "R-HSA-5684996"
+# Calculate the pathway similarity of them
+mpathSim(pathways, genesReact, NULL)
+#>               R-HSA-5663205 R-HSA-1643685 R-HSA-1266738 R-HSA-1280215
+#> R-HSA-5663205    1.00000000     0.7543335     0.2661290     0.2548828
+#> R-HSA-1643685    0.75433353     1.0000000     0.2676056     0.2362369
+#> R-HSA-1266738    0.26612903     0.2676056     1.0000000     0.1474245
+#> R-HSA-1280215    0.25488281     0.2362369     0.1474245     1.0000000
+#> R-HSA-5684996    0.09387223     0.1561969     0.1219793     0.1852552
+#>               R-HSA-5684996
+#> R-HSA-5663205    0.09387223
+#> R-HSA-1643685    0.15619694
+#> R-HSA-1266738    0.12197929
+#> R-HSA-1280215    0.18525520
+#> R-HSA-5684996    1.00000000
+```
+
+# Who might use this package?
+
+It is intended for bioinformaticians, both people interested in
+*knowing* the functionally *similarity of some genes* or clusters and
+people *developing* some other analysis at the top of it.
+
+# What is the goal of this project?
+
+The goal of this project is to provide methods to calculate functional
+similarities based on pathways.
+
+# What can be BioCor used for?
+
+Here is a non-comprehensive list:
+
+- Diseases or drug:  
+  By observing which genes with the same pathways are more affected
+- Gene/protein functional analysis:  
+  By testing how new pathways are similar to existing pathways
+- Protein-protein interaction:  
+  By testing if they are involved in the same pathways
+- miRNA-mRNA interaction:  
+  By comparing clusters they affect
+- sRNA regulation:  
+  By observing the relationship between sRNA and genes
+- Evolution:  
+  By comparing similarities of genes between species
+- Networks improvement:  
+  By adding information about the known relationship between genes
+- Evaluate pathways databases:  
+  By comparing scores of the same entities
+
+See the [advanced
+vignette](https://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_2_advanced.html)
+
+# Contributing
+
+Please read [how to contribute](https://biocor.llrs.dev/CONTRIBUTING.md)
+for details on the code of conduct, and the process for submitting pull
+requests.
+
+# Acknowledgments
+
+Anyone that has contributed to make this package be as is, specially my
+advisor.
+
+# Package index
+
+## General introduction
+
+- [`BioCor`](https://biocor.llrs.dev/reference/BioCor-package.md)
+  [`BioCor-package`](https://biocor.llrs.dev/reference/BioCor-package.md)
+  : BioCor: A package to calculate functional similarities
+
+## Similarity of pathways
+
+Compare pairs of pathways, just one (pathSim) or as many as you want
+(mpathSim)
+
+- [`pathSim()`](https://biocor.llrs.dev/reference/pathSim.md) :
+  Calculates the Dice similarity between pathways
+- [`mpathSim()`](https://biocor.llrs.dev/reference/mpathSim.md) :
+  Calculates the Dice similarity between pathways
+
+## Similarity of genes
+
+Compare pairs of genes, just one (geneSim) or as many as you want
+(mgeneSim)
+
+- [`geneSim()`](https://biocor.llrs.dev/reference/geneSim.md) :
+  Similarity score genes based on pathways similarity
+- [`mgeneSim()`](https://biocor.llrs.dev/reference/mgeneSim.md) :
+  Similarity score genes based on pathways similarity
+
+## Pooling similarity of groups of genes
+
+Compare groups of genes by pooling all the pathways they are in
+
+- [`clusterSim()`](https://biocor.llrs.dev/reference/clusterSim.md) :
+  Similarity score between clusters of genes based on pathways
+  similarity
+- [`mclusterSim()`](https://biocor.llrs.dev/reference/mclusterSim.md) :
+  Similarity score between clusters of genes based on pathways
+  similarity
+
+## Similarity of groups of genes
+
+Compare groups of genes by comparing the similarity of the genes in each
+group
+
+- [`clusterGeneSim()`](https://biocor.llrs.dev/reference/clusterGeneSim.md)
+  : Similarity score between clusters of genes based on genes similarity
+- [`mclusterGeneSim()`](https://biocor.llrs.dev/reference/mclusterGeneSim.md)
+  : Similarity score between clusters of genes based on genes similarity
+
+## Convert between similarities
+
+Convert from Jaccard to Dice or vice versa
+
+- [`D2J()`](https://biocor.llrs.dev/reference/conversions.md)
+  [`J2D()`](https://biocor.llrs.dev/reference/conversions.md) : Convert
+  the similarities formats
+
+## Combine similarities
+
+- [`combineScores()`](https://biocor.llrs.dev/reference/combineScores.md)
+  [`combineScoresPar()`](https://biocor.llrs.dev/reference/combineScores.md)
+  : Combining values
+
+## Helper functions
+
+- [`plot_data()`](https://biocor.llrs.dev/reference/plot_similarity.md)
+  [`plot_similarity()`](https://biocor.llrs.dev/reference/plot_similarity.md)
+  : The position of the nodes is based on the similarity between them.
+- [`combineSources()`](https://biocor.llrs.dev/reference/combineSources.md)
+  : Combine different sources of pathways
+- [`AintoB()`](https://biocor.llrs.dev/reference/AintoB.md) : Insert a
+  matrix into another
+- [`seq2mat()`](https://biocor.llrs.dev/reference/seq2mat.md) :
+  Transforms a vector to a symmetric matrix
+- [`combinadic()`](https://biocor.llrs.dev/reference/combinadic.md) :
+  i-th combination of n elements taken from r
+- [`diceSim()`](https://biocor.llrs.dev/reference/diceSim.md) : Compare
+  pathways
+- [`duplicateIndices()`](https://biocor.llrs.dev/reference/duplicateIndices.md)
+  : Finds the indices of the duplicated events of a vector
+- [`removeDup()`](https://biocor.llrs.dev/reference/removeDup.md) :
+  Remove duplicated rows and columns
+- [`inverseList()`](https://biocor.llrs.dev/reference/inverseList.md) :
+  Invert a list
+- [`similarities()`](https://biocor.llrs.dev/reference/similarities.md)
+  : Apply a function to a list of similarities
+- [`addSimilarities()`](https://biocor.llrs.dev/reference/addSimilarities.md)
+  : Additive integration of similarities
+- [`weighted.sum()`](https://biocor.llrs.dev/reference/weighted.md)
+  [`weighted.prod()`](https://biocor.llrs.dev/reference/weighted.md) :
+  Weighted operations
+
+# Articles
+
+### All vignettes
+
+- [About BioCor](https://biocor.llrs.dev/articles/BioCor_1_basics.md):
+- [Advanced usage of
+  BioCor](https://biocor.llrs.dev/articles/BioCor_2_advanced.md):
