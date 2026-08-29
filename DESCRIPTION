@@ -15,8 +15,7 @@ Description: Calculates functional similarities based on the pathways
     combined with other similarities. They can be used to improve
     networks, gene selection, testing relationships...
 License: MIT + file LICENSE
-URL: https://bioconductor.org/packages/BioCor,
-    https://biocor.llrs.dev
+URL: https://bioconductor.org/packages/BioCor, https://biocor.llrs.dev
 BugReports: https://github.com/llrs/BioCor/issues
 Depends:
     R (>= 4.4)
@@ -44,8 +43,8 @@ VignetteBuilder:
     knitr
 biocViews: StatisticalMethod, Clustering, GeneExpression, Network,
     Pathways, NetworkEnrichment, SystemsBiology
+Config/roxygen2/version: 8.1.0
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-Config/roxygen2/version: 8.1.0
