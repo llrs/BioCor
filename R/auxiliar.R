@@ -100,7 +100,7 @@ duplicateIndices <- function(vec) {
     stop("Expected a list of characters to find duplicates on it")
   }
   sapply(unique(vec[duplicated(vec)]), function(x) {
-    b <- seq_len(length(vec))
+    b <- seq_along(vec)
     b[vec == x]
   }, simplify = FALSE)
 }

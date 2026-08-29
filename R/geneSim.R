@@ -87,8 +87,7 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
   # Combine or not
   if (is.null(method)) {
     sim
-  }
-  else {
+  } else {
     combineScoresPar(sim, method = method, ...)
   }
 }
@@ -104,7 +103,7 @@ setMethod(
     gene2 = "character"
   ),
   function(gene1, gene2, info, method, ...) {
-    if (length(gene1) != 1 | length(gene2) != 1) {
+    if (length(gene1) != 1 || length(gene2) != 1) {
       stop(
         "Introduce just one gene!\n",
         "If you want to calculate several similarities ",

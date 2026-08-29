@@ -89,7 +89,7 @@ setMethod(
     cluster2 = "character"
   ),
   function(cluster1, cluster2, info, method, ...) {
-    if (length(unique(cluster1)) == 1L & length(unique(cluster2)) == 1L) {
+    if (length(unique(cluster1)) == 1L && length(unique(cluster2)) == 1L) {
       stop(
         "Introduce several genes in each cluster!\n",
         "If you want to calculate similarities ",

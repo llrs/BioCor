@@ -111,14 +111,14 @@ setMethod(
     cluster2 = "character"
   ),
   function(cluster1, cluster2, info, method, ...) {
-    if (length(unique(cluster1)) == 1L & length(unique(cluster2)) == 1L) {
+    if (length(unique(cluster1)) == 1L && length(unique(cluster2)) == 1L) {
       stop(
         "Introduce several genes in each cluster!\n",
         "If you want to calculate similarities ",
         "between two genes use geneSim"
       )
     }
-    if (!all(is.character(cluster1)) | !all(is.character(cluster2))) {
+    if (!all(is.character(cluster1)) || !all(is.character(cluster2))) {
       stop("The input genes should be characters")
     }
     cluster1 <- unique(cluster1)
@@ -127,13 +127,13 @@ setMethod(
     # Revert back to list
     list_info <- inverseList(GSEABase::geneIds(info))
 
-    if (any(!cluster1 %in% names(list_info)) | any(!cluster2 %in% names(list_info))) {
+    if (any(!cluster1 %in% names(list_info)) || any(!cluster2 %in% names(list_info))) {
       cluster1 <- cluster1[cluster1 %in% names(list_info)]
       cluster2 <- cluster2[cluster2 %in% names(list_info)]
       warning("Some genes are not in the GeneSetCollection provided.")
     }
 
-    if (length(method) > 2L | is.null(method)) {
+    if (length(method) > 2L || is.null(method)) {
       stop(
         "Please provide two  or one method to combine scores.",
         "See Details"

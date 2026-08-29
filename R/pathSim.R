@@ -68,7 +68,7 @@ setMethod(
     pathway2 = "character"
   ),
   function(pathway1, pathway2, info) {
-    if (length(pathway1) != 1 | length(pathway2) != 1) {
+    if (length(pathway1) != 1 || length(pathway2) != 1) {
       stop(
         "Introduce just one pathway!\n",
         "If you want to calculate several similarities ",
