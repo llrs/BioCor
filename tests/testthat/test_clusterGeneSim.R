@@ -46,6 +46,7 @@ test_that("mclusterGeneSim", {
     expect_warning(mclusterGeneSim(cluster2, info), "not in")
     test <- mclusterGeneSim(clusters, info)
     expect_equal(test[1L, 1L], 1)
+    expect_equal(colnames(test), names(clusters))
 
     test <- mclusterGeneSim(clusters, info, c("max", "avg"))
     expect_equal(test[1L, 1L], 1)
@@ -56,52 +57,59 @@ test_that("mclusterGeneSim", {
 
 test_that("clusterGeneSim GeneSetCollection", {
     expect_warning(
-        test0 <- clusterGeneSim(c("2", "1"), c("9", "4"), info),
-        "Using max method because after removing NAs"
+        test0 <- clusterGeneSim(c("2", "1"), c("9", "4"), Info),
     )
-    expect_error(clusterGeneSim(c("2", "2"), c("4", "4"), info), "several")
-    expect_error(clusterGeneSim(c("2", "2"), c(9, 4), info), "character")
+    expect_error(clusterGeneSim(c("2", "2"), c("4", "4"), Info), "several")
+    expect_error(clusterGeneSim(c("2", "2"), c(9, 4), Info), "character")
     expect_warning(
-        test <- clusterGeneSim(c("13", "12"), c("9", "4"), info),
-        "Some genes are not in the list provided"
+        test <- clusterGeneSim(c("13", "12"), c("9", "4"), Info),
+        "Some genes are not in the GeneSetCollection provided"
     )
 
     expect_true(is.na(test))
-    expect_error(clusterGeneSim(c("2", "1"), c("9", "3"), info,
-        method = NULL
-    ), "method")
-    expect_warning(test2 <- clusterGeneSim(c("9", "4"), c("2", "1"), info))
+    expect_error(
+      expect_warning(
+        clusterGeneSim(c("2", "1"), c("9", "3"), Info, method = NULL),
+        "Some genes are not in the GeneSetCollection provided"
+      ),
+      "method")
+    expect_warning(test2 <- clusterGeneSim(c("9", "4"), c("2", "1"), Info))
     expect_equal(test0, 0.4)
     expect_equal(test0, test2)
-    test <- clusterGeneSim(c("2", "1"), c("9", "4"), info, "max")
+    test <- clusterGeneSim(c("3", "10"), c("9", "2"), Info, "max")
     expect_true(is.matrix(test))
-    test <- clusterGeneSim(c("2", "1"), c("9", "4"), info, c("avg", "max"))
-    expect_lte(test, 0.01)
-    test <- clusterGeneSim(c("2", "1"), c("9", "4"), info, c("avg", "max"),
+    test <- clusterGeneSim(c("3", "10"), c("9", "2"), Info, c("avg", "max"))
+    expect_lte(test, 0.93)
+    test <- clusterGeneSim(c("3", "10"), c("9", "2"), Info, c("avg", "max"),
         round = TRUE
     )
-    expect_lte(test, 0.01)
+    expect_lte(test, 0.93)
 })
 
 test_that("mclusterGeneSim GeneSetCollection", {
-    expect_error(mclusterGeneSim(c("a", "b"), info), "list")
+    expect_error(mclusterGeneSim(c("a", "b"), Info), "list")
     expect_error(
-        mclusterGeneSim(list(a = c("a", "b"), b = c(1, 2)), info),
+        mclusterGeneSim(list(a = c("a", "b"), b = c(1, 2)), Info),
         "character"
     )
     expect_error(
-        mclusterGeneSim(list(a = c("a", "b")), info),
+        mclusterGeneSim(list(a = c("a", "b")), Info),
         "several clusters"
     )
     expect_error(mclusterGeneSim(clusters, c("a", "b")), "list")
     cluster2 <- clusters
     cluster2$cluster1 <- "199"
-    expect_warning(mclusterGeneSim(cluster2, info))
-    test <- mclusterGeneSim(clusters, info)
+    expect_warning(
+      expect_warning(
+        mclusterGeneSim(cluster2, Info),
+        "genes are not"),
+      "clusters are not")
+    expect_warning(test <- mclusterGeneSim(clusters, Info), "genes are not")
     expect_equal(test[1L, 1L], 1)
+    expect_equal(colnames(test), names(clusters))
 
-    test <- mclusterGeneSim(clusters, info, c("max", "avg"))
+    expect_warning(test <- mclusterGeneSim(clusters, Info, c("max", "avg")))
     expect_equal(test[1L, 1L], 1)
     expect_true(isSymmetric(test))
-    expect_error(expect_warning(mclusterGeneSim(clusters, info, NULL)))
+    expect_error(expect_warning(mclusterGeneSim(clusters, Info, NULL)))
 })
