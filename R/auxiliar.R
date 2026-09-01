@@ -21,30 +21,30 @@
 #' [StackOverflow answer
 #' 4494469/2886003](https://stackoverflow.com/a/4494469/2886003)
 combinadic <- function(n, r, i) {
-  # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
-  # http://en.wikipedia.org/wiki/Combinadic
-  n0 <- length(n)
-  if (i < 1L || i > choose(n0, r)) {
-    stop("'i' must be 0 < i <= n0!/(n0-r)!")
-  }
-  largestV <- function(n, r, i) {
-    v <- n # Adjusted for one-based indexing
-    while (choose(v, r) >= i) { # Adjusted for one-based indexing
-      v <- v - 1L
+    # http://msdn.microsoft.com/en-us/library/aa289166(VS.71).aspx
+    # http://en.wikipedia.org/wiki/Combinadic
+    n0 <- length(n)
+    if (i < 1L || i > choose(n0, r)) {
+        stop("'i' must be 0 < i <= n0!/(n0-r)!")
     }
-    return(v)
-  }
+    largestV <- function(n, r, i) {
+        v <- n # Adjusted for one-based indexing
+        while (choose(v, r) >= i) { # Adjusted for one-based indexing
+            v <- v - 1L
+        }
+        return(v)
+    }
 
-  res <- rep(NA, r)
-  for (j in 1L:r) {
-    res[j] <- largestV(n0, r, i)
-    i <- i - choose(res[j], r)
-    n0 <- res[j]
-    r <- r - 1L
-  }
-  res <- res + 1L
-  res <- n[res]
-  return(res)
+    res <- rep(NA, r)
+    for (j in 1L:r) {
+        res[j] <- largestV(n0, r, i)
+        i <- i - choose(res[j], r)
+        n0 <- res[j]
+        r <- r - 1L
+    }
+    res <- res + 1L
+    res <- n[res]
+    return(res)
 }
 
 # seq2mat ####
@@ -67,15 +67,15 @@ combinadic <- function(n, r, i) {
 #' @seealso [upper.tri()] and [lower.tri()]
 #' @author Lluís Revilla
 seq2mat <- function(x, dat) {
-  if (length(dat) != choose(length(x), 2L)) {
-    stop("Data is not enough big to populate the matrix")
-  }
-  out <- matrix(ncol = length(x), nrow = length(x))
-  out[upper.tri(out)] <- unlist(dat, use.names = TRUE)
-  out[lower.tri(out)] <- t(out)[lower.tri(t(out))]
-  diag(out) <- 1L
-  rownames(out) <- colnames(out) <- x
-  return(out)
+    if (length(dat) != choose(length(x), 2L)) {
+        stop("Data is not enough big to populate the matrix")
+    }
+    out <- matrix(ncol = length(x), nrow = length(x))
+    out[upper.tri(out)] <- unlist(dat, use.names = TRUE)
+    out[lower.tri(out)] <- t(out)[lower.tri(t(out))]
+    diag(out) <- 1L
+    rownames(out) <- colnames(out) <- x
+    return(out)
 }
 
 # duplicateIndices ####
@@ -95,16 +95,16 @@ seq2mat <- function(x, dat) {
 #' duplicateIndices(c("52", "52", "53", "55", "55")) # Repeated elements
 #' duplicateIndices(c("52", "55", "53", "55", "52")) # Mixed repeated elements
 duplicateIndices <- function(vec) {
-  if (!is.character(vec)) {
-    stop("Expected a list of characters to find duplicates on it")
-  }
-  vec_u <- vec[duplicated(vec)]
-  out <- lapply(vec_u, function(x) {
-    b <- seq_along(vec)
-    b[vec == x]
-  })
-  names(out) <- vec_u
-  out
+    if (!is.character(vec)) {
+        stop("Expected a list of characters to find duplicates on it")
+    }
+    vec_u <- vec[duplicated(vec)]
+    out <- lapply(vec_u, function(x) {
+        b <- seq_along(vec)
+        b[vec == x]
+    })
+    names(out) <- vec_u
+    out
 }
 
 # removeDup ####
@@ -130,23 +130,23 @@ duplicateIndices <- function(vec) {
 #' remat <- removeDup(mat, dupli)
 #' remat
 removeDup <- function(cor_mat, dupli) {
-  if (!all(vapply(cor_mat, isSymmetric, TRUE))) {
-    stop(
-      "All the matrices of mat should be symmetric and with the same ",
-      "column names and rownames"
-    )
-  }
-  cor_mat <- Map(function(mat, x = dupli) {
-    rem.colum <- lapply(x, function(y, m) {
-      mean.column <- apply(m[, y], 2L, mean, na.rm = TRUE)
-      i <- which.max(abs(mean.column))
-      # Select those who don't bring more information
-      setdiff(y, y[i])
-    }, m = mat)
-    rem.colum <- unlist(rem.colum, FALSE, FALSE)
-    mat[-rem.colum, -rem.colum]
-  }, cor_mat)
-  return(cor_mat)
+    if (!all(vapply(cor_mat, isSymmetric, TRUE))) {
+        stop(
+            "All the matrices of mat should be symmetric and with the same ",
+            "column names and rownames"
+        )
+    }
+    cor_mat <- Map(function(mat, x = dupli) {
+        rem.colum <- lapply(x, function(y, m) {
+            mean.column <- apply(m[, y], 2L, mean, na.rm = TRUE)
+            i <- which.max(abs(mean.column))
+            # Select those who don't bring more information
+            setdiff(y, y[i])
+        }, m = mat)
+        rem.colum <- unlist(rem.colum, FALSE, FALSE)
+        mat[-rem.colum, -rem.colum]
+    }, cor_mat)
+    return(cor_mat)
 }
 
 #' Invert a list
@@ -159,11 +159,11 @@ removeDup <- function(cor_mat, dupli) {
 #' @author Lluís Revilla
 #' @export
 inverseList <- function(x) {
-  stopifnot(length(names(x)) == length(x))
-  stopifnot(all(vapply(x, function(x) {
-    is.character(x) || is.na(x)
-  }, TRUE)))
-  genes <- unlist(x, use.names = FALSE)
-  pathways <- rep(names(x), lengths(x))
-  split(pathways, genes)
+    stopifnot(length(names(x)) == length(x))
+    stopifnot(all(vapply(x, function(x) {
+        is.character(x) || is.na(x)
+    }, TRUE)))
+    genes <- unlist(x, use.names = FALSE)
+    pathways <- rep(names(x), lengths(x))
+    split(pathways, genes)
 }

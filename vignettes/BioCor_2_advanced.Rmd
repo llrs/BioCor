@@ -40,15 +40,15 @@ editor_options:
 ---
 ```{r setup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE, warning = TRUE, fig.wide = TRUE,
-  cache = FALSE, crop = FALSE
+    collapse = TRUE, warning = TRUE, fig.wide = TRUE,
+    cache = FALSE, crop = FALSE
 )
 suppressPackageStartupMessages(library("org.Hs.eg.db"))
 genesKegg <- base::as.list(org.Hs.eg.db::org.Hs.egPATH)
 genesReact <- base::as.list(reactome.db::reactomeEXTID2PATHID)
 # Remove genes and pathways which are not from human pathways
 genesReact <- lapply(genesReact, function(x) {
-  grep("R-HSA-", x, value = TRUE)
+    grep("R-HSA-", x, value = TRUE)
 })
 genesReact <- genesReact[lengths(genesReact) >= 1]
 library("BioCor")
@@ -112,8 +112,8 @@ dds <- DESeq(dds)
 res <- results(dds, alpha = 0.05)
 summary(res)
 plot(res$log2FoldChange, -log10(res$padj),
-  pch = 16, xlab = "log2FC",
-  ylab = "-log10(p.ajd)", main = "Untreated vs treated"
+    pch = 16, xlab = "log2FC",
+    ylab = "-log10(p.ajd)", main = "Untreated vs treated"
 )
 logFC <- 2.5
 abline(v = c(-logFC, logFC), h = -log10(0.05), col = "red")
@@ -130,8 +130,8 @@ fc <- res[abs(res$log2FoldChange) >= logFC & !is.na(res$padj), ]
 fc <- fc[fc$padj < 0.05, ]
 # Convert Ids (used later)
 genes <- select(org.Hs.eg.db,
-  keys = rownames(res), keytype = "ENSEMBL",
-  column = c("ENTREZID", "SYMBOL")
+    keys = rownames(res), keytype = "ENSEMBL",
+    column = c("ENTREZID", "SYMBOL")
 )
 genesFC <- genes[genes$ENSEMBL %in% rownames(fc), ]
 genesFC <- genesFC[!is.na(genesFC$ENTREZID), ]
@@ -147,7 +147,7 @@ Once the similarities for the selected genes are calculated we can now visualize
 ```{r pval1, fig.cap="Functional similarity of genes with logFC above 2,5. Similar genes cluster together.", fig.width=15, fig.height=20}
 #| fig.alt = "First two dimensions of a multi dimensional scaling method based on the similarity of genes. Colored if the fold change is above 2.5 (red)."
 nas <- apply(sim, 1, function(x) {
-  all(is.na(x))
+    all(is.na(x))
 })
 sim <- sim[!nas, !nas]
 
@@ -180,8 +180,8 @@ gS <- mgeneSim(g[g %in% names(genesReact)], genesReact, "BMA")
 deg <- rownames(subRes[subRes$padj < 0.05 & !is.na(subRes$padj), ])
 keep <- rownames(gS) %in% genes[genes$ENSEMBL %in% deg, "ENTREZID"]
 plot(subRes$log2FoldChange, -log10(subRes$padj),
-  pch = 16, xlab = "log2FC",
-  ylab = "-log10(p.ajd)", main = "Untreated vs treated"
+    pch = 16, xlab = "log2FC",
+    ylab = "-log10(p.ajd)", main = "Untreated vs treated"
 )
 abline(v = c(-logFC, logFC), h = -log10(0.05), col = "red")
 ```
@@ -194,8 +194,8 @@ library("boot")
 # The mean of genes differentially expressed
 (scoreDEG <- mean(gS[!keep, keep], na.rm = TRUE))
 b <- boot(data = gS, R = 1000, statistic = function(x, i) {
-  g <- !rownames(x) %in% rownames(x)[i]
-  mean(x[g, i], na.rm = TRUE)
+    g <- !rownames(x) %in% rownames(x)[i]
+    mean(x[g, i], na.rm = TRUE)
 })
 (p.val <- (1 + sum(b$t > scoreDEG)) / 1001)
 hist(b$t, main = "Distribution of scores", xlab = "Similarity score")
@@ -214,7 +214,7 @@ We have seen that the genes differentially expressed aren't selected by their fu
 #| fig.alt = "Distribution of similarity scores between expressed genes. A vertical red line indicates the real similarity between those differentially expressed genes."
 (scoreW <- combineScores(gS[keep, keep], "avg"))
 b <- boot(data = gS, R = 1000, statistic = function(x, i) {
-  mean(x[i, i], na.rm = TRUE)
+    mean(x[i, i], na.rm = TRUE)
 })
 (p.val <- (1 + sum(b$t > scoreW)) / 1001) # P-value
 hist(b$t, main = "Distribution of scores", xlab = "Similarity score")
@@ -238,31 +238,31 @@ To know the relationship between the fold change and the similarity between gene
 #|   the threshold and below the threshold."
 s <- seq(0, max(abs(subRes$log2FoldChange)) + 0.05, by = 0.05)
 l <- sapply(s, function(x) {
-  deg <- rownames(subRes[abs(subRes$log2FoldChange) >= x, ])
-  keep <- rownames(gS) %in% genes[genes$ENSEMBL %in% deg, "ENTREZID"]
-  BetweenAbove <- mean(gS[keep, keep], na.rm = TRUE)
-  AboveBelow <- mean(gS[keep, !keep], na.rm = TRUE)
-  BetweenBelow <- mean(gS[!keep, !keep], na.rm = TRUE)
-  c(
-    "BetweenAbove" = BetweenAbove, "AboveBelow" = AboveBelow,
-    "BetweenBelow" = BetweenBelow
-  )
+    deg <- rownames(subRes[abs(subRes$log2FoldChange) >= x, ])
+    keep <- rownames(gS) %in% genes[genes$ENSEMBL %in% deg, "ENTREZID"]
+    BetweenAbove <- mean(gS[keep, keep], na.rm = TRUE)
+    AboveBelow <- mean(gS[keep, !keep], na.rm = TRUE)
+    BetweenBelow <- mean(gS[!keep, !keep], na.rm = TRUE)
+    c(
+        "BetweenAbove" = BetweenAbove, "AboveBelow" = AboveBelow,
+        "BetweenBelow" = BetweenBelow
+    )
 })
 L <- as.data.frame(cbind(logfc = s, t(l)))
 plot(L$logfc, L$BetweenAbove,
-  type = "l", xlab = "abs(log2) fold change",
-  ylab = "Similarity score",
-  main = "Similarity scores along logFC", col = "darkred"
+    type = "l", xlab = "abs(log2) fold change",
+    ylab = "Similarity score",
+    main = "Similarity scores along logFC", col = "darkred"
 )
 lines(L$logfc, L$AboveBelow, col = "darkgreen")
 lines(L$logfc, L$BetweenBelow, col = "black")
 legend("topleft",
-  legend = c(
-    "Between genes above and below threshold",
-    "Whitin genes above threshold",
-    "Whitin genes below threshold"
-  ),
-  fill = c("darkgreen", "darkred", "black")
+    legend = c(
+        "Between genes above and below threshold",
+        "Whitin genes above threshold",
+        "Whitin genes below threshold"
+    ),
+    fill = c("darkgreen", "darkred", "black")
 )
 ```
 
@@ -271,29 +271,29 @@ The functional similarity of the genes above the threshold increases with a more
 ```{r logfc2, fig.cap = "Functional similarity between the up-regulated and down-regulated genes.", code_folding = "hide"}
 #| fig.alt = "Similarity score between genes up and down-regulated along the threshold of log fold change."
 l <- sapply(s, function(x) {
-  # Names of genes up and down regulated
-  degUp <- rownames(subRes[subRes$log2FoldChange >= x, ])
-  degDown <- rownames(subRes[subRes$log2FoldChange <= -x, ])
+    # Names of genes up and down regulated
+    degUp <- rownames(subRes[subRes$log2FoldChange >= x, ])
+    degDown <- rownames(subRes[subRes$log2FoldChange <= -x, ])
 
-  # Translate to ids in gS
-  keepUp <- rownames(gS) %in% genes[genes$ENSEMBL %in% degUp, "ENTREZID"]
-  keepDown <- rownames(gS) %in% genes[genes$ENSEMBL %in% degDown, "ENTREZID"]
+    # Translate to ids in gS
+    keepUp <- rownames(gS) %in% genes[genes$ENSEMBL %in% degUp, "ENTREZID"]
+    keepDown <- rownames(gS) %in% genes[genes$ENSEMBL %in% degDown, "ENTREZID"]
 
-  # Calculate the mean similarity between each subgrup
-  between <- mean(gS[keepUp, keepDown], na.rm = TRUE)
+    # Calculate the mean similarity between each subgrup
+    between <- mean(gS[keepUp, keepDown], na.rm = TRUE)
 
-  c("UpVsDown" = between)
+    c("UpVsDown" = between)
 })
 L <- as.data.frame(cbind("logfc" = s, "UpVsDown" = l))
 plot(L$logfc, L$UpVsDown,
-  type = "l",
-  xlab = "abs(log2) fold change threshold",
-  ylab = "Similarity score",
-  main = "Similarity scores along logFC"
+    type = "l",
+    xlab = "abs(log2) fold change threshold",
+    ylab = "Similarity score",
+    main = "Similarity scores along logFC"
 )
 legend("topright",
-  legend = "Up vs down regulated genes",
-  fill = "black"
+    legend = "Up vs down regulated genes",
+    fill = "black"
 )
 ```
 
@@ -308,7 +308,7 @@ Sometimes the top differentially expressed genes or some other key genes are sel
 genesReact2 <- genesReact
 diffGenes <- genes[genes$ENSEMBL %in% deg, "ENTREZID"]
 genesReact2[diffGenes] <- sapply(genesReact[diffGenes], function(x) {
-  c(x, "deg")
+    c(x, "deg")
 })
 plot(ecdf(mgeneSim(names(genesReact), genesReact)))
 curve(ecdf(mgeneSim(names(genesReact2), genesReact2)), color = "red")
@@ -325,17 +325,17 @@ genesReact2 <- genesReact
 diffGenes <- genes[genes$ENSEMBL %in% deg, "ENTREZID"]
 # Create the new pathway called deg
 genesReact2[diffGenes] <- sapply(genesReact[diffGenes], function(x) {
-  c(x, "deg")
+    c(x, "deg")
 })
 ids <- unique(genes[genes$ENSEMBL %in% rownames(subRes), "ENTREZID"])
 Ecdf(
-  c(
-    mgeneSim(ids, genesReact, method = "BMA"),
-    mgeneSim(ids, genesReact2, method = "BMA")
-  ),
-  group = c(rep("Reactome", length(ids)^2), rep("Modified", length(ids)^2)),
-  col = c("black", "red"), xlab = "Functional similarities",
-  main = "Empirical cumulative distribution"
+    c(
+        mgeneSim(ids, genesReact, method = "BMA"),
+        mgeneSim(ids, genesReact2, method = "BMA")
+    ),
+    group = c(rep("Reactome", length(ids)^2), rep("Modified", length(ids)^2)),
+    col = c("black", "red"), xlab = "Functional similarities",
+    main = "Empirical cumulative distribution"
 )
 ```
 
@@ -357,12 +357,12 @@ gSK <- mgeneSim(rownames(gS), genesKegg)
 mix <- combineSources(genesKegg, genesReact)
 gSMix <- mgeneSim(rownames(gS), mix)
 Ecdf(c(gS, gSK, gSMix),
-  group = c(
-    rep("Reactome", length(gS)), rep("Kegg", length(gSK)),
-    rep("Mix", length(gSMix))
-  ),
-  col = c("black", "red", "blue"), xlab = "Functional similarities",
-  main = "Empirical cumulative distribution."
+    group = c(
+        rep("Reactome", length(gS)), rep("Kegg", length(gSK)),
+        rep("Mix", length(gSMix))
+    ),
+    col = c("black", "red", "blue"), xlab = "Functional similarities",
+    main = "Empirical cumulative distribution."
 )
 ```
 
@@ -376,11 +376,11 @@ gSK2 <- mgeneSim(rownames(gS), genesKegg, method = "BMA")
 gS2 <- mgeneSim(rownames(gS), genesReact, method = "BMA")
 gSMix2 <- mgeneSim(rownames(gS), mix, method = "BMA")
 Ecdf(c(gS2, gSK2, gSMix2),
-  group = c(
-    rep("Reactome", length(gS)), rep("Kegg", length(gSK)),
-    rep("Mix", length(gSMix))
-  ),
-  col = c("black", "red", "blue"), xlab = "Functional similarities (BMA)", main = "Empirical cumulative distribution."
+    group = c(
+        rep("Reactome", length(gS)), rep("Kegg", length(gSK)),
+        rep("Mix", length(gSMix))
+    ),
+    col = c("black", "red", "blue"), xlab = "Functional similarities (BMA)", main = "Empirical cumulative distribution."
 )
 ```
 
@@ -397,8 +397,8 @@ BP <- godata("org.Hs.eg.db", ont = "BP", computeIC = TRUE)
 gsGO <- GOSemSim::mgeneSim(rownames(gS), semData = BP, measure = "Resnik", verbose = FALSE)
 keep <- rownames(gS) %in% rownames(gsGO)
 hist(as.dist(gS[keep, keep] - gsGO),
-  main = "Difference between functional similarity and biological process",
-  xlab = "Functional similarity - biological process similarity"
+    main = "Difference between functional similarity and biological process",
+    xlab = "Functional similarity - biological process similarity"
 )
 ```
 

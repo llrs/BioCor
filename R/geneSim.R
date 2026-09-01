@@ -27,69 +27,69 @@
 #' [combineScoresPar()].
 #' @examples
 #' if (require("org.Hs.eg.db") & require("reactome.db")) {
-#'   # Extract the paths of all genes of org.Hs.eg.db from KEGG
-#'   # (last update in data of June 31st 2011)
-#'   genes.kegg <- as.list(org.Hs.egPATH)
-#'   # Extracts the paths of all genes of org.Hs.eg.db from reactome
-#'   genes.react <- as.list(reactomeEXTID2PATHID)
-#'   geneSim("81", "18", genes.react)
-#'   geneSim("81", "18", genes.kegg)
-#'   geneSim("81", "18", genes.react, NULL)
-#'   geneSim("81", "18", genes.kegg, NULL)
+#'     # Extract the paths of all genes of org.Hs.eg.db from KEGG
+#'     # (last update in data of June 31st 2011)
+#'     genes.kegg <- as.list(org.Hs.egPATH)
+#'     # Extracts the paths of all genes of org.Hs.eg.db from reactome
+#'     genes.react <- as.list(reactomeEXTID2PATHID)
+#'     geneSim("81", "18", genes.react)
+#'     geneSim("81", "18", genes.kegg)
+#'     geneSim("81", "18", genes.react, NULL)
+#'     geneSim("81", "18", genes.kegg, NULL)
 #' } else {
-#'   warning("You need reactome.db and org.Hs.eg.db package for this example")
+#'     warning("You need reactome.db and org.Hs.eg.db package for this example")
 #' }
 geneSim <- function(gene1, gene2, info, method = "max", ...) {
-  if (length(unique(gene1)) != 1L || length(unique(gene2)) != 1L) {
-    stop(
-      "Introduce just one gene!\n",
-      "If you want to calculate several similarities ",
-      "between genes use mgeneSim"
-    )
-  }
+    if (length(unique(gene1)) != 1L || length(unique(gene2)) != 1L) {
+        stop(
+            "Introduce just one gene!\n",
+            "If you want to calculate several similarities ",
+            "between genes use mgeneSim"
+        )
+    }
 
-  if (!is.character(gene1) || !is.character(gene2)) {
-    stop("Please use character")
-  }
+    if (!is.character(gene1) || !is.character(gene2)) {
+        stop("Please use character")
+    }
 
-  if (!is.list(info)) {
-    stop("Please introduce info as a list")
-  }
+    if (!is.list(info)) {
+        stop("Please introduce info as a list")
+    }
 
-  if (any(!c(gene1, gene2) %in% names(info))) {
-    return(NA)
-  }
+    if (any(!c(gene1, gene2) %in% names(info))) {
+        return(NA)
+    }
 
-  comb <- c(gene1, gene2)
+    comb <- c(gene1, gene2)
 
-  if (any(is.na(comb))) {
-    return(NA)
-  }
+    if (any(is.na(comb))) {
+        return(NA)
+    }
 
-  # Extract all pathways for each gene
-  pathways <- lapply(comb, function(x) {
-    y <- info[[x]]
-    y[!is.na(y)]
-  })
-  names(pathways) <- comb
+    # Extract all pathways for each gene
+    pathways <- lapply(comb, function(x) {
+        y <- info[[x]]
+        y[!is.na(y)]
+    })
+    names(pathways) <- comb
 
-  # Check that we have pathways info for this combination
-  if (any(lengths(pathways) == 0L)) {
-    return(NA)
-  }
-  # Subseting just the important pathways
-  pathways_all <- unique(unlist(pathways, use.names = FALSE))
+    # Check that we have pathways info for this combination
+    if (any(lengths(pathways) == 0L)) {
+        return(NA)
+    }
+    # Subseting just the important pathways
+    pathways_all <- unique(unlist(pathways, use.names = FALSE))
 
 
-  sim <- mpathSim(pathways_all, info = info, method = NULL, ...)
-  sim <- sim[pathways[[1]], pathways[[2]], drop = FALSE]
+    sim <- mpathSim(pathways_all, info = info, method = NULL, ...)
+    sim <- sim[pathways[[1]], pathways[[2]], drop = FALSE]
 
-  # Combine or not
-  if (is.null(method)) {
-    sim
-  } else {
-    combineScoresPar(sim, method = method, ...)
-  }
+    # Combine or not
+    if (is.null(method)) {
+        sim
+    } else {
+        combineScoresPar(sim, method = method, ...)
+    }
 }
 
 
@@ -97,50 +97,50 @@ geneSim <- function(gene1, gene2, info, method = "max", ...) {
 #' and combine them using [combineScoresPar()]
 #' @export
 setMethod(
-  "geneSim",
-  c(
-    info = "GeneSetCollection", gene1 = "character",
-    gene2 = "character"
-  ),
-  function(gene1, gene2, info, method, ...) {
-    if (length(gene1) != 1 || length(gene2) != 1) {
-      stop(
-        "Introduce just one gene!\n",
-        "If you want to calculate several similarities ",
-        "between genes use mgeneSim"
-      )
-    }
-    # Extract the ids
-    origGenes <- GSEABase::geneIds(info)
-    # Check that the genes are in the GeneSetCollection
-    genes <- unique(unlist(origGenes, use.names = FALSE))
-    if (any(!c(gene1, gene2) %in% genes)) {
-      return(NA)
-    }
-    # Simplify the GeneSetCollection
-    keep <- vapply(origGenes, function(x) {
-      any(c(gene1, gene2) %in% x)
-    }, TRUE)
-    gscGenes <- info[names(keep[keep])]
+    "geneSim",
+    c(
+        info = "GeneSetCollection", gene1 = "character",
+        gene2 = "character"
+    ),
+    function(gene1, gene2, info, method, ...) {
+        if (length(gene1) != 1 || length(gene2) != 1) {
+            stop(
+                "Introduce just one gene!\n",
+                "If you want to calculate several similarities ",
+                "between genes use mgeneSim"
+            )
+        }
+        # Extract the ids
+        origGenes <- GSEABase::geneIds(info)
+        # Check that the genes are in the GeneSetCollection
+        genes <- unique(unlist(origGenes, use.names = FALSE))
+        if (any(!c(gene1, gene2) %in% genes)) {
+            return(NA)
+        }
+        # Simplify the GeneSetCollection
+        keep <- vapply(origGenes, function(x) {
+            any(c(gene1, gene2) %in% x)
+        }, TRUE)
+        gscGenes <- info[names(keep[keep])]
 
-    # Search for the paths of each gene
-    paths <- lapply(c(gene1, gene2), function(x) {
-      keepPaths <- vapply(geneIds(gscGenes), function(y) {
-        any(x %in% y)
-      }, TRUE)
-      names(keepPaths[keepPaths])
-    })
-    names(paths) <- c(gene1, gene2)
+        # Search for the paths of each gene
+        paths <- lapply(c(gene1, gene2), function(x) {
+            keepPaths <- vapply(geneIds(gscGenes), function(y) {
+                any(x %in% y)
+            }, TRUE)
+            names(keepPaths[keepPaths])
+        })
+        names(paths) <- c(gene1, gene2)
 
-    # Calculate the pathSim of all the implied pathways
-    pathsSim <- mpathSim(info = gscGenes, method = NULL)
+        # Calculate the pathSim of all the implied pathways
+        pathsSim <- mpathSim(info = gscGenes, method = NULL)
 
-    # Summarize the information
-    if (is.null(method)) {
-      pathsSim[paths[[1]], paths[[2]], drop = FALSE]
-    } else {
-      out <- combineScoresPar(pathsSim, method, subSets = paths, ...)
-      out[gene1, gene2]
+        # Summarize the information
+        if (is.null(method)) {
+            pathsSim[paths[[1]], paths[[2]], drop = FALSE]
+        } else {
+            out <- combineScoresPar(pathsSim, method, subSets = paths, ...)
+            out[gene1, gene2]
+        }
     }
-  }
 )
