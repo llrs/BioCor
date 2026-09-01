@@ -120,8 +120,8 @@ summary(res)
 ## [1] see 'cooksCutoff' argument of ?results
 ## [2] see 'independentFiltering' argument of ?results
 plot(res$log2FoldChange, -log10(res$padj),
-  pch = 16, xlab = "log2FC",
-  ylab = "-log10(p.ajd)", main = "Untreated vs treated"
+    pch = 16, xlab = "log2FC",
+    ylab = "-log10(p.ajd)", main = "Untreated vs treated"
 )
 logFC <- 2.5
 abline(v = c(-logFC, logFC), h = -log10(0.05), col = "red")
@@ -147,8 +147,8 @@ fc <- res[abs(res$log2FoldChange) >= logFC & !is.na(res$padj), ]
 fc <- fc[fc$padj < 0.05, ]
 # Convert Ids (used later)
 genes <- select(org.Hs.eg.db,
-  keys = rownames(res), keytype = "ENSEMBL",
-  column = c("ENTREZID", "SYMBOL")
+    keys = rownames(res), keytype = "ENSEMBL",
+    column = c("ENTREZID", "SYMBOL")
 )
 ## 'select()' returned 1:many mapping between keys and columns
 genesFC <- genes[genes$ENSEMBL %in% rownames(fc), ]
@@ -168,7 +168,7 @@ visualize the effect of each method:
 ``` r
 
 nas <- apply(sim, 1, function(x) {
-  all(is.na(x))
+    all(is.na(x))
 })
 sim <- sim[!nas, !nas]
 
@@ -217,8 +217,8 @@ gS <- mgeneSim(g[g %in% names(genesReact)], genesReact, "BMA")
 deg <- rownames(subRes[subRes$padj < 0.05 & !is.na(subRes$padj), ])
 keep <- rownames(gS) %in% genes[genes$ENSEMBL %in% deg, "ENTREZID"]
 plot(subRes$log2FoldChange, -log10(subRes$padj),
-  pch = 16, xlab = "log2FC",
-  ylab = "-log10(p.ajd)", main = "Untreated vs treated"
+    pch = 16, xlab = "log2FC",
+    ylab = "-log10(p.ajd)", main = "Untreated vs treated"
 )
 abline(v = c(-logFC, logFC), h = -log10(0.05), col = "red")
 ```
@@ -238,8 +238,8 @@ library("boot")
 (scoreDEG <- mean(gS[!keep, keep], na.rm = TRUE))
 ## [1] 0.1228395
 b <- boot(data = gS, R = 1000, statistic = function(x, i) {
-  g <- !rownames(x) %in% rownames(x)[i]
-  mean(x[g, i], na.rm = TRUE)
+    g <- !rownames(x) %in% rownames(x)[i]
+    mean(x[g, i], na.rm = TRUE)
 })
 (p.val <- (1 + sum(b$t > scoreDEG)) / 1001)
 ## [1] 0.9170829
@@ -274,7 +274,7 @@ functionally similar than it would be expected ?
 (scoreW <- combineScores(gS[keep, keep], "avg"))
 ## [1] 0.1580637
 b <- boot(data = gS, R = 1000, statistic = function(x, i) {
-  mean(x[i, i], na.rm = TRUE)
+    mean(x[i, i], na.rm = TRUE)
 })
 (p.val <- (1 + sum(b$t > scoreW)) / 1001) # P-value
 ## [1] 0.01298701
@@ -308,31 +308,31 @@ between genes we have several methods:
 
 s <- seq(0, max(abs(subRes$log2FoldChange)) + 0.05, by = 0.05)
 l <- sapply(s, function(x) {
-  deg <- rownames(subRes[abs(subRes$log2FoldChange) >= x, ])
-  keep <- rownames(gS) %in% genes[genes$ENSEMBL %in% deg, "ENTREZID"]
-  BetweenAbove <- mean(gS[keep, keep], na.rm = TRUE)
-  AboveBelow <- mean(gS[keep, !keep], na.rm = TRUE)
-  BetweenBelow <- mean(gS[!keep, !keep], na.rm = TRUE)
-  c(
-    "BetweenAbove" = BetweenAbove, "AboveBelow" = AboveBelow,
-    "BetweenBelow" = BetweenBelow
-  )
+    deg <- rownames(subRes[abs(subRes$log2FoldChange) >= x, ])
+    keep <- rownames(gS) %in% genes[genes$ENSEMBL %in% deg, "ENTREZID"]
+    BetweenAbove <- mean(gS[keep, keep], na.rm = TRUE)
+    AboveBelow <- mean(gS[keep, !keep], na.rm = TRUE)
+    BetweenBelow <- mean(gS[!keep, !keep], na.rm = TRUE)
+    c(
+        "BetweenAbove" = BetweenAbove, "AboveBelow" = AboveBelow,
+        "BetweenBelow" = BetweenBelow
+    )
 })
 L <- as.data.frame(cbind(logfc = s, t(l)))
 plot(L$logfc, L$BetweenAbove,
-  type = "l", xlab = "abs(log2) fold change",
-  ylab = "Similarity score",
-  main = "Similarity scores along logFC", col = "darkred"
+    type = "l", xlab = "abs(log2) fold change",
+    ylab = "Similarity score",
+    main = "Similarity scores along logFC", col = "darkred"
 )
 lines(L$logfc, L$AboveBelow, col = "darkgreen")
 lines(L$logfc, L$BetweenBelow, col = "black")
 legend("topleft",
-  legend = c(
-    "Between genes above and below threshold",
-    "Whitin genes above threshold",
-    "Whitin genes below threshold"
-  ),
-  fill = c("darkgreen", "darkred", "black")
+    legend = c(
+        "Between genes above and below threshold",
+        "Whitin genes above threshold",
+        "Whitin genes below threshold"
+    ),
+    fill = c("darkgreen", "darkred", "black")
 )
 ```
 
@@ -355,29 +355,29 @@ well as within genes below the threshold.
 ``` r
 
 l <- sapply(s, function(x) {
-  # Names of genes up and down regulated
-  degUp <- rownames(subRes[subRes$log2FoldChange >= x, ])
-  degDown <- rownames(subRes[subRes$log2FoldChange <= -x, ])
+    # Names of genes up and down regulated
+    degUp <- rownames(subRes[subRes$log2FoldChange >= x, ])
+    degDown <- rownames(subRes[subRes$log2FoldChange <= -x, ])
 
-  # Translate to ids in gS
-  keepUp <- rownames(gS) %in% genes[genes$ENSEMBL %in% degUp, "ENTREZID"]
-  keepDown <- rownames(gS) %in% genes[genes$ENSEMBL %in% degDown, "ENTREZID"]
+    # Translate to ids in gS
+    keepUp <- rownames(gS) %in% genes[genes$ENSEMBL %in% degUp, "ENTREZID"]
+    keepDown <- rownames(gS) %in% genes[genes$ENSEMBL %in% degDown, "ENTREZID"]
 
-  # Calculate the mean similarity between each subgrup
-  between <- mean(gS[keepUp, keepDown], na.rm = TRUE)
+    # Calculate the mean similarity between each subgrup
+    between <- mean(gS[keepUp, keepDown], na.rm = TRUE)
 
-  c("UpVsDown" = between)
+    c("UpVsDown" = between)
 })
 L <- as.data.frame(cbind("logfc" = s, "UpVsDown" = l))
 plot(L$logfc, L$UpVsDown,
-  type = "l",
-  xlab = "abs(log2) fold change threshold",
-  ylab = "Similarity score",
-  main = "Similarity scores along logFC"
+    type = "l",
+    xlab = "abs(log2) fold change threshold",
+    ylab = "Similarity score",
+    main = "Similarity scores along logFC"
 )
 legend("topright",
-  legend = "Up vs down regulated genes",
-  fill = "black"
+    legend = "Up vs down regulated genes",
+    fill = "black"
 )
 ```
 
@@ -404,7 +404,7 @@ effect on the functional similarity score for all the genes:
 genesReact2 <- genesReact
 diffGenes <- genes[genes$ENSEMBL %in% deg, "ENTREZID"]
 genesReact2[diffGenes] <- sapply(genesReact[diffGenes], function(x) {
-  c(x, "deg")
+    c(x, "deg")
 })
 plot(ecdf(mgeneSim(names(genesReact), genesReact)))
 curve(ecdf(mgeneSim(names(genesReact2), genesReact2)), color = "red")
@@ -420,17 +420,17 @@ genesReact2 <- genesReact
 diffGenes <- genes[genes$ENSEMBL %in% deg, "ENTREZID"]
 # Create the new pathway called deg
 genesReact2[diffGenes] <- sapply(genesReact[diffGenes], function(x) {
-  c(x, "deg")
+    c(x, "deg")
 })
 ids <- unique(genes[genes$ENSEMBL %in% rownames(subRes), "ENTREZID"])
 Ecdf(
-  c(
-    mgeneSim(ids, genesReact, method = "BMA"),
-    mgeneSim(ids, genesReact2, method = "BMA")
-  ),
-  group = c(rep("Reactome", length(ids)^2), rep("Modified", length(ids)^2)),
-  col = c("black", "red"), xlab = "Functional similarities",
-  main = "Empirical cumulative distribution"
+    c(
+        mgeneSim(ids, genesReact, method = "BMA"),
+        mgeneSim(ids, genesReact2, method = "BMA")
+    ),
+    group = c(rep("Reactome", length(ids)^2), rep("Modified", length(ids)^2)),
+    col = c("black", "red"), xlab = "Functional similarities",
+    main = "Empirical cumulative distribution"
 )
 ```
 
@@ -462,12 +462,12 @@ mix <- combineSources(genesKegg, genesReact)
 ## Check the identifiers of the genes
 gSMix <- mgeneSim(rownames(gS), mix)
 Ecdf(c(gS, gSK, gSMix),
-  group = c(
-    rep("Reactome", length(gS)), rep("Kegg", length(gSK)),
-    rep("Mix", length(gSMix))
-  ),
-  col = c("black", "red", "blue"), xlab = "Functional similarities",
-  main = "Empirical cumulative distribution."
+    group = c(
+        rep("Reactome", length(gS)), rep("Kegg", length(gSK)),
+        rep("Mix", length(gSMix))
+    ),
+    col = c("black", "red", "blue"), xlab = "Functional similarities",
+    main = "Empirical cumulative distribution."
 )
 ## Warning in regularize.values(x, y, ties, missing(ties), na.rm = na.rm):
 ## collapsing to unique 'x' values
@@ -493,11 +493,11 @@ gSK2 <- mgeneSim(rownames(gS), genesKegg, method = "BMA")
 gS2 <- mgeneSim(rownames(gS), genesReact, method = "BMA")
 gSMix2 <- mgeneSim(rownames(gS), mix, method = "BMA")
 Ecdf(c(gS2, gSK2, gSMix2),
-  group = c(
-    rep("Reactome", length(gS)), rep("Kegg", length(gSK)),
-    rep("Mix", length(gSMix))
-  ),
-  col = c("black", "red", "blue"), xlab = "Functional similarities (BMA)", main = "Empirical cumulative distribution."
+    group = c(
+        rep("Reactome", length(gS)), rep("Kegg", length(gSK)),
+        rep("Mix", length(gSMix))
+    ),
+    col = c("black", "red", "blue"), xlab = "Functional similarities (BMA)", main = "Empirical cumulative distribution."
 )
 ## Warning in regularize.values(x, y, ties, missing(ties), na.rm = na.rm):
 ## collapsing to unique 'x' values
@@ -547,8 +547,8 @@ BP <- godata("org.Hs.eg.db", ont = "BP", computeIC = TRUE)
 gsGO <- GOSemSim::mgeneSim(rownames(gS), semData = BP, measure = "Resnik", verbose = FALSE)
 keep <- rownames(gS) %in% rownames(gsGO)
 hist(as.dist(gS[keep, keep] - gsGO),
-  main = "Difference between functional similarity and biological process",
-  xlab = "Functional similarity - biological process similarity"
+    main = "Difference between functional similarity and biological process",
+    xlab = "Functional similarity - biological process similarity"
 )
 ```
 

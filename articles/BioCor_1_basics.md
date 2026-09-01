@@ -102,7 +102,7 @@ genesKegg <- as.list(org.Hs.egPATH)
 genesReact <- as.list(reactomeEXTID2PATHID)
 # Remove genes and pathways which are not from human pathways
 genesReact <- lapply(genesReact, function(x) {
-  unique(grep("R-HSA-", x, value = TRUE))
+    unique(grep("R-HSA-", x, value = TRUE))
 })
 genesReact <- genesReact[lengths(genesReact) >= 1]
 ```
@@ -125,7 +125,7 @@ convert it to list using:
 
 library("GSEABase")
 paths2Genes <- geneIds(getGmt("/path/to/file.symbol.gmt",
-  geneIdType = SymbolIdentifier()
+    geneIdType = SymbolIdentifier()
 ))
 
 genes <- unlist(paths2Genes, use.names = FALSE)
@@ -201,8 +201,8 @@ To combine values we provide a function with several methods:
 
 sim <- mpathSim(pathways, genesReact)
 methodsCombineScores <- c(
-  "avg", "max", "rcmax", "rcmax.avg", "BMA",
-  "reciprocal"
+    "avg", "max", "rcmax", "rcmax.avg", "BMA",
+    "reciprocal"
 )
 sapply(methodsCombineScores, BioCor::combineScores, scores = sim)
 ##        avg        max      rcmax  rcmax.avg        BMA reciprocal 
@@ -291,9 +291,9 @@ clusterSim(c("672", "675"), c("100", "10", "1"), genesKegg, NULL)
 ## 05212 0.00000000 0.001666667 0.019047619     0     0
 
 clusters <- list(
-  cluster1 = c("672", "675"),
-  cluster2 = c("100", "10", "1"),
-  cluster3 = c("18", "10", "83")
+    cluster1 = c("672", "675"),
+    cluster2 = c("100", "10", "1"),
+    cluster3 = c("18", "10", "83")
 )
 mclusterSim(clusters, genesKegg, "rcmax.avg")
 ##            cluster1   cluster2   cluster3
@@ -402,7 +402,7 @@ using :
 
 ## Omit those genes without a pathway
 nas <- sapply(genesKegg, function(y) {
-  all(is.na(y)) | is.null(y)
+    all(is.na(y)) | is.null(y)
 })
 genesKegg2 <- genesKegg[!nas]
 m <- mgeneSim(names(genesKegg2), genesKegg2, method = "max")
@@ -430,13 +430,13 @@ those genes:
 ``` r
 
 genes.id <- c(
-  "10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644",
-  "81327", "9128", "2073", "2893", "5142", "60", "210", "81",
-  "1352", "88", "672", "675"
+    "10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644",
+    "81327", "9128", "2073", "2893", "5142", "60", "210", "81",
+    "1352", "88", "672", "675"
 )
 genes.id <- mapIds(org.Hs.eg.db,
-  keys = genes.id, keytype = "ENTREZID",
-  column = "SYMBOL"
+    keys = genes.id, keytype = "ENTREZID",
+    column = "SYMBOL"
 )
 ## 'select()' returned 1:1 mapping between keys and columns
 genes <- names(genes.id)
@@ -492,7 +492,7 @@ names(clusters) <- paste0("cluster", names(clusters))
 ## Remember we can use two methods to compare clusters
 sim_clus1 <- mclusterSim(clusters, genesReact)
 plot(hclust(as.dist(1 - sim_clus1)),
-  main = "Similarities between clusters by pathways"
+    main = "Similarities between clusters by pathways"
 )
 ```
 
@@ -505,7 +505,7 @@ Clustering using clusterSim
 
 sim_clus2 <- mclusterGeneSim(clusters, genesReact)
 plot(hclust(as.dist(1 - sim_clus2)),
-  main = "Similarities between clusters by genes"
+    main = "Similarities between clusters by genes"
 )
 ```
 
@@ -543,8 +543,8 @@ with both data sets from KEGG and Reactome:
 ``` r
 
 goSemSim <- GOSemSim::geneSim("241", "251",
-  semData = hsGO,
-  measure = "Wang", combine = "BMA"
+    semData = hsGO,
+    measure = "Wang", combine = "BMA"
 )
 # In case it is null
 sim <- ifelse(is.na(goSemSim), 0, getElement(goSemSim, "geneSim"))
@@ -553,9 +553,9 @@ BioCor::geneSim("241", "251", genesReact, "BMA") - sim
 
 genes <- c("835", "5261", "241", "994")
 goSemSim <- GOSemSim::mgeneSim(genes,
-  semData = hsGO,
-  measure = "Wang", combine = "BMA",
-  verbose = FALSE, drop = NULL
+    semData = hsGO,
+    measure = "Wang", combine = "BMA",
+    verbose = FALSE, drop = NULL
 )
 BioCor::mgeneSim(genes, genesReact, "BMA", round = TRUE) - goSemSim
 ##         835   5261    241    994
@@ -576,8 +576,8 @@ matrix:
 
 genes <- c("CDC45", "MCM10", "CDC20", "NMU", "MMP1")
 genese <- mapIds(org.Hs.eg.db,
-  keys = genes, column = "ENTREZID",
-  keytype = "SYMBOL"
+    keys = genes, column = "ENTREZID",
+    keytype = "SYMBOL"
 )
 ## 'select()' returned 1:1 mapping between keys and columns
 BioCor::mgeneSim(genese, genesReact, "BMA")
@@ -598,7 +598,7 @@ vignette](https://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst
 gs1 <- c("835", "5261", "241", "994", "514", "533")
 gs2 <- c("578", "582", "400", "409", "411")
 BioCor::clusterSim(gs1, gs2, genesReact, "BMA") -
-  GOSemSim::clusterSim(gs1, gs2, hsGO, measure = "Wang", combine = "BMA")
+    GOSemSim::clusterSim(gs1, gs2, hsGO, measure = "Wang", combine = "BMA")
 ## [1] -0.2172804
 
 x <- org.Hs.egGO
@@ -621,7 +621,7 @@ set.seed(123)
 ## [13] "5276"      "10090"     "57515"     "26127"     "51751"     "54726"    
 ## [19] "79581"     "100302289"
 BioCor::mclusterSim(clusters, genesReact, "BMA") -
-  GOSemSim::mclusterSim(clusters, hsGO, measure = "Wang", combine = "BMA")
+    GOSemSim::mclusterSim(clusters, hsGO, measure = "Wang", combine = "BMA")
 ## Warning in BioCor::mclusterSim(clusters, genesReact, "BMA"): Some genes are not
 ## in the list provided.
 ##            a          b          c
@@ -679,9 +679,9 @@ dissTOM <- 1 - TOM
 geneTree <- hclust(as.dist(dissTOM), method = "average")
 ## We can use a clustering tool to group the genes
 dynamicMods <- cutreeHybrid(
-  dendro = geneTree, distM = dissTOM,
-  deepSplit = 2, pamRespectsDendro = FALSE,
-  minClusterSize = 30
+    dendro = geneTree, distM = dissTOM,
+    deepSplit = 2, pamRespectsDendro = FALSE,
+    minClusterSize = 30
 )
 moduleColors <- labels2colors(dynamicMods$labels)
 ```

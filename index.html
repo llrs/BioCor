@@ -73,14 +73,14 @@
 <p>It is an R package you can install it from the Bioconductor project with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
-<span>  <span class="op">}</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
 <span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"BioCor"</span><span class="op">)</span></span></code></pre></div>
 <p>You can install this version of <em>BioCor</em> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"devtools"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
-<span>  <span class="op">}</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"llrs/BioCor"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level1">
@@ -89,25 +89,26 @@
 <p>See the <a href="https://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_1_basics.html" class="external-link">vignette</a> in Bioconductor site and the <a href="https://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/doc/BioCor_2_advanced.html" class="external-link">advanced vignette</a>.<br>
 Here is a minimum example:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># The data must be provided, see the vignette for more details.</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">24</span><span class="op">)</span></span>
+<span><span class="co"># The data must be provided, see the vignette for more details.</span></span>
 <span><span class="co"># Get some pathways from the pathway data</span></span>
 <span><span class="op">(</span><span class="va">pathways</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">genesReact</span>, use.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "R-HSA-5663205" "R-HSA-1643685" "R-HSA-1266738" "R-HSA-1280215"</span></span>
-<span><span class="co">#&gt; [5] "R-HSA-5684996"</span></span>
+<span><span class="co">#&gt; [1] "R-HSA-5689603" "R-HSA-168256"  "R-HSA-5696397" "R-HSA-9665230"</span></span>
+<span><span class="co">#&gt; [5] "R-HSA-9658195"</span></span>
 <span><span class="co"># Calculate the pathway similarity of them</span></span>
 <span><span class="fu"><a href="reference/mpathSim.html">mpathSim</a></span><span class="op">(</span><span class="va">pathways</span>, <span class="va">genesReact</span>, <span class="cn">NULL</span><span class="op">)</span></span>
-<span><span class="co">#&gt;               R-HSA-5663205 R-HSA-1643685 R-HSA-1266738 R-HSA-1280215</span></span>
-<span><span class="co">#&gt; R-HSA-5663205    1.00000000     0.7543335     0.2661290     0.2548828</span></span>
-<span><span class="co">#&gt; R-HSA-1643685    0.75433353     1.0000000     0.2676056     0.2362369</span></span>
-<span><span class="co">#&gt; R-HSA-1266738    0.26612903     0.2676056     1.0000000     0.1474245</span></span>
-<span><span class="co">#&gt; R-HSA-1280215    0.25488281     0.2362369     0.1474245     1.0000000</span></span>
-<span><span class="co">#&gt; R-HSA-5684996    0.09387223     0.1561969     0.1219793     0.1852552</span></span>
-<span><span class="co">#&gt;               R-HSA-5684996</span></span>
-<span><span class="co">#&gt; R-HSA-5663205    0.09387223</span></span>
-<span><span class="co">#&gt; R-HSA-1643685    0.15619694</span></span>
-<span><span class="co">#&gt; R-HSA-1266738    0.12197929</span></span>
-<span><span class="co">#&gt; R-HSA-1280215    0.18525520</span></span>
-<span><span class="co">#&gt; R-HSA-5684996    1.00000000</span></span></code></pre></div>
+<span><span class="co">#&gt;               R-HSA-5689603 R-HSA-168256 R-HSA-5696397 R-HSA-9665230</span></span>
+<span><span class="co">#&gt; R-HSA-5689603   1.000000000 0.0415194346   0.070796460  0.0000000000</span></span>
+<span><span class="co">#&gt; R-HSA-168256    0.041519435 1.0000000000   0.003634711  0.0009174312</span></span>
+<span><span class="co">#&gt; R-HSA-5696397   0.070796460 0.0036347115   1.000000000  0.0000000000</span></span>
+<span><span class="co">#&gt; R-HSA-9665230   0.000000000 0.0009174312   0.000000000  1.0000000000</span></span>
+<span><span class="co">#&gt; R-HSA-9658195   0.007936508 0.0871794872   0.000000000  0.0000000000</span></span>
+<span><span class="co">#&gt;               R-HSA-9658195</span></span>
+<span><span class="co">#&gt; R-HSA-5689603   0.007936508</span></span>
+<span><span class="co">#&gt; R-HSA-168256    0.087179487</span></span>
+<span><span class="co">#&gt; R-HSA-5696397   0.000000000</span></span>
+<span><span class="co">#&gt; R-HSA-9665230   0.000000000</span></span>
+<span><span class="co">#&gt; R-HSA-9658195   1.000000000</span></span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="who-might-use-this-package">Who might use this package?<a class="anchor" aria-label="anchor" href="#who-might-use-this-package"></a>
