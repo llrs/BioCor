@@ -106,11 +106,9 @@ setMethod(
         info_list <- inverseList(GSEABase::geneIds(info))
 
         if (any(!unlist(clusters, use.names = FALSE) %in% names(info_list))) {
-            clusters_l <- lapply(clusters, function(x) {
+            clusters <- lapply(clusters, function(x) {
                 x[x %in% names(info_list)]
             })
-            names(clusters_l) <- clusters
-            clusters <- clusters_l
             warning("Some genes are not in the GeneSetCollection provided.")
         }
         if (any(lengths(clusters) == 0)) {

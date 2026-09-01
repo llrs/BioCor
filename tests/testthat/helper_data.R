@@ -17,8 +17,7 @@ info <- structure(
         `5` = NA_character_, `6` = NA_character_,
         `7` = NA_character_, `8` = NA_character_,
         `9` = c("1430728", "156580", "156582", "211859")
-    ),
-    .Names = c("1", "10", "2", "3", "4", "5", "6", "7", "8", "9")
+    )
 )
 
 clusters <- structure(
@@ -26,8 +25,7 @@ clusters <- structure(
         cluster1 = c("10", "3"),
         cluster2 = c("10", "2", "9"),
         cluster3 = c("2", "9", "3", "4")
-    ),
-    .Names = c("cluster1", "cluster2", "cluster3")
+    )
 )
 
 genes.id <- c(
