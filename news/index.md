@@ -1,5 +1,14 @@
 # Changelog
 
+## BioCor 1.38
+
+- Update according to latest BiocChecks recommendations.
+- Fix a bug on combineScores: if a vector was all NA the calculation was
+  performed.
+- Removed all
+  [`sapply()`](https://rdrr.io/pkg/BiocGenerics/man/lapply.html) calls.
+- Used shortcut logical operators (`&&`, `||`) whenever possible.
+
 ## BioCor 1.34
 
 - Remove example on vignettes with deprecated package

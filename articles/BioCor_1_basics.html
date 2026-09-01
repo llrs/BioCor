@@ -78,7 +78,7 @@ Spain<br><h4 data-toc-skip class="author">Pau
 Sancho-Bru</h4>
             <address class="author_afil">
       August Pi i Sunyer Biomedical Research Institute (IDIBAPS); Liver
-Unit, Hospital Clinic<br><h4 data-toc-skip class="date">29 August 2026</h4>
+Unit, Hospital Clinic<br><h4 data-toc-skip class="date">1 September 2026</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/llrs/BioCor/blob/devel/vignettes/BioCor_1_basics.Rmd" class="external-link"><code>vignettes/BioCor_1_basics.Rmd</code></a></small>
       <div class="d-none name"><code>BioCor_1_basics.Rmd</code></div>
@@ -174,11 +174,11 @@ calculate the similarities:</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"reactome.db"</span><span class="op">)</span></span>
 <span><span class="va">genesKegg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="va">org.Hs.egPATH</span><span class="op">)</span></span>
 <span><span class="va">genesReact</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="va">reactomeEXTID2PATHID</span><span class="op">)</span></span>
-<span><span class="co"># Remove genes and pathways which are not from human pathways </span></span>
-<span><span class="va">genesReact</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">genesReact</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"R-HSA-"</span>, <span class="va">x</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="op">}</span><span class="op">)</span></span>
-<span><span class="va">genesReact</span> <span class="op">&lt;-</span> <span class="va">genesReact</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">genesReact</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">]</span> </span></code></pre></div>
+<span><span class="co"># Remove genes and pathways which are not from human pathways</span></span>
+<span><span class="va">genesReact</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">genesReact</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"R-HSA-"</span>, <span class="va">x</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span><span class="va">genesReact</span> <span class="op">&lt;-</span> <span class="va">genesReact</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">genesReact</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">]</span></span></code></pre></div>
 <p>To avoid having biased data it is important to have all the data
 about the pathways and genes associated to all pathways for the organism
 under study. Here we assume that we are interested in human pathways. We
@@ -194,7 +194,8 @@ convert it to list using:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"GSEABase"</span><span class="op">)</span></span>
 <span><span class="va">paths2Genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GSEABase/man/GeneSet-class.html" class="external-link">geneIds</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/GSEABase/man/getObjects.html" class="external-link">getGmt</a></span><span class="op">(</span><span class="st">"/path/to/file.symbol.gmt"</span>,</span>
-<span>                 geneIdType<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html" class="external-link">SymbolIdentifier</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  geneIdType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html" class="external-link">SymbolIdentifier</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">paths2Genes</span>, use.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">pathways</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">paths2Genes</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">paths2Genes</span><span class="op">)</span><span class="op">)</span></span>
@@ -261,8 +262,10 @@ can see the methods to combine pathway similarities.</p>
 <p>To combine values we provide a function with several methods:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mpathSim.html">mpathSim</a></span><span class="op">(</span><span class="va">pathways</span>, <span class="va">genesReact</span><span class="op">)</span></span>
-<span><span class="va">methodsCombineScores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"avg"</span>, <span class="st">"max"</span>, <span class="st">"rcmax"</span>, <span class="st">"rcmax.avg"</span>, <span class="st">"BMA"</span>,</span>
-<span>                          <span class="st">"reciprocal"</span><span class="op">)</span></span>
+<span><span class="va">methodsCombineScores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"avg"</span>, <span class="st">"max"</span>, <span class="st">"rcmax"</span>, <span class="st">"rcmax.avg"</span>, <span class="st">"BMA"</span>,</span>
+<span>  <span class="st">"reciprocal"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">methodsCombineScores</span>, <span class="fu">BioCor</span><span class="fu">::</span><span class="va"><a href="../reference/combineScores.html">combineScores</a></span>, scores <span class="op">=</span> <span class="va">sim</span><span class="op">)</span></span>
 <span><span class="co">##        avg        max      rcmax  rcmax.avg        BMA reciprocal </span></span>
 <span><span class="co">##  0.1035582  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000</span></span></code></pre></div>
@@ -340,9 +343,11 @@ are returned:</p>
 <span><span class="co">## 05200 0.00000000 0.008241758 0.005540166     0     0</span></span>
 <span><span class="co">## 05212 0.00000000 0.001666667 0.019047619     0     0</span></span>
 <span></span>
-<span><span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cluster1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"672"</span>, <span class="st">"675"</span><span class="op">)</span>,</span>
-<span>                 cluster2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"100"</span>, <span class="st">"10"</span>, <span class="st">"1"</span><span class="op">)</span>,</span>
-<span>                 cluster3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"18"</span>, <span class="st">"10"</span>, <span class="st">"83"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  cluster1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"672"</span>, <span class="st">"675"</span><span class="op">)</span>,</span>
+<span>  cluster2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"100"</span>, <span class="st">"10"</span>, <span class="st">"1"</span><span class="op">)</span>,</span>
+<span>  cluster3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"18"</span>, <span class="st">"10"</span>, <span class="st">"83"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/mclusterSim.html">mclusterSim</a></span><span class="op">(</span><span class="va">clusters</span>, <span class="va">genesKegg</span>, <span class="st">"rcmax.avg"</span><span class="op">)</span></span>
 <span><span class="co">##            cluster1   cluster2   cluster3</span></span>
 <span><span class="co">## cluster1 1.00000000 0.01587957 0.00256157</span></span>
@@ -439,9 +444,11 @@ use the <code><a href="../reference/conversions.html">J2D()</a></code> function.
 using :</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Omit those genes without a pathway</span></span>
-<span><span class="va">nas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">genesKegg</span>, <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">}</span><span class="op">)</span></span>
+<span><span class="va">nas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">genesKegg</span>, <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
 <span><span class="va">genesKegg2</span> <span class="op">&lt;-</span> <span class="va">genesKegg</span><span class="op">[</span><span class="op">!</span><span class="va">nas</span><span class="op">]</span></span>
-<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mgeneSim.html">mgeneSim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">genesKegg2</span><span class="op">)</span>, <span class="va">genesKegg2</span>, method  <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mgeneSim.html">mgeneSim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">genesKegg2</span><span class="op">)</span>, <span class="va">genesKegg2</span>, method <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span></span></code></pre></div>
 <p>It takes around 5 hours in one core but it requires high memory
 available.</p>
 <p>If one doesn’t have such a memory available can compute the
@@ -458,11 +465,15 @@ similarities by pieces, and then fit it in another matrix with:</p>
 by functionality. With a list of genes we are going to see how similar
 are those genes:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">genes.id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"10"</span>, <span class="st">"15"</span>, <span class="st">"16"</span>, <span class="st">"18"</span>, <span class="st">"2"</span>, <span class="st">"9"</span>, <span class="st">"52"</span>, <span class="st">"3855"</span>, <span class="st">"3880"</span>, <span class="st">"644"</span>, </span>
-<span>              <span class="st">"81327"</span>, <span class="st">"9128"</span>, <span class="st">"2073"</span>, <span class="st">"2893"</span>, <span class="st">"5142"</span>, <span class="st">"60"</span>, <span class="st">"210"</span>, <span class="st">"81"</span>, </span>
-<span>              <span class="st">"1352"</span>, <span class="st">"88"</span>, <span class="st">"672"</span>, <span class="st">"675"</span><span class="op">)</span></span>
-<span><span class="va">genes.id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html" class="external-link">mapIds</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span>, keys <span class="op">=</span> <span class="va">genes.id</span>, keytype <span class="op">=</span> <span class="st">"ENTREZID"</span>, </span>
-<span>                   column <span class="op">=</span> <span class="st">"SYMBOL"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">genes.id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"10"</span>, <span class="st">"15"</span>, <span class="st">"16"</span>, <span class="st">"18"</span>, <span class="st">"2"</span>, <span class="st">"9"</span>, <span class="st">"52"</span>, <span class="st">"3855"</span>, <span class="st">"3880"</span>, <span class="st">"644"</span>,</span>
+<span>  <span class="st">"81327"</span>, <span class="st">"9128"</span>, <span class="st">"2073"</span>, <span class="st">"2893"</span>, <span class="st">"5142"</span>, <span class="st">"60"</span>, <span class="st">"210"</span>, <span class="st">"81"</span>,</span>
+<span>  <span class="st">"1352"</span>, <span class="st">"88"</span>, <span class="st">"672"</span>, <span class="st">"675"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">genes.id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html" class="external-link">mapIds</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span>,</span>
+<span>  keys <span class="op">=</span> <span class="va">genes.id</span>, keytype <span class="op">=</span> <span class="st">"ENTREZID"</span>,</span>
+<span>  column <span class="op">=</span> <span class="st">"SYMBOL"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">## 'select()' returned 1:1 mapping between keys and columns</span></span>
 <span><span class="va">genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">genes.id</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">genes</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">genes.id</span></span>
@@ -513,8 +524,9 @@ clusters:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">clusters</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"cluster"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">clusters</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">## Remember we can use two methods to compare clusters</span></span>
 <span><span class="va">sim_clus1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mclusterSim.html">mclusterSim</a></span><span class="op">(</span><span class="va">clusters</span>, <span class="va">genesReact</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">as.dist</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">sim_clus1</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>     main <span class="op">=</span> <span class="st">"Similarities between clusters by pathways"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">as.dist</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">sim_clus1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"Similarities between clusters by pathways"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="BioCor_1_basics_files/figure-html/hclust3-1.png" class="r-plt" alt="Dendrogram of clusters of genes according to Reactome." width="700"><p class="caption">
 Clustering using clusterSim
@@ -522,8 +534,9 @@ Clustering using clusterSim
 </div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim_clus2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mclusterGeneSim.html">mclusterGeneSim</a></span><span class="op">(</span><span class="va">clusters</span>, <span class="va">genesReact</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">as.dist</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">sim_clus2</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>     main <span class="op">=</span><span class="st">"Similarities between clusters by genes"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">as.dist</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">sim_clus2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"Similarities between clusters by genes"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="BioCor_1_basics_files/figure-html/hclust3b-1.png" class="r-plt" alt="Dendrogram of clusters according to similarities between genes from Reactome pathways." width="700"><p class="caption">
 Clustering using clusterGeneSim
@@ -541,7 +554,7 @@ The genes and gene clusters used were extracted from GOSemSim’s
 vignette, we only change the ontology, instead of the molecular
 function, the biological process will be used:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hsGO</span> <span class="op">&lt;-</span> <span class="fu">GOSemSim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GOSemSim/man/godata.html" class="external-link">godata</a></span><span class="op">(</span><span class="st">'org.Hs.eg.db'</span>, ont <span class="op">=</span> <span class="st">"BP"</span>, computeIC <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">hsGO</span> <span class="op">&lt;-</span> <span class="fu">GOSemSim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GOSemSim/man/godata.html" class="external-link">godata</a></span><span class="op">(</span><span class="st">"org.Hs.eg.db"</span>, ont <span class="op">=</span> <span class="st">"BP"</span>, computeIC <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Warning in GOSemSim::godata("org.Hs.eg.db", ont = "BP", computeIC = FALSE): use</span></span>
 <span><span class="co">## 'annoDb' instead of 'OrgDb'</span></span>
@@ -550,17 +563,21 @@ function, the biological process will be used:</p>
 and mgeneSim from GOSemSim</a> with both data sets from KEGG and
 Reactome:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">goSemSim</span> <span class="op">&lt;-</span> <span class="fu">GOSemSim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GOSemSim/man/geneSim.html" class="external-link">geneSim</a></span><span class="op">(</span><span class="st">"241"</span>, <span class="st">"251"</span>, semData <span class="op">=</span> <span class="va">hsGO</span>, </span>
-<span>                              measure <span class="op">=</span> <span class="st">"Wang"</span>, combine<span class="op">=</span><span class="st">"BMA"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">goSemSim</span> <span class="op">&lt;-</span> <span class="fu">GOSemSim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GOSemSim/man/geneSim.html" class="external-link">geneSim</a></span><span class="op">(</span><span class="st">"241"</span>, <span class="st">"251"</span>,</span>
+<span>  semData <span class="op">=</span> <span class="va">hsGO</span>,</span>
+<span>  measure <span class="op">=</span> <span class="st">"Wang"</span>, combine <span class="op">=</span> <span class="st">"BMA"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co"># In case it is null</span></span>
 <span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">goSemSim</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extract.html" class="external-link">getElement</a></span><span class="op">(</span><span class="va">goSemSim</span>, <span class="st">"geneSim"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">BioCor</span><span class="fu">::</span><span class="fu"><a href="../reference/geneSim.html">geneSim</a></span><span class="op">(</span><span class="st">"241"</span>, <span class="st">"251"</span>, <span class="va">genesReact</span>, <span class="st">"BMA"</span><span class="op">)</span> <span class="op">-</span> <span class="va">sim</span></span>
 <span><span class="co">## [1] 0.04819402</span></span>
 <span></span>
-<span><span class="va">genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"835"</span>, <span class="st">"5261"</span>,<span class="st">"241"</span>, <span class="st">"994"</span><span class="op">)</span></span>
-<span><span class="va">goSemSim</span> <span class="op">&lt;-</span> <span class="fu">GOSemSim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GOSemSim/man/mgeneSim.html" class="external-link">mgeneSim</a></span><span class="op">(</span><span class="va">genes</span>, semData <span class="op">=</span> <span class="va">hsGO</span>, </span>
-<span>                   measure <span class="op">=</span> <span class="st">"Wang"</span>, combine <span class="op">=</span> <span class="st">"BMA"</span>,</span>
-<span>                   verbose <span class="op">=</span> <span class="cn">FALSE</span>, drop <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="va">genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"835"</span>, <span class="st">"5261"</span>, <span class="st">"241"</span>, <span class="st">"994"</span><span class="op">)</span></span>
+<span><span class="va">goSemSim</span> <span class="op">&lt;-</span> <span class="fu">GOSemSim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GOSemSim/man/mgeneSim.html" class="external-link">mgeneSim</a></span><span class="op">(</span><span class="va">genes</span>,</span>
+<span>  semData <span class="op">=</span> <span class="va">hsGO</span>,</span>
+<span>  measure <span class="op">=</span> <span class="st">"Wang"</span>, combine <span class="op">=</span> <span class="st">"BMA"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>, drop <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu">BioCor</span><span class="fu">::</span><span class="fu"><a href="../reference/mgeneSim.html">mgeneSim</a></span><span class="op">(</span><span class="va">genes</span>, <span class="va">genesReact</span>, <span class="st">"BMA"</span>, round <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">-</span> <span class="va">goSemSim</span></span>
 <span><span class="co">##         835   5261    241    994</span></span>
 <span><span class="co">## 835   0.000 -0.341 -0.160 -0.182</span></span>
@@ -574,8 +591,10 @@ and <code>GOSemSim::</code>.</p>
 matrix:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CDC45"</span>, <span class="st">"MCM10"</span>, <span class="st">"CDC20"</span>, <span class="st">"NMU"</span>, <span class="st">"MMP1"</span><span class="op">)</span></span>
-<span><span class="va">genese</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html" class="external-link">mapIds</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span>, keys <span class="op">=</span> <span class="va">genes</span>, column <span class="op">=</span> <span class="st">"ENTREZID"</span>, </span>
-<span>                 keytype <span class="op">=</span> <span class="st">"SYMBOL"</span><span class="op">)</span></span>
+<span><span class="va">genese</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html" class="external-link">mapIds</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span>,</span>
+<span>  keys <span class="op">=</span> <span class="va">genes</span>, column <span class="op">=</span> <span class="st">"ENTREZID"</span>,</span>
+<span>  keytype <span class="op">=</span> <span class="st">"SYMBOL"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">## 'select()' returned 1:1 mapping between keys and columns</span></span>
 <span><span class="fu">BioCor</span><span class="fu">::</span><span class="fu"><a href="../reference/mgeneSim.html">mgeneSim</a></span><span class="op">(</span><span class="va">genese</span>, <span class="va">genesReact</span>, <span class="st">"BMA"</span><span class="op">)</span></span>
 <span><span class="co">##            CDC45      MCM10     CDC20        NMU       MMP1</span></span>
@@ -587,16 +606,16 @@ matrix:</p>
 <p>We can further compare the cluster similarities from the <a href="https://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#clustersim-and-mclustersim" class="external-link">next
 section of the vignette</a>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gs1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"835"</span>, <span class="st">"5261"</span>,<span class="st">"241"</span>, <span class="st">"994"</span>, <span class="st">"514"</span>, <span class="st">"533"</span><span class="op">)</span></span>
-<span><span class="va">gs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"578"</span>,<span class="st">"582"</span>, <span class="st">"400"</span>, <span class="st">"409"</span>, <span class="st">"411"</span><span class="op">)</span></span>
-<span><span class="fu">BioCor</span><span class="fu">::</span><span class="fu"><a href="../reference/clusterSim.html">clusterSim</a></span><span class="op">(</span><span class="va">gs1</span>, <span class="va">gs2</span>, <span class="va">genesReact</span>, <span class="st">"BMA"</span><span class="op">)</span> <span class="op">-</span> </span>
-<span>    <span class="fu">GOSemSim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GOSemSim/man/clusterSim.html" class="external-link">clusterSim</a></span><span class="op">(</span><span class="va">gs1</span>, <span class="va">gs2</span>, <span class="va">hsGO</span>, measure <span class="op">=</span> <span class="st">"Wang"</span>, combine <span class="op">=</span> <span class="st">"BMA"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">gs1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"835"</span>, <span class="st">"5261"</span>, <span class="st">"241"</span>, <span class="st">"994"</span>, <span class="st">"514"</span>, <span class="st">"533"</span><span class="op">)</span></span>
+<span><span class="va">gs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"578"</span>, <span class="st">"582"</span>, <span class="st">"400"</span>, <span class="st">"409"</span>, <span class="st">"411"</span><span class="op">)</span></span>
+<span><span class="fu">BioCor</span><span class="fu">::</span><span class="fu"><a href="../reference/clusterSim.html">clusterSim</a></span><span class="op">(</span><span class="va">gs1</span>, <span class="va">gs2</span>, <span class="va">genesReact</span>, <span class="st">"BMA"</span><span class="op">)</span> <span class="op">-</span></span>
+<span>  <span class="fu">GOSemSim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GOSemSim/man/clusterSim.html" class="external-link">clusterSim</a></span><span class="op">(</span><span class="va">gs1</span>, <span class="va">gs2</span>, <span class="va">hsGO</span>, measure <span class="op">=</span> <span class="st">"Wang"</span>, combine <span class="op">=</span> <span class="st">"BMA"</span><span class="op">)</span></span>
 <span><span class="co">## [1] -0.2172804</span></span>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">org.Hs.egGO</span></span>
 <span><span class="va">hsEG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-keys.html" class="external-link">mappedkeys</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span><span class="op">(</span><span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">hsEG</span>, <span class="fl">20</span><span class="op">)</span>, b<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">hsEG</span>, <span class="fl">20</span><span class="op">)</span>, c<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">hsEG</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">hsEG</span>, <span class="fl">20</span><span class="op">)</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">hsEG</span>, <span class="fl">20</span><span class="op">)</span>, c <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">hsEG</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">## $a</span></span>
 <span><span class="co">##  [1] "417"    "5555"   "4540"   "2805"   "5108"   "57820"  "7005"   "10095" </span></span>
 <span><span class="co">##  [9] "283951" "4100"   "80201"  "28795"  "54529"  "90459"  "4291"   "9356"  </span></span>
@@ -612,8 +631,8 @@ section of the vignette</a>:</p>
 <span><span class="co">##  [7] "53"        "125981"    "10945"     "10794"     "256764"    "55901"    </span></span>
 <span><span class="co">## [13] "5276"      "10090"     "57515"     "26127"     "51751"     "54726"    </span></span>
 <span><span class="co">## [19] "79581"     "100302289"</span></span>
-<span><span class="fu">BioCor</span><span class="fu">::</span><span class="fu"><a href="../reference/mclusterSim.html">mclusterSim</a></span><span class="op">(</span><span class="va">clusters</span>, <span class="va">genesReact</span>, <span class="st">"BMA"</span><span class="op">)</span> <span class="op">-</span> </span>
-<span>    <span class="fu">GOSemSim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GOSemSim/man/mclusterSim.html" class="external-link">mclusterSim</a></span><span class="op">(</span><span class="va">clusters</span>, <span class="va">hsGO</span>, measure <span class="op">=</span> <span class="st">"Wang"</span>, combine <span class="op">=</span> <span class="st">"BMA"</span><span class="op">)</span></span>
+<span><span class="fu">BioCor</span><span class="fu">::</span><span class="fu"><a href="../reference/mclusterSim.html">mclusterSim</a></span><span class="op">(</span><span class="va">clusters</span>, <span class="va">genesReact</span>, <span class="st">"BMA"</span><span class="op">)</span> <span class="op">-</span></span>
+<span>  <span class="fu">GOSemSim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GOSemSim/man/mclusterSim.html" class="external-link">mclusterSim</a></span><span class="op">(</span><span class="va">clusters</span>, <span class="va">hsGO</span>, measure <span class="op">=</span> <span class="st">"Wang"</span>, combine <span class="op">=</span> <span class="st">"BMA"</span><span class="op">)</span></span>
 <span><span class="co">## Warning in BioCor::mclusterSim(clusters, genesReact, "BMA"): Some genes are not</span></span>
 <span><span class="co">## in the list provided.</span></span>
 <span><span class="co">##            a          b          c</span></span>
@@ -663,13 +682,15 @@ and genes in the columns.</p>
 <span><span class="va">adjacency</span> <span class="op">&lt;-</span> <span class="fu">adjacency.fromSimilarity</span><span class="op">(</span><span class="va">similarity</span>, power <span class="op">=</span> <span class="va">pSFT</span><span class="op">$</span><span class="va">powerEstimate</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Once we have the similarities we can calculate the TOM with TOM</span></span>
-<span><span class="va">TOM</span> <span class="op">&lt;-</span> <span class="fu">TOMsimilarity</span><span class="op">(</span><span class="va">adjacency</span><span class="op">)</span> <span class="co">## Requires adjacencies despite its name </span></span>
+<span><span class="va">TOM</span> <span class="op">&lt;-</span> <span class="fu">TOMsimilarity</span><span class="op">(</span><span class="va">adjacency</span><span class="op">)</span> <span class="co">## Requires adjacencies despite its name</span></span>
 <span><span class="va">dissTOM</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">TOM</span></span>
 <span><span class="va">geneTree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">as.dist</a></span><span class="op">(</span><span class="va">dissTOM</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span></span>
 <span><span class="co">## We can use a clustering tool to group the genes</span></span>
-<span><span class="va">dynamicMods</span> <span class="op">&lt;-</span> <span class="fu">cutreeHybrid</span><span class="op">(</span>dendro <span class="op">=</span> <span class="va">geneTree</span>, distM <span class="op">=</span> <span class="va">dissTOM</span>,</span>
-<span>                            deepSplit <span class="op">=</span> <span class="fl">2</span>, pamRespectsDendro <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                            minClusterSize <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
+<span><span class="va">dynamicMods</span> <span class="op">&lt;-</span> <span class="fu">cutreeHybrid</span><span class="op">(</span></span>
+<span>  dendro <span class="op">=</span> <span class="va">geneTree</span>, distM <span class="op">=</span> <span class="va">dissTOM</span>,</span>
+<span>  deepSplit <span class="op">=</span> <span class="fl">2</span>, pamRespectsDendro <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  minClusterSize <span class="op">=</span> <span class="fl">30</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">moduleColors</span> <span class="op">&lt;-</span> <span class="fu">labels2colors</span><span class="op">(</span><span class="va">dynamicMods</span><span class="op">$</span><span class="va">labels</span><span class="op">)</span></span></code></pre></div>
 <p>Once the modules are identified using the functional similarities of
 this package and the gene correlations, one can continue with the
@@ -770,8 +791,8 @@ package or <code>BiocParallel</code> if your list of genes is big.</p>
 <h3 id="conflict">I get an error! How do I solve this?<a class="anchor" aria-label="anchor" href="#conflict"></a>
 </h3>
 <p>If the error is like this:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>Error <span class="cf">in</span> <span class="fu">FUN</span>(X[[i]], ...) <span class="sc">:</span> </span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>  trying to get slot <span class="st">"geneAnno"</span> from an object of a basic <span class="fu">class</span> (<span class="st">"list"</span>) with no slots</span></code></pre></div>
+<pre><code>Error in FUN(X[[i]], ...) :
+  trying to get slot "geneAnno" from an object of a basic class ("list") with no slots</code></pre>
 <p>And you have loaded the <code>GOSemSim</code> library, R is calling
 the GOSemSim function of the same name. Use <code>BioCor::</code> to
 call the function from <code>BioCor</code> (f.ex:
@@ -819,7 +840,7 @@ Github.</p>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##  [1] KEGGREST_1.52.2     GOSemSim_2.38.3     xfun_0.60          </span></span>
 <span><span class="co">##  [4] bslib_0.12.0        htmlwidgets_1.6.4   lattice_0.22-9     </span></span>
-<span><span class="co">##  [7] vctrs_0.7.3         tools_4.6.1         yulab.utils_0.2.4  </span></span>
+<span><span class="co">##  [7] vctrs_0.7.3         tools_4.6.1         yulab.utils_0.2.5  </span></span>
 <span><span class="co">## [10] parallel_4.6.1      RSQLite_3.53.3      blob_1.3.0         </span></span>
 <span><span class="co">## [13] pkgconfig_2.0.3     Matrix_1.7-5        desc_1.4.3         </span></span>
 <span><span class="co">## [16] graph_1.90.0        lifecycle_1.0.5     compiler_4.6.1     </span></span>
