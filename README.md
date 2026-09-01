@@ -6,14 +6,14 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/llrs/BioCor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/llrs/BioCor/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/llrs/BioCor/branch/master/graph/badge.svg)](https://codecov.io/gh/llrs/BioCor/)
+[![codecov](https://app.codecov.io/gh/llrs/BioCor/branch/master/graph/badge.svg)](https://app.codecov.io/gh/llrs/BioCor/)
 [![Build
 Status](https://www.bioconductor.org/shields/build/devel/bioc/BioCor.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/BioCor/)
 [![Bioc](https://www.bioconductor.org/shields/years-in-bioc/BioCor.svg)](https://www.bioconductor.org/packages/devel/bioc/html/BioCor.html#since)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![CII Best
 Practices](https://bestpractices.coreinfrastructure.org/projects/1913/badge)](https://bestpractices.coreinfrastructure.org/projects/1913)
 <!-- badges: end -->
@@ -29,8 +29,8 @@ with:
 
 ``` r
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
-      install.packages("BiocManager")
-  }
+    install.packages("BiocManager")
+}
 BiocManager::install("BioCor")
 ```
 
@@ -38,8 +38,8 @@ You can install this version of *BioCor* with:
 
 ``` r
 if (!requireNamespace("devtools", quietly = TRUE)) {
-      install.packages("devtools")
-  }
+    install.packages("devtools")
+}
 devtools::install_github("llrs/BioCor")
 ```
 
@@ -52,25 +52,26 @@ vignette](https://bioconductor.org/packages/release/bioc/vignettes/BioCor/inst/d
 Here is a minimum example:
 
 ``` r
+set.seed(24)
 # The data must be provided, see the vignette for more details.
 # Get some pathways from the pathway data
 (pathways <- sample(unlist(genesReact, use.names = FALSE), 5))
-#> [1] "R-HSA-5663205" "R-HSA-1643685" "R-HSA-1266738" "R-HSA-1280215"
-#> [5] "R-HSA-5684996"
+#> [1] "R-HSA-5689603" "R-HSA-168256"  "R-HSA-5696397" "R-HSA-9665230"
+#> [5] "R-HSA-9658195"
 # Calculate the pathway similarity of them
 mpathSim(pathways, genesReact, NULL)
-#>               R-HSA-5663205 R-HSA-1643685 R-HSA-1266738 R-HSA-1280215
-#> R-HSA-5663205    1.00000000     0.7543335     0.2661290     0.2548828
-#> R-HSA-1643685    0.75433353     1.0000000     0.2676056     0.2362369
-#> R-HSA-1266738    0.26612903     0.2676056     1.0000000     0.1474245
-#> R-HSA-1280215    0.25488281     0.2362369     0.1474245     1.0000000
-#> R-HSA-5684996    0.09387223     0.1561969     0.1219793     0.1852552
-#>               R-HSA-5684996
-#> R-HSA-5663205    0.09387223
-#> R-HSA-1643685    0.15619694
-#> R-HSA-1266738    0.12197929
-#> R-HSA-1280215    0.18525520
-#> R-HSA-5684996    1.00000000
+#>               R-HSA-5689603 R-HSA-168256 R-HSA-5696397 R-HSA-9665230
+#> R-HSA-5689603   1.000000000 0.0415194346   0.070796460  0.0000000000
+#> R-HSA-168256    0.041519435 1.0000000000   0.003634711  0.0009174312
+#> R-HSA-5696397   0.070796460 0.0036347115   1.000000000  0.0000000000
+#> R-HSA-9665230   0.000000000 0.0009174312   0.000000000  1.0000000000
+#> R-HSA-9658195   0.007936508 0.0871794872   0.000000000  0.0000000000
+#>               R-HSA-9658195
+#> R-HSA-5689603   0.007936508
+#> R-HSA-168256    0.087179487
+#> R-HSA-5696397   0.000000000
+#> R-HSA-9665230   0.000000000
+#> R-HSA-9658195   1.000000000
 ```
 
 # Who might use this package?
