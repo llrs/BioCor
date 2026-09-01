@@ -98,10 +98,13 @@ duplicateIndices <- function(vec) {
   if (!is.character(vec)) {
     stop("Expected a list of characters to find duplicates on it")
   }
-  sapply(unique(vec[duplicated(vec)]), function(x) {
+  vec_u <- vec[duplicated(vec)]
+  out <- lapply(vec_u, function(x) {
     b <- seq_along(vec)
     b[vec == x]
-  }, simplify = FALSE)
+  })
+  names(out) <- vec_u
+  out
 }
 
 # removeDup ####
@@ -127,20 +130,20 @@ duplicateIndices <- function(vec) {
 #' remat <- removeDup(mat, dupli)
 #' remat
 removeDup <- function(cor_mat, dupli) {
-  if (!all(sapply(cor_mat, isSymmetric))) {
+  if (!all(vapply(cor_mat, isSymmetric, TRUE))) {
     stop(
       "All the matrices of mat should be symmetric and with the same ",
       "column names and rownames"
     )
   }
   cor_mat <- Map(function(mat, x = dupli) {
-    rem.colum <- sapply(x, function(y, m) {
+    rem.colum <- lapply(x, function(y, m) {
       mean.column <- apply(m[, y], 2L, mean, na.rm = TRUE)
       i <- which.max(abs(mean.column))
       # Select those who don't bring more information
       setdiff(y, y[i])
     }, m = mat)
-
+    rem.colum <- unlist(rem.colum, FALSE, FALSE)
     mat[-rem.colum, -rem.colum]
   }, cor_mat)
   return(cor_mat)
@@ -157,9 +160,9 @@ removeDup <- function(cor_mat, dupli) {
 #' @export
 inverseList <- function(x) {
   stopifnot(length(names(x)) == length(x))
-  stopifnot(all(sapply(x, function(x) {
+  stopifnot(all(vapply(x, function(x) {
     is.character(x) || is.na(x)
-  })))
+  }, TRUE)))
   genes <- unlist(x, use.names = FALSE)
   pathways <- rep(names(x), lengths(x))
   split(pathways, genes)

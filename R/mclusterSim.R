@@ -40,7 +40,7 @@ mclusterSim <- function(clusters, info, method = "max", ...) {
       "between genes use mgeneSim"
     )
   }
-  if (!all(sapply(clusters, is.character))) {
+  if (!all(vapply(clusters, is.character, TRUE))) {
     stop("The input genes should be characters")
   }
 
@@ -108,12 +108,12 @@ setMethod(
     origGenes <- GSEABase::geneIds(info)
 
     # Simplify the GeneSetCollection
-    keep <- sapply(origGenes, function(x) {
+    keep <- vapply(origGenes, function(x) {
       keepPaths <- vapply(clusters, function(y) {
         any(y %in% x)
       }, logical(1L))
       any(keepPaths)
-    })
+    }, TRUE)
     if (all(lengths(keep) == 0)) {
       warning("At least one gene should be in the GeneSetCollection provided")
       return(NA)
@@ -133,9 +133,9 @@ setMethod(
 
 
     paths <- lapply(clusters, function(x) {
-      keepPaths <- sapply(ids, function(y) {
+      keepPaths <- vapply(ids, function(y) {
         any(x %in% y)
-      })
+      }, TRUE)
       names(keepPaths[keepPaths])
     })
 

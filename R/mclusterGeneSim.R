@@ -44,7 +44,7 @@ mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"),
       "between genes use mgeneSim"
     )
   }
-  if (!all(sapply(clusters, is.character))) {
+  if (!all(vapply(clusters, is.character, TRUE))) {
     stop("The input genes should be characters")
   }
   # Remove duplicate genes in each cluster
@@ -77,7 +77,7 @@ mclusterGeneSim <- function(clusters, info, method = c("max", "rcmax.avg"),
   genesSims <- combineScoresPar(pathSims, method[[1L]], pathways, ... = ...)
 
   # Calculate similarities between clusters of genes
-  as.matrix(combineScoresPar(genesSims, method[[2L]], clusters, ... = ...))
+  combineScoresPar(genesSims, method[[2L]], clusters, ... = ...)
 }
 
 
@@ -96,7 +96,7 @@ setMethod(
       )
     }
 
-    if (!all(sapply(clusters, is.character))) {
+    if (!all(vapply(clusters, is.character, TRUE))) {
       stop("The input genes should be characters")
     }
     # Remove duplicate genes in each cluster
@@ -106,9 +106,11 @@ setMethod(
     info_list <- inverseList(GSEABase::geneIds(info))
 
     if (any(!unlist(clusters, use.names = FALSE) %in% names(info_list))) {
-      clusters <- sapply(clusters, function(x) {
+      clusters_l <- lapply(clusters, function(x) {
         x[x %in% names(info_list)]
       })
+      names(clusters_l) <- clusters
+      clusters <- clusters_l
       warning("Some genes are not in the GeneSetCollection provided.")
     }
     if (any(lengths(clusters) == 0)) {

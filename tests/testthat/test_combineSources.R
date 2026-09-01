@@ -6,9 +6,7 @@ test_that("combineSources", {
   )
   test <- combineSources(DB1, DB2)
   expect_length(test, 3)
-  expect_equal(lengths(test), structure(c(5L, 7L, 6L),
-    .Names = c("g1", "g2", "g3")
-  ))
+  expect_equal(lengths(test), c(g1 = 5L, g2 = 7L, g3 = 6L))
   expect_equal(combineSources(DB1, DB1), DB1)
   DB3 <- list(
     g1 = c("one", "two"), g2 = c("three", "four"),

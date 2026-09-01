@@ -50,10 +50,10 @@
 #'   combineScores,
 #'   scores = d
 #' )
-combineScores <- function(scores, method = c(
-                            "max", "avg", "rcmax", "rcmax.avg", "BMA",
-                            "reciprocal"
-                          ), round = FALSE, t = 0) {
+combineScores <- function(scores,
+                          method = c("max", "avg", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
+                          round = FALSE, t = 0) {
+  # browser(expr = dim(scores) == c(1, 4))
   # Check input
   method <- match.arg(
     method,
@@ -75,6 +75,8 @@ combineScores <- function(scores, method = c(
     stop("round argument is not logical")
   }
 
+  scores <- removeNA(scores)
+
   if (any(dim(scores) == 0L)) {
     return(NA)
   }
@@ -82,8 +84,6 @@ combineScores <- function(scores, method = c(
   if (!is.numeric(t) || t < 0 || t > 1) {
     stop("t is for the reciprocal method, and should be between 0 and 1")
   }
-
-  scores <- removeNA(scores)
 
   # Apply the methods
   if (method == "avg") {
@@ -257,7 +257,7 @@ combineScoresPar <- function(scores,
     # Use the parallel background provided
     res <- bplapply(seq_len(ncol(ij)), function(x) {
       if (ncol(ij) < x) {
-        message(print(ij))
+        message(ij)
       }
       rowIds <- subSets[[ij[1, x]]]
       colIds <- subSets[[ij[2, x]]]
@@ -289,7 +289,7 @@ keepSubSet <- function(subSets, scores) {
   values <- unlist(dimnames(scores), use.names = FALSE)
 
   if (anyNA(subId)) {
-    keep <- sapply(subSets, check_in, values = values)
+    keep <- vapply(subSets, check_in, values = values, FUN.VALUE = TRUE)
     subSets[keep]
   } else {
     subSets

@@ -118,18 +118,19 @@ setMethod(
       return(NA)
     }
     # Simplify the GeneSetCollection
-    keep <- sapply(origGenes, function(x) {
+    keep <- vapply(origGenes, function(x) {
       any(c(gene1, gene2) %in% x)
-    })
+    }, TRUE)
     gscGenes <- info[names(keep[keep])]
 
     # Search for the paths of each gene
-    paths <- sapply(c(gene1, gene2), function(x) {
-      keepPaths <- sapply(geneIds(gscGenes), function(y) {
+    paths <- lapply(c(gene1, gene2), function(x) {
+      keepPaths <- vapply(geneIds(gscGenes), function(y) {
         any(x %in% y)
-      })
+      }, TRUE)
       names(keepPaths[keepPaths])
     })
+    names(paths) <- c(gene1, gene2)
 
     # Calculate the pathSim of all the implied pathways
     pathsSim <- mpathSim(info = gscGenes, method = NULL)

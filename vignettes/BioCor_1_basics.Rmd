@@ -66,7 +66,7 @@ The development of this package aimed initially to improve clustering of genes b
 
 You can cite the package as:
 
-```{r eval = FALSE}
+```{r citation, eval = FALSE}
 citation("BioCor")
 ```
 
@@ -106,11 +106,11 @@ library("org.Hs.eg.db")
 library("reactome.db")
 genesKegg <- as.list(org.Hs.egPATH)
 genesReact <- as.list(reactomeEXTID2PATHID)
-# Remove genes and pathways which are not from human pathways 
-genesReact <- lapply(genesReact, function(x){
-    unique(grep("R-HSA-", x, value = TRUE))
-    })
-genesReact <- genesReact[lengths(genesReact) >= 1] 
+# Remove genes and pathways which are not from human pathways
+genesReact <- lapply(genesReact, function(x) {
+  unique(grep("R-HSA-", x, value = TRUE))
+})
+genesReact <- genesReact[lengths(genesReact) >= 1]
 ```
 
 To avoid having biased data it is important to have all the data about the pathways and genes associated to all pathways for the organism under study. Here we assume that we are interested in human pathways. We use this two databases KEGG and Reactome as they are easy to obtain the data. However KEGG database is no longer free for large retrievals therefore it is not longer updated in the Bioconductor annotation packages.
@@ -120,7 +120,8 @@ However, one can use any list where the names of the list are the genes and the 
 ```{r GSEABase, eval = FALSE}
 library("GSEABase")
 paths2Genes <- geneIds(getGmt("/path/to/file.symbol.gmt",
-                 geneIdType=SymbolIdentifier()))
+  geneIdType = SymbolIdentifier()
+))
 
 genes <- unlist(paths2Genes, use.names = FALSE)
 pathways <- rep(names(paths2Genes), lengths(paths2Genes))
@@ -149,8 +150,10 @@ To combine values we provide a function with several methods:
 
 ```{r combineScores}
 sim <- mpathSim(pathways, genesReact)
-methodsCombineScores <- c("avg", "max", "rcmax", "rcmax.avg", "BMA",
-                          "reciprocal")
+methodsCombineScores <- c(
+  "avg", "max", "rcmax", "rcmax.avg", "BMA",
+  "reciprocal"
+)
 sapply(methodsCombineScores, BioCor::combineScores, scores = sim)
 ```
 
@@ -187,9 +190,11 @@ As explained, in this method all the pathways of a cluster are compared with all
 clusterSim(c("672", "675"), c("100", "10", "1"), genesKegg)
 clusterSim(c("672", "675"), c("100", "10", "1"), genesKegg, NULL)
 
-clusters <- list(cluster1 = c("672", "675"),
-                 cluster2 = c("100", "10", "1"),
-                 cluster3 = c("18", "10", "83"))
+clusters <- list(
+  cluster1 = c("672", "675"),
+  cluster2 = c("100", "10", "1"),
+  cluster3 = c("18", "10", "83")
+)
 mclusterSim(clusters, genesKegg, "rcmax.avg")
 mclusterSim(clusters, genesKegg, "max")
 ```
@@ -225,9 +230,11 @@ We can compute the whole similarity of genes in KEGG or Reactome by using :
 
 ```{r whole_db, eval=FALSE}
 ## Omit those genes without a pathway
-nas <- sapply(genesKegg, function(y){all(is.na(y)) | is.null(y)})
+nas <- sapply(genesKegg, function(y) {
+  all(is.na(y)) | is.null(y)
+})
 genesKegg2 <- genesKegg[!nas]
-m <- mgeneSim(names(genesKegg2), genesKegg2, method  = "max")
+m <- mgeneSim(names(genesKegg2), genesKegg2, method = "max")
 ```
 
 It takes around 5 hours in one core but it requires high memory available.
@@ -247,11 +254,15 @@ With a list of genes we are going to see how similar are those genes:
 
 ```{r hclust1, fig.cap="Gene clustering by similarities", fig.wide = TRUE}
 #| fig.alt = "Dendrogram of the similarities of genes according to Reactome."
-genes.id <- c("10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644", 
-              "81327", "9128", "2073", "2893", "5142", "60", "210", "81", 
-              "1352", "88", "672", "675")
-genes.id <- mapIds(org.Hs.eg.db, keys = genes.id, keytype = "ENTREZID", 
-                   column = "SYMBOL")
+genes.id <- c(
+  "10", "15", "16", "18", "2", "9", "52", "3855", "3880", "644",
+  "81327", "9128", "2073", "2893", "5142", "60", "210", "81",
+  "1352", "88", "672", "675"
+)
+genes.id <- mapIds(org.Hs.eg.db,
+  keys = genes.id, keytype = "ENTREZID",
+  column = "SYMBOL"
+)
 genes <- names(genes.id)
 names(genes) <- genes.id
 react <- mgeneSim(genes, genesReact)
@@ -273,15 +284,17 @@ clusters <- split(genes[nan], as.factor(mycl))
 names(clusters) <- paste0("cluster", names(clusters))
 ## Remember we can use two methods to compare clusters
 sim_clus1 <- mclusterSim(clusters, genesReact)
-plot(hclust(as.dist(1 - sim_clus1)), 
-     main = "Similarities between clusters by pathways")
+plot(hclust(as.dist(1 - sim_clus1)),
+  main = "Similarities between clusters by pathways"
+)
 ```
 
 ```{r hclust3b, fig.cap="Clustering using clusterGeneSim", fig.wide=TRUE}
 #| fig.alt = "Dendrogram of clusters according to similarities between genes from Reactome pathways."
 sim_clus2 <- mclusterGeneSim(clusters, genesReact)
-plot(hclust(as.dist(1 - sim_clus2)), 
-     main ="Similarities between clusters by genes")
+plot(hclust(as.dist(1 - sim_clus2)),
+  main = "Similarities between clusters by genes"
+)
 ```
 
 Each method results in a different dendrogram as we can see  on Figure \@ref(fig:hclust3) compared to Figure \@ref(fig:hclust3b).
@@ -291,22 +304,26 @@ Each method results in a different dendrogram as we can see  on Figure \@ref(fig
 In this section I will compare the functional similarity of BioCor with the closely related package `r Biocpkg("GOSemSim")`. The genes and gene clusters used were extracted from GOSemSim's vignette, we only change the ontology, instead of the molecular function, the biological process will be used:
 
 ```{r GOSemSim}
-hsGO <- GOSemSim::godata('org.Hs.eg.db', ont = "BP", computeIC = FALSE)
+hsGO <- GOSemSim::godata("org.Hs.eg.db", ont = "BP", computeIC = FALSE)
 ```
 
 I will compare the functions geneSim from section [geneSim and mgeneSim from GOSemSim](https://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#genesim-and-mgenesim) with both data sets from KEGG and Reactome:
 
 ```{r geneSimGOSemSim}
-goSemSim <- GOSemSim::geneSim("241", "251", semData = hsGO, 
-                              measure = "Wang", combine="BMA")
+goSemSim <- GOSemSim::geneSim("241", "251",
+  semData = hsGO,
+  measure = "Wang", combine = "BMA"
+)
 # In case it is null
 sim <- ifelse(is.na(goSemSim), 0, getElement(goSemSim, "geneSim"))
 BioCor::geneSim("241", "251", genesReact, "BMA") - sim
 
-genes <- c("835", "5261","241", "994")
-goSemSim <- GOSemSim::mgeneSim(genes, semData = hsGO, 
-                   measure = "Wang", combine = "BMA",
-                   verbose = FALSE, drop = NULL)
+genes <- c("835", "5261", "241", "994")
+goSemSim <- GOSemSim::mgeneSim(genes,
+  semData = hsGO,
+  measure = "Wang", combine = "BMA",
+  verbose = FALSE, drop = NULL
+)
 BioCor::mgeneSim(genes, genesReact, "BMA", round = TRUE) - goSemSim
 ```
 
@@ -317,25 +334,27 @@ If named characters are passed they are used to name the resulting matrix:
 
 ```{r named}
 genes <- c("CDC45", "MCM10", "CDC20", "NMU", "MMP1")
-genese <- mapIds(org.Hs.eg.db, keys = genes, column = "ENTREZID", 
-                 keytype = "SYMBOL")
+genese <- mapIds(org.Hs.eg.db,
+  keys = genes, column = "ENTREZID",
+  keytype = "SYMBOL"
+)
 BioCor::mgeneSim(genese, genesReact, "BMA")
 ```
 
 We can further compare the cluster similarities from the [next section of the vignette](https://bioconductor.org/packages/release/bioc/vignettes/GOSemSim/inst/doc/GOSemSim.html#clustersim-and-mclustersim):
 
 ```{r clusterSimGOSemSim}
-gs1 <- c("835", "5261","241", "994", "514", "533")
-gs2 <- c("578","582", "400", "409", "411")
-BioCor::clusterSim(gs1, gs2, genesReact, "BMA") - 
-    GOSemSim::clusterSim(gs1, gs2, hsGO, measure = "Wang", combine = "BMA")
+gs1 <- c("835", "5261", "241", "994", "514", "533")
+gs2 <- c("578", "582", "400", "409", "411")
+BioCor::clusterSim(gs1, gs2, genesReact, "BMA") -
+  GOSemSim::clusterSim(gs1, gs2, hsGO, measure = "Wang", combine = "BMA")
 
 x <- org.Hs.egGO
 hsEG <- mappedkeys(x)
 set.seed(123)
-(clusters <- list(a=sample(hsEG, 20), b=sample(hsEG, 20), c=sample(hsEG, 20)))
-BioCor::mclusterSim(clusters, genesReact, "BMA") - 
-    GOSemSim::mclusterSim(clusters, hsGO, measure = "Wang", combine = "BMA")
+(clusters <- list(a = sample(hsEG, 20), b = sample(hsEG, 20), c = sample(hsEG, 20)))
+BioCor::mclusterSim(clusters, genesReact, "BMA") -
+  GOSemSim::mclusterSim(clusters, hsGO, measure = "Wang", combine = "BMA")
 ```
 
 # WGCNA and BioCor 
@@ -371,13 +390,15 @@ pSFT <- pickSoftThreshold.fromSimilarity(similarity)
 adjacency <- adjacency.fromSimilarity(similarity, power = pSFT$powerEstimate)
 
 ## Once we have the similarities we can calculate the TOM with TOM
-TOM <- TOMsimilarity(adjacency) ## Requires adjacencies despite its name 
+TOM <- TOMsimilarity(adjacency) ## Requires adjacencies despite its name
 dissTOM <- 1 - TOM
 geneTree <- hclust(as.dist(dissTOM), method = "average")
 ## We can use a clustering tool to group the genes
-dynamicMods <- cutreeHybrid(dendro = geneTree, distM = dissTOM,
-                            deepSplit = 2, pamRespectsDendro = FALSE,
-                            minClusterSize = 30)
+dynamicMods <- cutreeHybrid(
+  dendro = geneTree, distM = dissTOM,
+  deepSplit = 2, pamRespectsDendro = FALSE,
+  minClusterSize = 30
+)
 moduleColors <- labels2colors(dynamicMods$labels)
 ```
 
@@ -443,8 +464,8 @@ This is covered by the `r BiocStyle::Biocpkg("GOSemSim")` package, you can use i
 
 If the error is like this:
 
-```{r, eval = FALSE}
-Error in FUN(X[[i]], ...) : 
+```
+Error in FUN(X[[i]], ...) :
   trying to get slot "geneAnno" from an object of a basic class ("list") with no slots
 ```
 

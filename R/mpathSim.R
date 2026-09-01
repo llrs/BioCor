@@ -114,16 +114,16 @@ setMethod(
   signature(x = "list"),
   function(x) {
     # Remove empty genes
-    nas <- sapply(x, function(y) {
+    nas <- vapply(x, function(y) {
       all(is.na(y))
-    })
+    }, TRUE)
     lge2 <- x[!nas]
     # Extract all pathways
     pathways <- unique(unlist(lge2, use.names = FALSE))
     # Create the incidence matrix
-    mat <- as.matrix(sapply(names(lge2), function(y) {
-      ifelse(pathways %in% lge2[[y]], TRUE, FALSE)
-    }))
+    mat <- as.matrix(vapply(names(lge2), function(y) {
+      pathways %in% lge2[[y]]
+    }, rep(TRUE, length.out = length(pathways))))
     rownames(mat) <- pathways
     mat
   }

@@ -117,17 +117,17 @@ setMethod(
       return(NA)
     }
     # Simplify the GeneSetCollection
-    keep <- sapply(origGenes, function(x) {
+    keep <- vapply(origGenes, function(x) {
       any(genes %in% x)
-    })
+    }, TRUE)
     gscGenes <- info[names(keep[keep])]
 
     ids <- origGenes[keep]
     # Search for the paths of each gene
     paths <- lapply(genes, function(x) {
-      keepPaths <- sapply(ids, function(y) {
+      keepPaths <- vapply(ids, function(y) {
         any(x %in% y)
-      })
+      }, TRUE)
       names(keepPaths[keepPaths])
     })
     if (is.null(names(genes))) {

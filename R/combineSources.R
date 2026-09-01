@@ -29,10 +29,10 @@ combineSources <- function(...) {
   uGeneIds <- unique(unlist(geneIds, use.names = FALSE))
 
   # Compare the percentatge of uniques of each one
-  uniquess <- sapply(sources, function(x) {
+  uniquess <- vapply(sources, function(x) {
     nam <- names(x)
     length(setdiff(uGeneIds, nam)) / length(uGeneIds)
-  })
+  }, 1)
 
   if (any(uniquess >= 0.5)) {
     warning(
@@ -50,5 +50,6 @@ combineSources <- function(...) {
     FUN = c,
     lapply(sources, `[`, uGeneIds)
   )), uGeneIds)
-  sapply(out, unique)
+
+  lapply(out, unique)
 }

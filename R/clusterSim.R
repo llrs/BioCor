@@ -116,18 +116,18 @@ setMethod(
     }
 
     # Simplify the GeneSetCollection
-    keep <- sapply(origGenes, function(x) {
+    keep <- vapply(origGenes, function(x) {
       any(c(cluster1, cluster2) %in% x)
-    })
+    }, TRUE)
     gscGenes <- info[names(keep[keep])]
 
     # Search for the paths of each gene
     clusters <- list(cluster1 = cluster1, cluster2 = cluster2)
     ids <- GSEABase::geneIds(gscGenes)
-    paths <- sapply(clusters, function(x) {
-      keepPaths <- sapply(ids, function(y) {
+    paths <- lapply(clusters, function(x) {
+      keepPaths <- vapply(ids, function(y) {
         any(x %in% y)
-      })
+      }, TRUE)
       names(keepPaths[keepPaths])
     })
 
