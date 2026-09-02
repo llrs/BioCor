@@ -55,8 +55,8 @@ test_that("combineScores", {
             0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
             0.285714285714286, 0.13, 0.2, 0.6
         ),
-        .Dim = c(4L, 3L),
-        .Dimnames = list(
+        dim = c(4L, 3L),
+        dimnames = list(
             c("a", "b", "c", "d"),
             c("e", "f", "g")
         )
@@ -78,8 +78,8 @@ test_that("combineScoresPar", {
             0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
             0.285714285714286
         ),
-        .Dim = c(3L, 3L),
-        .Dimnames = list(c("a", "b", "c"), c("a", "b", "c"))
+        dim = c(3L, 3L),
+        dimnames = list(c("a", "b", "c"), c("a", "b", "c"))
     )
     subSet <- list(a = c("a", "b"), b = c("b", "c"))
     test3 <- combineScoresPar(e, method = "max", subSet)
@@ -125,8 +125,8 @@ test_that("combineScoresPar equivalent to combineScores", {
             0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
             0.285714285714286, 0.13, 0.2, 0.6
         ),
-        .Dim = c(4L, 3L),
-        .Dimnames = list(
+        dim = c(4L, 3L),
+        dimnames = list(
             c("a", "b", "c", "d"),
             c("e", "f", "g")
         )
@@ -145,8 +145,8 @@ test_that("reciprocal", {
             1, 0.8, 1, 1, 0.8, 1, 0.8, 0.8, 1, 0.8, 1, 1, 1,
             0.8, 1, 1
         ),
-        .Dim = c(4L, 4L),
-        .Dimnames = list(
+        dim = c(4L, 4L),
+        dimnames = list(
             c("1430728", "156580", "156582", "211859"),
             c("1430728", "156580", "156582", "211859")
         )
@@ -156,8 +156,8 @@ test_that("reciprocal", {
             0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
             0.285714285714286
         ),
-        .Dim = c(3L, 3L),
-        .Dimnames = list(c("a", "b", "c"), c("d", "e", "f"))
+        dim = c(3L, 3L),
+        dimnames = list(c("a", "b", "c"), c("d", "e", "f"))
     )
     scores2 <- scores
     scores2[1, 1] <- 0.5

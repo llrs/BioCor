@@ -27,9 +27,7 @@
 #'     genes.react <- as.list(reactomeEXTID2PATHID)
 #'     mgeneSim(c("81", "18", "10"), genes.react)
 #'     mgeneSim(c("81", "18", "10"), genes.react, "avg")
-#'     named_genes <- structure(c("81", "18", "10"),
-#'         .Names = c("ACTN4", "ABAT", "NAT2")
-#'     )
+#'     named_genes <- c("ACTN4" = "81", "ABAT" = "18", "NAT2" = "10")
 #'     mgeneSim(named_genes, genes.react, "max")
 #' } else {
 #'     warning("You need reactome.db and org.Hs.eg.db package for this example")

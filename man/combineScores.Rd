@@ -59,26 +59,26 @@ rounding and some internal differences.
 }
 \examples{
 (d <- structure(
-  c(
-    0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
-    0.285714285714286
-  ),
-  .Dim = c(3L, 3L),
-  .Dimnames = list(c("a", "b", "c"), c("d", "e", "f"))
+    c(
+        0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
+        0.285714285714286
+    ),
+    dim = c(3L, 3L),
+    dimnames = list(c("a", "b", "c"), c("d", "e", "f"))
 ))
 e <- d
 sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
-  combineScores,
-  scores = d
+    combineScores,
+    scores = d
 )
 d[1, 2] <- NA
 sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
-  combineScores,
-  scores = d
+    combineScores,
+    scores = d
 )
 colnames(e) <- rownames(e)
 combineScoresPar(e, list(a = c("a", "b"), b = c("b", "c")),
-  method = "max"
+    method = "max"
 )
 }
 \references{

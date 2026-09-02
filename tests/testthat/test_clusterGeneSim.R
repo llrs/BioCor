@@ -68,11 +68,12 @@ test_that("clusterGeneSim GeneSetCollection", {
 
     expect_true(is.na(test))
     expect_error(
-      expect_warning(
-        clusterGeneSim(c("2", "1"), c("9", "3"), Info, method = NULL),
-        "Some genes are not in the GeneSetCollection provided"
-      ),
-      "method")
+        expect_warning(
+            clusterGeneSim(c("2", "1"), c("9", "3"), Info, method = NULL),
+            "Some genes are not in the GeneSetCollection provided"
+        ),
+        "method"
+    )
     expect_warning(test2 <- clusterGeneSim(c("9", "4"), c("2", "1"), Info))
     expect_equal(test0, 0.4)
     expect_equal(test0, test2)
@@ -100,10 +101,12 @@ test_that("mclusterGeneSim GeneSetCollection", {
     cluster2 <- clusters
     cluster2$cluster1 <- "199"
     expect_warning(
-      expect_warning(
-        mclusterGeneSim(cluster2, Info),
-        "genes are not"),
-      "clusters are not")
+        expect_warning(
+            mclusterGeneSim(cluster2, Info),
+            "genes are not"
+        ),
+        "clusters are not"
+    )
     expect_warning(test <- mclusterGeneSim(clusters, Info), "genes are not")
     expect_equal(test[1L, 1L], 1)
     expect_equal(colnames(test), names(clusters))
