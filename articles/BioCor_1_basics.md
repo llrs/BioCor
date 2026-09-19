@@ -804,7 +804,7 @@ is a bug, please let me know at the
 sessionInfo()
 ## R version 4.6.1 (2026-06-24)
 ## Platform: x86_64-pc-linux-gnu
-## Running under: Ubuntu 24.04.4 LTS
+## Running under: Ubuntu 24.04.5 LTS
 ## 
 ## Matrix products: default
 ## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -825,28 +825,28 @@ sessionInfo()
 ## 
 ## other attached packages:
 ##  [1] reactome.db_1.96.0   org.Hs.eg.db_3.23.1  AnnotationDbi_1.74.0
-##  [4] IRanges_2.46.0       S4Vectors_0.50.2     Biobase_2.72.0      
+##  [4] IRanges_2.46.0       S4Vectors_0.50.3     Biobase_2.72.0      
 ##  [7] BiocGenerics_0.58.1  generics_0.1.4       BioCor_1.37.1       
 ## [10] BiocStyle_2.40.0    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] KEGGREST_1.52.2     GOSemSim_2.38.3     xfun_0.60          
+##  [1] KEGGREST_1.52.2     GOSemSim_2.38.3     xfun_0.61          
 ##  [4] bslib_0.12.0        htmlwidgets_1.6.4   lattice_0.22-9     
 ##  [7] vctrs_0.7.3         tools_4.6.1         yulab.utils_0.2.5  
 ## [10] parallel_4.6.1      RSQLite_3.53.3      blob_1.3.0         
 ## [13] pkgconfig_2.0.3     Matrix_1.7-5        desc_1.4.3         
 ## [16] graph_1.90.0        lifecycle_1.0.5     compiler_4.6.1     
-## [19] textshaping_1.0.5   Biostrings_2.80.1   Seqinfo_1.2.0      
+## [19] textshaping_1.0.5   Biostrings_2.80.2   Seqinfo_1.2.0      
 ## [22] codetools_0.2-20    htmltools_0.5.9     sass_0.4.10        
 ## [25] yaml_2.3.12         pkgdown_2.2.1       crayon_1.5.3       
 ## [28] jquerylib_0.1.4     GO.db_3.23.1        BiocParallel_1.46.0
 ## [31] cachem_1.1.0        digest_0.6.39       bookdown_0.48      
 ## [34] fastmap_1.2.0       grid_4.6.1          cli_3.6.6          
 ## [37] XML_3.99-0.24       GSEABase_1.74.0     rappdirs_0.3.4     
-## [40] bit64_4.8.4         rmarkdown_2.31      XVector_0.52.0     
-## [43] httr_1.4.8          bit_4.6.0           otel_0.2.0         
+## [40] bit64_4.8.6         rmarkdown_2.32      XVector_0.52.0     
+## [43] httr_1.4.9          bit_4.6.0           otel_0.2.0         
 ## [46] ragg_1.5.2          png_0.1-9           memoise_2.0.1      
-## [49] evaluate_1.0.5      knitr_1.51          rlang_1.3.0        
+## [49] evaluate_1.0.5      knitr_1.52          rlang_1.3.0        
 ## [52] xtable_1.8-8        DBI_1.3.0           BiocManager_1.30.27
 ## [55] annotate_1.90.0     jsonlite_2.0.0      R6_2.6.1           
 ## [58] systemfonts_1.3.2   fs_2.1.0

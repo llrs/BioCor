@@ -130,12 +130,12 @@ accepted by BPPARAM.</p></div>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.222222222222222</span>, <span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>,</span></span>
-<span class="r-in"><span>    <span class="fl">0.285714285714286</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span>,</span></span>
-<span class="r-in"><span>  .Dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3L</span>, <span class="fl">3L</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  .Dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"e"</span>, <span class="st">"f"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.222222222222222</span>, <span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>,</span></span>
+<span class="r-in"><span>        <span class="fl">0.285714285714286</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>    dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3L</span>, <span class="fl">3L</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"e"</span>, <span class="st">"f"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           d   e         f</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a 0.4000000 0.4 0.2500000</span>
@@ -143,21 +143,21 @@ accepted by BPPARAM.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c 0.2222222 0.0 0.2857143</span>
 <span class="r-in"><span><span class="va">e</span> <span class="op">&lt;-</span> <span class="va">d</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"avg"</span>, <span class="st">"max"</span>, <span class="st">"rcmax"</span>, <span class="st">"rcmax.avg"</span>, <span class="st">"BMA"</span>, <span class="st">"reciprocal"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="va">combineScores</span>,</span></span>
-<span class="r-in"><span>  scores <span class="op">=</span> <span class="va">d</span></span></span>
+<span class="r-in"><span>    <span class="va">combineScores</span>,</span></span>
+<span class="r-in"><span>    scores <span class="op">=</span> <span class="va">d</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        avg        max      rcmax  rcmax.avg        BMA reciprocal </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.3397707  0.6000000  0.5000000  0.4642857  0.4642857  0.3333333 </span>
 <span class="r-in"><span><span class="va">d</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"avg"</span>, <span class="st">"max"</span>, <span class="st">"rcmax"</span>, <span class="st">"rcmax.avg"</span>, <span class="st">"BMA"</span>, <span class="st">"reciprocal"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="va">combineScores</span>,</span></span>
-<span class="r-in"><span>  scores <span class="op">=</span> <span class="va">d</span></span></span>
+<span class="r-in"><span>    <span class="va">combineScores</span>,</span></span>
+<span class="r-in"><span>    scores <span class="op">=</span> <span class="va">d</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        avg        max      rcmax  rcmax.avg        BMA reciprocal </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.3322421  0.6000000  0.5000000  0.4642857  0.4642857  0.2000000 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">combineScoresPar</span><span class="op">(</span><span class="va">e</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  method <span class="op">=</span> <span class="st">"max"</span></span></span>
+<span class="r-in"><span>    method <span class="op">=</span> <span class="st">"max"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     a   b</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a 0.6 0.5</span>

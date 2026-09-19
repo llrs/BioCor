@@ -58,17 +58,17 @@ Lluís Revilla
 
 ``` r
 if (require("org.Hs.eg.db")) {
-  genes.kegg <- as.list(org.Hs.egPATH)
-  clusters <- list(
-    cluster1 = c("18", "81", "10"),
-    cluster2 = c("100", "594", "836"),
-    cluster3 = c("18", "10", "83")
-  )
-  mclusterGeneSim(clusters, genes.kegg)
-  mclusterGeneSim(clusters, genes.kegg, c("max", "avg"))
-  mclusterGeneSim(clusters, genes.kegg, c("max", "BMA"))
+    genes.kegg <- as.list(org.Hs.egPATH)
+    clusters <- list(
+        cluster1 = c("18", "81", "10"),
+        cluster2 = c("100", "594", "836"),
+        cluster3 = c("18", "10", "83")
+    )
+    mclusterGeneSim(clusters, genes.kegg)
+    mclusterGeneSim(clusters, genes.kegg, c("max", "avg"))
+    mclusterGeneSim(clusters, genes.kegg, c("max", "BMA"))
 } else {
-  warning("You need org.Hs.eg.db package for this example")
+    warning("You need org.Hs.eg.db package for this example")
 }
 #>           cluster1  cluster2  cluster3
 #> cluster1 1.0000000 1.0000000 0.8022654

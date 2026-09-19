@@ -574,7 +574,7 @@ compartmentalization of said genes.
 sessionInfo()
 ## R version 4.6.1 (2026-06-24)
 ## Platform: x86_64-pc-linux-gnu
-## Running under: Ubuntu 24.04.4 LTS
+## Running under: Ubuntu 24.04.5 LTS
 ## 
 ## Matrix products: default
 ## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -594,14 +594,14 @@ sessionInfo()
 ## [8] base     
 ## 
 ## other attached packages:
-##  [1] GOSemSim_2.38.3             Hmisc_5.2-6                
+##  [1] GOSemSim_2.38.3             Hmisc_5.3-0                
 ##  [3] boot_1.3-32                 DESeq2_1.52.0              
 ##  [5] airway_1.32.0               SummarizedExperiment_1.42.0
 ##  [7] GenomicRanges_1.64.0        Seqinfo_1.2.0              
 ##  [9] MatrixGenerics_1.24.0       matrixStats_1.5.0          
 ## [11] BioCor_1.37.1               org.Hs.eg.db_3.23.1        
 ## [13] AnnotationDbi_1.74.0        IRanges_2.46.0             
-## [15] S4Vectors_0.50.2            Biobase_2.72.0             
+## [15] S4Vectors_0.50.3            Biobase_2.72.0             
 ## [17] BiocGenerics_0.58.1         generics_0.1.4             
 ## [19] BiocStyle_2.40.0           
 ## 
@@ -612,18 +612,18 @@ sessionInfo()
 ## [10] systemfonts_1.3.2   vctrs_0.7.3         reactome.db_1.96.0 
 ## [13] stringr_1.6.0       pkgconfig_2.0.3     crayon_1.5.3       
 ## [16] fastmap_1.2.0       backports_1.5.1     XVector_0.52.0     
-## [19] rmarkdown_2.31      graph_1.90.0        ragg_1.5.2         
-## [22] bit_4.6.0           xfun_0.60           cachem_1.1.0       
+## [19] rmarkdown_2.32      graph_1.90.0        ragg_1.5.2         
+## [22] bit_4.6.0           xfun_0.61           cachem_1.1.0       
 ## [25] jsonlite_2.0.0      blob_1.3.0          DelayedArray_0.38.2
 ## [28] BiocParallel_1.46.0 parallel_4.6.1      cluster_2.1.8.2    
 ## [31] R6_2.6.1            bslib_0.12.0        stringi_1.8.9      
 ## [34] RColorBrewer_1.1-3  rpart_4.1.27        jquerylib_0.1.4    
-## [37] Rcpp_1.1.2          bookdown_0.48       knitr_1.51         
+## [37] Rcpp_1.1.2          bookdown_0.48       knitr_1.52         
 ## [40] base64enc_0.1-6     Matrix_1.7-5        nnet_7.3-20        
 ## [43] rstudioapi_0.19.0   abind_1.4-8         yaml_2.3.12        
 ## [46] codetools_0.2-20    lattice_0.22-9      KEGGREST_1.52.2    
 ## [49] S7_0.2.2            evaluate_1.0.5      foreign_0.8-91     
-## [52] desc_1.4.3          Biostrings_2.80.1   BiocManager_1.30.27
+## [52] desc_1.4.3          Biostrings_2.80.2   BiocManager_1.30.27
 ## [55] checkmate_2.3.4     ggplot2_4.0.3       scales_1.4.0       
 ## [58] xtable_1.8-8        glue_1.8.1          tools_4.6.1        
 ## [61] data.table_1.18.6.1 annotate_1.90.0     locfit_1.5-9.12    
@@ -634,7 +634,7 @@ sessionInfo()
 ## [76] sass_0.4.10         digest_0.6.39       SparseArray_1.12.2 
 ## [79] htmlwidgets_1.6.4   farver_2.1.2        memoise_2.0.1      
 ## [82] htmltools_0.5.9     pkgdown_2.2.1       lifecycle_1.0.5    
-## [85] httr_1.4.8          GO.db_3.23.1        bit64_4.8.4
+## [85] httr_1.4.9          GO.db_3.23.1        bit64_4.8.6
 ```
 
 [^1]: From 400 genes there are 127 with pathway information and only 25

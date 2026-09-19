@@ -41,16 +41,16 @@ A ggplot object
 
 ``` r
 if (require("org.Hs.eg.db") & require("reactome.db")) {
-  # Extract the paths of all genes of org.Hs.eg.db from KEGG
-  # (last update in data of June 31st 2011)
-  genes.kegg <- as.list(org.Hs.egPATH)
-  # Extracts the paths of all genes of org.Hs.eg.db from reactome
-  genes.react <- as.list(reactomeEXTID2PATHID)
+    # Extract the paths of all genes of org.Hs.eg.db from KEGG
+    # (last update in data of June 31st 2011)
+    genes.kegg <- as.list(org.Hs.egPATH)
+    # Extracts the paths of all genes of org.Hs.eg.db from reactome
+    genes.react <- as.list(reactomeEXTID2PATHID)
 
-  sim <- mgeneSim(c("87", "18", "10"), genes.react)
-  pd <- plot_data(sim, top = 0.25)
-  if (requireNamespace("ggplot2", quietly = TRUE)) {
-    plot_similarity(pd)
-  }
+    sim <- mgeneSim(c("87", "18", "10"), genes.react)
+    pd <- plot_data(sim, top = 0.25)
+    if (requireNamespace("ggplot2", quietly = TRUE)) {
+        plot_similarity(pd)
+    }
 }
 ```

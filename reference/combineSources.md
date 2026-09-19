@@ -30,8 +30,8 @@ pathways identifiers are returned.
 ``` r
 DB1 <- list(g1 = letters[6:8], g2 = letters[1:5], g3 = letters[4:7])
 DB2 <- list(
-  g1 = c("one", "two"), g2 = c("three", "four"),
-  g3 = c("another", "two")
+    g1 = c("one", "two"), g2 = c("three", "four"),
+    g3 = c("another", "two")
 )
 combineSources(DB1, DB2)
 #> $g1
@@ -54,8 +54,8 @@ combineSources(DB1, DB1)
 #> [1] "d" "e" "f" "g"
 #> 
 DB3 <- list(
-  g1 = c("one", "two"), g2 = c("three", "four"),
-  g4 = c("five", "six", "seven"), g5 = c("another", "two")
+    g1 = c("one", "two"), g2 = c("three", "four"),
+    g4 = c("five", "six", "seven"), g5 = c("another", "two")
 )
 combineSources(DB1, DB3) # A warning is expected
 #> Warning: More than 25% of genes identifiers of a source are unique

@@ -99,12 +99,12 @@ Lluís Revilla based on Guangchuang Yu.
 
 ``` r
 (d <- structure(
-  c(
-    0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
-    0.285714285714286
-  ),
-  .Dim = c(3L, 3L),
-  .Dimnames = list(c("a", "b", "c"), c("d", "e", "f"))
+    c(
+        0.4, 0.6, 0.222222222222222, 0.4, 0.4, 0, 0.25, 0.5,
+        0.285714285714286
+    ),
+    dim = c(3L, 3L),
+    dimnames = list(c("a", "b", "c"), c("d", "e", "f"))
 ))
 #>           d   e         f
 #> a 0.4000000 0.4 0.2500000
@@ -112,21 +112,21 @@ Lluís Revilla based on Guangchuang Yu.
 #> c 0.2222222 0.0 0.2857143
 e <- d
 sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
-  combineScores,
-  scores = d
+    combineScores,
+    scores = d
 )
 #>        avg        max      rcmax  rcmax.avg        BMA reciprocal 
 #>  0.3397707  0.6000000  0.5000000  0.4642857  0.4642857  0.3333333 
 d[1, 2] <- NA
 sapply(c("avg", "max", "rcmax", "rcmax.avg", "BMA", "reciprocal"),
-  combineScores,
-  scores = d
+    combineScores,
+    scores = d
 )
 #>        avg        max      rcmax  rcmax.avg        BMA reciprocal 
 #>  0.3322421  0.6000000  0.5000000  0.4642857  0.4642857  0.2000000 
 colnames(e) <- rownames(e)
 combineScoresPar(e, list(a = c("a", "b"), b = c("b", "c")),
-  method = "max"
+    method = "max"
 )
 #>     a   b
 #> a 0.6 0.5
