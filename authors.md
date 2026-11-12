@@ -17,12 +17,12 @@ Source:
 [`DESCRIPTION`](https://github.com/llrs/BioCor/blob/devel/DESCRIPTION)
 
 Revilla Sancho L (2026). *BioCor: Functional Similarities*. R package
-version 1.37.1, <https://bioconductor.org/packages/BioCor>.
+version 1.37.2, <https://bioconductor.org/packages/BioCor>.
 
     @Manual{,
       title = {BioCor: Functional Similarities},
       author = {Lluís {Revilla Sancho}},
       year = {2026},
-      note = {R package version 1.37.1},
+      note = {R package version 1.37.2},
       url = {https://bioconductor.org/packages/BioCor},
     }
